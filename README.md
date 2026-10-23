@@ -18,7 +18,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 [![Built with Tauri](https://img.shields.io/badge/Tauri-2-FFC131?style=for-the-badge&logo=tauri&logoColor=black)](https://tauri.app/)
 
-[⬇️ Download](#️-download) • [✨ Features](#-features) • [🔌 Providers](#-providers) • [🏗️ Architecture](docs/architecture.md) • [🤝 Contributing](docs/contributing.md)
+[⬇️ Download](#️-download) • [✨ Features](#-features) • [🔌 Providers](#-providers) • [🏗️ Architecture](docs/architecture.md) • [🎨 Design system](docs/design-system.md) • [🤝 Contributing](docs/contributing.md)
 
 </div>
 

@@ -15,6 +15,7 @@ import {
   type HistoryEntry,
   type Provider,
   type Settings,
+  type Stats,
   type Status,
 } from "./lib/api";
 
@@ -24,6 +25,7 @@ export interface Snapshot {
   providers: Provider[];
   status: Status;
   history: HistoryEntry[];
+  stats: Stats;
 }
 
 interface ParlerValue extends Snapshot {
@@ -35,14 +37,15 @@ interface ParlerValue extends Snapshot {
 const ParlerContext = createContext<ParlerValue | null>(null);
 
 export async function loadSnapshot(): Promise<Snapshot> {
-  const [info, settings, providers, status, history] = await Promise.all([
+  const [info, settings, providers, status, history, stats] = await Promise.all([
     api.appInfo(),
     api.getSettings(),
     api.getProviders(),
     api.getStatus(),
     api.getHistory(),
+    api.getStats(),
   ]);
-  return { info, settings, providers, status, history };
+  return { info, settings, providers, status, history, stats };
 }
 
 export function ParlerProvider({
@@ -55,12 +58,17 @@ export function ParlerProvider({
   const [settings, setSettings] = useState(initial.settings);
   const [status, setStatus] = useState(initial.status);
   const [history, setHistory] = useState(initial.history);
+  const [stats, setStats] = useState(initial.stats);
   // Changes made in quick succession build on each other, not on a render
   // that hasn't happened yet.
   const latest = useRef(initial.settings);
 
   useEffect(() => {
-    const subscriptions = [events.status(setStatus), events.history(setHistory)];
+    const subscriptions = [
+      events.status(setStatus),
+      events.history(setHistory),
+      events.stats(setStats),
+    ];
     return () => {
       subscriptions.forEach((s) => s.then((unlisten) => unlisten()));
     };
@@ -91,10 +99,11 @@ export function ParlerProvider({
       settings,
       status,
       history,
+      stats,
       provider: initial.providers.find((p) => p.id === settings.provider),
       update,
     }),
-    [initial, settings, status, history, update],
+    [initial, settings, status, history, stats, update],
   );
 
   return (

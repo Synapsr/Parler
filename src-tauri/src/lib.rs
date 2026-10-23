@@ -114,6 +114,7 @@ pub fn run() {
             commands::test_provider,
             commands::list_microphones,
             commands::get_history,
+            commands::get_stats,
             commands::delete_history_entry,
             commands::clear_history,
             commands::copy_text,

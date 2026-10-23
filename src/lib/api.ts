@@ -69,6 +69,12 @@ export interface HistoryEntry {
   provider: string;
 }
 
+export interface Stats {
+  dictations: number;
+  words: number;
+  speechMs: number;
+}
+
 export interface Microphone {
   id: string;
   name: string;
@@ -104,6 +110,7 @@ export const api = {
     invoke<null>("test_provider", { settings }),
   listMicrophones: () => invoke<Microphone[]>("list_microphones"),
   getHistory: () => invoke<HistoryEntry[]>("get_history"),
+  getStats: () => invoke<Stats>("get_stats"),
   deleteHistoryEntry: (id: number) => invoke("delete_history_entry", { id }),
   clearHistory: () => invoke("clear_history"),
   copyText: (text: string) => invoke("copy_text", { text }),
@@ -120,6 +127,8 @@ export const events = {
     listen<Status>("parler://status", (e) => handler(e.payload)),
   history: (handler: (entries: HistoryEntry[]) => void): Promise<UnlistenFn> =>
     listen<HistoryEntry[]>("parler://history", (e) => handler(e.payload)),
+  stats: (handler: (stats: Stats) => void): Promise<UnlistenFn> =>
+    listen<Stats>("parler://stats", (e) => handler(e.payload)),
   overlay: (handler: (event: OverlayEvent) => void): Promise<UnlistenFn> =>
     listen<OverlayEvent>("parler://overlay", (e) => handler(e.payload)),
   level: (handler: (level: number) => void): Promise<UnlistenFn> =>

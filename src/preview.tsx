@@ -67,6 +67,10 @@ mockIPC(
               { id: now - 86_400_000, text: "Merci pour ton retour, je regarde ça demain matin.", durationMs: 2100, provider: "Groq" },
             ]
           : [];
+      case "get_stats":
+        return onboarded
+          ? { dictations: 214, words: 9840, speechMs: 3_420_000 }
+          : { dictations: 0, words: 0, speechMs: 0 };
       case "list_microphones":
         return [
           { id: "1", name: "MacBook Pro Microphone", isDefault: true },
@@ -103,10 +107,9 @@ if (view === "overlay") {
   }, 300);
 } else {
   await import("./styles.css");
-  // The real window is 460 px wide; headless Chrome's window can't be that
-  // narrow.
+  // The size of the real window.
   const root = document.getElementById("root")!;
-  root.style.width = "460px";
+  root.style.width = "900px";
   root.style.height = `${params.get("h") ?? 700}px`;
   // `clicks=Continuer,Vérifier` presses those buttons in turn.
   const clicks = (params.get("clicks") ?? "").split(",").filter(Boolean);

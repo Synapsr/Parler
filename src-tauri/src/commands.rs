@@ -2,7 +2,7 @@
 
 use crate::audio::{self, Microphone};
 use crate::dictation::{Dictation, Event, Problem, Status, StatusState};
-use crate::history::{self, Entry, History};
+use crate::history::{self, Entry, History, Stats};
 use crate::paste::{self, PasteError};
 use crate::providers::{self, Provider, Request, TranscribeError, PROVIDERS};
 use crate::settings::{Settings, SettingsStore};
@@ -77,6 +77,11 @@ pub async fn list_microphones() -> Vec<Microphone> {
 #[tauri::command]
 pub fn get_history(history: State<History>) -> Vec<Entry> {
     history.entries()
+}
+
+#[tauri::command]
+pub fn get_stats(history: State<History>) -> Stats {
+    history.stats()
 }
 
 #[tauri::command]

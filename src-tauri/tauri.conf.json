@@ -15,10 +15,10 @@
       {
         "label": "main",
         "title": "Parler",
-        "width": 460,
+        "width": 900,
         "height": 700,
-        "minWidth": 400,
-        "minHeight": 580,
+        "minWidth": 780,
+        "minHeight": 600,
         "resizable": true,
         "center": true,
         "visible": false,

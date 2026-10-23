@@ -1,59 +1,110 @@
 @import "tailwindcss";
 
-/* Paper and ink, with one vermilion accent: the recording light. */
+/*
+ * Parler design tokens. See docs/design-system.md.
+ *
+ * Warm paper, ink, white cards. Vermilion is the recording light: it marks
+ * "Parler is listening" and the brand, and little else.
+ */
 :root {
-  --paper: #f6f2ea;
-  --paper-raised: #fbf8f2;
-  --paper-sunken: #ede7dc;
-  --ink: #1b1a17;
-  --ink-soft: #4a463f;
-  --muted: #7a7468;
-  --line: rgb(27 26 23 / 0.1);
-  --line-strong: rgb(27 26 23 / 0.18);
+  --canvas: #f6f4ef;
+  --sidebar: #efece5;
+  --surface: #ffffff;
+  --surface-2: #f7f5f0;
+  --border: rgb(26 24 21 / 0.08);
+  --border-strong: rgb(26 24 21 / 0.15);
+  --text: #1a1815;
+  --text-2: #57524a;
+  --text-3: #736d63;
+  --primary: #1a1815;
+  --on-primary: #ffffff;
   --accent: #e8452c;
-  --accent-ink: #ffffff;
   --accent-soft: rgb(232 69 44 / 0.1);
-  --ok: #2f7d4f;
-  --grain-opacity: 0.35;
+  /* Vermilion dark enough for small text. */
+  --accent-text: #c4371f;
+  --success: #25774a;
+  --success-soft: rgb(37 119 74 / 0.12);
+  --warning: #b7791f;
+  --warning-soft: rgb(183 121 31 / 0.12);
+  /* The dark "ink" surfaces: hero card, key card, the dictation pill. */
+  --ink: #1e1c19;
+  --ink-2: #2a2723;
+  --on-ink: #f6f2ea;
+  --on-ink-2: rgb(246 242 234 / 0.62);
+  --elev-card: 0 1px 2px rgb(26 24 21 / 0.04), 0 0 0 1px var(--border);
+  --elev-raised: 0 18px 40px -18px rgb(26 24 21 / 0.28), 0 0 0 1px var(--border);
+  --grain-opacity: 0.32;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #151412;
-    --paper-raised: #1d1b18;
-    --paper-sunken: #100f0d;
-    --ink: #efeae0;
-    --ink-soft: #c9c2b5;
-    --muted: #8d867a;
-    --line: rgb(239 234 224 / 0.09);
-    --line-strong: rgb(239 234 224 / 0.16);
+    --canvas: #141312;
+    --sidebar: #191816;
+    --surface: #1f1d1b;
+    --surface-2: #262421;
+    --border: rgb(255 255 255 / 0.07);
+    --border-strong: rgb(255 255 255 / 0.13);
+    --text: #f3f0ea;
+    --text-2: #bdb7ac;
+    --text-3: #8f897d;
+    --primary: #f3f0ea;
+    --on-primary: #141312;
     --accent: #ff5a3c;
-    --accent-ink: #1b0b07;
     --accent-soft: rgb(255 90 60 / 0.13);
-    --ok: #6cc590;
-    --grain-opacity: 0.22;
+    --accent-text: #ff8a72;
+    --success: #5fc48a;
+    --success-soft: rgb(95 196 138 / 0.13);
+    --warning: #e0a94a;
+    --warning-soft: rgb(224 169 74 / 0.13);
+    --ink: #0c0b0a;
+    --ink-2: #1c1a18;
+    --elev-card: 0 0 0 1px var(--border);
+    --elev-raised: 0 18px 40px -18px rgb(0 0 0 / 0.6), 0 0 0 1px var(--border);
+    --grain-opacity: 0.2;
     color-scheme: dark;
   }
 }
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-raised: var(--paper-raised);
-  --color-sunken: var(--paper-sunken);
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-line-strong: var(--line-strong);
+  --color-canvas: var(--canvas);
+  --color-sidebar: var(--sidebar);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
   --color-accent: var(--accent);
-  --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
-  --color-ok: var(--ok);
+  --color-accent-text: var(--accent-text);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-on-ink: var(--on-ink);
+  --color-on-ink-2: var(--on-ink-2);
 
   --font-display: "Instrument Serif", ui-serif, Georgia, serif;
   --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Type scale: display sizes are serif, the rest sans. */
+  --text-hero: 2.75rem;
+  --text-hero--line-height: 1.04;
+  --text-title: 2rem;
+  --text-title--line-height: 1.08;
+  --text-heading: 1.375rem;
+  --text-heading--line-height: 1.2;
+
+  --radius-card: 1.125rem;
+  --shadow-card: var(--elev-card);
+  --shadow-raised: var(--elev-raised);
 }
 
 html,
@@ -64,8 +115,8 @@ body,
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--canvas);
+  color: var(--text);
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.45;
@@ -76,27 +127,34 @@ body {
   cursor: default;
 }
 
-/* A faint paper grain, so the background reads as a surface. */
-body::before {
+/* A faint paper grain, so the canvas reads as a surface. */
+.grain::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
   opacity: var(--grain-opacity);
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  z-index: 0;
 }
 
 @media (prefers-color-scheme: dark) {
-  body::before {
+  .grain::before {
     mix-blend-mode: screen;
   }
 }
 
-#root {
-  position: relative;
-  z-index: 1;
+/* The stage the onboarding scenes play on: soft glows over a dot grid. */
+.stage {
+  background-color: var(--sidebar);
+  background-image:
+    radial-gradient(110% 75% at 90% 0%, rgb(232 69 44 / 0.13), transparent 55%),
+    radial-gradient(90% 70% at 0% 100%, rgb(106 67 194 / 0.11), transparent 60%),
+    radial-gradient(var(--border-strong) 1px, transparent 1.2px);
+  background-size:
+    100% 100%,
+    100% 100%,
+    18px 18px;
 }
 
 input,
@@ -119,7 +177,7 @@ button:disabled {
   outline-offset: 2px;
 }
 
-/* Fields show focus with their own border. */
+/* Fields show focus with their own ring. */
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
@@ -130,21 +188,21 @@ select:focus-visible {
   background: var(--accent-soft);
 }
 
-/* Scrollbars that stay out of the way. */
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--line-strong);
+  background: var(--border-strong);
   border-radius: 99px;
   border: 3px solid transparent;
   background-clip: content-box;
 }
 
+/* Motion: entrances rise, the pill's bars dance, keys press. */
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -153,7 +211,7 @@ select:focus-visible {
 }
 
 .rise {
-  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: rise 0.55s cubic-bezier(0.2, 0.75, 0.2, 1) both;
 }
 
 @keyframes breathe {
@@ -162,12 +220,47 @@ select:focus-visible {
     box-shadow: 0 0 0 0 rgb(232 69 44 / 0.45);
   }
   50% {
-    box-shadow: 0 0 0 7px rgb(232 69 44 / 0);
+    box-shadow: 0 0 0 6px rgb(232 69 44 / 0);
   }
 }
 
-.recording-light {
+.breathe {
   animation: breathe 1.4s ease-in-out infinite;
+}
+
+@keyframes dance {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.dance {
+  transform-origin: center;
+  animation: dance 0.9s ease-in-out infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.caret {
+  animation: caret 1s step-end infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.flow {
+  animation: flow 0.9s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

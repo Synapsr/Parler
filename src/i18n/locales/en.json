@@ -5,64 +5,109 @@
   "common": {
     "continue": "Continue",
     "back": "Back",
-    "test": "Test",
-    "testing": "Testing…",
-    "works": "It works",
     "copy": "Copy",
     "copied": "Copied",
     "delete": "Delete",
     "change": "Change",
-    "getKey": "Get a key",
     "show": "Show",
     "hide": "Hide",
     "space": "Space",
+    "test": "Test",
+    "testing": "Testing…",
+    "works": "It works"
+  },
+  "nav": {
+    "home": "Home",
+    "vocabulary": "Vocabulary",
     "settings": "Settings"
   },
+  "status": {
+    "ready": "Ready",
+    "listening": "Listening…",
+    "writing": "Writing…",
+    "attention": "Needs attention"
+  },
   "providers": {
-    "groq": "Recommended · very fast",
-    "openai": "GPT-4o Transcribe and Whisper",
-    "fireworks": "Whisper v3, fast and affordable",
-    "custom": "Your own OpenAI-compatible server"
+    "recommended": "Recommended",
+    "customName": "Your server",
+    "groq": "Very fast · free sign-up",
+    "openai": "Very accurate · GPT-4o Transcribe",
+    "fireworks": "Fast and affordable Whisper v3",
+    "custom": "Your OpenAI-compatible server"
   },
   "onboarding": {
-    "step": "Step {n} of {total}",
+    "welcome": {
+      "title": "Your voice, typed anywhere.",
+      "subtitle": "Hold a key, speak naturally, let go. Parler types your words in any app: email, chat, documents, code.",
+      "start": "Get started",
+      "time": "Takes about two minutes.",
+      "document": "New message",
+      "demo": "Hi Camille, I'll send you the quote this afternoon. Talk soon!"
+    },
     "provider": {
-      "title": "Who should transcribe?",
-      "subtitle": "Parler sends your voice to the speech-to-text service you choose, with your own key. Nothing else leaves your computer."
+      "title": "Who turns your voice into text?",
+      "subtitle": "Parler works with your own account at one of these services. You can switch at any time.",
+      "voice": "Your voice",
+      "text": "Your text"
     },
     "key": {
-      "title": "Your {provider} key",
-      "subtitle": "Create an API key on the {provider} website, then paste it here. It stays on this computer.",
-      "customTitle": "Your server",
-      "customSubtitle": "Any server that speaks the OpenAI audio API works: speaches, LocalAI, faster-whisper-server…",
-      "verify": "Check and continue"
+      "title": "Connect {provider}",
+      "subtitle": "An API key lets Parler use {provider} for you. It stays on this computer.",
+      "customTitle": "Connect your server",
+      "customSubtitle": "Any server that speaks the OpenAI audio API works.",
+      "step1": "Open the {provider} website and sign in",
+      "step2": "Create a new API key",
+      "step3": "Copy it and paste it below",
+      "open": "Open {provider}",
+      "placeholder": "Paste your key here",
+      "checking": "Checking your key…",
+      "valid": "Key verified",
+      "card": "API key",
+      "waiting": "Waiting for your key"
     },
     "permissions": {
-      "title": "Two permissions",
-      "subtitle": "macOS asks before an app can hear you or type for you.",
+      "title": "Let Parler hear and type",
+      "subtitle": "macOS asks once. Parler only listens while you hold the shortcut.",
       "microphone": "Microphone",
       "microphoneHint": "To hear what you say.",
       "accessibility": "Accessibility",
-      "accessibilityHint": "To paste the text where your cursor is.",
+      "accessibilityHint": "To type the text where your cursor is.",
       "allow": "Allow",
       "allowed": "Allowed",
-      "later": "I'll do it later"
+      "later": "Do it later",
+      "panel": "Privacy & Security"
+    },
+    "shortcut": {
+      "title": "Your dictation key",
+      "subtitle": "Hold it, speak, let go. A quick tap keeps listening until you tap again.",
+      "hold": "Hold…",
+      "speak": "…speak…",
+      "release": "…let go."
     },
     "try": {
-      "title": "Say hello",
+      "title": "Your first dictation",
       "lead": "Click in the box, then",
       "placeholder": "Your words will appear here…",
-      "done": "That's it. Parler is ready.",
+      "done": "Perfect. Parler is ready.",
       "finish": "Start using Parler",
-      "skip": "Skip"
+      "skip": "Skip for now",
+      "ideas": "Something to say",
+      "idea1": "Remind me to call the bakery tomorrow at nine.",
+      "idea2": "Thanks for your message, I'll get back to you on Monday.",
+      "idea3": "Add milk, eggs and coffee to the shopping list.",
+      "tip": "Speak naturally: punctuation is added for you."
     }
   },
   "home": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening",
+    "subtitle": "Parler is ready in all your apps.",
     "hold": "Hold",
     "press": "Press",
-    "andSpeak": "and speak.",
+    "andSpeak": "and speak",
     "hint": {
-      "smart": "Let go to finish. A quick tap keeps listening until you press again.",
+      "smart": "Let go to finish. A quick tap keeps listening until the next one.",
       "hold": "Let go to finish.",
       "toggle": "Press again to finish.",
       "paste": "The text is typed where your cursor is.",
@@ -71,13 +116,28 @@
     "listening": "Listening…",
     "listeningHint": "Esc to cancel",
     "writing": "Writing…",
-    "recent": "Recent",
+    "stats": {
+      "words": "Words dictated",
+      "saved": "Time saved",
+      "speed": "Words per minute"
+    },
+    "history": "History",
     "clear": "Clear",
-    "empty": "Your dictations will show up here.",
+    "empty": "Your dictations will appear here.",
+    "emptyHint": "Try it now, in any app.",
     "seconds": "{s} s"
   },
+  "vocabulary": {
+    "title": "Vocabulary",
+    "subtitle": "Names, brands and jargon Parler should spell right. They're sent to the service as a hint.",
+    "placeholder": "Add a word or a name…",
+    "add": "Add",
+    "remove": "Remove {word}",
+    "empty": "No words yet. For example:",
+    "count": "{n} words"
+  },
   "problems": {
-    "unknownProvider": "Choose a provider in the settings.",
+    "unknownProvider": "Choose a service in the settings.",
     "missingApiKey": "Add your {provider} API key to start dictating.",
     "missingBaseUrl": "Enter your server's address in the settings.",
     "unauthorized": "{provider} refused the API key. Check it in the settings.",
@@ -87,7 +147,7 @@
     "rejected": "{provider} returned an error ({status}): {message}",
     "invalidResponse": "{provider} sent an unexpected answer.",
     "microphone": "The microphone couldn't be used: {detail}",
-    "needsAccessibility": "Parler needs Accessibility access to paste for you. Your text is on the clipboard: paste it with ⌘V.",
+    "needsAccessibility": "Parler needs Accessibility access to type for you. Your text is on the clipboard: paste it with ⌘V.",
     "noClipboard": "The clipboard isn't available on this system.",
     "pasteFailed": "Pasting failed ({detail}). Your text is on the clipboard.",
     "shortcut": "{shortcut} is already used by another app. Pick another shortcut.",
@@ -105,32 +165,34 @@
     "rateLimited": "Rate limited",
     "offline": "No connection",
     "timeout": "Too slow to answer",
-    "rejected": "Provider error",
-    "invalidResponse": "Provider error",
+    "rejected": "Service error",
+    "invalidResponse": "Service error",
     "microphone": "Microphone unavailable"
   },
   "settings": {
     "title": "Settings",
+    "subtitle": "Everything else is automatic.",
     "saveFailed": "Couldn't save: {error}",
     "transcription": {
       "title": "Transcription",
-      "provider": "Provider",
+      "description": "The service that turns your voice into text.",
+      "provider": "Service",
       "apiKey": "API key",
       "apiKeyPlaceholder": "Paste your key",
       "apiKeyOptional": "Optional",
-      "model": "Model",
-      "modelHint": "Pick one, or type any model the provider offers.",
-      "baseUrl": "Server address",
-      "baseUrlHint": "Up to /v1, without /audio/transcriptions.",
+      "getKey": "Get a key",
       "language": "Spoken language",
       "languageAuto": "Detect automatically",
       "languageHint": "Choosing your language makes transcription faster and more accurate.",
-      "vocabulary": "Vocabulary",
-      "vocabularyHint": "Names, brands and jargon, separated by commas, so they come out spelled right.",
-      "vocabularyPlaceholder": "Synapsr, Kubernetes, Plougastel…"
+      "advanced": "Advanced options",
+      "model": "Model",
+      "modelHint": "Pick one, or type any model the service offers.",
+      "baseUrl": "Server address",
+      "baseUrlHint": "Up to /v1, without /audio/transcriptions."
     },
     "shortcut": {
       "title": "Shortcut",
+      "description": "How you start and stop a dictation.",
       "label": "Dictation shortcut",
       "recording": "Press your keys…",
       "cancelHint": "Esc to cancel",
@@ -146,17 +208,20 @@
     },
     "microphone": {
       "title": "Microphone",
+      "description": "The microphone Parler listens to.",
       "default": "System default"
     },
     "output": {
-      "title": "After transcription",
-      "paste": "Paste it",
+      "title": "Text",
+      "description": "What happens once your words are ready.",
+      "paste": "Type it",
       "copy": "Copy it",
       "pasteHint": "Typed where your cursor is; your clipboard is put back afterwards.",
       "copyHint": "Placed on the clipboard for you to paste."
     },
     "general": {
       "title": "General",
+      "description": "Sounds, startup and language.",
       "sounds": "Sounds",
       "soundsHint": "A soft cue when listening starts and stops.",
       "autostart": "Open at login",

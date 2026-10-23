@@ -3,10 +3,10 @@ import { useT } from "../i18n/context";
 import { api } from "../lib/api";
 import { acceleratorFromEvent, keycaps } from "../lib/shortcut";
 import { useParler } from "../state";
-import { Button, Keycaps } from "./ui";
+import { Button, Keycaps } from "../ui";
 
 /** The dictation shortcut, with a way to record a new one. */
-export function ShortcutField() {
+export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
   const { t } = useT();
   const { settings, info, update } = useParler();
   const [recording, setRecording] = useState(false);
@@ -39,9 +39,7 @@ export function ShortcutField() {
       setError(
         refused
           ? t("problems.shortcut", {
-              shortcut: keycaps(accelerator, info.platform, t("common.space")).join(
-                " ",
-              ),
+              shortcut: keycaps(accelerator, info.platform, t("common.space")).join(" "),
             })
           : null,
       );
@@ -55,14 +53,17 @@ export function ShortcutField() {
   }, [recording, info.platform, t, update]);
 
   return (
-    <div className="flex flex-col items-end gap-1.5">
-      <div className="flex items-center gap-2">
+    <div className="flex flex-col items-start gap-2">
+      <div className="flex items-center gap-3">
         {recording ? (
-          <span className="animate-pulse text-[13px] font-medium text-accent">
+          <span className="flex h-10 items-center rounded-xl bg-accent-soft px-3.5 text-[13px] font-medium text-accent-text">
             {t("settings.shortcut.recording")}
           </span>
         ) : (
-          <Keycaps keys={keycaps(settings.shortcut, info.platform, t("common.space"))} />
+          <Keycaps
+            keys={keycaps(settings.shortcut, info.platform, t("common.space"))}
+            size={size}
+          />
         )}
         <Button
           size="sm"
@@ -75,7 +76,7 @@ export function ShortcutField() {
           {recording ? t("settings.shortcut.cancelHint") : t("common.change")}
         </Button>
       </div>
-      {error && <p className="max-w-64 text-right text-[12px] text-accent">{error}</p>}
+      {error && <p className="text-[12.5px] text-accent-text">{error}</p>}
     </div>
   );
 }

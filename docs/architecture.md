@@ -43,11 +43,15 @@ than a quarter of a second of speech.
 
 ## Interface — `src`
 
+Built on the [design system](design-system.md).
+
 | Path | Role |
 | --- | --- |
-| `App.tsx`, `state.tsx` | Loads settings, status and history once, then follows backend events. |
-| `components/Onboarding.tsx` | Provider → key (tested) → macOS permissions → try it. |
-| `components/Home.tsx` | The shortcut, live status, problems with their fix, recent dictations. |
-| `components/SettingsView.tsx` | Everything else. |
+| `App.tsx`, `state.tsx` | Loads settings, status, history and totals once, then follows backend events. |
+| `ui/` | The design system's components. |
+| `onboarding/` | Welcome → service → key (checked on paste) → macOS permissions → shortcut → first dictation, each with its animated scene. |
+| `pages/` | Home (shortcut, totals, history by day), Vocabulary, Settings. |
+| `components/` | The sidebar, the shortcut recorder, the service form logic. |
 | `overlay/` | The pill: level bars, phases, synthesized sound cues. |
 | `i18n/` | English and French, kept in sync by a test. |
+| `preview.tsx` | Dev only: every window in a browser against a simulated backend. |

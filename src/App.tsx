@@ -1,11 +1,11 @@
-import { ArrowLeft, Settings2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Home } from "./components/Home";
-import { Onboarding } from "./components/Onboarding";
-import { SettingsView } from "./components/SettingsView";
-import { IconButton } from "./components/ui";
+import { Sidebar, type Page } from "./components/Sidebar";
 import { LocaleProvider, useT } from "./i18n/context";
 import { api } from "./lib/api";
+import { Onboarding } from "./onboarding/Onboarding";
+import { Home } from "./pages/Home";
+import { SettingsPage } from "./pages/Settings";
+import { Vocabulary } from "./pages/Vocabulary";
 import { loadSnapshot, ParlerProvider, useParler, type Snapshot } from "./state";
 
 export default function App() {
@@ -36,52 +36,27 @@ function Localized() {
 }
 
 function Shell() {
-  const { t, locale } = useT();
-  const { settings, info } = useParler();
-  const [view, setView] = useState<"home" | "settings">("home");
+  const { locale } = useT();
+  const { settings } = useParler();
+  const [page, setPage] = useState<Page>("home");
 
   useEffect(() => {
     document.documentElement.lang = locale;
     api.setLocale(locale);
   }, [locale]);
 
-  const mac = info.platform === "macos";
-  const onboarding = !settings.onboarded;
+  if (!settings.onboarded) return <Onboarding />;
 
   return (
-    <div className="flex h-full flex-col">
-      {/* The title bar: macOS draws its window buttons over the left side. */}
-      <header
-        data-tauri-drag-region
-        className={`flex h-[52px] shrink-0 items-center justify-between pr-3 ${
-          mac ? "pl-[84px]" : "pl-5"
-        }`}
-      >
-        <span
-          data-tauri-drag-region
-          className="font-display text-[21px] text-ink italic select-none"
-        >
-          {view === "settings" && !onboarding ? t("settings.title") : "Parler"}
-        </span>
-        {!onboarding &&
-          (view === "home" ? (
-            <IconButton label={t("common.settings")} onClick={() => setView("settings")}>
-              <Settings2 className="size-[18px]" />
-            </IconButton>
-          ) : (
-            <IconButton label={t("common.back")} onClick={() => setView("home")}>
-              <ArrowLeft className="size-[18px]" />
-            </IconButton>
-          ))}
-      </header>
-      <main className="flex-1 overflow-y-auto">
-        {onboarding ? (
-          <Onboarding />
-        ) : view === "home" ? (
-          <Home openSettings={() => setView("settings")} />
-        ) : (
-          <SettingsView />
-        )}
+    <div className="grain relative flex h-full">
+      <Sidebar page={page} onNavigate={setPage} />
+      <main className="relative flex-1 overflow-y-auto">
+        <div data-tauri-drag-region className="sticky top-0 z-10 h-11" />
+        <div key={page} className="mx-auto max-w-[700px] px-10 pb-14">
+          {page === "home" && <Home openSettings={() => setPage("settings")} />}
+          {page === "vocabulary" && <Vocabulary />}
+          {page === "settings" && <SettingsPage />}
+        </div>
       </main>
     </div>
   );
