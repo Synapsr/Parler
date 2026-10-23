@@ -197,6 +197,7 @@
       "recording": "Appuyez sur vos touches…",
       "cancelHint": "Échap pour annuler",
       "invalid": "Ajoutez une touche de modification comme {modifiers}.",
+      "reserved": "{shortcut} sert déjà au quotidien (copier, coller, enregistrer…). Choisissez-en un autre.",
       "mode": "Comportement",
       "smart": "Intelligent",
       "hold": "Maintenir",

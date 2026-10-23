@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useT } from "../i18n/context";
 import { api } from "../lib/api";
-import { acceleratorFromEvent, keycaps } from "../lib/shortcut";
+import { acceleratorFromEvent, isReserved, keycaps } from "../lib/shortcut";
 import { useParler } from "../state";
 import { Button, Keycaps } from "../ui";
 
@@ -34,15 +34,14 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
         }
         return;
       }
+      const label = keycaps(accelerator, info.platform, t("common.space")).join(" ");
+      if (isReserved(accelerator, info.platform)) {
+        setError(t("settings.shortcut.reserved", { shortcut: label }));
+        return;
+      }
       setRecording(false);
       const refused = await update({ shortcut: accelerator });
-      setError(
-        refused
-          ? t("problems.shortcut", {
-              shortcut: keycaps(accelerator, info.platform, t("common.space")).join(" "),
-            })
-          : null,
-      );
+      setError(refused ? t("problems.shortcut", { shortcut: label }) : null);
     };
 
     window.addEventListener("keydown", onKeyDown, true);

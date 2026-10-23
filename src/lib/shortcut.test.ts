@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { acceleratorFromEvent, keycaps, type KeyInput } from "./shortcut";
+import { acceleratorFromEvent, isReserved, keycaps, type KeyInput } from "./shortcut";
 
 const press = (code: string, mods: Partial<KeyInput> = {}): KeyInput => ({
   code,
@@ -55,5 +55,20 @@ describe("keycaps", () => {
     expect(keycaps("Control+Space", "windows")).toEqual(["Ctrl", "Space"]);
     expect(keycaps("Super+Digit1", "windows")).toEqual(["Win", "1"]);
     expect(keycaps("Super+ArrowUp", "linux")).toEqual(["Super", "↑"]);
+  });
+});
+
+describe("isReserved", () => {
+  it("refuses everyday shortcuts", () => {
+    expect(isReserved("Super+KeyX", "macos")).toBe(true);
+    expect(isReserved("Super+Space", "macos")).toBe(true);
+    expect(isReserved("Control+KeyC", "windows")).toBe(true);
+  });
+
+  it("allows combinations nothing else uses", () => {
+    expect(isReserved("Alt+Space", "macos")).toBe(false);
+    expect(isReserved("Super+Shift+KeyX", "macos")).toBe(false);
+    expect(isReserved("Control+KeyX", "macos")).toBe(false);
+    expect(isReserved("Control+Space", "windows")).toBe(false);
   });
 });

@@ -134,3 +134,35 @@ export function keycaps(
       return token;
     });
 }
+
+// Everyday shortcuts a dictation key must never take over: with only the
+// platform's command modifier held, these keys copy, paste, save, quit...
+const EVERYDAY_KEYS = new Set([
+  "KeyA",
+  "KeyC",
+  "KeyF",
+  "KeyN",
+  "KeyO",
+  "KeyP",
+  "KeyQ",
+  "KeyS",
+  "KeyT",
+  "KeyV",
+  "KeyW",
+  "KeyX",
+  "KeyY",
+  "KeyZ",
+  "Tab",
+  "Space",
+]);
+
+/** Whether `accelerator` would shadow a system or everyday app shortcut. */
+export function isReserved(accelerator: string, platform: string): boolean {
+  const tokens = accelerator.split("+");
+  const key = tokens[tokens.length - 1];
+  const modifiers = tokens.slice(0, -1);
+  const command = platform === "macos" ? "Super" : "Control";
+  // ⌘Space opens Spotlight on macOS; Ctrl+Space stays allowed elsewhere.
+  if (key === "Space" && platform !== "macos") return false;
+  return modifiers.length === 1 && modifiers[0] === command && EVERYDAY_KEYS.has(key);
+}

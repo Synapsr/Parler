@@ -197,6 +197,7 @@
       "recording": "Press your keys…",
       "cancelHint": "Esc to cancel",
       "invalid": "Add a modifier such as {modifiers}.",
+      "reserved": "{shortcut} is an everyday shortcut (copy, paste, save…). Pick another one.",
       "mode": "Behaviour",
       "smart": "Smart",
       "hold": "Hold",
