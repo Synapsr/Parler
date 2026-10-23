@@ -1,0 +1,174 @@
+{
+  "app": {
+    "tagline": "Parlez. Vos mots s'écrivent là où vous tapez."
+  },
+  "common": {
+    "continue": "Continuer",
+    "back": "Retour",
+    "test": "Tester",
+    "testing": "Test…",
+    "works": "Ça marche",
+    "copy": "Copier",
+    "copied": "Copié",
+    "delete": "Supprimer",
+    "change": "Modifier",
+    "getKey": "Obtenir une clé",
+    "show": "Afficher",
+    "hide": "Masquer",
+    "space": "Espace",
+    "settings": "Réglages"
+  },
+  "providers": {
+    "groq": "Recommandé · très rapide",
+    "openai": "GPT-4o Transcribe et Whisper",
+    "fireworks": "Whisper v3, rapide et économique",
+    "custom": "Votre propre serveur compatible OpenAI"
+  },
+  "onboarding": {
+    "step": "Étape {n} sur {total}",
+    "provider": {
+      "title": "Qui transcrit ?",
+      "subtitle": "Parler envoie votre voix au service de transcription de votre choix, avec votre propre clé. Rien d'autre ne quitte votre ordinateur."
+    },
+    "key": {
+      "title": "Votre clé {provider}",
+      "subtitle": "Créez une clé d'API sur le site de {provider}, puis collez-la ici. Elle reste sur cet ordinateur.",
+      "customTitle": "Votre serveur",
+      "customSubtitle": "Tout serveur compatible avec l'API audio d'OpenAI fonctionne : speaches, LocalAI, faster-whisper-server…",
+      "verify": "Vérifier et continuer"
+    },
+    "permissions": {
+      "title": "Deux autorisations",
+      "subtitle": "macOS demande votre accord avant qu'une app puisse vous entendre ou écrire pour vous.",
+      "microphone": "Micro",
+      "microphoneHint": "Pour entendre ce que vous dites.",
+      "accessibility": "Accessibilité",
+      "accessibilityHint": "Pour coller le texte là où se trouve votre curseur.",
+      "allow": "Autoriser",
+      "allowed": "Autorisé",
+      "later": "Plus tard"
+    },
+    "try": {
+      "title": "Dites bonjour",
+      "lead": "Cliquez dans le cadre, puis",
+      "placeholder": "Vos mots apparaîtront ici…",
+      "done": "C'est tout. Parler est prêt.",
+      "finish": "Commencer à utiliser Parler",
+      "skip": "Passer"
+    }
+  },
+  "home": {
+    "hold": "Maintenez",
+    "press": "Appuyez sur",
+    "andSpeak": "et parlez.",
+    "hint": {
+      "smart": "Relâchez pour terminer. Un appui bref continue d'écouter jusqu'au suivant.",
+      "hold": "Relâchez pour terminer.",
+      "toggle": "Appuyez de nouveau pour terminer.",
+      "paste": "Le texte s'écrit là où se trouve votre curseur.",
+      "copy": "Le texte est copié dans le presse-papiers."
+    },
+    "listening": "Je vous écoute…",
+    "listeningHint": "Échap pour annuler",
+    "writing": "J'écris…",
+    "recent": "Récents",
+    "clear": "Effacer",
+    "empty": "Vos dictées apparaîtront ici.",
+    "seconds": "{s} s"
+  },
+  "problems": {
+    "unknownProvider": "Choisissez un service dans les réglages.",
+    "missingApiKey": "Ajoutez votre clé d'API {provider} pour commencer à dicter.",
+    "missingBaseUrl": "Indiquez l'adresse de votre serveur dans les réglages.",
+    "unauthorized": "{provider} a refusé la clé d'API. Vérifiez-la dans les réglages.",
+    "rateLimited": "{provider} limite les requêtes (quota ou crédit). Réessayez dans un instant.",
+    "offline": "Impossible de joindre {provider}. Vérifiez votre connexion.",
+    "timeout": "{provider} a mis trop de temps à répondre.",
+    "rejected": "{provider} a renvoyé une erreur ({status}) : {message}",
+    "invalidResponse": "{provider} a envoyé une réponse inattendue.",
+    "microphone": "Impossible d'utiliser le micro : {detail}",
+    "needsAccessibility": "Parler a besoin de l'accès Accessibilité pour coller à votre place. Votre texte est dans le presse-papiers : collez-le avec ⌘V.",
+    "noClipboard": "Le presse-papiers n'est pas disponible sur ce système.",
+    "pasteFailed": "Le collage a échoué ({detail}). Votre texte est dans le presse-papiers.",
+    "shortcut": "{shortcut} est déjà utilisé par une autre app. Choisissez un autre raccourci.",
+    "retry": "Réessayer",
+    "openSettings": "Ouvrir les réglages",
+    "openAccessibility": "Ouvrir les réglages d'Accessibilité"
+  },
+  "overlay": {
+    "empty": "Rien entendu",
+    "error": "Un problème est survenu",
+    "unknownProvider": "Configurez Parler",
+    "missingApiKey": "Clé d'API manquante",
+    "missingBaseUrl": "Configurez Parler",
+    "unauthorized": "Clé d'API refusée",
+    "rateLimited": "Quota atteint",
+    "offline": "Pas de connexion",
+    "timeout": "Réponse trop lente",
+    "rejected": "Erreur du service",
+    "invalidResponse": "Erreur du service",
+    "microphone": "Micro indisponible"
+  },
+  "settings": {
+    "title": "Réglages",
+    "saveFailed": "Enregistrement impossible : {error}",
+    "transcription": {
+      "title": "Transcription",
+      "provider": "Service",
+      "apiKey": "Clé d'API",
+      "apiKeyPlaceholder": "Collez votre clé",
+      "apiKeyOptional": "Facultatif",
+      "model": "Modèle",
+      "modelHint": "Choisissez-en un, ou saisissez n'importe quel modèle proposé par le service.",
+      "baseUrl": "Adresse du serveur",
+      "baseUrlHint": "Jusqu'à /v1, sans /audio/transcriptions.",
+      "language": "Langue parlée",
+      "languageAuto": "Détection automatique",
+      "languageHint": "Choisir votre langue rend la transcription plus rapide et plus juste.",
+      "vocabulary": "Vocabulaire",
+      "vocabularyHint": "Noms, marques et jargon, séparés par des virgules, pour qu'ils soient bien orthographiés.",
+      "vocabularyPlaceholder": "Synapsr, Kubernetes, Plougastel…"
+    },
+    "shortcut": {
+      "title": "Raccourci",
+      "label": "Raccourci de dictée",
+      "recording": "Appuyez sur vos touches…",
+      "cancelHint": "Échap pour annuler",
+      "invalid": "Ajoutez une touche de modification comme {modifiers}.",
+      "mode": "Comportement",
+      "smart": "Intelligent",
+      "hold": "Maintenir",
+      "toggle": "Basculer",
+      "smartHint": "Maintenez pour parler, ou appuyez une fois pour démarrer et une fois de plus pour arrêter.",
+      "holdHint": "Enregistre tant que vous maintenez le raccourci.",
+      "toggleHint": "Appuyez pour démarrer, de nouveau pour arrêter.",
+      "wayland": "Sous Wayland, les raccourcis globaux dépendent de votre bureau : associez-en un à la commande {command}."
+    },
+    "microphone": {
+      "title": "Micro",
+      "default": "Micro par défaut du système"
+    },
+    "output": {
+      "title": "Après la transcription",
+      "paste": "Coller",
+      "copy": "Copier",
+      "pasteHint": "Écrit là où se trouve votre curseur ; votre presse-papiers est ensuite rétabli.",
+      "copyHint": "Placé dans le presse-papiers, à vous de le coller."
+    },
+    "general": {
+      "title": "Général",
+      "sounds": "Sons",
+      "soundsHint": "Un signal discret quand l'écoute commence et s'arrête.",
+      "autostart": "Ouvrir au démarrage",
+      "autostartHint": "Parler attend discrètement dans la barre des menus.",
+      "interfaceLanguage": "Langue de l'interface",
+      "system": "Système"
+    },
+    "about": {
+      "title": "À propos",
+      "version": "Version {version}",
+      "source": "Code source",
+      "credits": "Libre et open source sous licence MIT. La capture du micro et une partie de l'intégration au bureau viennent de Handy."
+    }
+  }
+}

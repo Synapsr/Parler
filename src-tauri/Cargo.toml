@@ -1,0 +1,51 @@
+[package]
+name = "parler"
+version = "0.1.0"
+description = "Speak, and your words appear wherever you type."
+authors = ["Synapsr"]
+license = "MIT"
+repository = "https://github.com/Synapsr/Parler"
+edition = "2021"
+# handy-recorder (microphone capture) needs 1.88.
+rust-version = "1.88"
+
+[lib]
+name = "parler_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["macos-private-api", "tray-icon", "image-png"] }
+tauri-plugin-autostart = "2"
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-log = "2"
+tauri-plugin-macos-permissions = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-single-instance = "2"
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+log = "0.4"
+
+# Microphone capture, resampled to 16 kHz mono. Extracted from Handy.
+handy-recorder = "0.1"
+hound = "3.5"
+reqwest = { version = "0.12", features = ["json", "multipart"] }
+arboard = "3"
+enigo = "0.6"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Turns the overlay into a non-activating panel, so showing it never takes
+# focus away from the app the text is pasted into.
+tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2.1" }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.61", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

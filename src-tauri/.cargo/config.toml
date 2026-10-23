@@ -1,0 +1,4 @@
+# CPAL links two CoreAudio functions that only exist on macOS 14.2+.
+# Weak-linking lets Parler still launch on older macOS.
+[target.'cfg(target_os = "macos")']
+rustflags = ["-C", "link-arg=-Wl,-weak_framework,CoreAudio"]

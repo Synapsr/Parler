@@ -1,0 +1,41 @@
+# Dependencies & builds
+node_modules
+dist
+dist-ssr
+*.local
+coverage
+
+# Tauri / Rust
+src-tauri/target
+src-tauri/gen
+
+# Editors & OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.sw?
+
+# Logs
+*.log
+
+# Bundles copied to the repo root by accident
+*.dmg
+*.msi
+*.exe
+*.AppImage
+*.deb
+*.rpm
+
+# Secrets — must never land in a public repo
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+
+# Local agent scratch
+.claude/

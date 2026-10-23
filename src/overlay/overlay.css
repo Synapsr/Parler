@@ -1,0 +1,142 @@
+/* The dictation pill. Its window is transparent; only the pill is drawn. */
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+  font-family: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill {
+  --cream: #f6f2ea;
+  --vermilion: #ff5a3c;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 16px 0 14px;
+  border-radius: 999px;
+  background: rgb(22 21 19 / 0.94);
+  border: 1px solid rgb(255 255 255 / 0.09);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 12px 28px -10px rgb(0 0 0 / 0.55);
+  color: var(--cream);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1.2);
+}
+
+.pill.out {
+  opacity: 0;
+  transform: translateY(6px) scale(0.92);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  flex: none;
+}
+
+.connecting .dot {
+  animation: pulse 0.9s ease-in-out infinite;
+}
+
+.recording .dot {
+  animation: glow 1.4s ease-in-out infinite;
+}
+
+.spinner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(246 242 234 / 0.25);
+  border-top-color: var(--cream);
+  animation: spin 0.7s linear infinite;
+  flex: none;
+}
+
+.bars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 24px;
+}
+
+.bar {
+  width: 3px;
+  min-height: 3px;
+  border-radius: 2px;
+  background: var(--cream);
+  transition: height 90ms ease-out;
+}
+
+.connecting .bar {
+  opacity: 0.3;
+}
+
+.transcribing .bar {
+  opacity: 0.55;
+  animation: wave 1.1s ease-in-out infinite;
+}
+
+.message {
+  padding-right: 2px;
+}
+
+.empty .message {
+  opacity: 0.7;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 90 60 / 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgb(255 90 60 / 0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    height: 3px;
+  }
+  50% {
+    height: 14px;
+  }
+}
