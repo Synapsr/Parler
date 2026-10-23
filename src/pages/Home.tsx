@@ -191,7 +191,7 @@ function Row({ entry, locale }: { entry: HistoryEntry; locale: string }) {
 
   return (
     <div className="group flex items-start gap-4 px-4 py-3.5 transition-colors hover:bg-surface-2">
-      <span className="w-11 shrink-0 pt-px font-mono text-[11.5px] text-text-3">{time}</span>
+      <span className="w-16 shrink-0 pt-px font-mono text-[11.5px] whitespace-nowrap text-text-3">{time}</span>
       <p data-selectable className="min-w-0 flex-1 text-[14px] leading-relaxed text-text">
         {entry.text}
       </p>
