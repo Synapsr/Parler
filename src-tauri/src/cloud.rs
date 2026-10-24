@@ -466,9 +466,11 @@ mod tests {
                 Poll::Expired
             );
 
-            let mut settings = crate::settings::Settings::default();
-            settings.provider = ID.to_string();
-            settings.api_keys.insert(ID.to_string(), token.clone());
+            let settings = crate::settings::Settings {
+                provider: ID.to_string(),
+                api_keys: [(ID.to_string(), token.clone())].into(),
+                ..Default::default()
+            };
             let request = crate::providers::Request::from_settings(&settings).unwrap();
             let tone: Vec<f32> = (0..32_000).map(|i| (i as f32 / 20.0).sin() * 0.2).collect();
             let text = crate::providers::transcribe(&request, crate::audio::encode_wav(&tone))
