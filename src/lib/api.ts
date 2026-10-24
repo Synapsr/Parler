@@ -186,6 +186,8 @@ export const api = {
   /** macOS: what the system does with a 🌐 press (0 = nothing, null = its default). */
   globeKey: () => invoke<{ action: number | null }>("globe_key"),
   openKeyboardSettings: () => invoke("open_keyboard_settings"),
+  /** Parler's stars on GitHub; `null` offline. */
+  githubStars: () => invoke<number | null>("github_stars"),
 };
 
 export const events = {

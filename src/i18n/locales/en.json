@@ -118,6 +118,8 @@
       "placeholder": "Paste your key here",
       "checking": "Checking your key…",
       "valid": "Key verified",
+      "connected": "{provider} is connected.",
+      "ready": "Parler is ready to dictate.",
       "card": "API key",
       "waiting": "Waiting for your key"
     },
@@ -139,10 +141,23 @@
     },
     "shortcut": {
       "title": "Your dictation key",
-      "subtitle": "Hold it, speak, let go. A quick tap keeps listening until you tap again.",
+      "holdSentence": "Hold {keys}, speak, let go.",
+      "pressSentence": "Press {keys}, speak, press it again.",
+      "choose": "Choose another key",
+      "globe": "macOS also reacts to 🌐: set it to “Do Nothing”.",
+      "access": "Parler needs Accessibility access to hear this key.",
       "hold": "Hold…",
       "speak": "…speak…",
       "release": "…let go."
+    },
+    "star": {
+      "title": "Parler is free",
+      "subtitle": "It's open source and costs nothing to use. You only pay your provider, directly, at its own rates.",
+      "ask": "We ask for just one thing: a star on GitHub. It helps other people find Parler and helps the project grow. It means a lot to us.",
+      "star": "Star Parler on GitHub",
+      "later": "Maybe later",
+      "thanks": "Thank you! It really helps.",
+      "button": "Star"
     },
     "try": {
       "title": "Your first dictation",

@@ -1,4 +1,15 @@
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock, LoaderCircle, Mic, PersonStanding } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Clock,
+  Heart,
+  LoaderCircle,
+  Mic,
+  PersonStanding,
+  Star,
+} from "lucide-react";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useEffect, useState, type ReactNode } from "react";
 import {
@@ -9,12 +20,13 @@ import {
 } from "tauri-plugin-macos-permissions-api";
 import { AccountStatus, PlanButton, SignInWaiting, signInTrouble } from "../components/Cloud";
 import { KeysSentence } from "../components/KeysSentence";
-import { ShortcutField } from "../components/ShortcutField";
+import { ShortcutField, useGlobeConflict } from "../components/ShortcutField";
 import { useKeycaps } from "../components/useKeycaps";
 import { useCloudSignIn } from "../components/useCloudSignIn";
 import { useProviderForm } from "../components/useProviderForm";
 import { useT } from "../i18n/context";
-import { CLOUD } from "../lib/api";
+import { api, CLOUD } from "../lib/api";
+import { FN, isSingleKey } from "../lib/shortcut";
 import { needsPlan } from "../lib/cloud";
 import { lookOf } from "../lib/look";
 import { describeProblem } from "../lib/problems";
@@ -36,12 +48,16 @@ import {
   IdeasScene,
   KeyScene,
   PermissionsScene,
+  GitHubMark,
   ShortcutScene,
   SignInScene,
+  StarScene,
   WelcomeScene,
 } from "./visuals";
 
-type Step = "welcome" | "provider" | "key" | "permissions" | "shortcut" | "try";
+type Step = "welcome" | "provider" | "key" | "permissions" | "shortcut" | "star" | "try";
+
+const REPOSITORY = "https://github.com/Synapsr/Parler";
 
 interface Nav {
   index: number;
@@ -58,6 +74,8 @@ export function Onboarding() {
     "key",
     ...(info.platform === "macos" ? (["permissions"] as Step[]) : []),
     "shortcut",
+    // With their own key, Parler costs nothing: one moment to ask for a star.
+    ...(settings.provider !== CLOUD ? (["star"] as Step[]) : []),
     "try",
   ];
   const [index, setIndex] = useState(0);
@@ -80,6 +98,8 @@ export function Onboarding() {
       return <PermissionsStep nav={nav} />;
     case "shortcut":
       return <ShortcutStep nav={nav} />;
+    case "star":
+      return <StarStep nav={nav} />;
     case "try":
       return <TryStep nav={nav} />;
   }
@@ -110,8 +130,10 @@ function StepLayout({
           </span>
           <StepDots count={nav.count} current={nav.index} />
         </div>
-        {/* Centred while it fits, scrolled from the top when it doesn't. */}
-        <div key={nav.index} className="flex min-h-0 flex-1 flex-col overflow-y-auto py-6">
+        {/* Centred while it fits, scrolled from the top when it doesn't. The
+            side padding, taken back by the margins, leaves room for the
+            selection ring drawn outside the cards: scrolling clips it. */}
+        <div key={nav.index} className="-mx-3 flex min-h-0 flex-1 flex-col overflow-y-auto px-3 py-6">
           <div className="my-auto">{children}</div>
         </div>
         <div className="flex items-center gap-3">
@@ -290,13 +312,21 @@ function CloudOffer({ label }: { label: string }) {
 function KeyStep({ nav }: { nav: Nav }) {
   const { t } = useT();
   const form = useProviderForm();
+  // A key checked by Continue shows it is connected, then carries on.
+  const [advancing, setAdvancing] = useState(false);
+  useEffect(() => {
+    if (!advancing || form.check.state !== "ok") return;
+    const timer = setTimeout(nav.next, 1400);
+    return () => clearTimeout(timer);
+  }, [advancing, form.check.state]);
   const provider = form.provider;
   if (!provider) return null;
   const custom = provider.id === "custom";
   const label = custom ? t("providers.customName") : provider.label;
 
   const proceed = async () => {
-    if (form.check.state === "ok" || (await form.verify())) nav.next();
+    if (form.check.state === "ok") nav.next();
+    else if (await form.verify()) setAdvancing(true);
   };
 
   return (
@@ -369,7 +399,14 @@ function KeyStep({ nav }: { nav: Nav }) {
           className="h-12 font-mono text-[14px]"
           autoFocus={!custom}
         />
-        {form.check.state === "ok" && <Banner tone="success">{t("onboarding.key.valid")}</Banner>}
+        {form.check.state === "ok" && (
+          <Banner tone="success">
+            <span className="flex flex-col gap-1">
+              <span className="font-medium">{t("onboarding.key.connected", { provider: label })}</span>
+              <span className="text-[12.5px] text-text-2">{t("onboarding.key.ready")}</span>
+            </span>
+          </Banner>
+        )}
         {form.check.state === "failed" && <Banner tone="error">{form.check.message}</Banner>}
       </div>
     </StepLayout>
@@ -554,8 +591,16 @@ function PermissionsStep({ nav }: { nav: Nav }) {
 
 function ShortcutStep({ nav }: { nav: Nav }) {
   const { t } = useT();
-  const { settings } = useParler();
+  const { settings, status, info } = useParler();
   const toKeys = useKeycaps();
+  // Most people keep the suggested key; the picker waits behind a link.
+  const [choosing, setChoosing] = useState(false);
+  const mac = info.platform === "macos";
+  const globeBusy = useGlobeConflict(mac && settings.shortcut === FN);
+  // Normally granted on the step before; said only when it is missing.
+  const needsAccess =
+    mac && status.problem?.kind === "shortcut" && isSingleKey(status.problem.shortcut);
+
   return (
     <StepLayout
       nav={nav}
@@ -567,11 +612,120 @@ function ShortcutStep({ nav }: { nav: Nav }) {
         </Button>
       }
     >
-      <Title title={t("onboarding.shortcut.title")} subtitle={t("onboarding.shortcut.subtitle")} />
-      <div className="rise" style={{ animationDelay: "80ms" }}>
-        <ShortcutField size="lg" />
+      <div className="rise mb-6">
+        <h1 className="font-display text-title text-text">{t("onboarding.shortcut.title")}</h1>
+        <p className="mt-3 text-[15px] leading-[2] text-text-2">
+          <KeysSentence
+            text={t(
+              settings.shortcutMode === "toggle"
+                ? "onboarding.shortcut.pressSentence"
+                : "onboarding.shortcut.holdSentence",
+            )}
+            keys={<Keycaps keys={toKeys(settings.shortcut)} />}
+          />
+        </p>
+      </div>
+      <div className="flex flex-col gap-2">
+        {needsAccess && (
+          <Notice
+            text={t("onboarding.shortcut.access")}
+            action={t("problems.openAccessibility")}
+            onAction={() => requestAccessibilityPermission()}
+          />
+        )}
+        {globeBusy && (
+          <Notice
+            text={t("onboarding.shortcut.globe")}
+            action={t("settings.shortcut.openKeyboard")}
+            onAction={() => api.openKeyboardSettings()}
+          />
+        )}
+      </div>
+      {choosing ? (
+        <div className="rise mt-5">
+          <ShortcutField hints={false} />
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setChoosing(true)}
+          className="rise mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium text-text-2 hover:text-text"
+          style={{ animationDelay: "120ms" }}
+        >
+          {t("onboarding.shortcut.choose")}
+          <ArrowRight className="size-3.5" />
+        </button>
+      )}
+    </StepLayout>
+  );
+}
+
+/** Your own key: Parler costs nothing, and asks for one thing, a star. */
+function StarStep({ nav }: { nav: Nav }) {
+  const { t } = useT();
+  const [starred, setStarred] = useState(false);
+  const [stars, setStars] = useState<number | null>(null);
+
+  // A live count when GitHub answers; the scene does without otherwise.
+  useEffect(() => {
+    api
+      .githubStars()
+      .then(setStars)
+      .catch(() => {});
+  }, []);
+
+  const star = () => {
+    openUrl(REPOSITORY).catch(() => {});
+    setStarred(true);
+  };
+
+  return (
+    <StepLayout
+      nav={nav}
+      scene={<StarScene stars={stars} />}
+      footer={
+        <Button variant={starred ? "primary" : "ghost"} size="lg" onClick={nav.next}>
+          {starred ? t("common.continue") : t("onboarding.star.later")}
+          <ArrowRight className="size-4" />
+        </Button>
+      }
+    >
+      <Title title={t("onboarding.star.title")} subtitle={t("onboarding.star.subtitle")} />
+      <p className="rise max-w-[40ch] text-[14.5px] leading-relaxed text-text" style={{ animationDelay: "60ms" }}>
+        {t("onboarding.star.ask")}
+      </p>
+      <div className="rise mt-6" style={{ animationDelay: "120ms" }}>
+        {starred ? (
+          <p className="flex items-center gap-1.5 text-[14px] font-medium text-success">
+            <Heart className="size-4" />
+            {t("onboarding.star.thanks")}
+          </p>
+        ) : (
+          <Button variant="primary" size="lg" onClick={star}>
+            <GitHubMark className="size-4" />
+            {t("onboarding.star.star")}
+            <Star className="size-4" />
+          </Button>
+        )}
       </div>
     </StepLayout>
+  );
+}
+
+/** One line that needs the person, ending with the link that fixes it. */
+function Notice({ text, action, onAction }: { text: string; action: string; onAction: () => void }) {
+  return (
+    <p className="rise rounded-xl bg-warning-soft px-3.5 py-2 text-[12.5px] leading-snug text-text">
+      {text}{" "}
+      <button
+        type="button"
+        onClick={onAction}
+        className="inline-flex items-center gap-0.5 font-medium whitespace-nowrap text-accent-text hover:underline"
+      >
+        {action}
+        <ArrowUpRight className="size-3.5" />
+      </button>
+    </p>
   );
 }
 

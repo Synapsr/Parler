@@ -286,6 +286,9 @@ mockIPC(
           { id: "1", name: "MacBook Pro Microphone", isDefault: true },
           { id: "2", name: "AirPods Pro", isDefault: false },
         ];
+      case "github_stars":
+        // `stars=0` shows the scene without a count, as offline.
+        return params.get("stars") === "0" ? null : 1284;
       case "globe_key":
         // Never changed in System Settings: macOS still acts on 🌐.
         return { action: null };

@@ -136,6 +136,7 @@ pub fn run() {
             commands::resume_shortcut,
             commands::globe_key,
             commands::open_keyboard_settings,
+            commands::github_stars,
         ])
         .build(tauri::generate_context!())
         .expect("Parler failed to start")

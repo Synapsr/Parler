@@ -118,6 +118,8 @@
       "placeholder": "Plak je sleutel hier",
       "checking": "Sleutel controleren…",
       "valid": "Sleutel gecontroleerd",
+      "connected": "{provider} is gekoppeld.",
+      "ready": "Parler is klaar om te dicteren.",
       "card": "API-sleutel",
       "waiting": "Wacht op je sleutel"
     },
@@ -139,10 +141,23 @@
     },
     "shortcut": {
       "title": "Je dicteertoets",
-      "subtitle": "Houd hem ingedrukt, praat, laat los. Tik je er kort op? Dan luistert Parler tot je weer tikt.",
+      "holdSentence": "Houd {keys} ingedrukt, praat, laat los.",
+      "pressSentence": "Druk op {keys}, praat, druk nog een keer.",
+      "choose": "Kies een andere toets",
+      "globe": "macOS reageert ook op 🌐: zet die op ‘Doe niets’.",
+      "access": "Parler heeft toegang tot Toegankelijkheid nodig om deze toets te horen.",
       "hold": "Houd vast…",
       "speak": "…praat…",
       "release": "…laat los."
+    },
+    "star": {
+      "title": "Parler is gratis",
+      "subtitle": "Het is open source en kost niets om te gebruiken. Je betaalt alleen je dienst, rechtstreeks en tegen zijn eigen tarieven.",
+      "ask": "We vragen maar één ding: een ster op GitHub. Daarmee vinden anderen Parler en groeit het project. Het betekent veel voor ons.",
+      "star": "Geef Parler een ster op GitHub",
+      "later": "Misschien later",
+      "thanks": "Dank je! Dat helpt echt.",
+      "button": "Star"
     },
     "try": {
       "title": "Je eerste dictaat",

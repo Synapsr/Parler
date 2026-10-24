@@ -27,7 +27,14 @@ const keyName = (key: SingleKey) => key.charAt(0).toLowerCase() + key.slice(1);
  * right ⌘, ⌥, ⌃), which can't be recorded, or a custom combination;
  * elsewhere the combination is recorded directly.
  */
-export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
+export function ShortcutField({
+  size = "md",
+  hints = true,
+}: {
+  size?: "md" | "lg";
+  /** Settings explains a key used alone; the onboarding keeps it short. */
+  hints?: boolean;
+}) {
   const { t } = useT();
   const { settings, status, info, update } = useParler();
   const toKeys = useKeycaps();
@@ -134,7 +141,7 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
         {mac && single && !recording ? <Keycaps keys={toKeys(settings.shortcut)} size={size} /> : recorder}
       </div>
       {error && <p className="text-[12.5px] text-accent-text">{error}</p>}
-      {mac && single && !recording && (
+      {hints && mac && single && !recording && (
         <KeyHints
           fn={settings.shortcut === FN}
           needsAccess={status.problem?.kind === "shortcut" && isSingleKey(status.problem.shortcut)}
@@ -151,27 +158,7 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
  */
 function KeyHints({ fn, needsAccess }: { fn: boolean; needsAccess: boolean }) {
   const { t } = useT();
-  const [globeBusy, setGlobeBusy] = useState(false);
-
-  // Checked again when coming back from System Settings.
-  useEffect(() => {
-    if (!fn) {
-      setGlobeBusy(false);
-      return;
-    }
-    const check = () =>
-      api
-        .globeKey()
-        .then(({ action }) => setGlobeBusy(action !== 0))
-        .catch(() => setGlobeBusy(false));
-    check();
-    const unlisten = getCurrentWindow().onFocusChanged(({ payload: focused }) => {
-      if (focused) check();
-    });
-    return () => {
-      unlisten.then((stop) => stop()).catch(() => {});
-    };
-  }, [fn]);
+  const globeBusy = useGlobeConflict(fn);
 
   return (
     <div className="flex max-w-[52ch] flex-col gap-2.5">
@@ -192,6 +179,34 @@ function KeyHints({ fn, needsAccess }: { fn: boolean; needsAccess: boolean }) {
       )}
     </div>
   );
+}
+
+/**
+ * Whether macOS still acts on 🌐 itself while fn is the shortcut (System
+ * Settings → Keyboard → "Press 🌐 key to" isn't "Do Nothing"). Checked again
+ * when coming back from System Settings.
+ */
+export function useGlobeConflict(fn: boolean): boolean {
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    if (!fn) {
+      setBusy(false);
+      return;
+    }
+    const check = () =>
+      api
+        .globeKey()
+        .then(({ action }) => setBusy(action !== 0))
+        .catch(() => setBusy(false));
+    check();
+    const unlisten = getCurrentWindow().onFocusChanged(({ payload: focused }) => {
+      if (focused) check();
+    });
+    return () => {
+      unlisten.then((stop) => stop()).catch(() => {});
+    };
+  }, [fn]);
+  return busy;
 }
 
 function Hint({ text, action, onAction }: { text: string; action: string; onAction: () => void }) {

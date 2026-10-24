@@ -118,6 +118,8 @@
       "placeholder": "Anahtarınızı buraya yapıştırın",
       "checking": "Anahtarınız kontrol ediliyor…",
       "valid": "Anahtar doğrulandı",
+      "connected": "{provider} bağlandı.",
+      "ready": "Parler dikte etmeye hazır.",
       "card": "API anahtarı",
       "waiting": "Anahtarınız bekleniyor"
     },
@@ -139,15 +141,28 @@
     },
     "shortcut": {
       "title": "Dikte tuşunuz",
-      "subtitle": "Basılı tutun, konuşun, bırakın. Kısa bir basışta, bir sonraki basışa kadar dinlerim.",
+      "holdSentence": "{keys} tuşunu basılı tutun, konuşun, bırakın.",
+      "pressSentence": "{keys} tuşuna basın, konuşun, sonra yeniden basın.",
+      "choose": "Başka bir tuş seç",
+      "globe": "macOS da 🌐 tuşuna tepki verir: “Hiçbir Şey Yapma” olarak ayarlayın.",
+      "access": "Bu tuşu duyabilmek için Parler, Erişilebilirlik iznine ihtiyaç duyar.",
       "hold": "Basılı tutun…",
       "speak": "…konuşun…",
       "release": "…bırakın."
     },
+    "star": {
+      "title": "Parler ücretsiz",
+      "subtitle": "Açık kaynaklıdır ve kullanmak hiçbir şeye mal olmaz. Yalnızca seçtiğiniz hizmete, onun fiyatları üzerinden doğrudan ödeme yaparsınız.",
+      "ask": "Sizden tek bir şey istiyoruz: GitHub'da bir yıldız. Böylece başkaları da Parler'den haberdar olur ve proje büyür. Bizim için çok değerli.",
+      "star": "GitHub'da yıldız ver",
+      "later": "Belki sonra",
+      "thanks": "Teşekkürler! Gerçekten çok yardımcı oluyor.",
+      "button": "Star"
+    },
     "try": {
       "title": "İlk dikteniz",
-      "holdToSpeak": "Kutuya tıklayın, sonra {keys} tuşlarını basılı tutun ve konuşun.",
-      "pressToSpeak": "Kutuya tıklayın, sonra {keys} tuşlarına basın ve konuşun.",
+      "holdToSpeak": "Kutuya tıklayın, sonra {keys} tuşunu basılı tutun ve konuşun.",
+      "pressToSpeak": "Kutuya tıklayın, sonra {keys} tuşuna basın ve konuşun.",
       "placeholder": "Sözleriniz burada görünecek…",
       "done": "Harika. Parler hazır.",
       "finish": "Kullanmaya başla",
@@ -164,8 +179,8 @@
     "afternoon": "İyi günler",
     "evening": "İyi akşamlar",
     "subtitle": "Parler tüm uygulamalarınızda hazır.",
-    "holdToSpeak": "{keys} tuşlarını basılı tutun *ve konuşun*",
-    "pressToSpeak": "{keys} tuşlarına basın *ve konuşun*",
+    "holdToSpeak": "{keys} tuşunu basılı tutun *ve konuşun*",
+    "pressToSpeak": "{keys} tuşuna basın *ve konuşun*",
     "hint": {
       "smart": "Bitirmek için bırakın. Kısa bir basışta, bir sonrakine kadar dinlerim.",
       "hold": "Bitirmek için bırakın.",

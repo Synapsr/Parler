@@ -118,6 +118,8 @@
       "placeholder": "Cole sua chave aqui",
       "checking": "Verificando sua chave…",
       "valid": "Chave verificada",
+      "connected": "{provider} está conectado.",
+      "ready": "O Parler está pronto para ditar.",
       "card": "Chave de API",
       "waiting": "Aguardando sua chave"
     },
@@ -139,10 +141,23 @@
     },
     "shortcut": {
       "title": "Sua tecla de ditado",
-      "subtitle": "Segure, fale e solte. Um toque rápido continua ouvindo até você tocar de novo.",
+      "holdSentence": "Segure {keys}, fale e solte.",
+      "pressSentence": "Pressione {keys}, fale e pressione de novo.",
+      "choose": "Escolher outra tecla",
+      "globe": "O macOS também reage a 🌐: defina como “Não Fazer Nada”.",
+      "access": "O Parler precisa de acesso à Acessibilidade para ouvir esta tecla.",
       "hold": "Segure…",
       "speak": "…fale…",
       "release": "…solte."
+    },
+    "star": {
+      "title": "O Parler é grátis",
+      "subtitle": "Ele é de código aberto e não custa nada para usar. Você só paga o seu serviço de transcrição, direto, pelos preços dele.",
+      "ask": "Só pedimos uma coisa: uma estrela no GitHub. Ela ajuda outras pessoas a descobrir o Parler e faz o projeto crescer. Significa muito para nós.",
+      "star": "Dar uma estrela no GitHub",
+      "later": "Talvez depois",
+      "thanks": "Obrigado! Isso ajuda muito.",
+      "button": "Star"
     },
     "try": {
       "title": "Seu primeiro ditado",

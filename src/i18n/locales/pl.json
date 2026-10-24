@@ -118,6 +118,8 @@
       "placeholder": "Wklej tutaj swój klucz",
       "checking": "Sprawdzam klucz…",
       "valid": "Klucz zweryfikowany",
+      "connected": "Usługa {provider} jest połączona.",
+      "ready": "Parler jest gotowy do dyktowania.",
       "card": "Klucz API",
       "waiting": "Czekam na twój klucz"
     },
@@ -139,10 +141,23 @@
     },
     "shortcut": {
       "title": "Twój klawisz dyktowania",
-      "subtitle": "Przytrzymaj go, mów, puść. Po krótkim naciśnięciu słucham aż do kolejnego.",
+      "holdSentence": "Przytrzymaj {keys}, mów, puść.",
+      "pressSentence": "Naciśnij {keys}, mów, potem naciśnij ponownie.",
+      "choose": "Wybierz inny klawisz",
+      "globe": "macOS też reaguje na 🌐: ustaw „Nic nie robić”.",
+      "access": "Parler potrzebuje uprawnienia Dostępność, żeby słyszeć ten klawisz.",
       "hold": "Przytrzymaj…",
       "speak": "…mów…",
       "release": "…puść."
+    },
+    "star": {
+      "title": "Parler jest darmowy",
+      "subtitle": "To otwarte oprogramowanie i korzystanie z niego nic nie kosztuje. Płacisz tylko wybranej usłudze, bezpośrednio, według jej stawek.",
+      "ask": "Prosimy tylko o jedno: gwiazdkę na GitHubie. Pomaga innym odkryć Parler i pozwala projektowi rosnąć. Wiele dla nas znaczy.",
+      "star": "Daj gwiazdkę na GitHubie",
+      "later": "Może później",
+      "thanks": "Dziękujemy! To naprawdę pomaga.",
+      "button": "Star"
     },
     "try": {
       "title": "Twoje pierwsze dyktowanie",

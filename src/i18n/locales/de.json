@@ -118,6 +118,8 @@
       "placeholder": "Schlüssel hier einfügen",
       "checking": "Schlüssel wird geprüft…",
       "valid": "Schlüssel bestätigt",
+      "connected": "{provider} ist verbunden.",
+      "ready": "Parler ist bereit zum Diktieren.",
       "card": "API-Schlüssel",
       "waiting": "Warte auf deinen Schlüssel"
     },
@@ -139,10 +141,23 @@
     },
     "shortcut": {
       "title": "Deine Diktiertaste",
-      "subtitle": "Gedrückt halten, sprechen, loslassen. Tippst du nur kurz, hört Parler zu, bis du wieder tippst.",
+      "holdSentence": "Halte {keys} gedrückt, sprich, lass los.",
+      "pressSentence": "Drücke {keys}, sprich, drück noch einmal.",
+      "choose": "Andere Taste wählen",
+      "globe": "macOS reagiert auch auf 🌐: Stell sie auf „Keine\u00a0Aktion“.",
+      "access": "Parler braucht Zugriff auf die Bedienungshilfen, um diese Taste zu hören.",
       "hold": "Halten…",
       "speak": "…sprechen…",
       "release": "…loslassen."
+    },
+    "star": {
+      "title": "Parler ist kostenlos",
+      "subtitle": "Es ist Open Source und kostet nichts. Du bezahlst nur deinen Dienst, direkt und zu seinen eigenen Preisen.",
+      "ask": "Wir bitten dich nur um eines: einen Stern auf GitHub. Er hilft anderen, Parler zu finden, und lässt das Projekt wachsen. Er bedeutet uns viel.",
+      "star": "Parler auf GitHub einen Stern geben",
+      "later": "Vielleicht später",
+      "thanks": "Danke! Das hilft wirklich.",
+      "button": "Star"
     },
     "try": {
       "title": "Dein erstes Diktat",

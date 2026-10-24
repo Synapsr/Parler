@@ -312,6 +312,24 @@ pub fn globe_key() -> GlobeKey {
     GlobeKey { action }
 }
 
+/// Parler's star count on GitHub, for the onboarding; nothing when offline
+/// or when GitHub doesn't answer quickly.
+#[tauri::command]
+pub async fn github_stars() -> Option<u64> {
+    let client = providers::http_client(std::time::Duration::from_secs(5)).ok()?;
+    let response = client
+        .get("https://api.github.com/repos/Synapsr/Parler")
+        .header("Accept", "application/vnd.github+json")
+        .send()
+        .await
+        .ok()?;
+    if !response.status().is_success() {
+        return None;
+    }
+    let repository: serde_json::Value = response.json().await.ok()?;
+    repository.get("stargazers_count")?.as_u64()
+}
+
 /// System Settings → Keyboard, where the 🌐 key's own action is chosen.
 #[tauri::command]
 pub fn open_keyboard_settings(app: AppHandle) {

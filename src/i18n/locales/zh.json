@@ -118,6 +118,8 @@
       "placeholder": "在此粘贴密钥",
       "checking": "正在验证密钥…",
       "valid": "密钥已验证",
+      "connected": "{provider} 已连接。",
+      "ready": "Parler 已准备好听写。",
       "card": "API 密钥",
       "waiting": "等待你的密钥"
     },
@@ -139,10 +141,23 @@
     },
     "shortcut": {
       "title": "你的听写键",
-      "subtitle": "按住，说话，松开。轻按一下则会一直聆听，直到你再按一次。",
+      "holdSentence": "按住 {keys}，说话，松开。",
+      "pressSentence": "按下 {keys}，说话，再按一次。",
+      "choose": "选择其他按键",
+      "globe": "macOS 也会响应 🌐：请将其设为“不执行任何操作”。",
+      "access": "Parler 需要辅助功能权限才能听到这个键。",
       "hold": "按住…",
       "speak": "…说话…",
       "release": "…松开。"
+    },
+    "star": {
+      "title": "Parler 是免费的",
+      "subtitle": "它是开源的，使用不花一分钱。你只需按服务商自己的价格，直接向其付费。",
+      "ask": "我们只有一个请求：在 GitHub 上给个 Star。它能帮助更多人发现 Parler，也能让项目成长。这对我们意义重大。",
+      "star": "在 GitHub 上为 Parler 点 Star",
+      "later": "以后再说",
+      "thanks": "谢谢你！这真的很有帮助。",
+      "button": "Star"
     },
     "try": {
       "title": "第一次听写",

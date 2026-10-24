@@ -1,5 +1,5 @@
 // The right-hand scenes of the first-run flow: each shows, rather than tells.
-import { Check, KeyRound, Lightbulb, LoaderCircle, Lock, Mic, PersonStanding, Type, X } from "lucide-react";
+import { Check, KeyRound, Lightbulb, LoaderCircle, Lock, Mic, PersonStanding, Star, Type, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Locale } from "../i18n";
 import { useT } from "../i18n/context";
@@ -203,6 +203,55 @@ export function SignInScene({
             </span>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+/** GitHub's mark (from its open-source Octicons), for the link to the repository. */
+export function GitHubMark({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+    </svg>
+  );
+}
+
+const STAR_CYCLE = [2000, 2600];
+
+/** Parler's page on GitHub, its star lighting up now and then. */
+export function StarScene({ stars }: { stars: number | null }) {
+  const { t, locale } = useT();
+  const starred = useCycle(STAR_CYCLE) === 1;
+  const count = stars === null ? null : stars + (starred ? 1 : 0);
+  const compact = new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 });
+  return (
+    <div className="w-[360px] rounded-[18px] bg-surface p-5 shadow-raised">
+      <div className="flex items-center gap-3">
+        <LogoMark size={36} />
+        <span className="min-w-0 flex-1 truncate text-[14px] text-text">
+          <span className="text-text-2">Synapsr</span>
+          <span className="px-1 text-text-3">/</span>
+          <span className="font-semibold">Parler</span>
+        </span>
+        <GitHubMark className="size-5 text-text-3" />
+      </div>
+      <p className="mt-4 font-display text-[21px] leading-snug text-text">{t("app.tagline")}</p>
+      <div className="mt-6 flex">
+        <span className="inline-flex h-9 items-stretch overflow-hidden rounded-lg bg-surface-2 text-[13px] font-medium text-text shadow-[inset_0_0_0_1px_var(--border-strong)]">
+          <span className="flex items-center gap-1.5 px-3">
+            <Star
+              className={`size-4 transition-all duration-300 ${starred ? "scale-125 fill-accent text-accent" : "text-text-3"}`}
+              strokeWidth={1.9}
+            />
+            {t("onboarding.star.button")}
+          </span>
+          {count !== null && (
+            <span className="flex items-center px-3 tabular-nums shadow-[inset_1px_0_0_var(--border-strong)]">
+              {compact.format(count)}
+            </span>
+          )}
+        </span>
       </div>
     </div>
   );

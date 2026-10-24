@@ -118,6 +118,8 @@
       "placeholder": "여기에 키를 붙여넣으세요",
       "checking": "키를 확인하는 중…",
       "valid": "키 확인 완료",
+      "connected": "{provider}에 연결됐어요.",
+      "ready": "Parler로 받아쓸 준비가 됐어요.",
       "card": "API 키",
       "waiting": "키를 기다리는 중"
     },
@@ -139,10 +141,23 @@
     },
     "shortcut": {
       "title": "받아쓰기 키",
-      "subtitle": "누른 채 말하고 손을 떼세요. 짧게 한 번 누르면 다시 누를 때까지 계속 들어요.",
+      "holdSentence": "{keys} 키를 누른 채 말하고 손을 떼세요.",
+      "pressSentence": "{keys} 키를 누르고 말한 다음 다시 누르세요.",
+      "choose": "다른 키 선택",
+      "globe": "macOS도 🌐 키에 반응해요. ‘동작 안 함’으로 설정하세요.",
+      "access": "이 키를 감지하려면 Parler에 손쉬운 사용 권한이 필요해요.",
       "hold": "누르고…",
       "speak": "…말하고…",
       "release": "…떼세요."
+    },
+    "star": {
+      "title": "Parler는 무료예요",
+      "subtitle": "오픈 소스라서 사용료가 없어요. 비용은 사용하는 서비스에 그 서비스의 요금대로 직접 내기만 하면 돼요.",
+      "ask": "부탁은 딱 하나예요. GitHub에서 스타를 눌러 주세요. 더 많은 사람이 Parler를 알게 되고, 프로젝트가 성장하는 데 도움이 돼요. 저희에게 정말 큰 힘이 돼요.",
+      "star": "GitHub에서 Parler에 스타 주기",
+      "later": "나중에",
+      "thanks": "고마워요! 정말 큰 도움이 돼요.",
+      "button": "Star"
     },
     "try": {
       "title": "첫 받아쓰기",
