@@ -2,7 +2,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useEffect, useState } from "react";
 import { Sidebar, type Page } from "./components/Sidebar";
 import { LocaleProvider, useT } from "./i18n/context";
-import { api, type Theme } from "./lib/api";
+import { api, events, type Theme } from "./lib/api";
 import { Onboarding } from "./onboarding/Onboarding";
 import { HistoryPage } from "./pages/History";
 import { Home } from "./pages/Home";
@@ -51,14 +51,30 @@ function Localized() {
 }
 
 function Shell() {
-  const { locale } = useT();
+  const { t, locale } = useT();
   const { settings } = useParler();
   const [page, setPage] = useState<Page>("home");
 
   useEffect(() => {
     document.documentElement.lang = locale;
-    api.setLocale(locale);
-  }, [locale]);
+    api.setTrayLabels({
+      open: t("tray.open"),
+      toggle: t("tray.toggle"),
+      copyLast: t("tray.copyLast"),
+      history: t("tray.history"),
+      quit: t("tray.quit"),
+    });
+  }, [locale, t]);
+
+  // The tray's "History…" opens the window on that page.
+  useEffect(() => {
+    const unlisten = events.navigate((target) => {
+      if (target === "history") setPage("history");
+    });
+    return () => {
+      unlisten.then((stop) => stop());
+    };
+  }, []);
 
   if (!settings.onboarded) return <Onboarding />;
 

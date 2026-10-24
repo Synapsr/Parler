@@ -133,6 +133,8 @@ pub fn notify(app: &AppHandle) {
     let history = app.state::<History>();
     let _ = app.emit_to("main", "parler://history", history.entries());
     let _ = app.emit_to("main", "parler://stats", history.stats());
+    // The tray's "copy last transcript" depends on there being one.
+    crate::tray::refresh(app);
 }
 
 #[cfg(test)]

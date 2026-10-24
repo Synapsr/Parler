@@ -252,5 +252,12 @@
       "source": "Source code",
       "credits": "Free and open source under the MIT licence. Microphone capture and parts of the desktop integration come from Handy."
     }
+  },
+  "tray": {
+    "open": "Open Parler",
+    "toggle": "Start or stop dictation",
+    "copyLast": "Copy last transcript",
+    "history": "History…",
+    "quit": "Quit Parler"
   }
 }

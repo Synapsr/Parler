@@ -83,6 +83,14 @@ export interface Microphone {
   isDefault: boolean;
 }
 
+export interface TrayLabels {
+  open: string;
+  toggle: string;
+  copyLast: string;
+  history: string;
+  quit: string;
+}
+
 export interface AppInfo {
   platform: "macos" | "windows" | "linux" | string;
   version: string;
@@ -119,7 +127,7 @@ export const api = {
   getStatus: () => invoke<Status>("get_status"),
   toggleDictation: () => invoke("toggle_dictation"),
   retryDictation: () => invoke("retry_dictation"),
-  setLocale: (locale: string) => invoke("set_locale", { locale }),
+  setTrayLabels: (labels: TrayLabels) => invoke("set_tray_labels", { labels }),
   suspendShortcut: () => invoke("suspend_shortcut"),
   resumeShortcut: () => invoke("resume_shortcut"),
 };
@@ -129,6 +137,9 @@ export const events = {
     listen<Status>("parler://status", (e) => handler(e.payload)),
   history: (handler: (entries: HistoryEntry[]) => void): Promise<UnlistenFn> =>
     listen<HistoryEntry[]>("parler://history", (e) => handler(e.payload)),
+  /** The tray asks the window to show a page. */
+  navigate: (handler: (page: string) => void): Promise<UnlistenFn> =>
+    listen<string>("parler://navigate", (e) => handler(e.payload)),
   stats: (handler: (stats: Stats) => void): Promise<UnlistenFn> =>
     listen<Stats>("parler://stats", (e) => handler(e.payload)),
   overlay: (handler: (event: OverlayEvent) => void): Promise<UnlistenFn> =>

@@ -118,9 +118,10 @@ pub fn retry_dictation(dictation: State<Dictation>) {
     dictation.send(Event::Retry);
 }
 
+/// The tray menu's words, in the interface language.
 #[tauri::command]
-pub fn set_locale(app: AppHandle, locale: String) {
-    tray::set_locale(&app, &locale);
+pub fn set_tray_labels(app: AppHandle, labels: tray::Labels) {
+    tray::set_labels(&app, labels);
 }
 
 /// While the window records a new shortcut, the current one must not start

@@ -1,48 +1,92 @@
 //! The menu bar / system tray icon.
 
 use crate::dictation::{Dictation, Event};
+use crate::history::History;
+use crate::paste;
+use std::sync::Mutex;
 use tauri::image::Image;
 use tauri::menu::{Menu, MenuItem, PredefinedMenuItem};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIcon, TrayIconBuilder, TrayIconEvent};
-use tauri::{AppHandle, Manager};
+use tauri::{AppHandle, Emitter, Manager};
 
 const ID: &str = "parler";
 const IDLE_ICON: &[u8] = include_bytes!("../icons/tray.png");
 const RECORDING_ICON: &[u8] = include_bytes!("../icons/tray-recording.png");
 
-struct Labels {
-    open: &'static str,
-    toggle: &'static str,
-    quit: &'static str,
+/// The menu's words, sent by the window in the interface language (see
+/// `set_labels`); English until it loads.
+#[derive(serde::Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Labels {
+    open: String,
+    toggle: String,
+    copy_last: String,
+    history: String,
+    quit: String,
 }
 
-fn labels(locale: &str) -> Labels {
-    if locale.starts_with("fr") {
-        Labels {
-            open: "Ouvrir Parler",
-            toggle: "Démarrer ou arrêter la dictée",
-            quit: "Quitter Parler",
-        }
-    } else {
-        Labels {
-            open: "Open Parler",
-            toggle: "Start or stop dictation",
-            quit: "Quit Parler",
+impl Default for Labels {
+    fn default() -> Self {
+        Self {
+            open: "Open Parler".into(),
+            toggle: "Start or stop dictation".into(),
+            copy_last: "Copy last transcript".into(),
+            history: "History…".into(),
+            quit: "Quit Parler".into(),
         }
     }
 }
 
-fn menu(app: &AppHandle, locale: &str) -> tauri::Result<Menu<tauri::Wry>> {
-    let labels = labels(locale);
+static LABELS: Mutex<Option<Labels>> = Mutex::new(None);
+
+fn menu(app: &AppHandle) -> tauri::Result<Menu<tauri::Wry>> {
+    let labels = LABELS
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .clone()
+        .unwrap_or_default();
+    // Nothing to copy before the first dictation.
+    let has_history = app
+        .try_state::<History>()
+        .is_some_and(|history| !history.entries().is_empty());
     Menu::with_items(
         app,
         &[
-            &MenuItem::with_id(app, "open", labels.open, true, None::<&str>)?,
-            &MenuItem::with_id(app, "toggle", labels.toggle, true, None::<&str>)?,
+            &MenuItem::with_id(app, "open", &labels.open, true, None::<&str>)?,
+            &MenuItem::with_id(app, "toggle", &labels.toggle, true, None::<&str>)?,
             &PredefinedMenuItem::separator(app)?,
-            &MenuItem::with_id(app, "quit", labels.quit, true, None::<&str>)?,
+            &MenuItem::with_id(
+                app,
+                "copy_last",
+                &labels.copy_last,
+                has_history,
+                None::<&str>,
+            )?,
+            &MenuItem::with_id(app, "history", &labels.history, true, None::<&str>)?,
+            &PredefinedMenuItem::separator(app)?,
+            &MenuItem::with_id(app, "quit", &labels.quit, true, None::<&str>)?,
         ],
     )
+}
+
+fn copy_last(app: &AppHandle) {
+    let last = app
+        .state::<History>()
+        .entries()
+        .into_iter()
+        .next()
+        .map(|entry| entry.text);
+    if let Some(text) = last {
+        if let Err(e) = paste::copy(app, &text) {
+            log::warn!("Could not copy the last transcript: {e:?}");
+        }
+    }
+}
+
+/// Opens the window on its History page.
+fn show_history(app: &AppHandle) {
+    crate::show_main_window(app);
+    let _ = app.emit_to("main", "parler://navigate", "history");
 }
 
 pub fn create(app: &AppHandle) -> tauri::Result<TrayIcon> {
@@ -50,13 +94,15 @@ pub fn create(app: &AppHandle) -> tauri::Result<TrayIcon> {
         .icon(Image::from_bytes(IDLE_ICON)?)
         .icon_as_template(true)
         .tooltip("Parler")
-        .menu(&menu(app, "en")?)
+        .menu(&menu(app)?)
         // Elsewhere a left click opens the window; on macOS it opens the
         // menu, as menu bar items do.
         .show_menu_on_left_click(cfg!(target_os = "macos"))
         .on_menu_event(|app, event| match event.id.as_ref() {
             "open" => crate::show_main_window(app),
             "toggle" => app.state::<Dictation>().send(Event::Toggle),
+            "copy_last" => copy_last(app),
+            "history" => show_history(app),
             "quit" => app.exit(0),
             _ => {}
         })
@@ -75,9 +121,15 @@ pub fn create(app: &AppHandle) -> tauri::Result<TrayIcon> {
         .build(app)
 }
 
-/// Rebuilds the menu in the interface language.
-pub fn set_locale(app: &AppHandle, locale: &str) {
-    if let (Some(tray), Ok(menu)) = (app.tray_by_id(ID), menu(app, locale)) {
+/// Rebuilds the menu with words in the interface language.
+pub fn set_labels(app: &AppHandle, labels: Labels) {
+    *LABELS.lock().unwrap_or_else(|e| e.into_inner()) = Some(labels);
+    refresh(app);
+}
+
+/// Rebuilds the menu, e.g. once the history gains or loses its entries.
+pub fn refresh(app: &AppHandle) {
+    if let (Some(tray), Ok(menu)) = (app.tray_by_id(ID), menu(app)) {
         let _ = tray.set_menu(Some(menu));
     }
 }

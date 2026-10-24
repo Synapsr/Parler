@@ -252,5 +252,12 @@
       "source": "Code source",
       "credits": "Libre et open source sous licence MIT. La capture du micro et une partie de l'intégration au bureau viennent de Handy."
     }
+  },
+  "tray": {
+    "open": "Ouvrir Parler",
+    "toggle": "Démarrer ou arrêter la dictée",
+    "copyLast": "Copier la dernière transcription",
+    "history": "Historique…",
+    "quit": "Quitter Parler"
   }
 }

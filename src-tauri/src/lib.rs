@@ -121,7 +121,7 @@ pub fn run() {
             commands::get_status,
             commands::toggle_dictation,
             commands::retry_dictation,
-            commands::set_locale,
+            commands::set_tray_labels,
             commands::suspend_shortcut,
             commands::resume_shortcut,
         ])
