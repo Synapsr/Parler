@@ -1,6 +1,6 @@
 [package]
 name = "parler"
-version = "0.1.4"
+version = "0.1.5"
 description = "Speak, and your words appear wherever you type."
 authors = ["Synapsr"]
 license = "MIT"
