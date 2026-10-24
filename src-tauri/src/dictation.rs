@@ -29,7 +29,9 @@ pub enum Event {
     /// Start or stop, from the tray, the window or `parler --toggle`.
     Toggle,
     /// The held shortcut key turned out to be part of a key combination
-    /// (fn + ←): drop the recording its press just started.
+    /// (fn + ←): drop the recording its press just started. Single keys
+    /// exist on macOS only.
+    #[cfg_attr(not(target_os = "macos"), allow(dead_code))]
     Interrupted,
     Cancel,
     /// Send the last failed recording again.

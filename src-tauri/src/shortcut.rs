@@ -121,7 +121,9 @@ pub fn replace(app: &AppHandle, old: &str, new: &str) -> Result<(), String> {
     })
 }
 
-/// Shows that the dictation shortcut doesn't work, until it does.
+/// Shows that the dictation shortcut doesn't work, until it does. Only the
+/// macOS single-key listener needs it so far.
+#[cfg_attr(not(target_os = "macos"), allow(dead_code))]
 pub fn report_problem(app: &AppHandle, shortcut: &str, detail: String) {
     let state = app.state::<StatusState>();
     let mut status = state.0.lock().unwrap_or_else(|e| e.into_inner());
