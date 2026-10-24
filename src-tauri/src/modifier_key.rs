@@ -10,10 +10,9 @@
 //! A modifier is also half of every chord (fn + ←, right ⌘ + C). The key
 //! therefore counts as a press only once it has been held alone for `ARM`,
 //! or tapped cleanly: any other key or click in between, and nothing starts.
-//! A key pressed a little later, within `CHORD`, is a slower chord: it sends
-//! `Interrupted`, which drops what the press began. After that, and for
-//! clicks as soon as the press has started, nothing cuts the dictation: you
-//! can click, switch windows or scroll while you speak, as in VoiceInk.
+//! Once the press has started, nothing cuts the dictation: people click,
+//! type or switch windows while they speak, as in VoiceInk. A slow chord
+//! records a moment with no speech, which is never sent.
 //! Presses and releases go to the dictation loop like the plugin's, so every
 //! shortcut mode behaves the same.
 //!
@@ -42,9 +41,6 @@ use tauri::{AppHandle, Manager};
 /// How long the key must be held alone before it counts as a press. Chords
 /// usually land within it.
 pub const ARM: Duration = Duration::from_millis(150);
-/// Until this long after the key went down, another key makes it a chord.
-/// Later on, the hold is a dictation and other keys leave it alone.
-pub const CHORD: Duration = Duration::from_millis(500);
 /// How often a tap that couldn't be created is tried again.
 const RETRY: Duration = Duration::from_secs(2);
 /// The longest the tap's thread sleeps before checking it should stop.
@@ -103,16 +99,6 @@ impl Key {
 pub enum Signal {
     Press,
     Release,
-    /// Another key came soon after the press: the key was a modifier, not a
-    /// request to dictate.
-    Interrupted,
-}
-
-/// Something else that happened while the key was down.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Input {
-    Key,
-    Click,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -122,10 +108,7 @@ enum State {
     Armed {
         since: Instant,
     },
-    /// A press, since the key went down.
-    Pressed {
-        since: Instant,
-    },
+    Pressed,
     /// Part of a chord: nothing more until the key is up.
     Combined,
 }
@@ -163,7 +146,7 @@ impl Tracker {
                 self.state = State::Up;
                 &[Signal::Press, Signal::Release]
             }
-            (State::Pressed { .. }, false) => {
+            (State::Pressed, false) => {
                 self.state = State::Up;
                 &[Signal::Release]
             }
@@ -176,21 +159,11 @@ impl Tracker {
         }
     }
 
-    /// Another key went down, or a mouse button.
-    pub fn other_input(&mut self, input: Input, now: Instant) -> Option<Signal> {
-        match self.state {
-            State::Armed { .. } => {
-                self.state = State::Combined;
-                None
-            }
-            State::Pressed { since }
-                if input == Input::Key && now.duration_since(since) < CHORD =>
-            {
-                self.state = State::Combined;
-                Some(Signal::Interrupted)
-            }
-            // A click, or a key once the dictation is under way.
-            State::Pressed { .. } | State::Up | State::Combined => None,
+    /// Another key went down, or a mouse button. Before the press it makes
+    /// the key part of a chord; after, it changes nothing.
+    pub fn other_input(&mut self) {
+        if let State::Armed { .. } = self.state {
+            self.state = State::Combined;
         }
     }
 
@@ -198,7 +171,7 @@ impl Tracker {
     pub fn tick(&mut self, now: Instant) -> Option<Signal> {
         match self.state {
             State::Armed { since } if now.duration_since(since) >= ARM => {
-                self.state = State::Pressed { since };
+                self.state = State::Pressed;
                 Some(Signal::Press)
             }
             _ => None,
@@ -213,17 +186,31 @@ impl Tracker {
         }
     }
 
-    /// The tap was paused, so a release may have been missed: assume the
-    /// key is up rather than leave a dictation running.
+    /// The tap was paused, so events may have been missed: `flags` says
+    /// where the keys are now. A key still held keeps its dictation going.
+    pub fn resync(&mut self, flags: u64) -> Option<Signal> {
+        if self.key.is_down(flags) {
+            return None;
+        }
+        self.reset()
+    }
+
+    /// The tap stopped hearing anything: assume the key is up, so the
+    /// dictation ends and what it holds is sent.
     pub fn reset(&mut self) -> Option<Signal> {
         let was = std::mem::replace(&mut self.state, State::Up);
-        matches!(was, State::Pressed { .. }).then_some(Signal::Release)
+        (was == State::Pressed).then_some(Signal::Release)
     }
 }
+
+/// `kCGEventSourceStateCombinedSessionState`: the keys as the session sees
+/// them.
+const COMBINED_SESSION_STATE: i32 = 0;
 
 #[link(name = "CoreGraphics", kind = "framework")]
 extern "C" {
     fn CGEventTapEnable(tap: CFMachPortRef, enable: bool);
+    fn CGEventSourceFlagsState(state: i32) -> u64;
 }
 
 #[link(name = "ApplicationServices", kind = "framework")]
@@ -395,7 +382,6 @@ fn send(app: &AppHandle, signal: Option<Signal>) {
         app.state::<Dictation>().send(match signal {
             Signal::Press => Event::Press,
             Signal::Release => Event::Release,
-            Signal::Interrupted => Event::Interrupted,
         });
     }
 }
@@ -440,12 +426,10 @@ fn create_tap(
                         send(&app, Some(*signal));
                     }
                 }
-                CGEventType::KeyDown => send(&app, tracker.other_input(Input::Key, Instant::now())),
-                CGEventType::LeftMouseDown
+                CGEventType::KeyDown
+                | CGEventType::LeftMouseDown
                 | CGEventType::RightMouseDown
-                | CGEventType::OtherMouseDown => {
-                    send(&app, tracker.other_input(Input::Click, Instant::now()))
-                }
+                | CGEventType::OtherMouseDown => tracker.other_input(),
                 // macOS pauses a tap it finds slow, or during secure input.
                 CGEventType::TapDisabledByTimeout | CGEventType::TapDisabledByUserInput => {
                     let tap = callback_port.load(Ordering::SeqCst);
@@ -453,7 +437,8 @@ fn create_tap(
                         log::info!("The {key:?} listener was paused; resuming");
                         unsafe { CGEventTapEnable(tap as CFMachPortRef, true) };
                     }
-                    send(&app, tracker.reset());
+                    let flags = unsafe { CGEventSourceFlagsState(COMBINED_SESSION_STATE) };
+                    send(&app, tracker.resync(flags));
                 }
                 _ => {}
             }
@@ -512,24 +497,9 @@ mod tests {
         let mut key = Tracker::new(Key::Fn);
         key.flags_changed(63, FN_DOWN, t0);
         // fn + ← within the arm window.
-        assert_eq!(key.other_input(Input::Key, ms(t0, 60)), None);
+        key.other_input();
         assert_eq!(key.tick(ms(t0, 400)), None);
         assert_eq!(key.flags_changed(63, 0, ms(t0, 500)), &[]);
-    }
-
-    #[test]
-    fn a_slow_chord_is_interrupted_once() {
-        let t0 = Instant::now();
-        let mut key = Tracker::new(Key::Fn);
-        key.flags_changed(63, FN_DOWN, t0);
-        assert_eq!(key.tick(ms(t0, 160)), Some(Signal::Press));
-        assert_eq!(
-            key.other_input(Input::Key, ms(t0, 300)),
-            Some(Signal::Interrupted)
-        );
-        // Holding fn + ← repeats the arrow: once is enough.
-        assert_eq!(key.other_input(Input::Key, ms(t0, 350)), None);
-        assert_eq!(key.flags_changed(63, 0, ms(t0, 700)), &[]);
     }
 
     #[test]
@@ -538,33 +508,37 @@ mod tests {
         let mut key = Tracker::new(Key::RightCommand);
         key.flags_changed(54, RIGHT_CMD_DOWN, t0);
         // ⌘-click to open a link in a new tab.
-        assert_eq!(key.other_input(Input::Click, ms(t0, 90)), None);
+        key.other_input();
         assert_eq!(key.tick(ms(t0, 400)), None);
         assert_eq!(key.flags_changed(54, 0, ms(t0, 500)), &[]);
     }
 
     #[test]
-    fn clicks_never_cut_a_dictation() {
+    fn nothing_cuts_a_dictation() {
         let t0 = Instant::now();
         let mut key = Tracker::new(Key::Fn);
         key.flags_changed(63, FN_DOWN, t0);
         assert_eq!(key.tick(ms(t0, 150)), Some(Signal::Press));
-        // Switching windows while speaking.
-        assert_eq!(key.other_input(Input::Click, ms(t0, 200)), None);
-        assert_eq!(key.other_input(Input::Click, ms(t0, 2000)), None);
+        // A click into another window, ⌘-Tab, a slow fn + ←: all while
+        // speaking.
+        key.other_input();
+        key.other_input();
         assert_eq!(key.flags_changed(63, 0, ms(t0, 4000)), &[Signal::Release]);
     }
 
     #[test]
-    fn keys_leave_a_dictation_under_way_alone() {
+    fn a_paused_tap_keeps_a_key_still_held() {
         let t0 = Instant::now();
         let mut key = Tracker::new(Key::Fn);
         key.flags_changed(63, FN_DOWN, t0);
         key.tick(ms(t0, 150));
-        // ⌘-Tab, well after the press.
-        assert_eq!(key.other_input(Input::Key, ms(t0, 500)), None);
-        assert_eq!(key.other_input(Input::Key, ms(t0, 1500)), None);
-        assert_eq!(key.flags_changed(63, 0, ms(t0, 3000)), &[Signal::Release]);
+        assert_eq!(key.resync(FN_DOWN), None);
+        assert_eq!(key.flags_changed(63, 0, ms(t0, 900)), &[Signal::Release]);
+        // Released while the tap was paused: the dictation ends.
+        key.flags_changed(63, FN_DOWN, ms(t0, 1000));
+        key.tick(ms(t0, 1150));
+        assert_eq!(key.resync(0), Some(Signal::Release));
+        assert_eq!(key.flags_changed(63, 0, ms(t0, 1300)), &[]);
     }
 
     #[test]
@@ -616,7 +590,8 @@ mod tests {
         let t0 = Instant::now();
         let mut key = Tracker::new(Key::RightControl);
         assert_eq!(key.flags_changed(62, 0, t0), &[]);
-        assert_eq!(key.other_input(Input::Key, t0), None);
+        key.other_input();
+        assert_eq!(key.deadline(), None);
     }
 
     #[test]

@@ -28,11 +28,6 @@ pub enum Event {
     Release,
     /// Start or stop, from the tray, the window or `parler --toggle`.
     Toggle,
-    /// The held shortcut key turned out to be part of a key combination
-    /// (fn + ←): drop the recording its press just started. Single keys
-    /// exist on macOS only.
-    #[cfg_attr(not(target_os = "macos"), allow(dead_code))]
-    Interrupted,
     Cancel,
     /// Send the last failed recording again.
     Retry,
@@ -127,7 +122,7 @@ enum Phase {
         pressed_at: Instant,
         latched: bool,
         /// A press came to stop this hands-free recording; it stops when that
-        /// key comes up, unless the key turns out to be part of a chord.
+        /// key comes up.
         stopping: bool,
     },
     Transcribing,
@@ -156,7 +151,6 @@ impl Controller {
                 Event::Press => self.press(),
                 Event::Release => self.release(),
                 Event::Toggle => self.toggle(),
-                Event::Interrupted => self.interrupted(),
                 Event::Cancel => self.cancel(),
                 Event::Retry => self.retry(),
                 Event::Capture(CaptureEvent::Ready { id }) => {
@@ -207,7 +201,7 @@ impl Controller {
                 let latched = self.settings().shortcut_mode == ShortcutMode::Toggle;
                 self.start(latched);
             }
-            // Stopped when the key comes back up: fn + ← must not end it.
+            // Stopped when the key comes back up, with all it heard.
             Phase::Recording {
                 pressed_at,
                 latched: true,
@@ -400,26 +394,6 @@ impl Controller {
         shortcut::set_cancel_active(&self.app, false);
         overlay::hide(&self.app);
         self.publish(State::Idle, None);
-    }
-
-    /// The held key was part of a chord (fn + ←). A recording its press was
-    /// about to stop goes on; one its press started is dropped.
-    fn interrupted(&mut self) {
-        match self.phase {
-            Phase::Recording {
-                pressed_at,
-                stopping: true,
-                ..
-            } => {
-                self.phase = Phase::Recording {
-                    pressed_at,
-                    latched: true,
-                    stopping: false,
-                }
-            }
-            Phase::Recording { .. } => self.cancel(),
-            Phase::Idle | Phase::Transcribing => {}
-        }
     }
 
     fn retry(&mut self) {
