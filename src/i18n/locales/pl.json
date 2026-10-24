@@ -226,7 +226,7 @@
     "noClipboard": "Schowek jest niedostępny w tym systemie.",
     "pasteFailed": "Nie udało się wkleić tekstu ({detail}). Jest w schowku.",
     "shortcut": "Skrót {shortcut} jest już używany przez inną aplikację. Wybierz inny.",
-    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
+    "singleKey": "Parler potrzebuje uprawnienia Dostępność, żeby nasłuchiwać klawisza skrótu. Włącz je w Ustawieniach systemowych: klawisz zadziała od razu po przyznaniu dostępu.",
     "retry": "Spróbuj ponownie",
     "openSettings": "Otwórz ustawienia",
     "openAccessibility": "Otwórz ustawienia Dostępności"
@@ -277,20 +277,20 @@
       "recording": "Naciśnij klawisze…",
       "cancelHint": "Esc, aby anulować",
       "keys": {
-        "fn": "🌐 fn (Globe)",
-        "rightCommand": "Right ⌘ Command",
-        "rightOption": "Right ⌥ Option",
-        "rightControl": "Right ⌃ Control",
-        "custom": "Custom shortcut…"
+        "fn": "🌐 fn (Globus)",
+        "rightCommand": "Prawy ⌘ Command",
+        "rightOption": "Prawy ⌥ Option",
+        "rightControl": "Prawy ⌃ Control",
+        "custom": "Własny skrót…"
       },
       "caps": {
-        "rightCommand": "Right ⌘",
-        "rightOption": "Right ⌥",
-        "rightControl": "Right ⌃"
+        "rightCommand": "Prawy ⌘",
+        "rightOption": "Prawy ⌥",
+        "rightControl": "Prawy ⌃"
       },
       "globeHint": "macOS też reaguje na każde naciśnięcie 🌐 (emoji, źródło wprowadzania lub Dyktowanie). Aby zostawić ten klawisz aplikacji Parler, w ustawieniach Klawiatura ustaw „Naciśnij klawisz 🌐, aby” na „Nic nie robić”.",
       "openKeyboard": "Otwórz ustawienia Klawiatury",
-      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
+      "singleKeyHint": "Użyty z innym klawiszem, np. ⌘C lub fn ←, nie rozpoczyna dyktowania.",
       "invalid": "Dodaj klawisz modyfikujący, np. {modifiers}.",
       "reserved": "{shortcut} to skrót do codziennych czynności (kopiuj, wklej, zapisz…). Wybierz inny.",
       "mode": "Działanie",

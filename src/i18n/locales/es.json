@@ -226,7 +226,7 @@
     "noClipboard": "El portapapeles no está disponible en este sistema.",
     "pasteFailed": "No se pudo pegar ({detail}). Tu texto está en el portapapeles.",
     "shortcut": "Otra app ya usa {shortcut}. Elige otro atajo.",
-    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
+    "singleKey": "Parler necesita acceso de Accesibilidad para detectar tu tecla de atajo. Actívalo en Ajustes del Sistema: la tecla funcionará en cuanto lo permitas.",
     "retry": "Reintentar",
     "openSettings": "Abrir ajustes",
     "openAccessibility": "Abrir ajustes de Accesibilidad"
@@ -277,20 +277,20 @@
       "recording": "Pulsa tus teclas…",
       "cancelHint": "Esc para cancelar",
       "keys": {
-        "fn": "🌐 fn (Globe)",
-        "rightCommand": "Right ⌘ Command",
-        "rightOption": "Right ⌥ Option",
-        "rightControl": "Right ⌃ Control",
-        "custom": "Custom shortcut…"
+        "fn": "🌐 fn (Globo)",
+        "rightCommand": "⌘ Comando (derecha)",
+        "rightOption": "⌥ Opción (derecha)",
+        "rightControl": "⌃ Control (derecha)",
+        "custom": "Atajo personalizado…"
       },
       "caps": {
-        "rightCommand": "Right ⌘",
-        "rightOption": "Right ⌥",
-        "rightControl": "Right ⌃"
+        "rightCommand": "⌘ derecha",
+        "rightOption": "⌥ derecha",
+        "rightControl": "⌃ derecha"
       },
       "globeHint": "macOS también reacciona cada vez que pulsas 🌐 (emojis, fuente de entrada o Dictado). Para dejársela a Parler, en los ajustes de Teclado cambia «Pulsar la tecla 🌐 para» a «No hacer nada».",
       "openKeyboard": "Abrir ajustes de Teclado",
-      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
+      "singleKeyHint": "Si la usas con otra tecla, como ⌘C o fn ←, no inicia un dictado.",
       "invalid": "Añade una tecla modificadora, como {modifiers}.",
       "reserved": "{shortcut} es un atajo de uso diario (copiar, pegar, guardar…). Elige otro.",
       "mode": "Comportamiento",

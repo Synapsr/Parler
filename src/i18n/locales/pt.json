@@ -226,7 +226,7 @@
     "noClipboard": "A área de transferência não está disponível neste sistema.",
     "pasteFailed": "Não foi possível colar ({detail}). Seu texto está na área de transferência.",
     "shortcut": "{shortcut} já é usado por outro app. Escolha outro atalho.",
-    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
+    "singleKey": "O Parler precisa de acesso à Acessibilidade para detectar sua tecla de atalho. Ative em Ajustes do Sistema: a tecla funciona assim que for permitida.",
     "retry": "Tentar de novo",
     "openSettings": "Abrir ajustes",
     "openAccessibility": "Abrir ajustes de Acessibilidade"
@@ -277,20 +277,20 @@
       "recording": "Pressione as teclas…",
       "cancelHint": "Esc para cancelar",
       "keys": {
-        "fn": "🌐 fn (Globe)",
-        "rightCommand": "Right ⌘ Command",
-        "rightOption": "Right ⌥ Option",
-        "rightControl": "Right ⌃ Control",
-        "custom": "Custom shortcut…"
+        "fn": "🌐 fn (Globo)",
+        "rightCommand": "⌘ Comando (direita)",
+        "rightOption": "⌥ Opção (direita)",
+        "rightControl": "⌃ Controle (direita)",
+        "custom": "Atalho personalizado…"
       },
       "caps": {
-        "rightCommand": "Right ⌘",
-        "rightOption": "Right ⌥",
-        "rightControl": "Right ⌃"
+        "rightCommand": "⌘ direita",
+        "rightOption": "⌥ direita",
+        "rightControl": "⌃ direita"
       },
       "globeHint": "O macOS também reage a cada toque em 🌐 (emojis, fonte de entrada ou Ditado). Para deixá-la para o Parler, nos ajustes de Teclado, defina “Pressionar a tecla 🌐 para” como “Não Fazer Nada”.",
       "openKeyboard": "Abrir ajustes de Teclado",
-      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
+      "singleKeyHint": "Usada com outra tecla, como ⌘C ou fn ←, ela não inicia um ditado.",
       "invalid": "Adicione uma tecla modificadora, como {modifiers}.",
       "reserved": "{shortcut} é um atalho do dia a dia (copiar, colar, salvar…). Escolha outro.",
       "mode": "Comportamento",

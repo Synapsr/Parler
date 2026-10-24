@@ -226,7 +226,7 @@
     "noClipboard": "Auf diesem System ist keine Zwischenablage verfügbar.",
     "pasteFailed": "Einfügen fehlgeschlagen ({detail}). Dein Text liegt in der Zwischenablage.",
     "shortcut": "{shortcut} wird schon von einer anderen App verwendet. Wähle ein anderes Tastenkürzel.",
-    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
+    "singleKey": "Parler braucht Zugriff auf die Bedienungshilfen, um auf deine Diktiertaste zu hören. Aktiviere ihn in den Systemeinstellungen: Die Taste funktioniert, sobald er erlaubt ist.",
     "retry": "Erneut versuchen",
     "openSettings": "Einstellungen öffnen",
     "openAccessibility": "Bedienungshilfen öffnen"
@@ -277,20 +277,20 @@
       "recording": "Drück deine Tasten…",
       "cancelHint": "Esc zum Abbrechen",
       "keys": {
-        "fn": "🌐 fn (Globe)",
-        "rightCommand": "Right ⌘ Command",
-        "rightOption": "Right ⌥ Option",
-        "rightControl": "Right ⌃ Control",
-        "custom": "Custom shortcut…"
+        "fn": "🌐 fn (Globus)",
+        "rightCommand": "Rechte ⌘ Befehlstaste",
+        "rightOption": "Rechte ⌥ Wahltaste",
+        "rightControl": "Rechte ⌃ Control-Taste",
+        "custom": "Eigenes Tastenkürzel…"
       },
       "caps": {
-        "rightCommand": "Right ⌘",
-        "rightOption": "Right ⌥",
-        "rightControl": "Right ⌃"
+        "rightCommand": "⌘ rechts",
+        "rightOption": "⌥ rechts",
+        "rightControl": "⌃ rechts"
       },
       "globeHint": "macOS reagiert auch auf jeden Druck auf 🌐 (Emoji, Eingabequelle oder Diktierfunktion). Damit nur Parler sie nutzt, stelle in den Tastatureinstellungen „Taste 🌐 drücken für“ auf „Keine Aktion“.",
       "openKeyboard": "Tastatureinstellungen öffnen",
-      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
+      "singleKeyHint": "Zusammen mit einer anderen Taste, etwa ⌘C oder fn ←, startet sie kein Diktat.",
       "invalid": "Füge eine Sondertaste wie {modifiers} hinzu.",
       "reserved": "{shortcut} brauchst du im Alltag (Kopieren, Einfügen, Sichern …). Wähle ein anderes.",
       "mode": "Verhalten",

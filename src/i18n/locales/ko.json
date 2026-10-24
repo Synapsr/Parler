@@ -226,7 +226,7 @@
     "noClipboard": "이 시스템에서는 클립보드를 사용할 수 없어요.",
     "pasteFailed": "붙여넣지 못했어요({detail}). 텍스트는 클립보드에 있어요.",
     "shortcut": "{shortcut} 단축키는 이미 다른 앱에서 사용 중이에요. 다른 단축키를 고르세요.",
-    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
+    "singleKey": "단축키를 감지하려면 Parler에 손쉬운 사용 권한이 필요해요. 시스템 설정에서 켜세요. 허용하는 즉시 키가 작동해요.",
     "retry": "다시 시도",
     "openSettings": "설정 열기",
     "openAccessibility": "손쉬운 사용 설정 열기"
@@ -277,20 +277,20 @@
       "recording": "키를 누르세요…",
       "cancelHint": "Esc 키로 취소",
       "keys": {
-        "fn": "🌐 fn (Globe)",
-        "rightCommand": "Right ⌘ Command",
-        "rightOption": "Right ⌥ Option",
-        "rightControl": "Right ⌃ Control",
-        "custom": "Custom shortcut…"
+        "fn": "🌐 fn(지구본)",
+        "rightCommand": "오른쪽 ⌘ Command",
+        "rightOption": "오른쪽 ⌥ Option",
+        "rightControl": "오른쪽 ⌃ Control",
+        "custom": "사용자 지정 단축키…"
       },
       "caps": {
-        "rightCommand": "Right ⌘",
-        "rightOption": "Right ⌥",
-        "rightControl": "Right ⌃"
+        "rightCommand": "오른쪽 ⌘",
+        "rightOption": "오른쪽 ⌥",
+        "rightControl": "오른쪽 ⌃"
       },
       "globeHint": "macOS도 🌐 키를 누를 때마다 반응해요(이모티콘, 입력 소스 또는 받아쓰기). Parler에 맡기려면 키보드 설정에서 ‘🌐 키를 눌러’를 ‘동작 안 함’으로 설정하세요.",
       "openKeyboard": "키보드 설정 열기",
-      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
+      "singleKeyHint": "⌘C나 fn ←처럼 다른 키와 함께 누르면 받아쓰기가 시작되지 않아요.",
       "invalid": "{modifiers} 같은 보조 키를 추가하세요.",
       "reserved": "{shortcut} 키는 복사, 붙여넣기, 저장처럼 자주 쓰는 단축키예요. 다른 단축키를 고르세요.",
       "mode": "동작 방식",

@@ -226,7 +226,7 @@
     "noClipboard": "Bu sistemde pano kullanılamıyor.",
     "pasteFailed": "Yapıştırma başarısız oldu ({detail}). Metniniz panoda.",
     "shortcut": "{shortcut} başka bir uygulama tarafından kullanılıyor. Başka bir kısayol seçin.",
-    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
+    "singleKey": "Kısayol tuşunuzu dinleyebilmek için Parler, Erişilebilirlik iznine ihtiyaç duyar. Sistem Ayarları'nda açın: izin verilir verilmez tuş çalışır.",
     "retry": "Yeniden dene",
     "openSettings": "Ayarları aç",
     "openAccessibility": "Erişilebilirlik ayarlarını aç"
@@ -277,20 +277,20 @@
       "recording": "Tuşlarınıza basın…",
       "cancelHint": "İptal etmek için Esc",
       "keys": {
-        "fn": "🌐 fn (Globe)",
-        "rightCommand": "Right ⌘ Command",
-        "rightOption": "Right ⌥ Option",
-        "rightControl": "Right ⌃ Control",
-        "custom": "Custom shortcut…"
+        "fn": "🌐 fn (Dünya)",
+        "rightCommand": "Sağ ⌘ Komut",
+        "rightOption": "Sağ ⌥ Seçenek",
+        "rightControl": "Sağ ⌃ Kontrol",
+        "custom": "Özel kısayol…"
       },
       "caps": {
-        "rightCommand": "Right ⌘",
-        "rightOption": "Right ⌥",
-        "rightControl": "Right ⌃"
+        "rightCommand": "Sağ ⌘",
+        "rightOption": "Sağ ⌥",
+        "rightControl": "Sağ ⌃"
       },
       "globeHint": "macOS da 🌐 tuşuna her basışta bir işlem yapar (emoji, giriş kaynağı veya Dikte). Tuşu yalnızca Parler kullansın istiyorsanız Klavye ayarlarında “🌐 tuşuna basıldığında” seçeneğini “Hiçbir Şey Yapma” olarak ayarlayın.",
       "openKeyboard": "Klavye ayarlarını aç",
-      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
+      "singleKeyHint": "⌘C veya fn ← gibi başka bir tuşla birlikte kullanıldığında dikteyi başlatmaz.",
       "invalid": "{modifiers} gibi bir değiştirici tuş ekleyin.",
       "reserved": "{shortcut} günlük işlerde kullanılan bir kısayol (kopyala, yapıştır, kaydet…). Başka birini seçin.",
       "mode": "Davranış",
