@@ -1,0 +1,118 @@
+name: Bug report
+description: Something in Parler doesn't work as it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. Please search the [existing issues](https://github.com/Synapsr/Parler/issues) first.
+        **Security problem?** Don't post it here: email parler@synapsr.io (see [SECURITY.md](https://github.com/Synapsr/Parler/blob/main/SECURITY.md)).
+        **Never paste an API key.**
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+      placeholder: |
+        I held Option + Space in Slack and spoke for a few seconds. When I let go, the pill showed an error and nothing was typed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open …
+        2. Hold the shortcut and say …
+        3. …
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Parler version
+      description: Shown at the bottom of the sidebar, e.g. 0.1.0. If you built from source, the commit.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - macOS
+        - Windows
+        - Linux (X11)
+        - Linux (Wayland)
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: OS version
+      description: And, on Linux, your distribution and desktop.
+      placeholder: "macOS 15.4, Windows 11 24H2, Ubuntu 24.04 with GNOME…"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: provider
+    attributes:
+      label: Speech-to-text provider
+      options:
+        - Groq
+        - OpenAI
+        - Fireworks
+        - My own server (speaches, LocalAI, other)
+        - Not relevant / not set up yet
+    validations:
+      required: true
+
+  - type: input
+    id: model
+    attributes:
+      label: Model
+      description: Only if you changed the default.
+      placeholder: "whisper-large-v3-turbo"
+
+  - type: dropdown
+    id: shortcut-mode
+    attributes:
+      label: Shortcut behaviour
+      description: Settings → Shortcut.
+      options:
+        - Smart (default)
+        - Hold
+        - Toggle
+        - Not relevant
+
+  - type: input
+    id: app
+    attributes:
+      label: App you were dictating into
+      description: If the problem is about pasting or focus.
+      placeholder: "Slack, VS Code, Chrome, Terminal…"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Optional but very helpful. Parler writes a log file to:
+        - macOS: `~/Library/Logs/app.synapsr.parler/`
+        - Windows: `%LOCALAPPDATA%\app.synapsr.parler\logs\`
+        - Linux: `~/.local/share/app.synapsr.parler/logs/`
+
+        API keys are never logged, but check for anything private before pasting.
+      render: text
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Screenshots, a screen recording, or what you already tried.

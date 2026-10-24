@@ -1,0 +1,50 @@
+name: Suggest an improvement
+description: An idea to make Parler better.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Parler aims to stay small and obvious, so the most useful suggestions start from a problem rather than a solution. Before asking for a new setting, ask whether a better default would do.
+        Please search the [existing issues](https://github.com/Synapsr/Parler/issues) first.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The situation and what gets in your way today.
+      placeholder: When I dictate code comments in VS Code, …
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help?
+      description: How you imagine Parler handling it. Rough is fine.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Workarounds or alternatives
+      description: What you do today, or how other apps handle it.
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      multiple: true
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - All of them
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contributing
+      options:
+        - label: I'd like to work on this myself (see [docs/contributing.md](https://github.com/Synapsr/Parler/blob/main/docs/contributing.md)).

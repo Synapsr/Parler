@@ -1,132 +1,128 @@
-<div align="right">
-
-🌐 **Langue** : **Français** | [English](README.md)
-
-</div>
-
 <div align="center">
 
-<img src="src-tauri/icons/icon.png" width="112" alt="Logo de Parler" />
+<a href="https://parler.synapsr.io"><img src="src-tauri/icons/128x128@2x.png" width="96" height="96" alt="Icône de l'app Parler" /></a>
 
 # Parler
 
-### Parlez. Vos mots s'écrivent là où vous tapez.
+**La dictée vocale open source pour Mac, Windows et Linux.**<br />
+Maintenez un raccourci, parlez, relâchez : vos mots s'écrivent dans n'importe quelle app.
 
-**La dictée libre et gratuite pour macOS, Windows et Linux, propulsée par l'API de transcription de votre choix.**
+[![Dernière version](https://img.shields.io/github/v/release/Synapsr/Parler?include_prereleases&sort=semver&label=version)](https://github.com/Synapsr/Parler/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/Synapsr/Parler/ci.yml?branch=main&label=CI)](https://github.com/Synapsr/Parler/actions/workflows/ci.yml)
+[![Licence MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
+[![Systèmes : macOS, Windows, Linux](https://img.shields.io/badge/syst%C3%A8mes-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)](#installer)
+[![Fait avec Tauri 2](https://img.shields.io/badge/Tauri-2-24C8DB?logo=tauri&logoColor=white)](https://tauri.app)
+[![Contributions bienvenues](https://img.shields.io/badge/PR-bienvenues-brightgreen)](docs/contributing.md)
 
-[![Dernière version](https://img.shields.io/github/v/release/Synapsr/Parler?style=for-the-badge&logo=github&label=Version)](https://github.com/Synapsr/Parler/releases/latest)
-[![Licence](https://img.shields.io/badge/Licence-MIT-blue?style=for-the-badge)](LICENSE)
-[![Tauri](https://img.shields.io/badge/Tauri-2-FFC131?style=for-the-badge&logo=tauri&logoColor=black)](https://tauri.app/)
-
-[⬇️ Télécharger](#️-télécharger) • [✨ Fonctionnalités](#-fonctionnalités) • [🔌 Services](#-services) • [🏗️ Architecture](docs/architecture.md) • [🎨 Design system](docs/design-system.md) • [🤝 Contribuer](docs/contributing.md)
+[**Site web**](https://parler.synapsr.io) · [**Télécharger**](https://github.com/Synapsr/Parler/releases) · [**Documentation**](docs/) · [**Contribuer**](docs/contributing.md) · [English](README.md)
 
 </div>
 
----
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.webp" />
+    <img src="docs/images/home-light.webp" width="760" alt="Écran d'accueil de Parler : maintenir Option + Espace et parler, avec les mots dictés, le temps gagné et les dernières dictées" />
+  </picture>
+</p>
 
-## 💡 Parler, c'est quoi ?
+## Parler, c'est quoi ?
 
-Maintenez un raccourci, parlez, relâchez : Parler envoie votre voix à **Groq**, **OpenAI**, **Fireworks** ou à n'importe quel serveur **compatible Whisper**, puis écrit le texte là où se trouve votre curseur. Dans vos mails, votre éditeur de code, votre messagerie : partout.
+Parler est une app de dictée libre et gratuite pour votre ordinateur : **la saisie vocale qui marche dans toutes vos apps**, vos mails, votre messagerie, vos documents, votre navigateur ou votre éditeur de code. Maintenez un raccourci, parlez naturellement, relâchez. Parler envoie votre voix à une API de transcription compatible Whisper et écrit le texte là où se trouve votre curseur.
 
-Ni compte, ni abonnement, ni modèle à télécharger. Vous apportez votre propre clé d'API, et elle reste sur votre ordinateur.
+Vous choisissez qui transcrit : **Groq** (par défaut, inscription gratuite), **OpenAI**, **Fireworks** ou **votre propre serveur**. Votre clé d'API reste sur votre ordinateur. Ni compte Parler, ni modèle à télécharger, ni télémétrie.
 
-```
-   ⌥ Espace maintenu  ──►  🎙️ votre voix  ──►  ☁️ API Whisper  ──►  ✍️ texte dans l'app active
-                            (WAV 16 kHz)       (Groq, OpenAI…)      (presse-papiers rétabli)
-```
+Vous cherchez une alternative open source à Wispr Flow, SuperWhisper ou à la dictée intégrée de votre système, qui marche pareil sous macOS, Windows et Linux ? C'est exactement ce que fait Parler.
 
----
+## Comment ça marche
 
-## ✨ Fonctionnalités
+1. **Maintenez** <kbd>⌥ Option</kbd> + <kbd>Espace</kbd> sur macOS, ou <kbd>Ctrl</kbd> + <kbd>Espace</kbd> sous Windows et Linux, et parlez. Une petite pastille en bas de l'écran montre le niveau de votre voix.
+2. **Relâchez.** Parler retire les silences et n'envoie que votre voix au service choisi.
+3. **C'est écrit.** Le texte apparaît là où se trouve votre curseur, et votre presse-papiers est remis comme il était.
 
-|            🎯 **Un raccourci**             |          ⚡ **Rapide**           |          🔒 **À vous**          |
-| :----------------------------------------: | :-----------------------------: | :----------------------------: |
-| Maintenez pour parler, ou appuyez pour démarrer et arrêter. | Environ une seconde avec Groq. | Votre clé, votre service. MIT. |
+Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. <kbd>Échap</kbd> annule. Le raccourci se change dans les réglages.
 
-|        🧭 **Prise en main guidée**         |    🌍 **Toutes les langues**    |      🖥️ **Partout**       |
-| :---------------------------------------: | :----------------------------: | :-----------------------: |
-| Choisir un service, coller une clé, tester. | Détection automatique ou au choix. | macOS, Windows et Linux. |
+## Fonctionnalités
 
-- **Écrit là où vous tapez**, puis remet votre presse-papiers comme il était.
-- **N'envoie jamais de silence** : sur un audio vide, Whisper invente du texte (« Sous-titres réalisés par la communauté d'Amara.org »…), donc les enregistrements vides ne quittent pas votre machine.
-- **Vocabulaire** pour que noms, marques et jargon soient bien orthographiés.
-- **Un historique avec recherche** pour recopier une dictée qui a atterri dans la mauvaise fenêtre, et **Réessayer** quand le réseau a lâché.
-- **Clair ou sombre**, ou selon votre système.
-- **Échap annule** une dictée en cours.
-- Une **pastille** discrète en bas de l'écran montre le niveau de votre voix, sans jamais voler le focus.
-- Interface en **français et en anglais**.
-
----
-
-## ⬇️ Télécharger
-
-Récupérez la dernière version sur la [page des versions](https://github.com/Synapsr/Parler/releases/latest) :
-
-| Système | Fichier |
+| Fonctionnalité | Ce qu'elle fait |
 | --- | --- |
-| macOS (Apple Silicon et Intel) | `Parler_x.y.z_universal.dmg` |
-| Windows 10/11 | `Parler_x.y.z_x64-setup.exe` ou `.msi` |
-| Linux | `.AppImage`, `.deb` ou `.rpm` |
+| **Marche dans toutes les apps** | Écrit dans la fenêtre active, puis rétablit votre presse-papiers. Vous préférez coller vous-même ? Passez en copie seule. |
+| **Un raccourci, trois modes** | Intelligent (maintenir pour parler, appui bref pour continuer d'écouter), Maintenir ou Basculer. Choisissez votre combinaison de touches. |
+| **N'envoie jamais de silence** | Sur un audio vide, Whisper invente du texte (« Sous-titres réalisés par la communauté d'Amara.org »…), donc les enregistrements sans parole ne quittent pas votre machine. |
+| **Vocabulaire** | Noms, marques et jargon bien orthographiés. |
+| **Historique avec recherche** | Retrouvez une dictée et recopiez-la si elle a atterri dans la mauvaise fenêtre. Réessayez quand le réseau a lâché. |
+| **Prise en main guidée** | Choisir un service, coller sa clé, la tester, faire sa première dictée. Environ deux minutes. |
+| **Barre des menus et zone de notification** | Lancer une dictée, copier la dernière transcription, ouvrir l'historique. Peut se lancer à l'ouverture de session. |
+| **Plus de 30 langues parlées** | Détection automatique, ou choisissez la vôtre pour une transcription plus rapide et plus juste. |
+| **Clair ou sombre** | Ou selon votre système. Interface en 12 langues. |
+| **Votre micro** | Celui du système ou celui de votre choix. Les sons peuvent être coupés. |
 
-Ouvrez ensuite Parler et suivez la configuration en trois étapes.
+## Services de transcription et tarifs
+
+Parler est gratuit. Il fonctionne avec tout service compatible avec l'API audio d'OpenAI (`POST /audio/transcriptions`), et vous payez ce service directement, à ses tarifs. Parler ne prend aucune commission.
+
+| Service | Modèle par défaut | Autres suggestions | Clé d'API |
+| --- | --- | --- | --- |
+| **Groq** (par défaut) | `whisper-large-v3-turbo` | `whisper-large-v3` | [console.groq.com/keys](https://console.groq.com/keys), inscription gratuite |
+| **OpenAI** | `gpt-4o-mini-transcribe` | `gpt-4o-transcribe`, `whisper-1` | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| **Fireworks** | `whisper-v3-turbo` | `whisper-v3` | [app.fireworks.ai](https://app.fireworks.ai/settings/users/api-keys) |
+| **Votre serveur** | `whisper-1` | tout modèle qu'il sert | Facultative. Compatible [speaches](https://github.com/speaches-ai/speaches), [LocalAI](https://localai.io) et autres serveurs compatibles OpenAI. |
+
+Tout autre modèle proposé par un service peut être saisi dans les réglages, et vous pouvez changer de service à tout moment : chacun garde sa propre clé.
+
+> [!NOTE]
+> **Parler Cloud arrive bientôt.** La même app, sans clé d'API à créer : transcription illimitée pour l'usage normal d'une personne ([usage raisonnable](https://parler.synapsr.io/fair-use)), pour 8 € HT par mois ou 49 € HT par an. Ce n'est pas encore ouvert. Rejoignez l'accès anticipé sur [parler.synapsr.io](https://parler.synapsr.io) ou écrivez à [parler@synapsr.io](mailto:parler@synapsr.io).
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/settings-dark.webp" />
+    <img src="docs/images/settings-light.webp" width="600" alt="Réglages de Parler : choisir Groq, OpenAI, Fireworks ou son propre serveur, coller une clé d'API, la tester et choisir la langue parlée" />
+  </picture>
+</p>
+
+## Installer
+
+### Télécharger
+
+Les installeurs sont publiés sur la [page des versions](https://github.com/Synapsr/Parler/releases). **La première version, v0.1.0, arrive bientôt.** Pour être prévenu, cliquez sur **Watch → Custom → Releases** en haut de cette page. En attendant, [compilez depuis les sources](#compiler-depuis-les-sources).
+
+| Système | Fichiers |
+| --- | --- |
+| macOS 11 ou plus récent (Apple Silicon et Intel) | `.dmg` universel, notarisé par Apple |
+| Windows 10 et 11 | `-setup.exe` ou `.msi` |
+| Linux (x64) | `.AppImage`, `.deb` ou `.rpm` |
+
+Les versions produites par le [workflow de publication](.github/workflows/release.yml) fournissent un fichier `SHA256SUMS` et une [attestation de build](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations) vérifiable avec `gh attestation verify <fichier> --repo Synapsr/Parler`.
 
 <details>
-<summary><b>macOS refuse d'ouvrir l'app</b></summary>
+<summary><b>Autorisations sur macOS</b></summary>
 
-Les versions sont notarisées quand le pipeline de publication dispose des identifiants Apple. Sinon, faites un clic droit sur **Parler.app → Ouvrir**, ou lancez :
+Parler demande deux autorisations : **Micro** (pour vous entendre) et **Accessibilité** (pour écrire le texte à votre place). Il n'écoute que pendant la dictée.
 
-```sh
-xattr -dr com.apple.quarantine /Applications/Parler.app
-```
-
-Parler demande deux autorisations : **Micro** (pour vous entendre) et **Accessibilité** (pour coller à votre place).
 </details>
 
 <details>
-<summary><b>Windows SmartScreen signale un éditeur inconnu</b></summary>
+<summary><b>Avertissement Windows SmartScreen</b></summary>
 
-Cliquez sur **Informations complémentaires → Exécuter quand même**. Chaque version fournit un fichier `SHA256SUMS` et une [attestation de build](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations) vérifiable avec `gh attestation verify <fichier> --repo Synapsr/Parler`.
+Si SmartScreen signale un éditeur inconnu, cliquez sur **Informations complémentaires → Exécuter quand même**. Vous pouvez d'abord vérifier l'installeur avec `SHA256SUMS`.
+
 </details>
 
 <details>
 <summary><b>Linux et Wayland</b></summary>
 
-Les raccourcis globaux fonctionnent sous X11. Sous Wayland, associez un raccourci dans les réglages de votre bureau à la commande :
+Les raccourcis globaux fonctionnent sous X11. Sous Wayland, associez un raccourci dans les réglages de votre bureau à cette commande :
 
 ```sh
 parler --toggle
 ```
 
-Sous Wayland, le collage passe par `wtype` ou `ydotool` s'ils sont installés.
+Sous Wayland, le collage passe par `wtype` ou `ydotool` si l'un des deux est installé. Sinon, le texte reste dans le presse-papiers, à vous de le coller.
+
 </details>
 
----
+### Compiler depuis les sources
 
-## 🔌 Services
-
-| Service | Modèle par défaut | Obtenir une clé |
-| --- | --- | --- |
-| **Groq** (recommandé) | `whisper-large-v3-turbo` | [console.groq.com/keys](https://console.groq.com/keys) |
-| **OpenAI** | `gpt-4o-mini-transcribe` | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
-| **Fireworks** | `whisper-v3-turbo` | [app.fireworks.ai](https://app.fireworks.ai/settings/users/api-keys) |
-| **Personnalisé** | au choix | Votre serveur compatible avec l'API audio d'OpenAI : [speaches](https://github.com/speaches-ai/speaches), [LocalAI](https://localai.io)… |
-
-Tout autre modèle proposé par le service peut être saisi dans les réglages. Les tarifs et offres gratuites dépendent de chaque service.
-
----
-
-## 🔐 Confidentialité
-
-- L'audio n'est enregistré que pendant la dictée, et n'est envoyé qu'au service que vous avez choisi.
-- Votre clé d'API et vos réglages restent dans un fichier local lisible par votre seul compte utilisateur.
-- Vos transcriptions (jusqu'aux 5 000 dernières) sont gardées en local pour pouvoir les retrouver et les recopier ; vous pouvez les effacer à tout moment.
-- Ni statistiques, ni télémétrie, ni serveur Parler.
-
----
-
-## 🛠️ Compiler depuis les sources
-
-Nécessite [Rust](https://rustup.rs) 1.88+, [Node.js](https://nodejs.org) 20+ et [pnpm](https://pnpm.io).
+Nécessite [Rust](https://rustup.rs) 1.88+, [Node.js](https://nodejs.org) 20+ et [pnpm](https://pnpm.io) 10.
 
 ```sh
 git clone https://github.com/Synapsr/Parler.git
@@ -136,14 +132,75 @@ pnpm tauri dev      # lancer en développement
 pnpm tauri build    # produire un installeur pour votre système
 ```
 
-Sous Linux, installez les [prérequis de Tauri](https://tauri.app/start/prerequisites/#linux) ainsi que `libasound2-dev libpulse-dev libxtst-dev libxkbcommon-dev`. Voir [docs/contributing.md](docs/contributing.md).
+Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/prerequisites/#linux) et `libasound2-dev libpulse-dev libxtst-dev libxkbcommon-dev`. Pour travailler sur l'interface seule, lancez `pnpm dev` et ouvrez <http://localhost:1420/preview.html> : pas besoin de compiler le Rust. Plus de détails dans [docs/contributing.md](docs/contributing.md).
 
----
+## Confidentialité
 
-## 🙏 Remerciements
+- L'audio n'est enregistré que pendant la dictée et n'est envoyé qu'au service choisi. Il n'est jamais écrit sur le disque.
+- Les enregistrements sans parole ne sont jamais envoyés.
+- Votre clé d'API et vos réglages restent dans un fichier local lisible par votre seul compte utilisateur.
+- Vos transcriptions (les 5 000 dernières) restent sur votre ordinateur pour pouvoir les retrouver et les recopier. Effacez-les quand vous voulez.
+- Ni statistiques, ni télémétrie, ni serveur Parler : les seules requêtes réseau vont à votre service de transcription.
+- Ce que le service fait de votre audio dépend de sa propre politique. Avec votre propre serveur, rien ne sort de votre réseau.
+
+## Langues
+
+**Parlées :** Parler détecte la langue dans laquelle vous parlez, ou vous en choisissez une parmi 31 : anglais, français, espagnol, allemand, italien, portugais, néerlandais, breton, catalan, basque, polonais, tchèque, roumain, hongrois, suédois, danois, norvégien, finnois, grec, turc, ukrainien, russe, arabe, hébreu, hindi, indonésien, vietnamien, thaï, chinois, japonais et coréen. La qualité dépend du service et du modèle.
+
+**Interface :** anglais, français, espagnol, allemand, italien, portugais, néerlandais, polonais, turc, japonais, chinois et coréen. [Ajoutez la vôtre](docs/contributing.md#conventions).
+
+## Questions fréquentes
+
+<details>
+<summary><b>Parler est-il gratuit ?</b></summary>
+
+Oui. L'app est libre et gratuite, sous licence MIT. Vous la reliez à votre propre compte chez un service de transcription et vous payez ce service directement, à ses tarifs ; Groq propose une inscription gratuite pour démarrer. Parler Cloud, bientôt disponible, sera l'offre payante facultative pour ceux qui préfèrent ne pas gérer de clé d'API.
+
+</details>
+
+<details>
+<summary><b>Quel service choisir ?</b></summary>
+
+Groq est le choix par défaut : il fait tourner Whisper large-v3 turbo, répond vite et propose une inscription gratuite. Prenez OpenAI ou Fireworks si vous y avez déjà un compte, ou votre propre serveur pour tout maîtriser. Vous pouvez en changer à tout moment dans les réglages.
+
+</details>
+
+<details>
+<summary><b>Est-ce que ça marche hors ligne ?</b></summary>
+
+Pas tout seul : la transcription se fait chez le service choisi, il faut donc une connexion internet. Si vous faites tourner un serveur compatible OpenAI sur votre réseau (speaches, LocalAI…), Parler fonctionne sans internet.
+
+</details>
+
+<details>
+<summary><b>Quelle différence avec Wispr Flow, SuperWhisper ou la dictée de macOS ?</b></summary>
+
+Même idée : parler plutôt que taper, dans n'importe quelle app. L'approche de Parler : le code est ouvert (MIT), l'app est gratuite, elle tourne sous macOS, Windows et Linux, et vous choisissez qui transcrit votre voix, de Groq, OpenAI ou Fireworks à un serveur que vous hébergez. Parler écrit ce que vous avez dit ; il ne le réécrit pas.
+
+</details>
+
+<details>
+<summary><b>Ma voix est-elle conservée ou utilisée pour entraîner des modèles ?</b></summary>
+
+Parler n'enregistre jamais votre audio. Sur votre ordinateur, il ne garde que le texte de vos dictées, que vous pouvez effacer à tout moment. Ce que le service fait de l'audio dépend de sa propre politique : lisez-la avant de choisir.
+
+</details>
+
+## Contribuer
+
+Signalements de bugs, traductions et pull requests sont bienvenus. Commencez par [docs/contributing.md](docs/contributing.md) (installation, vérifications, conventions), puis lisez l'[architecture](docs/architecture.md) et le [design system](docs/design-system.md). Parler veut rester simple et évident : avant d'ajouter un réglage, demandez-vous si un meilleur choix par défaut suffirait.
+
+- [Signaler un bug](https://github.com/Synapsr/Parler/issues/new?template=bug_report.yml)
+- [Proposer une amélioration](https://github.com/Synapsr/Parler/issues/new?template=feature_request.yml)
+- Une faille de sécurité ? Voir [SECURITY.md](SECURITY.md).
+- Pour tout le reste : [parler@synapsr.io](mailto:parler@synapsr.io)
+
+Si Parler vous fait gagner du temps, une étoile aide d'autres personnes à le trouver.
+
+## Remerciements
 
 Parler s'appuie sur [Handy](https://github.com/cjpais/Handy), l'app de dictée open source de CJ Pais : la capture du micro vient de sa bibliothèque [`handy-recorder`](https://crates.io/crates/handy-recorder), et la pastille qui ne vole pas le focus ainsi que le collage adapté à la disposition du clavier en sont adaptés. Voir [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-## 📄 Licence
+## Licence
 
 [MIT](LICENSE) © Synapsr

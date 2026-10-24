@@ -5,6 +5,9 @@ description = "Speak, and your words appear wherever you type."
 authors = ["Synapsr"]
 license = "MIT"
 repository = "https://github.com/Synapsr/Parler"
+homepage = "https://parler.synapsr.io"
+keywords = ["dictation", "speech-to-text", "whisper", "voice-typing", "tauri"]
+categories = ["accessibility", "multimedia::audio"]
 edition = "2021"
 # handy-recorder (microphone capture) needs 1.88.
 rust-version = "1.88"

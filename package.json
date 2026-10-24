@@ -2,6 +2,32 @@
   "name": "parler",
   "private": true,
   "version": "0.1.0",
+  "description": "Open-source voice dictation for macOS, Windows and Linux: hold a shortcut, speak, and your words are typed in any app. Cloud speech-to-text with Groq, OpenAI, Fireworks or any Whisper-compatible API.",
+  "keywords": [
+    "dictation",
+    "speech-to-text",
+    "voice-typing",
+    "voice-to-text",
+    "transcription",
+    "whisper",
+    "groq",
+    "openai",
+    "tauri",
+    "macos",
+    "windows",
+    "linux"
+  ],
+  "homepage": "https://parler.synapsr.io",
+  "bugs": {
+    "url": "https://github.com/Synapsr/Parler/issues",
+    "email": "parler@synapsr.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Synapsr/Parler.git"
+  },
+  "license": "MIT",
+  "author": "Synapsr",
   "type": "module",
   "scripts": {
     "dev": "vite",

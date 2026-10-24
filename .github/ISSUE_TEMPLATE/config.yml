@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and help
+    url: https://parler.synapsr.io
+    about: The website answers the common questions (FAQ). For anything else, write to parler@synapsr.io.
+  - name: Report a security vulnerability
+    url: https://github.com/Synapsr/Parler/blob/main/SECURITY.md
+    about: Please don't open a public issue. Email parler@synapsr.io as described in the security policy.
+  - name: Parler Cloud early access
+    url: https://parler.synapsr.io
+    about: Parler Cloud (no API key, unlimited transcription under fair use) is coming soon. Join the early access on the website.

@@ -1,133 +1,128 @@
-<div align="right">
-
-🌐 **Language**: [Français](README.fr.md) | **English**
-
-</div>
-
 <div align="center">
 
-<img src="src-tauri/icons/icon.png" width="112" alt="Parler logo" />
+<a href="https://parler.synapsr.io"><img src="src-tauri/icons/128x128@2x.png" width="96" height="96" alt="Parler app icon" /></a>
 
 # Parler
 
-### Speak. Your words appear wherever you type.
+**Open-source voice dictation for Mac, Windows and Linux.**<br />
+Hold a shortcut, speak, let go: your words are typed in any app.
 
-**Free, open-source dictation for macOS, Windows and Linux — powered by the speech-to-text API you choose.**
+[![Latest release](https://img.shields.io/github/v/release/Synapsr/Parler?include_prereleases&sort=semver&label=release)](https://github.com/Synapsr/Parler/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/Synapsr/Parler/ci.yml?branch=main&label=CI)](https://github.com/Synapsr/Parler/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Platforms: macOS, Windows, Linux](https://img.shields.io/badge/platforms-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)](#install)
+[![Built with Tauri 2](https://img.shields.io/badge/Tauri-2-24C8DB?logo=tauri&logoColor=white)](https://tauri.app)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](docs/contributing.md)
 
-[![Latest Release](https://img.shields.io/github/v/release/Synapsr/Parler?style=for-the-badge&logo=github&label=Release)](https://github.com/Synapsr/Parler/releases/latest)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-[![Built with Tauri](https://img.shields.io/badge/Tauri-2-FFC131?style=for-the-badge&logo=tauri&logoColor=black)](https://tauri.app/)
-
-[⬇️ Download](#️-download) • [✨ Features](#-features) • [🔌 Providers](#-providers) • [🏗️ Architecture](docs/architecture.md) • [🎨 Design system](docs/design-system.md) • [🤝 Contributing](docs/contributing.md)
+[**Website**](https://parler.synapsr.io) · [**Download**](https://github.com/Synapsr/Parler/releases) · [**Docs**](docs/) · [**Contributing**](docs/contributing.md) · [Français](README.fr.md)
 
 </div>
 
----
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.webp" />
+    <img src="docs/images/home-light.webp" width="760" alt="Parler home screen: hold Option + Space and speak, with words dictated, time saved and recent dictations" />
+  </picture>
+</p>
 
-## 💡 What is Parler?
+## What is Parler?
 
-Hold a shortcut, speak, let go: Parler sends your voice to **Groq**, **OpenAI**, **Fireworks** or any **Whisper-compatible** server, and types the text where your cursor is. In your email, your code editor, your chat — anywhere.
+Parler is a free, open-source dictation app for your desktop: **voice typing that works in every app**, whether it's your email, chat, documents, browser or code editor. Hold a shortcut, speak naturally, let go. Parler sends your speech to a Whisper-compatible speech-to-text API and types the text where your cursor is.
 
-No account, no subscription, no model to download. Bring your own API key; it stays on your computer.
+You choose who transcribes: **Groq** (the default, with free sign-up), **OpenAI**, **Fireworks**, or **your own server**. Your API key stays on your computer. There is no Parler account, no model to download and no telemetry.
 
-```
-   ⌥ Space held  ──►  🎙️ your voice  ──►  ☁️ Whisper API  ──►  ✍️ text in the focused app
-                        (16 kHz WAV)       (Groq, OpenAI…)       (your clipboard is restored)
-```
+Looking for an open-source alternative to Wispr Flow, SuperWhisper or your system's built-in dictation, one that works the same on macOS, Windows and Linux? That's what Parler is for.
 
----
+## How it works
 
-## ✨ Features
+1. **Hold** <kbd>⌥ Option</kbd> + <kbd>Space</kbd> on macOS, or <kbd>Ctrl</kbd> + <kbd>Space</kbd> on Windows and Linux, and speak. A small pill at the bottom of the screen shows your voice level.
+2. **Let go.** Parler trims the silence and sends only your speech to the service you picked.
+3. **Done.** The text is typed where your cursor is, and your clipboard is put back the way it was.
 
-|            🎯 **One shortcut**            |          ⚡ **Fast**          |          🔒 **Yours**          |
-| :--------------------------------------: | :--------------------------: | :---------------------------: |
-| Hold to talk, or tap to start and stop.  | About a second with Groq.    | Your key, your provider. MIT. |
+A quick tap instead of a hold keeps listening until your next press. <kbd>Esc</kbd> cancels. You can change the shortcut in Settings.
 
-|          🧭 **Guided setup**           |      🌍 **Any language**      |      🖥️ **Everywhere**       |
-| :-----------------------------------: | :--------------------------: | :-------------------------: |
-| Pick a provider, paste a key, test it. | Auto-detect or pick yours.   | macOS, Windows and Linux.   |
+## Features
 
-- **Pastes where you type**, then puts your clipboard back the way it was.
-- **Never sends silence**: Whisper invents text on silent audio ("Thank you.", "Sous-titres réalisés par…"), so empty recordings stay on your machine.
-- **Vocabulary hints** so names, brands and jargon come out spelled right.
-- **A searchable history** of your dictations to copy one again if it landed in the wrong window, and **retry** when the network failed.
-- **Light or dark**, or following your system.
-- **Esc cancels** a dictation in progress.
-- A **menu bar icon** to start a dictation, copy the last transcript or open the history.
-- A discreet **pill** at the bottom of the screen shows your voice level — and never steals focus.
-- Interface in **12 languages**: English, French, Spanish, German, Italian, Portuguese, Dutch, Polish, Turkish, Japanese, Chinese and Korean.
-
----
-
-## ⬇️ Download
-
-Grab the latest build from the [Releases page](https://github.com/Synapsr/Parler/releases/latest):
-
-| Platform | File |
+| Feature | What it does |
 | --- | --- |
-| macOS (Apple Silicon & Intel) | `Parler_x.y.z_universal.dmg` |
-| Windows 10/11 | `Parler_x.y.z_x64-setup.exe` or `.msi` |
-| Linux | `.AppImage`, `.deb` or `.rpm` |
+| **Works in any app** | Types into the focused window, then restores your clipboard. Prefer to paste yourself? Switch to copy-only. |
+| **One shortcut, three modes** | Smart (hold to talk, tap to keep listening), hold, or toggle. Choose your own key combination. |
+| **Never sends silence** | Whisper models invent text on silent audio ("Thank you."), so recordings without speech never leave your machine. |
+| **Vocabulary hints** | Names, brands and jargon come out spelled right. |
+| **Searchable history** | Find any dictation and copy it again, for when it landed in the wrong window. Retry when the network failed. |
+| **Guided setup** | Pick a service, paste your key, test it, try your first dictation. About two minutes. |
+| **Menu bar and tray** | Start a dictation, copy the last transcript or open the history. Can start at login. |
+| **30+ spoken languages** | Auto-detect, or pick yours for faster, more accurate results. |
+| **Light or dark** | Or follow your system. The interface speaks 12 languages. |
+| **Your microphone** | Use the system default or pick one. Sound cues can be turned off. |
 
-Then open Parler and follow the three-step setup.
+## Speech-to-text providers and pricing
+
+Parler is free. It works with any service that speaks the OpenAI audio API (`POST /audio/transcriptions`), and you pay that service directly, at its own rates. Parler takes no cut.
+
+| Provider | Default model | Also suggested | API key |
+| --- | --- | --- | --- |
+| **Groq** (default) | `whisper-large-v3-turbo` | `whisper-large-v3` | [console.groq.com/keys](https://console.groq.com/keys), free sign-up |
+| **OpenAI** | `gpt-4o-mini-transcribe` | `gpt-4o-transcribe`, `whisper-1` | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| **Fireworks** | `whisper-v3-turbo` | `whisper-v3` | [app.fireworks.ai](https://app.fireworks.ai/settings/users/api-keys) |
+| **Your own server** | `whisper-1` | any model it serves | Optional. Works with [speaches](https://github.com/speaches-ai/speaches), [LocalAI](https://localai.io) and other OpenAI-compatible servers. |
+
+You can type any other model a provider serves in Settings, and switch providers at any time: each one keeps its own key.
+
+> [!NOTE]
+> **Parler Cloud is coming soon.** The same app with no API key to create: unlimited transcription for one person's normal use ([fair use](https://parler.synapsr.io/fair-use)), for €8 a month or €49 a year, excluding VAT. It isn't open yet. Join the early access on [parler.synapsr.io](https://parler.synapsr.io) or write to [parler@synapsr.io](mailto:parler@synapsr.io).
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/settings-dark.webp" />
+    <img src="docs/images/settings-light.webp" width="600" alt="Parler settings: choose Groq, OpenAI, Fireworks or your own server, paste an API key, test it and pick the spoken language" />
+  </picture>
+</p>
+
+## Install
+
+### Download
+
+Installers are published on the [Releases page](https://github.com/Synapsr/Parler/releases). **The first release, v0.1.0, is coming soon.** To hear about it, click **Watch → Custom → Releases** at the top of this page. Until then, [build from source](#build-from-source).
+
+| Platform | Files |
+| --- | --- |
+| macOS 11 or later (Apple Silicon and Intel) | Universal `.dmg`, notarized by Apple |
+| Windows 10 and 11 | `-setup.exe` or `.msi` |
+| Linux (x64) | `.AppImage`, `.deb` or `.rpm` |
+
+Releases built by the [release workflow](.github/workflows/release.yml) come with a `SHA256SUMS` file and a [build attestation](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations) you can check with `gh attestation verify <file> --repo Synapsr/Parler`.
 
 <details>
-<summary><b>macOS says the app can't be opened</b></summary>
+<summary><b>macOS permissions</b></summary>
 
-Builds are notarized when the release pipeline has Apple credentials. If yours isn't, right-click **Parler.app → Open**, or run:
+Parler asks for **Microphone** (to hear you) and **Accessibility** (to type the text for you). It only listens while you dictate.
 
-```sh
-xattr -dr com.apple.quarantine /Applications/Parler.app
-```
-
-Parler asks for two permissions: **Microphone** (to hear you) and **Accessibility** (to paste for you).
 </details>
 
 <details>
-<summary><b>Windows SmartScreen warns about an unknown publisher</b></summary>
+<summary><b>Windows SmartScreen warning</b></summary>
 
-Click **More info → Run anyway**. Every release ships a `SHA256SUMS` file and a [build attestation](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations) you can verify with `gh attestation verify <file> --repo Synapsr/Parler`.
+If SmartScreen warns about an unknown publisher, click **More info → Run anyway**. You can check the installer against `SHA256SUMS` first.
+
 </details>
 
 <details>
 <summary><b>Linux and Wayland</b></summary>
 
-Global shortcuts work on X11. On Wayland, bind a shortcut in your desktop settings to the command:
+Global shortcuts work on X11. On Wayland, bind a shortcut in your desktop settings to this command:
 
 ```sh
 parler --toggle
 ```
 
-Pasting on Wayland uses `wtype` or `ydotool` when installed.
+Pasting on Wayland uses `wtype` or `ydotool` when one of them is installed. Otherwise, the text stays on your clipboard for you to paste.
+
 </details>
 
----
+### Build from source
 
-## 🔌 Providers
-
-| Provider | Default model | Get a key |
-| --- | --- | --- |
-| **Groq** (recommended) | `whisper-large-v3-turbo` | [console.groq.com/keys](https://console.groq.com/keys) |
-| **OpenAI** | `gpt-4o-mini-transcribe` | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
-| **Fireworks** | `whisper-v3-turbo` | [app.fireworks.ai](https://app.fireworks.ai/settings/users/api-keys) |
-| **Custom** | any | Your own server speaking the OpenAI audio API: [speaches](https://github.com/speaches-ai/speaches), [LocalAI](https://localai.io), … |
-
-Any other model the provider serves can be typed in the settings. Prices and free tiers are set by each provider.
-
----
-
-## 🔐 Privacy
-
-- Audio is recorded only while you dictate, and sent only to the provider you picked.
-- Your API key and settings live in a local file readable only by your user account.
-- Your transcripts (up to the last 5,000) are kept locally so you can find and copy them again; clear them anytime.
-- No analytics, no telemetry, no Parler server.
-
----
-
-## 🛠️ Build from source
-
-Requires [Rust](https://rustup.rs) 1.88+, [Node.js](https://nodejs.org) 20+ and [pnpm](https://pnpm.io).
+Requires [Rust](https://rustup.rs) 1.88+, [Node.js](https://nodejs.org) 20+ and [pnpm](https://pnpm.io) 10.
 
 ```sh
 git clone https://github.com/Synapsr/Parler.git
@@ -137,14 +132,75 @@ pnpm tauri dev      # run in development
 pnpm tauri build    # build an installer for your platform
 ```
 
-On Linux, install the [Tauri prerequisites](https://tauri.app/start/prerequisites/#linux) plus `libasound2-dev libpulse-dev libxtst-dev libxkbcommon-dev`. See [docs/contributing.md](docs/contributing.md).
+On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequisites/#linux) and `libasound2-dev libpulse-dev libxtst-dev libxkbcommon-dev`. To work on the interface alone, run `pnpm dev` and open <http://localhost:1420/preview.html>: no Rust build needed. More in [docs/contributing.md](docs/contributing.md).
 
----
+## Privacy
 
-## 🙏 Credits
+- Audio is recorded only while you dictate and sent only to the provider you picked. It is never written to disk.
+- Recordings without speech are never sent.
+- Your API key and settings live in a local file that only your user account can read.
+- Your transcripts (the last 5,000) stay on your computer so you can search and copy them again. Clear them anytime.
+- No analytics, no telemetry, no Parler server: the only network requests go to your provider.
+- What a provider does with your audio is set by its own policy. With your own server, nothing leaves your network.
 
-Parler stands on [Handy](https://github.com/cjpais/Handy), the open-source dictation app by CJ Pais: microphone capture comes from its [`handy-recorder`](https://crates.io/crates/handy-recorder) crate, and the focus-safe overlay and layout-aware paste are adapted from it. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+## Languages
 
-## 📄 License
+**Spoken:** Parler detects the language you speak, or you can pick one of 31: English, French, Spanish, German, Italian, Portuguese, Dutch, Breton, Catalan, Basque, Polish, Czech, Romanian, Hungarian, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Ukrainian, Russian, Arabic, Hebrew, Hindi, Indonesian, Vietnamese, Thai, Chinese, Japanese and Korean. Accuracy depends on the provider and model.
+
+**Interface:** English, French, Spanish, German, Italian, Portuguese, Dutch, Polish, Turkish, Japanese, Chinese and Korean. [Add yours](docs/contributing.md#conventions).
+
+## FAQ
+
+<details>
+<summary><b>Is Parler free?</b></summary>
+
+Yes. The app is free and open source under the MIT licence. You connect it to your own account at a speech-to-text service and pay that service directly, at its own rates; Groq offers free sign-up to get you started. Parler Cloud, coming soon, will be the optional paid plan for people who'd rather not manage an API key.
+
+</details>
+
+<details>
+<summary><b>Which provider should I choose?</b></summary>
+
+Groq is the default: it runs Whisper large-v3 turbo, answers fast and has free sign-up. Pick OpenAI or Fireworks if you already have an account there, or your own server for full control. You can switch at any time in Settings.
+
+</details>
+
+<details>
+<summary><b>Does it work offline?</b></summary>
+
+Not on its own: transcription happens at the service you chose, so you need an internet connection. If you run an OpenAI-compatible server on your own network (speaches, LocalAI…), Parler works without the internet.
+
+</details>
+
+<details>
+<summary><b>How is it different from Wispr Flow, SuperWhisper or macOS Dictation?</b></summary>
+
+Same idea: talk instead of type, in any app. Parler's take: the code is open (MIT), the app is free, it runs on macOS, Windows and Linux, and you choose who transcribes your voice, from Groq, OpenAI or Fireworks to a server you run yourself. Parler types what you said; it doesn't rewrite it.
+
+</details>
+
+<details>
+<summary><b>Is my voice stored or used to train models?</b></summary>
+
+Parler never saves your audio. On your computer it keeps only the text of your dictations, which you can clear at any time. What the provider does with the audio depends on its own policy, so give it a read before you choose.
+
+</details>
+
+## Contributing
+
+Bug reports, translations and pull requests are welcome. Start with [docs/contributing.md](docs/contributing.md) (setup, checks, conventions), then read the [architecture](docs/architecture.md) and the [design system](docs/design-system.md). Parler aims to stay small and obvious: before adding a setting, ask whether a better default would do.
+
+- [Report a bug](https://github.com/Synapsr/Parler/issues/new?template=bug_report.yml)
+- [Suggest an improvement](https://github.com/Synapsr/Parler/issues/new?template=feature_request.yml)
+- Found a security issue? See [SECURITY.md](SECURITY.md).
+- Anything else: [parler@synapsr.io](mailto:parler@synapsr.io)
+
+If Parler saves you some typing, a star helps other people find it.
+
+## Credits
+
+Parler stands on [Handy](https://github.com/cjpais/Handy), the open-source dictation app by CJ Pais: microphone capture comes from its [`handy-recorder`](https://crates.io/crates/handy-recorder) crate, and the focus-safe overlay and keyboard-layout-aware paste are adapted from it. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+## License
 
 [MIT](LICENSE) © Synapsr
