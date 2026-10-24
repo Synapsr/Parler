@@ -351,6 +351,21 @@
       "credits": "Free and open source under the MIT licence. Microphone capture and parts of the desktop integration come from Handy."
     }
   },
+  "updates": {
+    "available": "Parler {version} is available.",
+    "update": "Update",
+    "downloading": "Downloading Parler {version}…",
+    "waiting": "Parler {version} will install once this dictation ends.",
+    "restarting": "Restarting to finish the update…",
+    "check": "Check for updates",
+    "checking": "Checking…",
+    "upToDate": "You're up to date.",
+    "offline": "Couldn't reach the update server. Check your connection and try again.",
+    "unsupported": "This copy of Parler can't update itself. Download the new version from the website.",
+    "signature": "The update isn't signed by Parler, so it wasn't installed.",
+    "failed": "The update couldn't be installed: {detail}",
+    "disabled": "Updates are handled outside Parler on this system."
+  },
   "tray": {
     "open": "Open Parler",
     "toggle": "Start or stop dictation",

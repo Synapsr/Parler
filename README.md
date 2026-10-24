@@ -140,7 +140,7 @@ On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequ
 - Recordings without speech are never sent.
 - Your API key and settings live in a local file that only your user account can read.
 - Your transcripts (the last 5,000) stay on your computer so you can search and copy them again. Clear them anytime.
-- No analytics, no telemetry, no Parler server: the only network requests go to your provider.
+- No analytics, no telemetry, no Parler server: your audio only goes to your provider. Parler also asks GitHub whether a newer version is out (packagers can turn that off with `PARLER_DISABLE_UPDATER=1`).
 - What a provider does with your audio is set by its own policy. With your own server, nothing leaves your network.
 
 ## Languages

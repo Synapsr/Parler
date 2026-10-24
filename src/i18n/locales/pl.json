@@ -351,6 +351,21 @@
       "credits": "Darmowa aplikacja open source na licencji MIT. Obsługa mikrofonu i część integracji z systemem pochodzą z projektu Handy."
     }
   },
+  "updates": {
+    "available": "Parler {version} jest już dostępny.",
+    "update": "Aktualizuj",
+    "downloading": "Pobieram Parler {version}…",
+    "waiting": "Parler {version} zainstaluje się po zakończeniu tego dyktowania.",
+    "restarting": "Uruchamiam ponownie, aby dokończyć aktualizację…",
+    "check": "Sprawdź aktualizacje",
+    "checking": "Sprawdzam…",
+    "upToDate": "Parler jest aktualny.",
+    "offline": "Nie udało się połączyć z serwerem aktualizacji. Sprawdź połączenie i spróbuj ponownie.",
+    "unsupported": "Ta instalacja Parler nie może zaktualizować się sama. Pobierz nową wersję ze strony internetowej.",
+    "signature": "Aktualizacja nie jest podpisana przez Parler, więc nie została zainstalowana.",
+    "failed": "Nie udało się zainstalować aktualizacji: {detail}",
+    "disabled": "W tym systemie aktualizacjami zarządza się poza aplikacją Parler."
+  },
   "tray": {
     "open": "Otwórz Parler",
     "toggle": "Rozpocznij lub zakończ dyktowanie",

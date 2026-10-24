@@ -351,6 +351,21 @@
       "credits": "Kostenlos und Open Source unter der MIT-Lizenz. Die Mikrofonaufnahme und Teile der Desktop-Integration stammen aus Handy."
     }
   },
+  "updates": {
+    "available": "Parler {version} ist verfügbar.",
+    "update": "Aktualisieren",
+    "downloading": "Parler {version} wird geladen…",
+    "waiting": "Parler {version} wird installiert, sobald dieses Diktat endet.",
+    "restarting": "Neustart, um das Update abzuschließen…",
+    "check": "Nach Updates suchen",
+    "checking": "Suche läuft…",
+    "upToDate": "Parler ist auf dem neuesten Stand.",
+    "offline": "Der Update-Server ist nicht erreichbar. Prüfe deine Verbindung und versuch es noch mal.",
+    "unsupported": "Diese Kopie von Parler kann sich nicht selbst aktualisieren. Lade die neue Version von der Website.",
+    "signature": "Das Update ist nicht von Parler signiert und wurde deshalb nicht installiert.",
+    "failed": "Das Update konnte nicht installiert werden: {detail}",
+    "disabled": "Auf diesem System werden Updates außerhalb von Parler verwaltet."
+  },
   "tray": {
     "open": "Parler öffnen",
     "toggle": "Diktat starten oder beenden",

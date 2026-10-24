@@ -1,6 +1,8 @@
 import {
   ArrowUpRight,
   AudioLines,
+  Check,
+  Download,
   Eye,
   EyeOff,
   Info,
@@ -14,6 +16,7 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import { useEffect, useState, type ReactNode } from "react";
 import { CloudAccountPanel } from "../components/Cloud";
 import { ShortcutField } from "../components/ShortcutField";
+import { usePercent, useUpdate, useUpdateError } from "../components/useUpdate";
 import { useProviderForm } from "../components/useProviderForm";
 import { useT } from "../i18n/context";
 import {
@@ -378,6 +381,7 @@ function About() {
   return (
     <Section icon={Info} tint="stone" title={t("settings.about.title")} description={t("settings.about.version", { version: info.version })} delay={200}>
       <div className="flex flex-col items-start gap-3">
+        <Updates />
         <p className="text-[13px] leading-relaxed text-text-2">{t("settings.about.credits")}</p>
         <Button size="sm" onClick={() => openUrl(REPOSITORY)}>
           {t("settings.about.source")}
@@ -385,5 +389,67 @@ function About() {
         </Button>
       </div>
     </Section>
+  );
+}
+
+/** "Check for updates", and what came of it. */
+function Updates() {
+  const { t } = useT();
+  const { status, check, install } = useUpdate();
+  const explain = useUpdateError();
+  const percent = usePercent();
+
+  if (status.state === "disabled") {
+    return <p className="text-[13px] text-text-3">{t("updates.disabled")}</p>;
+  }
+  const busy = ["checking", "downloading", "restarting"].includes(status.state);
+  let outcome: ReactNode = null;
+  switch (status.state) {
+    case "upToDate":
+      outcome = (
+        <span className="inline-flex items-center gap-1.5 text-success">
+          <Check className="size-4" />
+          {t("updates.upToDate")}
+        </span>
+      );
+      break;
+    case "available":
+      outcome = (
+        <>
+          <span className="text-text">{t("updates.available", { version: status.version })}</span>
+          <Button size="sm" variant="primary" onClick={install}>
+            <Download className="size-3.5" />
+            {t("updates.update")}
+          </Button>
+        </>
+      );
+      break;
+    case "downloading":
+      outcome = (
+        <span className="text-text-2 tabular-nums">
+          {t("updates.downloading", { version: status.version })}
+          {status.progress !== null && ` ${percent(status.progress)}`}
+        </span>
+      );
+      break;
+    case "restarting":
+      outcome = (
+        <span className="text-text-2">
+          {status.waiting ? t("updates.waiting", { version: status.version }) : t("updates.restarting")}
+        </span>
+      );
+      break;
+    case "failed":
+      outcome = <span className="text-accent-text">{explain(status.error)}</span>;
+      break;
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px]">
+      <Button size="sm" onClick={check} busy={status.state === "checking"} disabled={busy}>
+        {status.state === "checking" ? t("updates.checking") : t("updates.check")}
+      </Button>
+      {outcome}
+    </div>
   );
 }

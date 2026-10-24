@@ -1,5 +1,6 @@
-import { ArrowRight, Gauge, RotateCw, Timer, Type } from "lucide-react";
+import { ArrowRight, Download, Gauge, RotateCw, Timer, Type } from "lucide-react";
 import { PlanButton } from "../components/Cloud";
+import { usePercent, useUpdate, useUpdateError } from "../components/useUpdate";
 import { requestAccessibilityPermission } from "tauri-plugin-macos-permissions-api";
 import { joinSentences } from "../i18n";
 import { useT } from "../i18n/context";
@@ -32,6 +33,7 @@ export function Home({
       <PageHeader title={greeting} subtitle={t("home.subtitle")} />
       <Hero />
       <Problem openSettings={openSettings} />
+      <UpdateBanner />
       <Stats />
       <Recent openHistory={openHistory} />
     </div>
@@ -126,6 +128,76 @@ function Problem({ openSettings }: { openSettings: () => void }) {
       {t(problem.key, problem.params)}
     </Banner>
   );
+}
+
+/** A newer Parler, quietly offered; the download and restart follow here. */
+function UpdateBanner() {
+  const { t } = useT();
+  const { status, install } = useUpdate();
+  const explain = useUpdateError();
+  const percent = usePercent();
+
+  switch (status.state) {
+    case "available":
+      return (
+        <Banner
+          tone="info"
+          actions={
+            <Button size="sm" variant="primary" onClick={install}>
+              <Download className="size-3.5" />
+              {t("updates.update")}
+            </Button>
+          }
+        >
+          {t("updates.available", { version: status.version })}
+        </Banner>
+      );
+    case "downloading":
+      return (
+        <Banner tone="info">
+          <span className="flex flex-col gap-2">
+            <span className="flex items-baseline justify-between gap-3">
+              {t("updates.downloading", { version: status.version })}
+              {status.progress !== null && (
+                <span className="text-[12.5px] text-text-2 tabular-nums">{percent(status.progress)}</span>
+              )}
+            </span>
+            <span className="block h-1.5 overflow-hidden rounded-full bg-text/10">
+              <span
+                className="block h-full rounded-full bg-text transition-[width] duration-200"
+                style={{ width: `${Math.round((status.progress ?? 0) * 100)}%` }}
+              />
+            </span>
+          </span>
+        </Banner>
+      );
+    case "restarting":
+      return (
+        <Banner tone="info">
+          {status.waiting
+            ? t("updates.waiting", { version: status.version })
+            : t("updates.restarting")}
+        </Banner>
+      );
+    case "failed":
+      // A failed check is for the settings; a failed install can be retried here.
+      if (!status.version) return null;
+      return (
+        <Banner
+          tone="error"
+          actions={
+            <Button size="sm" onClick={install}>
+              <RotateCw className="size-3.5" />
+              {t("problems.retry")}
+            </Button>
+          }
+        >
+          {explain(status.error)}
+        </Banner>
+      );
+    default:
+      return null;
+  }
 }
 
 function Stats() {

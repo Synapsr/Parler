@@ -25,8 +25,9 @@ a browser against a simulated backend, no Rust build needed. Query parameters
 pick the state: `onboarded=1`, `lang=en`, `platform=windows`, `problem=1`,
 `state=recording`, `shortcut=RightCommand` (`Fn`, `RightOption`,
 `RightControl`, or an accelerator), `problem=key` (a key alone waiting for
-Accessibility), or `view=overlay&phase=recording` (`transcribing`, `error`,
-`empty`).
+Accessibility), `update=available` (`downloading`, `waiting`, `restarting`,
+`error`, `offline`, `uptodate`, `disabled`), or `view=overlay&phase=recording`
+(`transcribing`, `error`, `empty`).
 
 Parler Cloud: `cloud=signed-out` (or `trial`, `active`, `canceling`,
 `past-due`, `inactive`, `canceled`, `offline`) picks it in that state;
@@ -61,4 +62,34 @@ cd src-tauri && cargo fmt --all -- --check && cargo clippy --all-targets -- -D w
 Bump the version in `package.json`, `src-tauri/Cargo.toml` and
 `src-tauri/tauri.conf.json`, then push a `vX.Y.Z` tag. The release workflow
 builds macOS (universal), Windows and Linux bundles and publishes them. With
-the `APPLE_*` secrets set, the macOS build is signed and notarized.
+the `APPLE_*` secrets set, the macOS build is signed and notarized: Tauri
+notarizes the app itself, then the workflow notarizes the DMG.
+
+### In-app updates
+
+Installed copies update themselves from GitHub Releases (see
+[architecture](architecture.md#updates)). For that, every release carries
+bundles signed with Parler's updater key and a `latest.json` describing them:
+
+- The signing key lives in two repository secrets,
+  `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`; its
+  public half is `plugins.updater.pubkey` in `src-tauri/tauri.conf.json`. Keep
+  the key: copies already installed only accept updates signed with it.
+- Signatures record the version they were made for, and Parler refuses an
+  update whose signature and announced version disagree
+  (`requireSignedVersion`). Build releases with the Tauri CLI from this repo,
+  which writes that version.
+- The workflow uploads the update bundles (`Parler-macOS.app.tar.gz`, the
+  Windows installers, the AppImage and, when signed, the `.deb`) with their
+  `.sig` files, writes `latest.json` pointing at this release's assets, and
+  covers them all in `SHA256SUMS` and the build attestation. Installed copies
+  read it at `releases/latest/download/latest.json`, so only a full release
+  (not a draft or prerelease) reaches them.
+- A local release build (`pnpm tauri build`) signs the update bundles too, so
+  it needs `TAURI_SIGNING_PRIVATE_KEY` (and its password) in the environment.
+  Without the key, build without them:
+  `pnpm tauri build --config '{"bundle":{"createUpdaterArtifacts":false}}'`.
+  `pnpm tauri dev` and the preview never sign anything.
+- Packagers who update Parler themselves (Nix, distributions) set
+  `PARLER_DISABLE_UPDATER=1`: Parler then never checks for updates, and its
+  settings say updates are handled outside it.

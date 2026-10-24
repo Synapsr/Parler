@@ -26,15 +26,20 @@ jobs:
             os: macos-latest
             target: universal-apple-darwin
             rust_targets: aarch64-apple-darwin,x86_64-apple-darwin
+            # The .app.tar.gz and its signature are what the in-app updater downloads.
             artifact_glob: |
               src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
+              src-tauri/target/universal-apple-darwin/release/bundle/macos/*.app.tar.gz
+              src-tauri/target/universal-apple-darwin/release/bundle/macos/*.app.tar.gz.sig
           - label: Windows (x64)
             os: windows-latest
             target: x86_64-pc-windows-msvc
             rust_targets: x86_64-pc-windows-msvc
             artifact_glob: |
               src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi/*.msi
+              src-tauri/target/x86_64-pc-windows-msvc/release/bundle/msi/*.msi.sig
               src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe
+              src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe.sig
           # The oldest supported Ubuntu, so the AppImage runs on more distros.
           - label: Linux (x64)
             os: ubuntu-22.04
@@ -42,8 +47,10 @@ jobs:
             rust_targets: x86_64-unknown-linux-gnu
             artifact_glob: |
               src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/deb/*.deb
+              src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/deb/*.deb.sig
               src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/rpm/*.rpm
               src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/*.AppImage
+              src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/appimage/*.AppImage.sig
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -103,9 +110,11 @@ jobs:
           } >> "$GITHUB_ENV"
           echo "::notice::Developer ID signing enabled."
 
-          # Exported under names Tauri does NOT read, so tauri-bundler never
-          # blocks on Apple's notary service itself; the step below does it
-          # with a timeout we control.
+          # Two notarizations. Tauri notarizes and staples the .app itself
+          # (APPLE_API_*), before it packs the DMG and the updater's
+          # .app.tar.gz, so the in-app update carries a notarized app. The
+          # step after the build then notarizes the DMG (NOTARY_*), with a
+          # timeout we control.
           if [ -n "${APPLE_API_KEY_B64:-}" ]; then
             keydir="$RUNNER_TEMP/private_keys"
             mkdir -p "$keydir"
@@ -115,14 +124,47 @@ jobs:
               echo "NOTARY_KEY_ID=${APPLE_API_KEY}"
               echo "NOTARY_ISSUER=${APPLE_API_ISSUER}"
               echo "NOTARY_KEY_PATH=$keydir/AuthKey_${APPLE_API_KEY}.p8"
+              echo "APPLE_API_KEY=${APPLE_API_KEY}"
+              echo "APPLE_API_ISSUER=${APPLE_API_ISSUER}"
+              echo "APPLE_API_KEY_PATH=$keydir/AuthKey_${APPLE_API_KEY}.p8"
             } >> "$GITHUB_ENV"
             echo "::notice::Notarization enabled."
           else
             echo "::warning::Signing without notarization — macOS will still warn users."
           fi
 
+      # The in-app updater only installs bundles signed with Parler's key
+      # (its public half is in tauri.conf.json). Like the Apple secrets, the
+      # key is exported only when set: a fork without it builds without the
+      # updater's bundles instead of failing.
+      - name: Stage the updater signing key
+        shell: bash
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TAURI_SIGNING_PRIVATE_KEY:-}" ]; then
+            echo "::warning::No updater signing key: building without update bundles."
+            printf '{"bundle":{"createUpdaterArtifacts":false}}' > "$RUNNER_TEMP/no-updater.json"
+            echo "PARLER_NO_UPDATER_CONFIG=$RUNNER_TEMP/no-updater.json" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          {
+            printf 'TAURI_SIGNING_PRIVATE_KEY<<__PARLER_EOF__\n%s\n__PARLER_EOF__\n' "$TAURI_SIGNING_PRIVATE_KEY"
+            printf 'TAURI_SIGNING_PRIVATE_KEY_PASSWORD<<__PARLER_EOF__\n%s\n__PARLER_EOF__\n' "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
+          echo "::notice::Update bundles will be signed."
+
       - name: Build Tauri bundle
-        run: pnpm tauri build --target ${{ matrix.target }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--target "${{ matrix.target }}")
+          if [ -n "${PARLER_NO_UPDATER_CONFIG:-}" ]; then
+            args+=(--config "$PARLER_NO_UPDATER_CONFIG")
+          fi
+          pnpm tauri build "${args[@]}"
 
       # Nothing is published unless Apple accepted the build and the ticket is
       # stapled into the .dmg users download. A congested notary service
@@ -213,7 +255,59 @@ jobs:
           rename '*.AppImage' Parler-Linux-x86_64.AppImage
           rename '*.deb' Parler-Linux-amd64.deb
           rename '*.rpm' Parler-Linux-x86_64.rpm
+          # What the in-app updater downloads, and the signatures it checks.
+          rename '*.app.tar.gz' Parler-macOS.app.tar.gz
+          rename '*.app.tar.gz.sig' Parler-macOS.app.tar.gz.sig
+          rename '*-setup.exe.sig' Parler-Windows-x64-setup.exe.sig
+          rename '*.msi.sig' Parler-Windows-x64.msi.sig
+          rename '*.AppImage.sig' Parler-Linux-x86_64.AppImage.sig
+          # Signed .deb packages can update in place too, when the bundler made one.
+          deb_sig=$(find . -type f -name '*.deb.sig' | head -1)
+          if [ -n "$deb_sig" ]; then mv "$deb_sig" ./Parler-Linux-amd64.deb.sig; fi
           ls -la
+
+      # What installed copies of Parler read to find this release:
+      # https://github.com/Synapsr/Parler/releases/latest/download/latest.json
+      # Each platform points at this release's own files, so an update never
+      # mixes versions. The .app.tar.gz is universal: one entry serves both
+      # kinds of Mac. Installers are matched to the way Parler was installed
+      # (`{os}-{arch}-{installer}` first, then `{os}-{arch}`).
+      - name: Generate latest.json
+        working-directory: dist
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          base="https://github.com/${GITHUB_REPOSITORY}/releases/download/${tag}"
+          entry() {
+            jq -n --arg url "$base/$1" --rawfile signature "$1.sig" \
+              '{signature: ($signature | rtrimstr("\n")), url: $url}'
+          }
+          jq -n \
+            --arg version "${tag#v}" \
+            --arg notes "What's new: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${tag}" \
+            --arg date "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --argjson mac "$(entry Parler-macOS.app.tar.gz)" \
+            --argjson nsis "$(entry Parler-Windows-x64-setup.exe)" \
+            --argjson msi "$(entry Parler-Windows-x64.msi)" \
+            --argjson appimage "$(entry Parler-Linux-x86_64.AppImage)" \
+            --argjson deb "$([ -f Parler-Linux-amd64.deb.sig ] && entry Parler-Linux-amd64.deb || echo null)" \
+            '{
+              version: $version,
+              notes: $notes,
+              pub_date: $date,
+              platforms: ({
+                "darwin-aarch64": $mac,
+                "darwin-x86_64": $mac,
+                "darwin-aarch64-app": $mac,
+                "darwin-x86_64-app": $mac,
+                "windows-x86_64": $nsis,
+                "windows-x86_64-nsis": $nsis,
+                "windows-x86_64-msi": $msi,
+                "linux-x86_64": $appimage,
+                "linux-x86_64-appimage": $appimage
+              } + (if $deb then {"linux-x86_64-deb": $deb} else {} end))
+            }' > latest.json
+          cat latest.json
 
       # Lets anyone check a download with `sha256sum -c SHA256SUMS`.
       - name: Generate SHA256SUMS
@@ -222,7 +316,8 @@ jobs:
           set -euo pipefail
           : > SHA256SUMS
           find . -type f \( -name '*.dmg' -o -name '*.msi' -o -name '*.exe' \
-            -o -name '*.deb' -o -name '*.rpm' -o -name '*.AppImage' \) -print0 \
+            -o -name '*.deb' -o -name '*.rpm' -o -name '*.AppImage' \
+            -o -name '*.app.tar.gz' -o -name '*.sig' -o -name 'latest.json' \) -print0 \
             | sort -z \
             | while IFS= read -r -d '' f; do
                 printf '%s  %s\n' "$(sha256sum "$f" | cut -d' ' -f1)" "$(basename "$f")"
@@ -241,9 +336,12 @@ jobs:
           generate_release_notes: true
           files: |
             dist/SHA256SUMS
+            dist/latest.json
             dist/**/*.dmg
             dist/**/*.msi
             dist/**/*.exe
             dist/**/*.deb
             dist/**/*.rpm
             dist/**/*.AppImage
+            dist/**/*.app.tar.gz
+            dist/**/*.sig

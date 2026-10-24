@@ -351,6 +351,21 @@
       "credits": "Libre et open source sous licence MIT. La capture du micro et une partie de l'intégration au bureau viennent de Handy."
     }
   },
+  "updates": {
+    "available": "Parler {version} est disponible.",
+    "update": "Mettre à jour",
+    "downloading": "Téléchargement de Parler {version}…",
+    "waiting": "Parler {version} s'installera à la fin de cette dictée.",
+    "restarting": "Redémarrage pour terminer la mise à jour…",
+    "check": "Rechercher des mises à jour",
+    "checking": "Recherche…",
+    "upToDate": "Parler est à jour.",
+    "offline": "Impossible de joindre le serveur de mises à jour. Vérifiez votre connexion et réessayez.",
+    "unsupported": "Cette copie de Parler ne peut pas se mettre à jour seule. Téléchargez la nouvelle version sur le site.",
+    "signature": "La mise à jour n'est pas signée par Parler : elle n'a pas été installée.",
+    "failed": "La mise à jour n'a pas pu être installée : {detail}",
+    "disabled": "Sur ce système, les mises à jour sont gérées en dehors de Parler."
+  },
   "tray": {
     "open": "Ouvrir Parler",
     "toggle": "Démarrer ou arrêter la dictée",

@@ -7,6 +7,7 @@ use crate::history::{self, Entry, History, Stats};
 use crate::paste::{self, PasteError};
 use crate::providers::{self, Provider, Request, TranscribeError};
 use crate::settings::{Settings, SettingsStore};
+use crate::updates::{self, UpdateError, UpdateStatus, Updates};
 use crate::{shortcut, tray};
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, Manager, State};
@@ -310,6 +311,24 @@ pub fn globe_key() -> GlobeKey {
     #[cfg(not(target_os = "macos"))]
     let action = None;
     GlobeKey { action }
+}
+
+/// Where updates stand.
+#[tauri::command]
+pub fn update_status(updates: State<Updates>) -> UpdateStatus {
+    updates.status()
+}
+
+/// Checks for a newer Parler now, and says what came of it.
+#[tauri::command]
+pub async fn check_for_update(app: AppHandle) -> UpdateStatus {
+    updates::check(&app, true).await
+}
+
+/// Downloads and installs the update found, then restarts Parler.
+#[tauri::command]
+pub async fn install_update(app: AppHandle) -> Result<(), UpdateError> {
+    updates::install(&app).await
 }
 
 /// Parler's star count on GitHub, for the onboarding; nothing when offline

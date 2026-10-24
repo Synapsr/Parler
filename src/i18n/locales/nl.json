@@ -351,6 +351,21 @@
       "credits": "Gratis en open source onder de MIT-licentie. De microfoonopname en delen van de desktopintegratie komen uit Handy."
     }
   },
+  "updates": {
+    "available": "Parler {version} is beschikbaar.",
+    "update": "Bijwerken",
+    "downloading": "Parler {version} wordt gedownload…",
+    "waiting": "Parler {version} wordt geïnstalleerd zodra dit dictaat klaar is.",
+    "restarting": "Opnieuw starten om de update af te ronden…",
+    "check": "Zoek naar updates",
+    "checking": "Zoeken…",
+    "upToDate": "Parler is up-to-date.",
+    "offline": "Kan de updateserver niet bereiken. Controleer je verbinding en probeer het opnieuw.",
+    "unsupported": "Deze kopie van Parler kan zichzelf niet bijwerken. Download de nieuwe versie van de website.",
+    "signature": "De update is niet door Parler ondertekend en is daarom niet geïnstalleerd.",
+    "failed": "De update kon niet worden geïnstalleerd: {detail}",
+    "disabled": "Op dit systeem worden updates buiten Parler beheerd."
+  },
   "tray": {
     "open": "Open Parler",
     "toggle": "Dictaat starten of stoppen",

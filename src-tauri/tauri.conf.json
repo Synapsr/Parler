@@ -56,6 +56,19 @@
       "nsis": {
         "installMode": "currentUser"
       }
+    },
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://github.com/Synapsr/Parler/releases/latest/download/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDZDMDE0MUI5NDg1RUYzODMKUldTRDgxNUl1VUVCYkt5WjFXbzJkbHpTazhpbGQ1V3h0M1RiVzNtd1hXU2twNlNoc0kwa1hvRVMK",
+      "requireSignedVersion": true,
+      "windows": {
+        "installMode": "passive"
+      }
     }
   }
 }

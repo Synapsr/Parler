@@ -351,6 +351,21 @@
       "credits": "MIT 라이선스로 공개된 무료 오픈 소스 소프트웨어예요. 마이크 입력과 데스크톱 연동의 일부는 Handy에서 가져왔어요."
     }
   },
+  "updates": {
+    "available": "Parler {version} 버전을 사용할 수 있어요.",
+    "update": "업데이트",
+    "downloading": "Parler {version} 다운로드 중…",
+    "waiting": "이번 받아쓰기가 끝나면 Parler {version} 버전이 설치돼요.",
+    "restarting": "업데이트를 마치기 위해 다시 시작하는 중…",
+    "check": "업데이트 확인",
+    "checking": "확인하는 중…",
+    "upToDate": "Parler가 최신 버전이에요.",
+    "offline": "업데이트 서버에 연결할 수 없어요. 인터넷 연결을 확인하고 다시 시도하세요.",
+    "unsupported": "이 Parler는 스스로 업데이트할 수 없어요. 웹사이트에서 새 버전을 다운로드하세요.",
+    "signature": "이 업데이트에는 Parler의 서명이 없어서 설치하지 않았어요.",
+    "failed": "업데이트를 설치하지 못했어요: {detail}",
+    "disabled": "이 시스템에서는 업데이트를 Parler 밖에서 관리해요."
+  },
   "tray": {
     "open": "Parler 열기",
     "toggle": "받아쓰기 시작/중지",

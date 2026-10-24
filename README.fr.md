@@ -140,7 +140,7 @@ Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/pr
 - Les enregistrements sans parole ne sont jamais envoyés.
 - Votre clé d'API et vos réglages restent dans un fichier local lisible par votre seul compte utilisateur.
 - Vos transcriptions (les 5 000 dernières) restent sur votre ordinateur pour pouvoir les retrouver et les recopier. Effacez-les quand vous voulez.
-- Ni statistiques, ni télémétrie, ni serveur Parler : les seules requêtes réseau vont à votre service de transcription.
+- Ni statistiques, ni télémétrie, ni serveur Parler : votre audio ne va qu'à votre service de transcription. Parler demande aussi à GitHub si une nouvelle version est sortie (les empaqueteurs peuvent le désactiver avec `PARLER_DISABLE_UPDATER=1`).
 - Ce que le service fait de votre audio dépend de sa propre politique. Avec votre propre serveur, rien ne sort de votre réseau.
 
 ## Langues

@@ -351,6 +351,21 @@
       "credits": "MIT ライセンスで公開されている、無料のオープンソースソフトウェアです。マイク入力とデスクトップ連携の一部は Handy に由来します。"
     }
   },
+  "updates": {
+    "available": "Parler {version} が利用できます。",
+    "update": "アップデート",
+    "downloading": "Parler {version} をダウンロードしています…",
+    "waiting": "この音声入力が終わったら、Parler {version} をインストールします。",
+    "restarting": "アップデートを完了するために再起動しています…",
+    "check": "アップデートを確認",
+    "checking": "確認しています…",
+    "upToDate": "Parler は最新です。",
+    "offline": "アップデートサーバーに接続できませんでした。接続を確認して、もう一度お試しください。",
+    "unsupported": "この Parler は自動でアップデートできません。ウェブサイトから新しいバージョンをダウンロードしてください。",
+    "signature": "このアップデートには Parler の署名がないため、インストールしませんでした。",
+    "failed": "アップデートをインストールできませんでした：{detail}",
+    "disabled": "このシステムでは、アップデートは Parler の外で管理されています。"
+  },
   "tray": {
     "open": "Parler を開く",
     "toggle": "音声入力を開始/停止",

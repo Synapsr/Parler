@@ -23,6 +23,7 @@ transcribes and pastes, and a React interface in two windows.
 | `audio.rs` | Microphone capture, the voice level for the pill, the speech check that keeps silence from being sent, WAV encoding. |
 | `providers.rs` | The provider list and the request to a Whisper-compatible API, with errors the interface can explain. |
 | `cloud.rs` | Parler Cloud: linking a computer with a device code, the account, signing out. |
+| `updates.rs` | Checks for updates, downloads and installs them, then restarts Parler. |
 | `paste.rs` | Clipboard and simulated paste; macOS resolves Cmd+V for the active keyboard layout. |
 | `overlay.rs` | The pill window: a non-activating panel on macOS, a no-activate topmost window on Windows, so it never takes focus. |
 | `shortcut.rs` | Registers the dictation shortcut, and Escape only while dictating. |
@@ -79,6 +80,34 @@ nothing depends on deep links or the OS:
   providers keep the usual meaning of those codes.
 - `PARLER_CLOUD_URL` (read once at startup) points the app at another
   service, for instance `PARLER_CLOUD_URL=http://localhost:3100 pnpm tauri dev`.
+
+### Updates
+
+Parler updates itself with Tauri's updater plugin, driven from Rust:
+
+```
+ launch + 8 s, then every 6 h ── GET releases/latest/download/latest.json
+   newer version? ──► Home: "Parler 0.1.3 is available. [Update]"
+ Update ── download the bundle for this install (progress on Home)
+        ── check its signature against the public key in tauri.conf.json
+        ── wait until no dictation is under way
+        ── install, restart
+```
+
+- Background checks say nothing unless there is news; a failure is logged
+  and the next check tries again. *Check for updates* in Settings shows its
+  outcome, failures included, in plain words.
+- `latest.json` is written by the release workflow and names one bundle per
+  platform and installer (`darwin-aarch64`, `windows-x86_64-nsis`,
+  `linux-x86_64-appimage`…). The plugin picks the one matching how Parler was
+  installed, so an MSI install stays an MSI install.
+- The signature must come from Parler's key and name the announced version,
+  or nothing is installed. On Windows the installer runs in passive mode.
+- `PARLER_DISABLE_UPDATER=1` turns updates off entirely, for packagers who
+  ship Parler through their own channel (Nix, distributions).
+- The status (`idle`, `checking`, `upToDate`, `available`, `downloading`,
+  `restarting`, `failed`, `disabled`) reaches the window as
+  `parler://update` events.
 
 ### Why silence is never sent
 

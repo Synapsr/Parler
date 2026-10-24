@@ -351,6 +351,21 @@
       "credits": "Libero e open source con licenza MIT. L'acquisizione del microfono e parte dell'integrazione con il desktop vengono da Handy."
     }
   },
+  "updates": {
+    "available": "Parler {version} è disponibile.",
+    "update": "Aggiorna",
+    "downloading": "Download di Parler {version}…",
+    "waiting": "Parler {version} verrà installato al termine di questa dettatura.",
+    "restarting": "Riavvio per completare l'aggiornamento…",
+    "check": "Cerca aggiornamenti",
+    "checking": "Ricerca…",
+    "upToDate": "Parler è aggiornato.",
+    "offline": "Impossibile raggiungere il server degli aggiornamenti. Controlla la connessione e riprova.",
+    "unsupported": "Questa copia di Parler non può aggiornarsi da sola. Scarica la nuova versione dal sito.",
+    "signature": "L'aggiornamento non è firmato da Parler, quindi non è stato installato.",
+    "failed": "Impossibile installare l'aggiornamento: {detail}",
+    "disabled": "Su questo sistema gli aggiornamenti sono gestiti al di fuori di Parler."
+  },
   "tray": {
     "open": "Apri Parler",
     "toggle": "Avvia o interrompi la dettatura",

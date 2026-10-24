@@ -351,6 +351,21 @@
       "credits": "基于 MIT 许可证的免费开源软件。麦克风采集和部分桌面集成功能来自 Handy。"
     }
   },
+  "updates": {
+    "available": "Parler {version} 现已可用。",
+    "update": "更新",
+    "downloading": "正在下载 Parler {version}…",
+    "waiting": "本次听写结束后将安装 Parler {version}。",
+    "restarting": "正在重新启动以完成更新…",
+    "check": "检查更新",
+    "checking": "正在检查…",
+    "upToDate": "Parler 已是最新版本。",
+    "offline": "无法连接到更新服务器。请检查网络连接后重试。",
+    "unsupported": "此 Parler 副本无法自行更新。请从官网下载新版本。",
+    "signature": "此更新没有 Parler 的签名，因此未安装。",
+    "failed": "无法安装更新：{detail}",
+    "disabled": "在此系统上，更新由 Parler 以外的方式管理。"
+  },
   "tray": {
     "open": "打开 Parler",
     "toggle": "开始或停止听写",

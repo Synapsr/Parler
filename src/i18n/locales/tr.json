@@ -351,6 +351,21 @@
       "credits": "MIT lisansıyla ücretsiz ve açık kaynak. Mikrofon kaydı ve masaüstü entegrasyonunun bir kısmı Handy projesinden gelir."
     }
   },
+  "updates": {
+    "available": "Parler {version} kullanıma sunuldu.",
+    "update": "Güncelle",
+    "downloading": "Parler {version} indiriliyor…",
+    "waiting": "Parler {version}, bu dikte bittiğinde yüklenecek.",
+    "restarting": "Güncellemeyi tamamlamak için yeniden başlatılıyor…",
+    "check": "Güncellemeleri denetle",
+    "checking": "Denetleniyor…",
+    "upToDate": "Parler güncel.",
+    "offline": "Güncelleme sunucusuna ulaşılamadı. Bağlantınızı kontrol edip yeniden deneyin.",
+    "unsupported": "Bu Parler kopyası kendini güncelleyemez. Yeni sürümü web sitesinden indirin.",
+    "signature": "Güncelleme Parler tarafından imzalanmadığı için yüklenmedi.",
+    "failed": "Güncelleme yüklenemedi: {detail}",
+    "disabled": "Bu sistemde güncellemeler Parler dışında yönetiliyor."
+  },
   "tray": {
     "open": "Parler penceresini aç",
     "toggle": "Dikteyi başlat veya durdur",

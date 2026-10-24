@@ -11,6 +11,7 @@ mod providers;
 mod settings;
 mod shortcut;
 mod tray;
+mod updates;
 
 use dictation::{Dictation, Event, Problem, State, Status, StatusState};
 use history::History;
@@ -52,6 +53,7 @@ pub fn run() {
                 .build(),
         )
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
             Some(vec![HIDDEN_FLAG]),
@@ -93,6 +95,7 @@ pub fn run() {
                 can_retry: false,
             })));
             app.manage(Dictation::spawn(&handle));
+            updates::start(&handle);
 
             overlay::create(&handle);
             tray::create(&handle)?;
@@ -149,6 +152,9 @@ pub fn run() {
             commands::globe_key,
             commands::open_keyboard_settings,
             commands::github_stars,
+            commands::update_status,
+            commands::check_for_update,
+            commands::install_update,
         ])
         .build(tauri::generate_context!())
         .expect("Parler failed to start")

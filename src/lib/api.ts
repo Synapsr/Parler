@@ -92,6 +92,23 @@ export type SignInPoll =
   | { status: "denied" }
   | { status: "expired" };
 
+export type UpdateError =
+  | { kind: "offline" }
+  | { kind: "unsupported" }
+  | { kind: "signature" }
+  | { kind: "failed"; detail: string };
+
+/** Where updates stand (see src-tauri/src/updates.rs). */
+export type UpdateStatus =
+  | { state: "idle" }
+  | { state: "checking" }
+  | { state: "upToDate" }
+  | { state: "available"; version: string }
+  | { state: "downloading"; version: string; progress: number | null }
+  | { state: "restarting"; version: string; waiting: boolean }
+  | { state: "failed"; error: UpdateError; version: string | null }
+  | { state: "disabled" };
+
 export type PasteError =
   | { kind: "noClipboard" }
   | { kind: "needsAccessibility" }
@@ -186,6 +203,9 @@ export const api = {
   /** macOS: what the system does with a 🌐 press (0 = nothing, null = its default). */
   globeKey: () => invoke<{ action: number | null }>("globe_key"),
   openKeyboardSettings: () => invoke("open_keyboard_settings"),
+  updateStatus: () => invoke<UpdateStatus>("update_status"),
+  checkForUpdate: () => invoke<UpdateStatus>("check_for_update"),
+  installUpdate: () => invoke<null>("install_update"),
   /** Parler's stars on GitHub; `null` offline. */
   githubStars: () => invoke<number | null>("github_stars"),
 };
@@ -194,6 +214,8 @@ export const events = {
   /** The backend changed the settings (Parler Cloud sign-in or sign-out). */
   settings: (handler: (settings: Settings) => void): Promise<UnlistenFn> =>
     listen<Settings>("parler://settings", (e) => handler(e.payload)),
+  update: (handler: (status: UpdateStatus) => void): Promise<UnlistenFn> =>
+    listen<UpdateStatus>("parler://update", (e) => handler(e.payload)),
   status: (handler: (status: Status) => void): Promise<UnlistenFn> =>
     listen<Status>("parler://status", (e) => handler(e.payload)),
   history: (handler: (entries: HistoryEntry[]) => void): Promise<UnlistenFn> =>

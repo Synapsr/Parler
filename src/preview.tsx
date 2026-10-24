@@ -199,6 +199,19 @@ const problem =
           error: CLOUD_ERRORS[problemParam] ?? { kind: "offline", provider: "Groq" },
         }
       : null;
+// Updates: `update=available|downloading|waiting|restarting|error|offline|uptodate|disabled`.
+// `error` is a failed install (on Home and in Settings), `offline` a failed check.
+const UPDATE_STATES: Record<string, object> = {
+  available: { state: "available", version: "0.1.3" },
+  downloading: { state: "downloading", version: "0.1.3", progress: 0.42 },
+  waiting: { state: "restarting", version: "0.1.3", waiting: true },
+  restarting: { state: "restarting", version: "0.1.3", waiting: false },
+  error: { state: "failed", error: { kind: "failed", detail: "the disk is full" }, version: "0.1.3" },
+  offline: { state: "failed", error: { kind: "offline" }, version: null },
+  uptodate: { state: "upToDate" },
+  disabled: { state: "disabled" },
+};
+const updateMode = params.get("update");
 let polls = 0;
 const settingsChanged = () => setTimeout(() => emit("parler://settings", settings), 0);
 
@@ -286,6 +299,33 @@ mockIPC(
           { id: "1", name: "MacBook Pro Microphone", isDefault: true },
           { id: "2", name: "AirPods Pro", isDefault: false },
         ];
+      case "update_status":
+        return UPDATE_STATES[updateMode ?? ""] ?? { state: "idle" };
+      case "check_for_update":
+        return new Promise((resolve) =>
+          setTimeout(
+            () =>
+              resolve(
+                updateMode === "available" || updateMode === "offline"
+                  ? UPDATE_STATES[updateMode]
+                  : { state: "upToDate" },
+              ),
+            900,
+          ),
+        );
+      case "install_update": {
+        // A download in steps, then the restart.
+        let progress = 0;
+        const step = setInterval(() => {
+          progress = Math.min(1, progress + 0.1);
+          emit("parler://update", { state: "downloading", version: "0.1.3", progress });
+          if (progress >= 1) {
+            clearInterval(step);
+            setTimeout(() => emit("parler://update", { state: "restarting", version: "0.1.3", waiting: false }), 300);
+          }
+        }, 250);
+        return null;
+      }
       case "github_stars":
         // `stars=0` shows the scene without a count, as offline.
         return params.get("stars") === "0" ? null : 1284;
