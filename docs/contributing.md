@@ -39,10 +39,12 @@ cd src-tauri && cargo fmt --all -- --check && cargo clippy --all-targets -- -D w
 
 - Commits follow [Conventional Commits](https://www.conventionalcommits.org):
   `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`. Say why, not only what.
-- Every interface string lives in `src/i18n/locales/en.json` **and** `fr.json`;
-  a test fails if they drift apart.
+- Every interface string lives in all 12 files of `src/i18n/locales`
+  (`en.json` is the source); a test fails if a key or a `{placeholder}` is
+  missing from one of them. A new language is a JSON file plus a line in
+  `src/i18n/languages.ts`.
 - New providers go in `PROVIDERS` in `src-tauri/src/providers.rs`, with a
-  tagline under `providers` in both locale files.
+  tagline under `providers` in every locale file.
 
 ## Releasing
 

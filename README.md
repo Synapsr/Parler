@@ -53,8 +53,9 @@ No account, no subscription, no model to download. Bring your own API key; it st
 - **A searchable history** of your dictations to copy one again if it landed in the wrong window, and **retry** when the network failed.
 - **Light or dark**, or following your system.
 - **Esc cancels** a dictation in progress.
+- A **menu bar icon** to start a dictation, copy the last transcript or open the history.
 - A discreet **pill** at the bottom of the screen shows your voice level — and never steals focus.
-- Interface in **English and French**.
+- Interface in **12 languages**: English, French, Spanish, German, Italian, Portuguese, Dutch, Polish, Turkish, Japanese, Chinese and Korean.
 
 ---
 

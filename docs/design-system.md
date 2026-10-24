@@ -111,8 +111,10 @@ tokens and Tailwind's `dark:` variant both honour).
 - Buttons are verbs: *Continue*, *Try again*, *Open settings*.
 - Errors say what happened and what to do, in one or two sentences, without
   codes unless the service sent one.
-- Every string exists in English and French (`src/i18n/locales`); a test fails
-  when they drift apart.
+- Every string exists in all 12 languages (`src/i18n/locales`); a test fails
+  when they drift apart. Sentences with keycaps are whole strings with a
+  `{keys}` placeholder, never pieces glued together, so each language keeps
+  its word order.
 
 ## Accessibility
 

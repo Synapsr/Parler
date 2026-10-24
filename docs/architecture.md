@@ -53,5 +53,5 @@ Built on the [design system](design-system.md).
 | `pages/` | Home (shortcut, totals, recent dictations), History (every dictation, searchable), Vocabulary, Settings. |
 | `components/` | The sidebar, the history list, the shortcut recorder, the service form logic. |
 | `overlay/` | The pill: level bars, phases, synthesized sound cues. |
-| `i18n/` | English and French, kept in sync by a test. |
+| `i18n/` | 12 languages (`languages.ts`), kept in sync by a test. |
 | `preview.tsx` | Dev only: every window in a browser against a simulated backend. |
