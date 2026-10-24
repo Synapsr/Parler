@@ -2,7 +2,7 @@ import { BookA, History, House, Settings2, type LucideIcon } from "lucide-react"
 import { useT } from "../i18n/context";
 import { modelFor } from "../lib/api";
 import { lookOf } from "../lib/look";
-import { keycaps } from "../lib/shortcut";
+import { useKeycaps } from "./useKeycaps";
 import { useParler } from "../state";
 import { IconTile, Keycaps, LogoMark, StatusDot, Wordmark, type DotTone } from "../ui";
 
@@ -24,6 +24,7 @@ export function Sidebar({
 }) {
   const { t } = useT();
   const { info, settings, status, provider } = useParler();
+  const toKeys = useKeycaps();
   const mac = info.platform === "macos";
 
   const missingKey = (provider?.requiresApiKey ?? false) && !settings.apiKeys[settings.provider]?.trim();
@@ -88,7 +89,7 @@ export function Sidebar({
             </span>
           </span>
         </span>
-        <Keycaps keys={keycaps(settings.shortcut, info.platform, t("common.space"))} size="sm" />
+        <Keycaps keys={toKeys(settings.shortcut)} size="sm" />
       </button>
       <p className="px-5 pb-4 font-mono text-[10.5px] text-text-3">Parler {info.version}</p>
     </aside>

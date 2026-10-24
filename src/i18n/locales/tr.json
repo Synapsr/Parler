@@ -1,0 +1,264 @@
+{
+  "app": {
+    "tagline": "Konuşun. Sözleriniz, yazı yazdığınız her yerde belirir."
+  },
+  "common": {
+    "continue": "Devam",
+    "back": "Geri",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "delete": "Sil",
+    "change": "Değiştir",
+    "show": "Göster",
+    "hide": "Gizle",
+    "space": "Boşluk",
+    "ctrl": "Ctrl",
+    "test": "Test et",
+    "testing": "Test ediliyor…",
+    "works": "Çalışıyor"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "history": "Geçmiş",
+    "vocabulary": "Sözlük",
+    "settings": "Ayarlar"
+  },
+  "status": {
+    "ready": "Hazır",
+    "listening": "Dinliyorum…",
+    "writing": "Yazıyorum…",
+    "attention": "İlgilenmeniz gerek"
+  },
+  "providers": {
+    "recommended": "Önerilen",
+    "customName": "Sunucunuz",
+    "groq": "Çok hızlı · ücretsiz kayıt",
+    "openai": "Çok isabetli · GPT-4o Transcribe",
+    "fireworks": "Hızlı ve uygun fiyatlı Whisper v3",
+    "custom": "OpenAI uyumlu kendi sunucunuz"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Sesiniz, her yerde yazıya dönüşür.",
+      "subtitle": "Bir tuşu basılı tutun, doğal konuşun, bırakın. Parler sözlerinizi her uygulamaya yazar: e-posta, sohbet, belge, kod.",
+      "start": "Başlayalım",
+      "time": "Yaklaşık iki dakika sürer.",
+      "document": "Yeni mesaj",
+      "demo": "Merhaba Camille, fiyat teklifini bu öğleden sonra gönderiyorum. Görüşürüz!"
+    },
+    "provider": {
+      "title": "Sesinizi kim yazıya dökecek?",
+      "subtitle": "Parler, bu hizmetlerden birindeki kendi hesabınızla çalışır. İstediğiniz zaman değiştirebilirsiniz.",
+      "voice": "Sesiniz",
+      "text": "Metniniz"
+    },
+    "key": {
+      "title": "{provider} hesabınızı bağlayın",
+      "subtitle": "Bu API anahtarıyla Parler, {provider} hizmetini sizin adınıza kullanır. Anahtar bu bilgisayarda kalır.",
+      "customTitle": "Sunucunuzu bağlayın",
+      "customSubtitle": "OpenAI ses API'sini destekleyen her sunucu çalışır.",
+      "step1": "{provider} sitesine gidin ve giriş yapın",
+      "step2": "Yeni bir API anahtarı oluşturun",
+      "step3": "Kopyalayıp aşağıya yapıştırın",
+      "open": "{provider} sitesini aç",
+      "placeholder": "Anahtarınızı buraya yapıştırın",
+      "checking": "Anahtarınız kontrol ediliyor…",
+      "valid": "Anahtar doğrulandı",
+      "card": "API anahtarı",
+      "waiting": "Anahtarınız bekleniyor"
+    },
+    "permissions": {
+      "title": "Parler duysun ve yazsın",
+      "subtitle": "macOS bunu yalnızca bir kez sorar. Parler yalnızca kısayolu basılı tuttuğunuz sürece dinler.",
+      "microphone": "Mikrofon",
+      "microphoneHint": "Söylediklerinizi duymak için.",
+      "accessibility": "Erişilebilirlik",
+      "accessibilityHint": "Metni imlecin olduğu yere yazmak için.",
+      "allow": "İzin ver",
+      "allowed": "İzin verildi",
+      "later": "Daha sonra",
+      "panel": "Gizlilik ve Güvenlik"
+    },
+    "shortcut": {
+      "title": "Dikte tuşunuz",
+      "subtitle": "Basılı tutun, konuşun, bırakın. Kısa bir basışta, bir sonraki basışa kadar dinlerim.",
+      "hold": "Basılı tutun…",
+      "speak": "…konuşun…",
+      "release": "…bırakın."
+    },
+    "try": {
+      "title": "İlk dikteniz",
+      "holdToSpeak": "Kutuya tıklayın, sonra {keys} tuşlarını basılı tutun ve konuşun.",
+      "pressToSpeak": "Kutuya tıklayın, sonra {keys} tuşlarına basın ve konuşun.",
+      "placeholder": "Sözleriniz burada görünecek…",
+      "done": "Harika. Parler hazır.",
+      "finish": "Kullanmaya başla",
+      "skip": "Şimdilik geç",
+      "ideas": "Şunu söylemeyi deneyin",
+      "idea1": "Yarın saat dokuzda fırını aramamı hatırlat.",
+      "idea2": "Mesajın için teşekkürler, pazartesi sana dönerim.",
+      "idea3": "Alışveriş listesine süt, yumurta ve kahve ekle.",
+      "tip": "Doğal konuşun: noktalama işaretleri sizin yerinize eklenir."
+    }
+  },
+  "home": {
+    "morning": "Günaydın",
+    "afternoon": "İyi günler",
+    "evening": "İyi akşamlar",
+    "subtitle": "Parler tüm uygulamalarınızda hazır.",
+    "holdToSpeak": "{keys} tuşlarını basılı tutun *ve konuşun*",
+    "pressToSpeak": "{keys} tuşlarına basın *ve konuşun*",
+    "hint": {
+      "smart": "Bitirmek için bırakın. Kısa bir basışta, bir sonrakine kadar dinlerim.",
+      "hold": "Bitirmek için bırakın.",
+      "toggle": "Bitirmek için yeniden basın.",
+      "paste": "Metin, imlecin olduğu yere yazılır.",
+      "copy": "Metin panoya kopyalanır."
+    },
+    "listening": "Dinliyorum…",
+    "listeningHint": "İptal etmek için Esc",
+    "writing": "Yazıyorum…",
+    "stats": {
+      "words": "Dikte edilen kelime",
+      "saved": "Kazanılan zaman",
+      "speed": "Dakikada kelime"
+    },
+    "recent": "Son dikteler",
+    "seeAll": "Tümünü gör",
+    "empty": "Dikteleriniz burada görünecek.",
+    "emptyHint": "Hemen deneyin, istediğiniz uygulamada.",
+    "seconds": "{s} sn"
+  },
+  "history": {
+    "title": "Geçmiş",
+    "count": "{n} dikte, bu bilgisayarda saklanıyor.",
+    "countOne": "1 dikte, bu bilgisayarda saklanıyor.",
+    "search": "Diktelerinizde arayın…",
+    "clearSearch": "Aramayı temizle",
+    "noResults": "“{query}” ile eşleşen dikte yok.",
+    "showMore": "Daha fazla göster",
+    "clearAll": "Tümünü temizle",
+    "confirmClear": "Tümünü silmek için yeniden tıklayın"
+  },
+  "vocabulary": {
+    "title": "Sözlük",
+    "subtitle": "Doğru yazılmasını istediğiniz adlar, markalar ve terimler. Hizmete ipucu olarak gönderilirler.",
+    "placeholder": "Bir kelime veya ad ekleyin…",
+    "add": "Ekle",
+    "remove": "Kaldır: {word}",
+    "empty": "Henüz kelime yok. Örneğin:",
+    "count": "{n} kelime"
+  },
+  "problems": {
+    "unknownProvider": "Ayarlardan bir hizmet seçin.",
+    "missingApiKey": "Dikte etmeye başlamak için {provider} API anahtarınızı ekleyin.",
+    "missingBaseUrl": "Ayarlardan sunucunuzun adresini girin.",
+    "unauthorized": "{provider}, API anahtarını reddetti. Ayarlardan kontrol edin.",
+    "rateLimited": "{provider} istekleri sınırlıyor (istek sınırı ya da kredi). Biraz sonra yeniden deneyin.",
+    "offline": "{provider} hizmetine ulaşılamadı. Bağlantınızı kontrol edin.",
+    "timeout": "{provider} çok geç yanıt verdi.",
+    "rejected": "{provider} bir hata döndürdü ({status}): {message}",
+    "invalidResponse": "{provider} beklenmeyen bir yanıt gönderdi.",
+    "microphone": "Mikrofon kullanılamadı: {detail}",
+    "needsAccessibility": "Sizin yerinize yazabilmek için Parler, Erişilebilirlik iznine ihtiyaç duyar. Metniniz panoda: ⌘V ile yapıştırın.",
+    "noClipboard": "Bu sistemde pano kullanılamıyor.",
+    "pasteFailed": "Yapıştırma başarısız oldu ({detail}). Metniniz panoda.",
+    "shortcut": "{shortcut} başka bir uygulama tarafından kullanılıyor. Başka bir kısayol seçin.",
+    "retry": "Yeniden dene",
+    "openSettings": "Ayarları aç",
+    "openAccessibility": "Erişilebilirlik ayarlarını aç"
+  },
+  "overlay": {
+    "empty": "Ses duyulmadı",
+    "error": "Bir şeyler ters gitti",
+    "unknownProvider": "Kurulum gerekli",
+    "missingApiKey": "API anahtarı eksik",
+    "missingBaseUrl": "Kurulum gerekli",
+    "unauthorized": "API anahtarı reddedildi",
+    "rateLimited": "İstek sınırı aşıldı",
+    "offline": "Bağlantı yok",
+    "timeout": "Yanıt çok gecikti",
+    "rejected": "Hizmet hatası",
+    "invalidResponse": "Hizmet hatası",
+    "microphone": "Mikrofon kullanılamıyor"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "subtitle": "Gerisi otomatik.",
+    "saveFailed": "Kaydedilemedi: {error}",
+    "transcription": {
+      "title": "Yazıya dökme",
+      "description": "Sesinizi metne dönüştüren hizmet.",
+      "provider": "Hizmet",
+      "apiKey": "API anahtarı",
+      "apiKeyPlaceholder": "Anahtarınızı yapıştırın",
+      "apiKeyOptional": "İsteğe bağlı",
+      "getKey": "Anahtar al",
+      "language": "Konuşma dili",
+      "languageAuto": "Otomatik algıla",
+      "languageHint": "Dilinizi seçerseniz yazıya dökme daha hızlı ve isabetli olur.",
+      "advanced": "Gelişmiş seçenekler",
+      "model": "Model",
+      "modelHint": "Listeden birini seçin ya da hizmetin sunduğu herhangi bir modelin adını yazın.",
+      "baseUrl": "Sunucu adresi",
+      "baseUrlHint": "/v1 dahil, /audio/transcriptions hariç."
+    },
+    "shortcut": {
+      "title": "Kısayol",
+      "description": "Dikteyi nasıl başlatıp bitireceğiniz.",
+      "label": "Dikte kısayolu",
+      "recording": "Tuşlarınıza basın…",
+      "cancelHint": "İptal etmek için Esc",
+      "invalid": "{modifiers} gibi bir değiştirici tuş ekleyin.",
+      "reserved": "{shortcut} günlük işlerde kullanılan bir kısayol (kopyala, yapıştır, kaydet…). Başka birini seçin.",
+      "mode": "Davranış",
+      "smart": "Akıllı",
+      "hold": "Basılı tut",
+      "toggle": "Aç/kapat",
+      "smartHint": "Konuşmak için basılı tutun ya da başlatmak için bir kez, durdurmak için bir kez daha basın.",
+      "holdHint": "Kısayolu basılı tuttuğunuz sürece kaydeder.",
+      "toggleHint": "Başlatmak için basın, durdurmak için yeniden basın.",
+      "wayland": "Wayland'de genel kısayollar masaüstü ortamınıza bağlıdır: {command} komutuna bir kısayol atayın."
+    },
+    "microphone": {
+      "title": "Mikrofon",
+      "description": "Parler bu mikrofonu dinler.",
+      "default": "Sistem varsayılanı"
+    },
+    "output": {
+      "title": "Metin",
+      "description": "Sözleriniz hazır olduğunda ne olacağı.",
+      "paste": "Yaz",
+      "copy": "Kopyala",
+      "pasteHint": "İmlecin olduğu yere yazılır; panonuz ardından eski haline döner.",
+      "copyHint": "Panoya kopyalanır, istediğiniz yere yapıştırırsınız."
+    },
+    "general": {
+      "title": "Genel",
+      "description": "Sesler, açılış ve dil.",
+      "sounds": "Sesler",
+      "soundsHint": "Dinleme başlayıp bittiğinde hafif bir ses.",
+      "autostart": "Oturum açınca başlat",
+      "autostartHint": "Parler, menü çubuğunda sessizce bekler.",
+      "theme": "Görünüm",
+      "theme_system": "Sistem",
+      "theme_light": "Açık",
+      "theme_dark": "Koyu",
+      "interfaceLanguage": "Arayüz dili",
+      "system": "Sistem"
+    },
+    "about": {
+      "title": "Hakkında",
+      "version": "Sürüm {version}",
+      "source": "Kaynak kodu",
+      "credits": "MIT lisansıyla ücretsiz ve açık kaynak. Mikrofon kaydı ve masaüstü entegrasyonunun bir kısmı Handy projesinden gelir."
+    }
+  },
+  "tray": {
+    "open": "Parler penceresini aç",
+    "toggle": "Dikteyi başlat veya durdur",
+    "copyLast": "Son dikteyi kopyala",
+    "history": "Geçmiş…",
+    "quit": "Parler'den çık"
+  }
+}

@@ -1,10 +1,11 @@
 // Typed access to the Rust backend. The shapes mirror src-tauri/src.
 import { invoke } from "@tauri-apps/api/core";
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
+import type { LanguagePref } from "../i18n";
 
 export type ShortcutMode = "smart" | "hold" | "toggle";
 export type Output = "paste" | "copy";
-export type UiLanguage = "auto" | "en" | "fr";
+export type UiLanguage = LanguagePref;
 export type Theme = "system" | "light" | "dark";
 
 export interface Settings {

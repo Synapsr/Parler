@@ -102,7 +102,7 @@ impl History {
 
         let mut stats = self.stats.lock().unwrap_or_else(|e| e.into_inner());
         stats.dictations += 1;
-        stats.words += entries[0].text.split_whitespace().count() as u64;
+        stats.words += count_words(&entries[0].text);
         stats.speech_ms += duration_ms;
         write_json(&self.stats_path, &*stats);
     }
@@ -137,6 +137,26 @@ pub fn notify(app: &AppHandle) {
     crate::tray::refresh(app);
 }
 
+/// Words in a dictation. Chinese and Japanese put no spaces between words, so
+/// there every two characters count as one word, about their average length.
+fn count_words(text: &str) -> u64 {
+    let mut words = 0;
+    let mut wide = 0;
+    for token in text.split_whitespace() {
+        wide += token.chars().filter(|&c| is_cjk(c)).count() as u64;
+        // Latin words, numbers and the like count once ("Parler", "14:00").
+        if token.chars().any(|c| c.is_alphanumeric() && !is_cjk(c)) {
+            words += 1;
+        }
+    }
+    words + wide.div_ceil(2)
+}
+
+/// Kana and Han characters (Korean separates its words with spaces).
+fn is_cjk(c: char) -> bool {
+    matches!(c as u32, 0x3040..=0x30FF | 0x3400..=0x4DBF | 0x4E00..=0x9FFF | 0xF900..=0xFAFF)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -157,6 +177,15 @@ mod tests {
         let reloaded = History::load(dir.join("history.json"));
         assert_eq!(reloaded.entries(), entries);
         let _ = fs::remove_dir_all(dir);
+    }
+
+    #[test]
+    fn counts_words_without_spaces_too() {
+        assert_eq!(count_words("Bonjour Camille, à demain !"), 4);
+        assert_eq!(count_words("谢谢你的反馈，我明天上午看一下。"), 7);
+        assert_eq!(count_words("Camille 你好"), 2);
+        assert_eq!(count_words("피드백 고마워요."), 2);
+        assert_eq!(count_words(""), 0);
     }
 
     #[test]

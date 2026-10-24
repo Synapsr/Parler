@@ -7,12 +7,13 @@ import {
   requestAccessibilityPermission,
   requestMicrophonePermission,
 } from "tauri-plugin-macos-permissions-api";
+import { KeysSentence } from "../components/KeysSentence";
 import { ShortcutField } from "../components/ShortcutField";
+import { useKeycaps } from "../components/useKeycaps";
 import { useProviderForm } from "../components/useProviderForm";
 import { useT } from "../i18n/context";
 import { lookOf } from "../lib/look";
 import { describeProblem } from "../lib/problems";
-import { keycaps } from "../lib/shortcut";
 import { useParler } from "../state";
 import {
   Banner,
@@ -374,11 +375,12 @@ function PermissionsStep({ nav }: { nav: Nav }) {
 
 function ShortcutStep({ nav }: { nav: Nav }) {
   const { t } = useT();
-  const { settings, info } = useParler();
+  const { settings } = useParler();
+  const toKeys = useKeycaps();
   return (
     <StepLayout
       nav={nav}
-      scene={<ShortcutScene keys={keycaps(settings.shortcut, info.platform, t("common.space"))} />}
+      scene={<ShortcutScene keys={toKeys(settings.shortcut)} />}
       footer={
         <Button variant="primary" size="lg" onClick={nav.next}>
           {t("common.continue")}
@@ -396,11 +398,14 @@ function ShortcutStep({ nav }: { nav: Nav }) {
 
 function TryStep({ nav }: { nav: Nav }) {
   const { t } = useT();
-  const { settings, info, status, update } = useParler();
+  const { settings, status, update } = useParler();
+  const toKeys = useKeycaps();
   const [text, setText] = useState("");
   const done = text.trim().length > 0;
-  const problem = status.problem && status.state === "idle" ? describeProblem(status.problem) : null;
-  const verb = settings.shortcutMode === "toggle" ? t("home.press") : t("home.hold");
+  const problem =
+    status.problem && status.state === "idle"
+      ? describeProblem(status.problem, t("providers.customName"))
+      : null;
   const finish = () => update({ onboarded: true });
 
   return (
@@ -423,9 +428,14 @@ function TryStep({ nav }: { nav: Nav }) {
       <div className="rise mb-5">
         <h1 className="font-display text-title text-text">{t("onboarding.try.title")}</h1>
         <p className="mt-3 text-[14.5px] leading-[2] text-text-2">
-          {t("onboarding.try.lead")} {verb.toLowerCase()}{" "}
-          <Keycaps keys={keycaps(settings.shortcut, info.platform, t("common.space"))} />{" "}
-          {t("home.andSpeak")}.
+          <KeysSentence
+            text={t(
+              settings.shortcutMode === "toggle"
+                ? "onboarding.try.pressToSpeak"
+                : "onboarding.try.holdToSpeak",
+            )}
+            keys={<Keycaps keys={toKeys(settings.shortcut)} />}
+          />
         </p>
       </div>
       <TextArea

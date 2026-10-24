@@ -23,6 +23,7 @@ import {
   type Theme,
   type UiLanguage,
 } from "../lib/api";
+import { LOCALES } from "../i18n";
 import { LANGUAGES } from "../lib/languages";
 import { useParler } from "../state";
 import {
@@ -348,8 +349,11 @@ function General() {
           className="w-40"
         >
           <option value="auto">{t("settings.general.system")}</option>
-          <option value="en">English</option>
-          <option value="fr">Français</option>
+          {LOCALES.map((l) => (
+            <option key={l.code} value={l.code}>
+              {l.name}
+            </option>
+          ))}
         </Select>
       </Field>
     </Section>

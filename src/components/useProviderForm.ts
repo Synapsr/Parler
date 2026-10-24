@@ -54,10 +54,10 @@ export function useProviderForm() {
       setCheck({ state: "ok" });
       return true;
     } catch (error) {
-      const text = describeProblem({
-        kind: "transcription",
-        error: error as TranscribeError,
-      });
+      const text = describeProblem(
+        { kind: "transcription", error: error as TranscribeError },
+        t("providers.customName"),
+      );
       setCheck({ state: "failed", message: t(text.key, text.params) });
       return false;
     }

@@ -1,0 +1,264 @@
+{
+  "app": {
+    "tagline": "말하세요. 입력하는 곳 어디든 글이 나타나요."
+  },
+  "common": {
+    "continue": "계속",
+    "back": "뒤로",
+    "copy": "복사",
+    "copied": "복사됨",
+    "delete": "삭제",
+    "change": "변경",
+    "show": "보기",
+    "hide": "숨기기",
+    "space": "스페이스",
+    "ctrl": "Ctrl",
+    "test": "테스트",
+    "testing": "테스트 중…",
+    "works": "잘 작동해요"
+  },
+  "nav": {
+    "home": "홈",
+    "history": "기록",
+    "vocabulary": "단어장",
+    "settings": "설정"
+  },
+  "status": {
+    "ready": "준비됨",
+    "listening": "듣는 중…",
+    "writing": "입력 중…",
+    "attention": "확인 필요"
+  },
+  "providers": {
+    "recommended": "추천",
+    "customName": "내 서버",
+    "groq": "아주 빠름 · 무료 가입",
+    "openai": "아주 정확함 · GPT-4o Transcribe",
+    "fireworks": "빠르고 저렴한 Whisper v3",
+    "custom": "OpenAI 호환 내 서버"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "목소리를, 어디서든 글로.",
+      "subtitle": "키를 누른 채 자연스럽게 말하고 손을 떼세요. 이메일, 채팅, 문서, 코드 등 어떤 앱에서든 Parler가 말한 내용을 입력해요.",
+      "start": "시작하기",
+      "time": "2분 정도면 끝나요.",
+      "document": "새 메시지",
+      "demo": "카미유 님, 견적서는 오늘 오후에 보내 드릴게요. 또 연락드려요!"
+    },
+    "provider": {
+      "title": "누가 목소리를 글로 바꿀까요?",
+      "subtitle": "Parler는 이 서비스 중 하나에 있는 내 계정으로 작동해요. 언제든 바꿀 수 있어요.",
+      "voice": "내 목소리",
+      "text": "내 글"
+    },
+    "key": {
+      "title": "{provider} 연결",
+      "subtitle": "API 키가 있으면 Parler가 나 대신 {provider} 서비스를 사용해요. 키는 이 컴퓨터에만 저장돼요.",
+      "customTitle": "내 서버 연결",
+      "customSubtitle": "OpenAI 오디오 API를 지원하는 서버라면 무엇이든 쓸 수 있어요.",
+      "step1": "{provider} 웹사이트를 열고 로그인하세요",
+      "step2": "새 API 키를 만드세요",
+      "step3": "키를 복사해서 아래에 붙여넣으세요",
+      "open": "{provider} 열기",
+      "placeholder": "여기에 키를 붙여넣으세요",
+      "checking": "키를 확인하는 중…",
+      "valid": "키 확인 완료",
+      "card": "API 키",
+      "waiting": "키를 기다리는 중"
+    },
+    "permissions": {
+      "title": "Parler가 듣고 입력하도록 허용하세요",
+      "subtitle": "macOS는 한 번만 물어봐요. Parler는 단축키를 누르고 있는 동안에만 들어요.",
+      "microphone": "마이크",
+      "microphoneHint": "말하는 내용을 듣기 위해 필요해요.",
+      "accessibility": "손쉬운 사용",
+      "accessibilityHint": "커서가 있는 곳에 텍스트를 입력하기 위해 필요해요.",
+      "allow": "허용",
+      "allowed": "허용됨",
+      "later": "나중에 하기",
+      "panel": "개인정보 보호 및 보안"
+    },
+    "shortcut": {
+      "title": "받아쓰기 키",
+      "subtitle": "누른 채 말하고 손을 떼세요. 짧게 한 번 누르면 다시 누를 때까지 계속 들어요.",
+      "hold": "누르고…",
+      "speak": "…말하고…",
+      "release": "…떼세요."
+    },
+    "try": {
+      "title": "첫 받아쓰기",
+      "holdToSpeak": "입력란을 클릭한 다음 {keys} 키를 누른 채 말하세요.",
+      "pressToSpeak": "입력란을 클릭한 다음 {keys} 키를 누르고 말하세요.",
+      "placeholder": "말한 내용이 여기에 나타나요…",
+      "done": "완벽해요. Parler가 준비됐어요.",
+      "finish": "Parler 사용 시작하기",
+      "skip": "지금은 건너뛰기",
+      "ideas": "이렇게 말해 보세요",
+      "idea1": "내일 아홉 시에 빵집에 전화하라고 알려 줘.",
+      "idea2": "메시지 고마워. 월요일에 답장할게.",
+      "idea3": "장보기 목록에 우유, 달걀, 커피 추가해 줘.",
+      "tip": "자연스럽게 말하세요. 문장 부호는 알아서 넣어 드려요."
+    }
+  },
+  "home": {
+    "morning": "좋은 아침이에요",
+    "afternoon": "좋은 오후예요",
+    "evening": "좋은 저녁이에요",
+    "subtitle": "Parler가 모든 앱에서 준비됐어요.",
+    "holdToSpeak": "{keys} 키를 누른 채 말하세요",
+    "pressToSpeak": "{keys} 키를 누르고 말하세요",
+    "hint": {
+      "smart": "손을 떼면 끝나요. 짧게 한 번 누르면 다음에 누를 때까지 계속 들어요.",
+      "hold": "손을 떼면 끝나요.",
+      "toggle": "다시 누르면 끝나요.",
+      "paste": "커서가 있는 곳에 텍스트가 입력돼요.",
+      "copy": "텍스트가 클립보드에 복사돼요."
+    },
+    "listening": "듣는 중…",
+    "listeningHint": "Esc 키로 취소",
+    "writing": "입력 중…",
+    "stats": {
+      "words": "받아쓴 단어",
+      "saved": "절약한 시간",
+      "speed": "분당 단어 수"
+    },
+    "recent": "최근 받아쓰기",
+    "seeAll": "모두 보기",
+    "empty": "받아쓴 내용이 여기에 표시돼요.",
+    "emptyHint": "지금 아무 앱에서나 해 보세요.",
+    "seconds": "{s}초"
+  },
+  "history": {
+    "title": "기록",
+    "count": "받아쓰기 {n}개, 이 컴퓨터에 보관돼요.",
+    "countOne": "받아쓰기 1개, 이 컴퓨터에 보관돼요.",
+    "search": "받아쓰기 검색…",
+    "clearSearch": "검색 지우기",
+    "noResults": "“{query}”에 해당하는 받아쓰기가 없어요.",
+    "showMore": "더 보기",
+    "clearAll": "모두 지우기",
+    "confirmClear": "한 번 더 클릭하면 모두 삭제돼요"
+  },
+  "vocabulary": {
+    "title": "단어장",
+    "subtitle": "Parler가 정확하게 써야 하는 이름, 브랜드, 전문 용어예요. 서비스에 힌트로 전달돼요.",
+    "placeholder": "단어나 이름 추가…",
+    "add": "추가",
+    "remove": "{word} 삭제",
+    "empty": "아직 단어가 없어요. 예를 들면:",
+    "count": "단어 {n}개"
+  },
+  "problems": {
+    "unknownProvider": "설정에서 서비스를 선택하세요.",
+    "missingApiKey": "받아쓰기를 시작하려면 {provider} API 키를 추가하세요.",
+    "missingBaseUrl": "설정에서 서버 주소를 입력하세요.",
+    "unauthorized": "{provider}에서 API 키를 거부했어요. 설정에서 확인하세요.",
+    "rateLimited": "{provider}에서 요청을 제한하고 있어요(요청 한도 또는 크레딧). 잠시 후 다시 시도하세요.",
+    "offline": "{provider}에 연결할 수 없어요. 인터넷 연결을 확인하세요.",
+    "timeout": "{provider}의 응답이 너무 오래 걸렸어요.",
+    "rejected": "{provider}에서 오류를 보냈어요({status}): {message}",
+    "invalidResponse": "{provider}에서 예상치 못한 응답을 보냈어요.",
+    "microphone": "마이크를 사용할 수 없어요: {detail}",
+    "needsAccessibility": "Parler가 대신 입력하려면 손쉬운 사용 권한이 필요해요. 텍스트는 클립보드에 있으니 ⌘V로 붙여넣으세요.",
+    "noClipboard": "이 시스템에서는 클립보드를 사용할 수 없어요.",
+    "pasteFailed": "붙여넣지 못했어요({detail}). 텍스트는 클립보드에 있어요.",
+    "shortcut": "{shortcut} 단축키는 이미 다른 앱에서 사용 중이에요. 다른 단축키를 고르세요.",
+    "retry": "다시 시도",
+    "openSettings": "설정 열기",
+    "openAccessibility": "손쉬운 사용 설정 열기"
+  },
+  "overlay": {
+    "empty": "소리 없음",
+    "error": "문제가 생겼어요",
+    "unknownProvider": "Parler 설정하기",
+    "missingApiKey": "API 키 없음",
+    "missingBaseUrl": "Parler 설정하기",
+    "unauthorized": "API 키 거부됨",
+    "rateLimited": "요청 한도 초과",
+    "offline": "연결 없음",
+    "timeout": "응답이 너무 느림",
+    "rejected": "서비스 오류",
+    "invalidResponse": "서비스 오류",
+    "microphone": "마이크 사용 불가"
+  },
+  "settings": {
+    "title": "설정",
+    "subtitle": "나머지는 모두 자동이에요.",
+    "saveFailed": "저장하지 못했어요: {error}",
+    "transcription": {
+      "title": "음성 인식",
+      "description": "목소리를 글로 바꿔 주는 서비스예요.",
+      "provider": "서비스",
+      "apiKey": "API 키",
+      "apiKeyPlaceholder": "키 붙여넣기",
+      "apiKeyOptional": "선택 사항",
+      "getKey": "키 받기",
+      "language": "말하는 언어",
+      "languageAuto": "자동 감지",
+      "languageHint": "언어를 선택하면 더 빠르고 정확하게 인식해요.",
+      "advanced": "고급 옵션",
+      "model": "모델",
+      "modelHint": "목록에서 고르거나, 서비스에서 제공하는 모델 이름을 입력하세요.",
+      "baseUrl": "서버 주소",
+      "baseUrlHint": "/v1까지만 입력하고, /audio/transcriptions는 빼 주세요."
+    },
+    "shortcut": {
+      "title": "단축키",
+      "description": "받아쓰기를 시작하고 멈추는 방법이에요.",
+      "label": "받아쓰기 단축키",
+      "recording": "키를 누르세요…",
+      "cancelHint": "Esc 키로 취소",
+      "invalid": "{modifiers} 같은 보조 키를 추가하세요.",
+      "reserved": "{shortcut} 키는 복사, 붙여넣기, 저장처럼 자주 쓰는 단축키예요. 다른 단축키를 고르세요.",
+      "mode": "동작 방식",
+      "smart": "스마트",
+      "hold": "누르고 있기",
+      "toggle": "켜고 끄기",
+      "smartHint": "누른 채 말하거나, 한 번 눌러 시작하고 다시 눌러 멈추세요.",
+      "holdHint": "단축키를 누르고 있는 동안 녹음해요.",
+      "toggleHint": "누르면 시작하고, 다시 누르면 멈춰요.",
+      "wayland": "Wayland에서는 전역 단축키를 데스크톱 환경에서 설정해요. {command} 명령에 단축키를 지정하세요."
+    },
+    "microphone": {
+      "title": "마이크",
+      "description": "Parler가 사용할 마이크예요.",
+      "default": "시스템 기본값"
+    },
+    "output": {
+      "title": "텍스트",
+      "description": "글이 준비되면 어떻게 할지 정해요.",
+      "paste": "바로 입력",
+      "copy": "복사만",
+      "pasteHint": "커서가 있는 곳에 입력하고, 클립보드는 원래대로 돌려놔요.",
+      "copyHint": "클립보드에 넣어 두니, 직접 붙여넣으세요."
+    },
+    "general": {
+      "title": "일반",
+      "description": "사운드, 시작, 언어.",
+      "sounds": "사운드",
+      "soundsHint": "듣기를 시작하고 멈출 때 부드러운 소리로 알려 줘요.",
+      "autostart": "로그인 시 열기",
+      "autostartHint": "Parler가 메뉴 막대에서 조용히 기다려요.",
+      "theme": "화면 모드",
+      "theme_system": "자동",
+      "theme_light": "라이트",
+      "theme_dark": "다크",
+      "interfaceLanguage": "표시 언어",
+      "system": "시스템"
+    },
+    "about": {
+      "title": "정보",
+      "version": "버전 {version}",
+      "source": "소스 코드",
+      "credits": "MIT 라이선스로 공개된 무료 오픈 소스 소프트웨어예요. 마이크 입력과 데스크톱 연동의 일부는 Handy에서 가져왔어요."
+    }
+  },
+  "tray": {
+    "open": "Parler 열기",
+    "toggle": "받아쓰기 시작/중지",
+    "copyLast": "마지막 받아쓰기 복사",
+    "history": "기록…",
+    "quit": "Parler 종료"
+  }
+}

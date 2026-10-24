@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { translate } from "../i18n";
+import { LOCALES, translate } from "../i18n";
 import { describeProblem } from "./problems";
 import type { Problem } from "./api";
 
@@ -27,12 +27,18 @@ describe("describeProblem", () => {
   it("has a translated sentence and pill text for every problem", () => {
     for (const problem of problems) {
       const { key, short, params } = describeProblem(problem);
-      for (const locale of ["en", "fr"] as const) {
+      for (const { code: locale } of LOCALES) {
         expect(translate(locale, key, params)).not.toBe(key);
         expect(translate(locale, short)).not.toBe(short);
         expect(translate(locale, key, params)).not.toMatch(/\{\w+\}/);
       }
     }
+  });
+
+  it("names the user's own server in the interface language", () => {
+    const custom: Problem = { kind: "transcription", error: { kind: "unauthorized", provider: "Custom" } };
+    expect(describeProblem(custom, "Votre serveur").params.provider).toBe("Votre serveur");
+    expect(describeProblem(problems[3], "Votre serveur").params.provider).toBe("Groq");
   });
 
   it("sends key problems to the settings", () => {

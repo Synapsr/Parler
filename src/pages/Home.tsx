@@ -1,11 +1,13 @@
 import { ArrowRight, Gauge, RotateCw, Timer, Type } from "lucide-react";
 import { requestAccessibilityPermission } from "tauri-plugin-macos-permissions-api";
+import { joinSentences } from "../i18n";
 import { useT } from "../i18n/context";
 import { EmptyHistory, HistoryDays } from "../components/HistoryList";
+import { KeysSentence } from "../components/KeysSentence";
+import { useKeycaps } from "../components/useKeycaps";
 import { api } from "../lib/api";
 import { formatDuration, minutesSaved, wordsPerMinute } from "../lib/insights";
 import { describeProblem } from "../lib/problems";
-import { keycaps } from "../lib/shortcut";
 import { useParler } from "../state";
 import { Banner, Button, FlowPill, Keycaps, PageHeader, Stat } from "../ui";
 
@@ -37,10 +39,9 @@ export function Home({
 
 /** The one thing to remember, on an ink card. */
 function Hero() {
-  const { t } = useT();
-  const { settings, status, info } = useParler();
-  const keys = keycaps(settings.shortcut, info.platform, t("common.space"));
-  const verb = settings.shortcutMode === "toggle" ? t("home.press") : t("home.hold");
+  const { t, locale } = useT();
+  const { settings, status } = useParler();
+  const keys = useKeycaps()(settings.shortcut);
 
   let title;
   let hint;
@@ -55,11 +56,12 @@ function Hero() {
     pill = "writing";
   } else {
     title = (
-      <>
-        {verb} <Keycaps keys={keys} size="lg" dark /> <span className="italic">{t("home.andSpeak")}</span>
-      </>
+      <KeysSentence
+        text={t(settings.shortcutMode === "toggle" ? "home.pressToSpeak" : "home.holdToSpeak")}
+        keys={<Keycaps keys={keys} size="lg" dark />}
+      />
     );
-    hint = `${t(`home.hint.${settings.shortcutMode}`)} ${t(`home.hint.${settings.output}`)}`;
+    hint = joinSentences(locale, t(`home.hint.${settings.shortcutMode}`), t(`home.hint.${settings.output}`));
   }
 
   return (
@@ -84,7 +86,7 @@ function Problem({ openSettings }: { openSettings: () => void }) {
   const { t } = useT();
   const { status } = useParler();
   if (!status.problem || status.state !== "idle") return null;
-  const problem = describeProblem(status.problem);
+  const problem = describeProblem(status.problem, t("providers.customName"));
 
   return (
     <Banner
@@ -123,7 +125,7 @@ function Stats() {
   return (
     <div className="rise grid grid-cols-3 gap-3" style={{ animationDelay: "120ms" }}>
       <Stat icon={Type} tint="violet" value={number.format(stats.words)} label={t("home.stats.words")} />
-      <Stat icon={Timer} tint="green" value={formatDuration(minutesSaved(stats))} label={t("home.stats.saved")} />
+      <Stat icon={Timer} tint="green" value={formatDuration(minutesSaved(stats), locale)} label={t("home.stats.saved")} />
       <Stat icon={Gauge} tint="amber" value={speed ? number.format(speed) : "—"} label={t("home.stats.speed")} />
     </div>
   );

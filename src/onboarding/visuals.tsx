@@ -1,6 +1,7 @@
 // The right-hand scenes of the first-run flow: each shows, rather than tells.
 import { Check, KeyRound, Lightbulb, LoaderCircle, Mic, PersonStanding, Type, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import type { Locale } from "../i18n";
 import { useT } from "../i18n/context";
 import { lookOf } from "../lib/look";
 import type { Check as KeyCheck } from "../components/useProviderForm";
@@ -208,10 +209,20 @@ export function ShortcutScene({ keys }: { keys: string[] }) {
   );
 }
 
+/** Quotation marks where a language doesn't use “…”. */
+const QUOTES: Partial<Record<Locale, [string, string]>> = {
+  fr: ["« ", " »"],
+  es: ["«", "»"],
+  it: ["«", "»"],
+  de: ["„", "“"],
+  pl: ["„", "”"],
+  ja: ["「", "」"],
+};
+
 /** Things worth saying the first time. */
 export function IdeasScene() {
   const { t, locale } = useT();
-  const [open, close] = locale === "fr" ? ["« ", " »"] : ["“", "”"];
+  const [open, close] = QUOTES[locale] ?? ["“", "”"];
   return (
     <div className="flex w-[360px] flex-col gap-3">
       <div className="mb-1 text-[11.5px] font-semibold tracking-wide text-text-3 uppercase">

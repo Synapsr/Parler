@@ -102,15 +102,14 @@ const KEY_SYMBOLS: Record<string, string> = {
   PageDown: "Page ↓",
 };
 
-/**
- * The keycaps to draw for an accelerator. `spaceLabel` lets the caller
- * translate the space bar's name.
- */
-export function keycaps(
-  accelerator: string,
-  platform: string,
-  spaceLabel = "Space",
-): string[] {
+/** Key names that change with the interface language (German keyboards say "Strg"). */
+export interface KeyNames {
+  space?: string;
+  ctrl?: string;
+}
+
+/** The keycaps to draw for an accelerator, with `names` translating some keys. */
+export function keycaps(accelerator: string, platform: string, names: KeyNames = {}): string[] {
   const mac = platform === "macos";
   return accelerator
     .split("+")
@@ -118,11 +117,11 @@ export function keycaps(
     .map((token) => {
       if (token in MAC_SYMBOLS) {
         if (mac) return MAC_SYMBOLS[token];
-        return token === "Super" && platform === "linux"
-          ? "Super"
-          : OTHER_NAMES[token];
+        if (token === "Super" && platform === "linux") return "Super";
+        if (token === "Control") return names.ctrl ?? OTHER_NAMES.Control;
+        return OTHER_NAMES[token];
       }
-      if (token === "Space") return spaceLabel;
+      if (token === "Space") return names.space ?? "Space";
       if (token === "Enter") return mac ? "↩" : "Enter";
       if (token === "Backspace") return mac ? "⌫" : "Backspace";
       if (token === "Tab") return mac ? "⇥" : "Tab";

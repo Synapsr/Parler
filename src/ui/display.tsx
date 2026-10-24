@@ -149,11 +149,15 @@ export function Stat({
   value: string;
   label: string;
 }) {
+  // Han and kana are about twice as wide as the display font's figures.
+  const wide = (value.match(/[\u3040-\u30ff\u3400-\u9fff]/g) ?? []).length >= 4;
   return (
     <Card className="flex flex-col gap-3">
       <IconTile icon={icon} tint={tint} size="sm" />
       <div>
-        <div className="font-display text-[30px] leading-none text-text tabular-nums">
+        <div
+          className={`font-display leading-none whitespace-nowrap text-text tabular-nums ${wide ? "text-[24px]" : "text-[30px]"}`}
+        >
           {value}
         </div>
         <div className="mt-1.5 text-[12.5px] text-text-3">{label}</div>

@@ -1,0 +1,264 @@
+{
+  "app": {
+    "tagline": "話せば、入力中の場所に言葉が現れます。"
+  },
+  "common": {
+    "continue": "続ける",
+    "back": "戻る",
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "delete": "削除",
+    "change": "変更",
+    "show": "表示",
+    "hide": "非表示",
+    "space": "スペース",
+    "ctrl": "Ctrl",
+    "test": "テスト",
+    "testing": "テスト中…",
+    "works": "正常に動作しています"
+  },
+  "nav": {
+    "home": "ホーム",
+    "history": "履歴",
+    "vocabulary": "辞書",
+    "settings": "設定"
+  },
+  "status": {
+    "ready": "準備完了",
+    "listening": "聞き取り中…",
+    "writing": "入力中…",
+    "attention": "要確認"
+  },
+  "providers": {
+    "recommended": "おすすめ",
+    "customName": "自分のサーバー",
+    "groq": "とても速い · 無料で登録",
+    "openai": "高精度 · GPT-4o Transcribe",
+    "fireworks": "高速で手頃な Whisper v3",
+    "custom": "OpenAI 互換の自分のサーバー"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "あなたの声を、どこでも文字に",
+      "subtitle": "キーを押したまま自然に話して、離すだけ。メール、チャット、ドキュメント、コードなど、どのアプリにも Parler があなたの言葉を入力します。",
+      "start": "はじめる",
+      "time": "2分ほどで終わります。",
+      "document": "新規メッセージ",
+      "demo": "カミーユさん、見積書は今日の午後にお送りします。またご連絡しますね！"
+    },
+    "provider": {
+      "title": "声を文字にするのは、どのサービス？",
+      "subtitle": "Parler は、これらのサービスにあるご自身のアカウントで動作します。あとからいつでも変更できます。",
+      "voice": "あなたの声",
+      "text": "テキスト"
+    },
+    "key": {
+      "title": "{provider} に接続",
+      "subtitle": "API キーがあれば、Parler があなたの代わりに {provider} を使えます。キーはこのコンピュータにだけ保存されます。",
+      "customTitle": "自分のサーバーに接続",
+      "customSubtitle": "OpenAI の音声 API に対応したサーバーなら、どれでも使えます。",
+      "step1": "{provider} のウェブサイトを開いてサインイン",
+      "step2": "新しい API キーを作成",
+      "step3": "キーをコピーして下に貼り付け",
+      "open": "{provider} を開く",
+      "placeholder": "ここにキーを貼り付け",
+      "checking": "キーを確認しています…",
+      "valid": "キーを確認しました",
+      "card": "API キー",
+      "waiting": "キーを待っています"
+    },
+    "permissions": {
+      "title": "聞き取りと入力を許可",
+      "subtitle": "macOS が確認するのは一度だけです。Parler が聞き取るのは、ショートカットを押している間だけです。",
+      "microphone": "マイク",
+      "microphoneHint": "話した内容を聞き取るため。",
+      "accessibility": "アクセシビリティ",
+      "accessibilityHint": "カーソルの位置に文字を入力するため。",
+      "allow": "許可",
+      "allowed": "許可済み",
+      "later": "あとで",
+      "panel": "プライバシーとセキュリティ"
+    },
+    "shortcut": {
+      "title": "音声入力のキー",
+      "subtitle": "押したまま話して、離します。軽く1回押すと、もう一度押すまで聞き取りを続けます。",
+      "hold": "押したまま…",
+      "speak": "…話して…",
+      "release": "…離す。"
+    },
+    "try": {
+      "title": "はじめての音声入力",
+      "holdToSpeak": "入力欄をクリックしてから、{keys} を押しながら話してください。",
+      "pressToSpeak": "入力欄をクリックしてから、{keys} を押して話してください。",
+      "placeholder": "ここに言葉が現れます…",
+      "done": "完璧です。Parler の準備ができました。",
+      "finish": "Parler を使いはじめる",
+      "skip": "今はスキップ",
+      "ideas": "話してみる例",
+      "idea1": "明日の9時にパン屋さんに電話するって、リマインドして。",
+      "idea2": "メッセージありがとう。月曜日に返事するね。",
+      "idea3": "買い物リストに牛乳と卵とコーヒーを追加して。",
+      "tip": "自然に話してください。句読点は自動で入ります。"
+    }
+  },
+  "home": {
+    "morning": "おはようございます",
+    "afternoon": "こんにちは",
+    "evening": "こんばんは",
+    "subtitle": "Parler はすべてのアプリで使えます。",
+    "holdToSpeak": "{keys} を押しながら話す",
+    "pressToSpeak": "{keys} を押して話す",
+    "hint": {
+      "smart": "離すと終了します。軽く1回押すと、次に押すまで聞き取りを続けます。",
+      "hold": "離すと終了します。",
+      "toggle": "もう一度押すと終了します。",
+      "paste": "テキストはカーソルの位置に入力されます。",
+      "copy": "テキストはクリップボードにコピーされます。"
+    },
+    "listening": "聞き取り中…",
+    "listeningHint": "Esc でキャンセル",
+    "writing": "入力中…",
+    "stats": {
+      "words": "入力した語数",
+      "saved": "節約した時間",
+      "speed": "1分あたりの語数"
+    },
+    "recent": "最近の音声入力",
+    "seeAll": "すべて表示",
+    "empty": "音声入力した内容がここに表示されます。",
+    "emptyHint": "どのアプリでも、今すぐ試せます。",
+    "seconds": "{s} 秒"
+  },
+  "history": {
+    "title": "履歴",
+    "count": "{n} 件の音声入力。このコンピュータに保存されています。",
+    "countOne": "1 件の音声入力。このコンピュータに保存されています。",
+    "search": "音声入力を検索…",
+    "clearSearch": "検索をクリア",
+    "noResults": "「{query}」に一致する音声入力はありません。",
+    "showMore": "さらに表示",
+    "clearAll": "すべて消去",
+    "confirmClear": "もう一度クリックするとすべて削除します"
+  },
+  "vocabulary": {
+    "title": "辞書",
+    "subtitle": "Parler に正しく書いてほしい名前、ブランド名、専門用語です。ヒントとしてサービスに送られます。",
+    "placeholder": "単語や名前を追加…",
+    "add": "追加",
+    "remove": "{word} を削除",
+    "empty": "まだ単語はありません。たとえば：",
+    "count": "{n} 語"
+  },
+  "problems": {
+    "unknownProvider": "設定でサービスを選んでください。",
+    "missingApiKey": "音声入力を始めるには、{provider} の API キーを追加してください。",
+    "missingBaseUrl": "設定でサーバーのアドレスを入力してください。",
+    "unauthorized": "{provider} が API キーを拒否しました。設定でキーを確認してください。",
+    "rateLimited": "{provider} がリクエストを制限しています（レート制限またはクレジット不足）。少し待ってから、もう一度お試しください。",
+    "offline": "{provider} に接続できませんでした。インターネット接続を確認してください。",
+    "timeout": "{provider} の応答に時間がかかりすぎました。",
+    "rejected": "{provider} がエラーを返しました（{status}）：{message}",
+    "invalidResponse": "{provider} から予期しない応答がありました。",
+    "microphone": "マイクを使用できませんでした：{detail}",
+    "needsAccessibility": "Parler があなたの代わりに入力するには、アクセシビリティへのアクセスが必要です。テキストはクリップボードにあるので、⌘V で貼り付けてください。",
+    "noClipboard": "このシステムではクリップボードを使用できません。",
+    "pasteFailed": "貼り付けに失敗しました（{detail}）。テキストはクリップボードにあります。",
+    "shortcut": "{shortcut} はほかのアプリで使われています。別のショートカットを選んでください。",
+    "retry": "もう一度試す",
+    "openSettings": "設定を開く",
+    "openAccessibility": "アクセシビリティ設定を開く"
+  },
+  "overlay": {
+    "empty": "音声なし",
+    "error": "問題が発生しました",
+    "unknownProvider": "Parler を設定",
+    "missingApiKey": "API キーがありません",
+    "missingBaseUrl": "Parler を設定",
+    "unauthorized": "API キーが無効です",
+    "rateLimited": "レート制限中",
+    "offline": "オフライン",
+    "timeout": "応答が遅すぎます",
+    "rejected": "サービスエラー",
+    "invalidResponse": "サービスエラー",
+    "microphone": "マイクが使えません"
+  },
+  "settings": {
+    "title": "設定",
+    "subtitle": "そのほかはすべて自動です。",
+    "saveFailed": "保存できませんでした：{error}",
+    "transcription": {
+      "title": "文字起こし",
+      "description": "声を文字にするサービスです。",
+      "provider": "サービス",
+      "apiKey": "API キー",
+      "apiKeyPlaceholder": "キーを貼り付け",
+      "apiKeyOptional": "任意",
+      "getKey": "キーを取得",
+      "language": "話す言語",
+      "languageAuto": "自動検出",
+      "languageHint": "言語を選ぶと、文字起こしがより速く、正確になります。",
+      "advanced": "詳細オプション",
+      "model": "モデル",
+      "modelHint": "一覧から選ぶか、サービスが提供するモデル名を入力してください。",
+      "baseUrl": "サーバーのアドレス",
+      "baseUrlHint": "/v1 までを入力し、/audio/transcriptions は含めません。"
+    },
+    "shortcut": {
+      "title": "ショートカット",
+      "description": "音声入力の開始と停止のしかたです。",
+      "label": "音声入力のショートカット",
+      "recording": "キーを押してください…",
+      "cancelHint": "Esc でキャンセル",
+      "invalid": "{modifiers} などの修飾キーを加えてください。",
+      "reserved": "{shortcut} はよく使うショートカット（コピー、貼り付け、保存など）です。別のものを選んでください。",
+      "mode": "動作",
+      "smart": "スマート",
+      "hold": "長押し",
+      "toggle": "切り替え",
+      "smartHint": "押したまま話すか、1回押して開始し、もう1回押して停止します。",
+      "holdHint": "ショートカットを押している間だけ録音します。",
+      "toggleHint": "押すと開始、もう一度押すと停止します。",
+      "wayland": "Wayland では、グローバルショートカットはデスクトップ環境で設定します。コマンド {command} にショートカットを割り当ててください。"
+    },
+    "microphone": {
+      "title": "マイク",
+      "description": "Parler が聞き取りに使うマイクです。",
+      "default": "システムのデフォルト"
+    },
+    "output": {
+      "title": "テキスト",
+      "description": "言葉の準備ができたあとの動作です。",
+      "paste": "入力する",
+      "copy": "コピーする",
+      "pasteHint": "カーソルの位置に入力し、そのあとクリップボードを元に戻します。",
+      "copyHint": "クリップボードに入れるので、ご自身で貼り付けてください。"
+    },
+    "general": {
+      "title": "一般",
+      "description": "サウンド、起動、言語。",
+      "sounds": "サウンド",
+      "soundsHint": "聞き取りの開始と終了を、やさしい音でお知らせします。",
+      "autostart": "ログイン時に開く",
+      "autostartHint": "Parler はメニューバーで静かに待機します。",
+      "theme": "外観",
+      "theme_system": "自動",
+      "theme_light": "ライト",
+      "theme_dark": "ダーク",
+      "interfaceLanguage": "表示言語",
+      "system": "システム"
+    },
+    "about": {
+      "title": "情報",
+      "version": "バージョン {version}",
+      "source": "ソースコード",
+      "credits": "MIT ライセンスで公開されている、無料のオープンソースソフトウェアです。マイク入力とデスクトップ連携の一部は Handy に由来します。"
+    }
+  },
+  "tray": {
+    "open": "Parler を開く",
+    "toggle": "音声入力を開始/停止",
+    "copyLast": "最後の文字起こしをコピー",
+    "history": "履歴…",
+    "quit": "Parler を終了"
+  }
+}

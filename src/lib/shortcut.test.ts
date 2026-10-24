@@ -42,7 +42,7 @@ describe("acceleratorFromEvent", () => {
 
 describe("keycaps", () => {
   it("uses symbols on macOS", () => {
-    expect(keycaps("Alt+Space", "macos", "Espace")).toEqual(["⌥", "Espace"]);
+    expect(keycaps("Alt+Space", "macos", { space: "Espace" })).toEqual(["⌥", "Espace"]);
     expect(keycaps("Control+Shift+Super+KeyD", "macos")).toEqual([
       "⌃",
       "⇧",
@@ -53,6 +53,10 @@ describe("keycaps", () => {
 
   it("uses names elsewhere", () => {
     expect(keycaps("Control+Space", "windows")).toEqual(["Ctrl", "Space"]);
+    expect(keycaps("Control+Space", "windows", { space: "Leertaste", ctrl: "Strg" })).toEqual([
+      "Strg",
+      "Leertaste",
+    ]);
     expect(keycaps("Super+Digit1", "windows")).toEqual(["Win", "1"]);
     expect(keycaps("Super+ArrowUp", "linux")).toEqual(["Super", "↑"]);
   });

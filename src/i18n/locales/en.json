@@ -12,6 +12,7 @@
     "show": "Show",
     "hide": "Hide",
     "space": "Space",
+    "ctrl": "Ctrl",
     "test": "Test",
     "testing": "Testing…",
     "works": "It works"
@@ -87,7 +88,8 @@
     },
     "try": {
       "title": "Your first dictation",
-      "lead": "Click in the box, then",
+      "holdToSpeak": "Click in the box, then hold {keys} and speak.",
+      "pressToSpeak": "Click in the box, then press {keys} and speak.",
       "placeholder": "Your words will appear here…",
       "done": "Perfect. Parler is ready.",
       "finish": "Start using Parler",
@@ -104,9 +106,8 @@
     "afternoon": "Good afternoon",
     "evening": "Good evening",
     "subtitle": "Parler is ready in all your apps.",
-    "hold": "Hold",
-    "press": "Press",
-    "andSpeak": "and speak",
+    "holdToSpeak": "Hold {keys} *and speak*",
+    "pressToSpeak": "Press {keys} *and speak*",
     "hint": {
       "smart": "Let go to finish. A quick tap keeps listening until the next one.",
       "hold": "Let go to finish.",

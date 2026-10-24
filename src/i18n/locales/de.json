@@ -1,0 +1,264 @@
+{
+  "app": {
+    "tagline": "Sprich. Deine Worte erscheinen dort, wo du tippst."
+  },
+  "common": {
+    "continue": "Weiter",
+    "back": "Zurück",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "delete": "Löschen",
+    "change": "Ändern",
+    "show": "Anzeigen",
+    "hide": "Ausblenden",
+    "space": "Leertaste",
+    "ctrl": "Strg",
+    "test": "Testen",
+    "testing": "Test läuft…",
+    "works": "Funktioniert"
+  },
+  "nav": {
+    "home": "Start",
+    "history": "Verlauf",
+    "vocabulary": "Vokabular",
+    "settings": "Einstellungen"
+  },
+  "status": {
+    "ready": "Bereit",
+    "listening": "Hört zu…",
+    "writing": "Schreibt…",
+    "attention": "Aktion nötig"
+  },
+  "providers": {
+    "recommended": "Empfohlen",
+    "customName": "Eigener Server",
+    "groq": "Sehr schnell · Gratis-Konto",
+    "openai": "Sehr genau · GPT-4o Transcribe",
+    "fireworks": "Whisper v3, schnell und günstig",
+    "custom": "Dein OpenAI-kompatibler Server"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Deine Stimme, überall als Text.",
+      "subtitle": "Halte eine Taste gedrückt, sprich ganz natürlich, lass los. Parler tippt deine Worte in jede App: E-Mails, Chats, Dokumente, Code.",
+      "start": "Los geht's",
+      "time": "Dauert etwa zwei Minuten.",
+      "document": "Neue Nachricht",
+      "demo": "Hallo Camille, ich schicke dir das Angebot heute Nachmittag. Bis bald!"
+    },
+    "provider": {
+      "title": "Wer macht aus deiner Stimme\u00a0Text?",
+      "subtitle": "Parler nutzt dein eigenes Konto bei einem dieser Dienste. Du kannst jederzeit wechseln.",
+      "voice": "Deine Stimme",
+      "text": "Dein Text"
+    },
+    "key": {
+      "title": "{provider} verbinden",
+      "subtitle": "Mit einem API-Schlüssel kann Parler {provider} für dich nutzen. Er bleibt auf diesem Computer.",
+      "customTitle": "Deinen Server verbinden",
+      "customSubtitle": "Jeder Server, der die Audio-API von OpenAI unterstützt, funktioniert.",
+      "step1": "Öffne die Website von {provider} und melde dich an",
+      "step2": "Erstelle einen neuen API-Schlüssel",
+      "step3": "Kopiere ihn und füge ihn unten ein",
+      "open": "{provider} öffnen",
+      "placeholder": "Schlüssel hier einfügen",
+      "checking": "Schlüssel wird geprüft…",
+      "valid": "Schlüssel bestätigt",
+      "card": "API-Schlüssel",
+      "waiting": "Warte auf deinen Schlüssel"
+    },
+    "permissions": {
+      "title": "Lass Parler hören und tippen",
+      "subtitle": "macOS fragt nur einmal. Parler hört nur zu, solange du das Tastenkürzel gedrückt hältst.",
+      "microphone": "Mikrofon",
+      "microphoneHint": "Um zu hören, was du sagst.",
+      "accessibility": "Bedienungshilfen",
+      "accessibilityHint": "Um dort zu tippen, wo dein Cursor ist.",
+      "allow": "Erlauben",
+      "allowed": "Erlaubt",
+      "later": "Später",
+      "panel": "Datenschutz & Sicherheit"
+    },
+    "shortcut": {
+      "title": "Deine Diktiertaste",
+      "subtitle": "Gedrückt halten, sprechen, loslassen. Tippst du nur kurz, hört Parler zu, bis du wieder tippst.",
+      "hold": "Halten…",
+      "speak": "…sprechen…",
+      "release": "…loslassen."
+    },
+    "try": {
+      "title": "Dein erstes Diktat",
+      "holdToSpeak": "Klicke ins Feld, dann halte {keys} gedrückt und sprich.",
+      "pressToSpeak": "Klicke ins Feld, dann drücke {keys} und sprich.",
+      "placeholder": "Deine Worte erscheinen hier…",
+      "done": "Perfekt. Parler ist bereit.",
+      "finish": "Mit Parler loslegen",
+      "skip": "Vorerst überspringen",
+      "ideas": "Zum Ausprobieren",
+      "idea1": "Erinnere mich daran, morgen um neun die Bäckerei anzurufen.",
+      "idea2": "Danke für deine Nachricht, ich melde mich am Montag.",
+      "idea3": "Setz Milch, Eier und Kaffee auf die Einkaufsliste.",
+      "tip": "Sprich ganz normal: Satzzeichen kommen von selbst."
+    }
+  },
+  "home": {
+    "morning": "Guten Morgen",
+    "afternoon": "Guten Tag",
+    "evening": "Guten Abend",
+    "subtitle": "Parler ist in all deinen Apps bereit.",
+    "holdToSpeak": "Halte {keys} *gedrückt und sprich*",
+    "pressToSpeak": "Drücke {keys} *und sprich*",
+    "hint": {
+      "smart": "Lass los, wenn du fertig bist. Nach kurzem Tippen hört Parler bis zum nächsten Tippen zu.",
+      "hold": "Lass los, wenn du fertig bist.",
+      "toggle": "Drück noch einmal, wenn du fertig bist.",
+      "paste": "Der Text wird dort getippt, wo dein Cursor ist.",
+      "copy": "Der Text landet in deiner Zwischenablage."
+    },
+    "listening": "Ich höre zu…",
+    "listeningHint": "Esc zum Abbrechen",
+    "writing": "Ich schreibe…",
+    "stats": {
+      "words": "Diktierte Wörter",
+      "saved": "Gesparte Zeit",
+      "speed": "Wörter pro Minute"
+    },
+    "recent": "Letzte Diktate",
+    "seeAll": "Alle anzeigen",
+    "empty": "Deine Diktate erscheinen hier.",
+    "emptyHint": "Probier es gleich aus, in jeder App.",
+    "seconds": "{s} s"
+  },
+  "history": {
+    "title": "Verlauf",
+    "count": "{n} Diktate, auf diesem Computer gespeichert.",
+    "countOne": "1 Diktat, auf diesem Computer gespeichert.",
+    "search": "Diktate durchsuchen…",
+    "clearSearch": "Suche löschen",
+    "noResults": "Kein Diktat passt zu „{query}“.",
+    "showMore": "Mehr anzeigen",
+    "clearAll": "Alle löschen",
+    "confirmClear": "Zum Löschen erneut klicken"
+  },
+  "vocabulary": {
+    "title": "Vokabular",
+    "subtitle": "Namen, Marken und Fachbegriffe, die Parler richtig schreiben soll. Sie gehen als Hinweis an den Dienst.",
+    "placeholder": "Wort oder Namen hinzufügen…",
+    "add": "Hinzufügen",
+    "remove": "{word} entfernen",
+    "empty": "Noch keine Wörter. Zum Beispiel:",
+    "count": "{n} Wörter"
+  },
+  "problems": {
+    "unknownProvider": "Wähle in den Einstellungen einen Dienst.",
+    "missingApiKey": "Füge deinen API-Schlüssel für {provider} hinzu, um zu diktieren.",
+    "missingBaseUrl": "Gib in den Einstellungen die Adresse deines Servers ein.",
+    "unauthorized": "{provider} hat den API-Schlüssel abgelehnt. Prüfe ihn in den Einstellungen.",
+    "rateLimited": "{provider} begrenzt die Anfragen (Limit oder Guthaben). Versuch es gleich noch mal.",
+    "offline": "{provider} ist nicht erreichbar. Prüfe deine Verbindung.",
+    "timeout": "{provider} hat zu lange für die Antwort gebraucht.",
+    "rejected": "{provider} hat einen Fehler gemeldet ({status}): {message}",
+    "invalidResponse": "{provider} hat eine unerwartete Antwort geschickt.",
+    "microphone": "Das Mikrofon ließ sich nicht verwenden: {detail}",
+    "needsAccessibility": "Parler braucht Zugriff auf die Bedienungshilfen, um für dich zu tippen. Dein Text liegt in der Zwischenablage: Füge ihn mit ⌘V ein.",
+    "noClipboard": "Auf diesem System ist keine Zwischenablage verfügbar.",
+    "pasteFailed": "Einfügen fehlgeschlagen ({detail}). Dein Text liegt in der Zwischenablage.",
+    "shortcut": "{shortcut} wird schon von einer anderen App verwendet. Wähle ein anderes Tastenkürzel.",
+    "retry": "Erneut versuchen",
+    "openSettings": "Einstellungen öffnen",
+    "openAccessibility": "Bedienungshilfen öffnen"
+  },
+  "overlay": {
+    "empty": "Nichts gehört",
+    "error": "Etwas ist schiefgelaufen",
+    "unknownProvider": "Parler einrichten",
+    "missingApiKey": "API-Schlüssel fehlt",
+    "missingBaseUrl": "Parler einrichten",
+    "unauthorized": "API-Schlüssel abgelehnt",
+    "rateLimited": "Limit erreicht",
+    "offline": "Keine Verbindung",
+    "timeout": "Antwort zu langsam",
+    "rejected": "Fehler beim Dienst",
+    "invalidResponse": "Fehler beim Dienst",
+    "microphone": "Mikrofon nicht verfügbar"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "subtitle": "Alles andere läuft automatisch.",
+    "saveFailed": "Speichern fehlgeschlagen: {error}",
+    "transcription": {
+      "title": "Transkription",
+      "description": "Der Dienst, der deine Stimme in Text verwandelt.",
+      "provider": "Dienst",
+      "apiKey": "API-Schlüssel",
+      "apiKeyPlaceholder": "Schlüssel einfügen",
+      "apiKeyOptional": "Optional",
+      "getKey": "Schlüssel holen",
+      "language": "Gesprochene Sprache",
+      "languageAuto": "Automatisch erkennen",
+      "languageHint": "Wählst du deine Sprache, wird die Transkription schneller und genauer.",
+      "advanced": "Erweiterte Optionen",
+      "model": "Modell",
+      "modelHint": "Wähle eines aus oder gib ein beliebiges Modell des Dienstes ein.",
+      "baseUrl": "Serveradresse",
+      "baseUrlHint": "Bis /v1, ohne /audio/transcriptions."
+    },
+    "shortcut": {
+      "title": "Tastenkürzel",
+      "description": "Wie du ein Diktat startest und beendest.",
+      "label": "Tastenkürzel zum Diktieren",
+      "recording": "Drück deine Tasten…",
+      "cancelHint": "Esc zum Abbrechen",
+      "invalid": "Füge eine Sondertaste wie {modifiers} hinzu.",
+      "reserved": "{shortcut} brauchst du im Alltag (Kopieren, Einfügen, Sichern …). Wähle ein anderes.",
+      "mode": "Verhalten",
+      "smart": "Smart",
+      "hold": "Halten",
+      "toggle": "Umschalten",
+      "smartHint": "Halten zum Sprechen oder einmal tippen zum Starten und noch einmal zum Beenden.",
+      "holdHint": "Nimmt auf, solange du das Tastenkürzel gedrückt hältst.",
+      "toggleHint": "Einmal drücken zum Starten, noch einmal zum Beenden.",
+      "wayland": "Unter Wayland legt deine Desktopumgebung globale Tastenkürzel fest: Verknüpfe eines mit dem Befehl {command}."
+    },
+    "microphone": {
+      "title": "Mikrofon",
+      "description": "Das Mikrofon, auf das Parler hört.",
+      "default": "Systemstandard"
+    },
+    "output": {
+      "title": "Text",
+      "description": "Was passiert, wenn deine Worte fertig sind.",
+      "paste": "Eintippen",
+      "copy": "Kopieren",
+      "pasteHint": "Wird dort getippt, wo dein Cursor ist; danach wird deine Zwischenablage wiederhergestellt.",
+      "copyHint": "Landet in der Zwischenablage, du fügst ihn selbst ein."
+    },
+    "general": {
+      "title": "Allgemein",
+      "description": "Töne, Start und Sprache.",
+      "sounds": "Töne",
+      "soundsHint": "Ein leiser Ton, wenn das Zuhören beginnt und endet.",
+      "autostart": "Beim Anmelden öffnen",
+      "autostartHint": "Parler wartet still in der Menüleiste.",
+      "theme": "Darstellung",
+      "theme_system": "System",
+      "theme_light": "Hell",
+      "theme_dark": "Dunkel",
+      "interfaceLanguage": "Sprache der App",
+      "system": "System"
+    },
+    "about": {
+      "title": "Über Parler",
+      "version": "Version {version}",
+      "source": "Quellcode",
+      "credits": "Kostenlos und Open Source unter der MIT-Lizenz. Die Mikrofonaufnahme und Teile der Desktop-Integration stammen aus Handy."
+    }
+  },
+  "tray": {
+    "open": "Parler öffnen",
+    "toggle": "Diktat starten oder beenden",
+    "copyLast": "Letztes Transkript kopieren",
+    "history": "Verlauf…",
+    "quit": "Parler beenden"
+  }
+}

@@ -12,7 +12,10 @@ export interface ProblemText {
   needsAccessibility: boolean;
 }
 
-export function describeProblem(problem: Problem): ProblemText {
+/** The backend's label for the user's own server, shown as `customName` instead. */
+const CUSTOM_LABEL = "Custom";
+
+export function describeProblem(problem: Problem, customName?: string): ProblemText {
   const text = (
     key: string,
     params: Params = {},
@@ -29,7 +32,8 @@ export function describeProblem(problem: Problem): ProblemText {
   switch (problem.kind) {
     case "transcription": {
       const error = problem.error;
-      const provider = "provider" in error ? error.provider : "";
+      const label = "provider" in error ? error.provider : "";
+      const provider = label === CUSTOM_LABEL && customName ? customName : label;
       switch (error.kind) {
         case "unknownProvider":
         case "missingBaseUrl":

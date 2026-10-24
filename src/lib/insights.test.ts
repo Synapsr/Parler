@@ -14,9 +14,13 @@ describe("stats", () => {
   });
 
   it("formats durations", () => {
-    expect(formatDuration(7.4)).toBe("7 min");
-    expect(formatDuration(65)).toBe("1 h 05");
-    expect(formatDuration(180)).toBe("3 h");
+    // Intl separates numbers and units with a no-break space.
+    const fr = (minutes: number) => formatDuration(minutes, "fr").replace(/\s/g, " ");
+    expect(fr(7.4)).toBe("7 min");
+    expect(fr(65)).toBe("1 h 5 min");
+    expect(fr(180)).toBe("3 h");
+    expect(fr(725)).toBe("12 h");
+    expect(formatDuration(65, "tr").replace(/\s/g, " ")).toBe("1 sa. 5 dk.");
   });
 });
 

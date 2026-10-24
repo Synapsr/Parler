@@ -1,0 +1,264 @@
+{
+  "app": {
+    "tagline": "开口说话，文字就出现在你输入的地方。"
+  },
+  "common": {
+    "continue": "继续",
+    "back": "返回",
+    "copy": "复制",
+    "copied": "已复制",
+    "delete": "删除",
+    "change": "更改",
+    "show": "显示",
+    "hide": "隐藏",
+    "space": "空格",
+    "ctrl": "Ctrl",
+    "test": "测试",
+    "testing": "测试中…",
+    "works": "一切正常"
+  },
+  "nav": {
+    "home": "首页",
+    "history": "历史记录",
+    "vocabulary": "词汇表",
+    "settings": "设置"
+  },
+  "status": {
+    "ready": "就绪",
+    "listening": "正在聆听…",
+    "writing": "正在输入…",
+    "attention": "需要处理"
+  },
+  "providers": {
+    "recommended": "推荐",
+    "customName": "你的服务器",
+    "groq": "速度很快 · 免费注册",
+    "openai": "非常准确 · GPT-4o Transcribe",
+    "fireworks": "快速实惠的 Whisper v3",
+    "custom": "你的 OpenAI 兼容服务器"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "你的每一句话，随处成文。",
+      "subtitle": "按住一个键，自然地说话，然后松开。Parler 会把你的话输入到任何应用里：邮件、聊天、文档、代码。",
+      "start": "开始使用",
+      "time": "大约需要两分钟。",
+      "document": "新消息",
+      "demo": "Camille 你好，报价单今天下午发给你。回头聊！"
+    },
+    "provider": {
+      "title": "谁来把声音转成文字？",
+      "subtitle": "Parler 使用你在以下某个服务上的账户。你可以随时更换。",
+      "voice": "你的声音",
+      "text": "你的文字"
+    },
+    "key": {
+      "title": "连接 {provider}",
+      "subtitle": "有了 API 密钥，Parler 就能替你使用 {provider}。密钥只保存在这台电脑上。",
+      "customTitle": "连接你的服务器",
+      "customSubtitle": "任何支持 OpenAI 音频 API 的服务器都可以。",
+      "step1": "打开 {provider} 网站并登录",
+      "step2": "创建一个新的 API 密钥",
+      "step3": "复制密钥，粘贴到下方",
+      "open": "打开 {provider}",
+      "placeholder": "在此粘贴密钥",
+      "checking": "正在验证密钥…",
+      "valid": "密钥已验证",
+      "card": "API 密钥",
+      "waiting": "等待你的密钥"
+    },
+    "permissions": {
+      "title": "允许 Parler 收听和输入",
+      "subtitle": "macOS 只会询问一次。Parler 只在你按住快捷键时收听。",
+      "microphone": "麦克风",
+      "microphoneHint": "用来听你说的话。",
+      "accessibility": "辅助功能",
+      "accessibilityHint": "用来在光标处输入文字。",
+      "allow": "允许",
+      "allowed": "已允许",
+      "later": "稍后再说",
+      "panel": "隐私与安全性"
+    },
+    "shortcut": {
+      "title": "你的听写键",
+      "subtitle": "按住，说话，松开。轻按一下则会一直聆听，直到你再按一次。",
+      "hold": "按住…",
+      "speak": "…说话…",
+      "release": "…松开。"
+    },
+    "try": {
+      "title": "第一次听写",
+      "holdToSpeak": "先点击输入框，然后按住 {keys} 说话。",
+      "pressToSpeak": "先点击输入框，然后按下 {keys} 说话。",
+      "placeholder": "你说的话会出现在这里…",
+      "done": "完美。Parler 已准备就绪。",
+      "finish": "开始使用 Parler",
+      "skip": "暂时跳过",
+      "ideas": "试着说说",
+      "idea1": "提醒我明天九点给面包店打电话。",
+      "idea2": "谢谢你的消息，我周一回复你。",
+      "idea3": "把牛奶、鸡蛋和咖啡加到购物清单里。",
+      "tip": "自然地说就好，标点会自动加上。"
+    }
+  },
+  "home": {
+    "morning": "早上好",
+    "afternoon": "下午好",
+    "evening": "晚上好",
+    "subtitle": "Parler 已在你的所有应用中准备就绪。",
+    "holdToSpeak": "按住 {keys} 说话",
+    "pressToSpeak": "按下 {keys} 说话",
+    "hint": {
+      "smart": "松开即可结束。轻按一下会一直聆听，直到下一次按键。",
+      "hold": "松开即可结束。",
+      "toggle": "再按一次即可结束。",
+      "paste": "文字会输入到光标所在的位置。",
+      "copy": "文字会复制到剪贴板。"
+    },
+    "listening": "正在聆听…",
+    "listeningHint": "按 Esc 取消",
+    "writing": "正在输入…",
+    "stats": {
+      "words": "听写词数",
+      "saved": "节省时间",
+      "speed": "每分钟词数"
+    },
+    "recent": "最近的听写",
+    "seeAll": "查看全部",
+    "empty": "你的听写内容会显示在这里。",
+    "emptyHint": "现在就在任意应用里试试吧。",
+    "seconds": "{s} 秒"
+  },
+  "history": {
+    "title": "历史记录",
+    "count": "{n} 条听写，保存在这台电脑上。",
+    "countOne": "1 条听写，保存在这台电脑上。",
+    "search": "搜索你的听写…",
+    "clearSearch": "清除搜索",
+    "noResults": "没有与“{query}”匹配的听写。",
+    "showMore": "显示更多",
+    "clearAll": "全部清除",
+    "confirmClear": "再次点击以全部删除"
+  },
+  "vocabulary": {
+    "title": "词汇表",
+    "subtitle": "Parler 应该写对的人名、品牌和术语。它们会作为提示发送给服务。",
+    "placeholder": "添加词语或名字…",
+    "add": "添加",
+    "remove": "移除 {word}",
+    "empty": "还没有词语。例如：",
+    "count": "{n} 个词"
+  },
+  "problems": {
+    "unknownProvider": "请在设置中选择一个服务。",
+    "missingApiKey": "添加你的 {provider} API 密钥，即可开始听写。",
+    "missingBaseUrl": "请在设置中填写你的服务器地址。",
+    "unauthorized": "{provider} 拒绝了这个 API 密钥。请在设置中检查。",
+    "rateLimited": "{provider} 正在限制请求（速率限制或额度不足）。请稍后再试。",
+    "offline": "无法连接到 {provider}。请检查你的网络连接。",
+    "timeout": "{provider} 响应时间过长。",
+    "rejected": "{provider} 返回了错误（{status}）：{message}",
+    "invalidResponse": "{provider} 返回了意外的响应。",
+    "microphone": "无法使用麦克风：{detail}",
+    "needsAccessibility": "Parler 需要辅助功能权限才能替你输入。文字已在剪贴板中，按 ⌘V 即可粘贴。",
+    "noClipboard": "此系统上无法使用剪贴板。",
+    "pasteFailed": "粘贴失败（{detail}）。文字已在剪贴板中。",
+    "shortcut": "{shortcut} 已被其他应用占用。请换一个快捷键。",
+    "retry": "重试",
+    "openSettings": "打开设置",
+    "openAccessibility": "打开辅助功能设置"
+  },
+  "overlay": {
+    "empty": "没有听到声音",
+    "error": "出了点问题",
+    "unknownProvider": "设置 Parler",
+    "missingApiKey": "缺少 API 密钥",
+    "missingBaseUrl": "设置 Parler",
+    "unauthorized": "API 密钥被拒绝",
+    "rateLimited": "请求受限",
+    "offline": "无网络连接",
+    "timeout": "响应太慢",
+    "rejected": "服务出错",
+    "invalidResponse": "服务出错",
+    "microphone": "麦克风不可用"
+  },
+  "settings": {
+    "title": "设置",
+    "subtitle": "其他一切都是自动的。",
+    "saveFailed": "无法保存：{error}",
+    "transcription": {
+      "title": "转写",
+      "description": "把你的声音转成文字的服务。",
+      "provider": "服务",
+      "apiKey": "API 密钥",
+      "apiKeyPlaceholder": "粘贴你的密钥",
+      "apiKeyOptional": "可选",
+      "getKey": "获取密钥",
+      "language": "说话语言",
+      "languageAuto": "自动检测",
+      "languageHint": "选择你的语言，转写会更快、更准确。",
+      "advanced": "高级选项",
+      "model": "模型",
+      "modelHint": "从列表中选择，或输入该服务提供的任意模型。",
+      "baseUrl": "服务器地址",
+      "baseUrlHint": "写到 /v1 为止，不含 /audio/transcriptions。"
+    },
+    "shortcut": {
+      "title": "快捷键",
+      "description": "如何开始和停止听写。",
+      "label": "听写快捷键",
+      "recording": "请按下按键…",
+      "cancelHint": "按 Esc 取消",
+      "invalid": "请加上修饰键，例如 {modifiers}。",
+      "reserved": "{shortcut} 是常用快捷键（复制、粘贴、保存…）。请换一个。",
+      "mode": "触发方式",
+      "smart": "智能",
+      "hold": "按住",
+      "toggle": "切换",
+      "smartHint": "按住说话，或轻按一次开始、再按一次停止。",
+      "holdHint": "按住快捷键期间一直录音。",
+      "toggleHint": "按一次开始，再按一次停止。",
+      "wayland": "在 Wayland 下，全局快捷键由你的桌面环境管理：请将一个快捷键绑定到命令 {command}。"
+    },
+    "microphone": {
+      "title": "麦克风",
+      "description": "Parler 收听用的麦克风。",
+      "default": "系统默认"
+    },
+    "output": {
+      "title": "文字",
+      "description": "文字准备好之后怎么处理。",
+      "paste": "直接输入",
+      "copy": "复制",
+      "pasteHint": "输入到光标所在处，之后恢复你原来的剪贴板内容。",
+      "copyHint": "放到剪贴板，由你自己粘贴。"
+    },
+    "general": {
+      "title": "通用",
+      "description": "声音、启动和语言。",
+      "sounds": "提示音",
+      "soundsHint": "开始和停止聆听时，发出轻柔的提示音。",
+      "autostart": "登录时打开",
+      "autostartHint": "Parler 会安静地待在菜单栏中。",
+      "theme": "外观",
+      "theme_system": "自动",
+      "theme_light": "浅色",
+      "theme_dark": "深色",
+      "interfaceLanguage": "界面语言",
+      "system": "跟随系统"
+    },
+    "about": {
+      "title": "关于",
+      "version": "版本 {version}",
+      "source": "源代码",
+      "credits": "基于 MIT 许可证的免费开源软件。麦克风采集和部分桌面集成功能来自 Handy。"
+    }
+  },
+  "tray": {
+    "open": "打开 Parler",
+    "toggle": "开始或停止听写",
+    "copyLast": "复制最近一次转写",
+    "history": "历史记录…",
+    "quit": "退出 Parler"
+  }
+}

@@ -12,6 +12,7 @@
     "show": "Afficher",
     "hide": "Masquer",
     "space": "Espace",
+    "ctrl": "Ctrl",
     "test": "Tester",
     "testing": "Test…",
     "works": "Ça marche"
@@ -87,7 +88,8 @@
     },
     "try": {
       "title": "Votre première dictée",
-      "lead": "Cliquez dans le cadre, puis",
+      "holdToSpeak": "Cliquez dans le cadre, puis maintenez {keys} et parlez.",
+      "pressToSpeak": "Cliquez dans le cadre, puis appuyez sur {keys} et parlez.",
       "placeholder": "Vos mots apparaîtront ici…",
       "done": "Parfait. Parler est prêt.",
       "finish": "Commencer à utiliser Parler",
@@ -104,9 +106,8 @@
     "afternoon": "Bon après-midi",
     "evening": "Bonsoir",
     "subtitle": "Parler est prêt dans toutes vos apps.",
-    "hold": "Maintenez",
-    "press": "Appuyez sur",
-    "andSpeak": "et parlez",
+    "holdToSpeak": "Maintenez {keys} *et parlez*",
+    "pressToSpeak": "Appuyez sur {keys} *et parlez*",
     "hint": {
       "smart": "Relâchez pour terminer. Un appui bref garde l'écoute jusqu'au suivant.",
       "hold": "Relâchez pour terminer.",

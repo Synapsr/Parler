@@ -1,0 +1,264 @@
+{
+  "app": {
+    "tagline": "Spreek. Je woorden verschijnen overal waar je typt."
+  },
+  "common": {
+    "continue": "Doorgaan",
+    "back": "Terug",
+    "copy": "Kopiëren",
+    "copied": "Gekopieerd",
+    "delete": "Verwijderen",
+    "change": "Wijzigen",
+    "show": "Tonen",
+    "hide": "Verbergen",
+    "space": "Spatie",
+    "ctrl": "Ctrl",
+    "test": "Testen",
+    "testing": "Testen…",
+    "works": "Het werkt"
+  },
+  "nav": {
+    "home": "Start",
+    "history": "Geschiedenis",
+    "vocabulary": "Woordenlijst",
+    "settings": "Instellingen"
+  },
+  "status": {
+    "ready": "Klaar",
+    "listening": "Luistert…",
+    "writing": "Schrijft…",
+    "attention": "Actie nodig"
+  },
+  "providers": {
+    "recommended": "Aanbevolen",
+    "customName": "Eigen server",
+    "groq": "Zeer snel · gratis aanmelden",
+    "openai": "Zeer precies · GPT-4o Transcribe",
+    "fireworks": "Snelle, voordelige Whisper v3",
+    "custom": "Je OpenAI-compatibele server"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Je stem, overal\u00a0als\u00a0tekst.",
+      "subtitle": "Houd een toets ingedrukt, praat gewoon, laat los. Parler typt je woorden in elke app: e-mail, chat, documenten, code.",
+      "start": "Aan de slag",
+      "time": "Duurt ongeveer twee minuten.",
+      "document": "Nieuw bericht",
+      "demo": "Hoi Camille, ik stuur je vanmiddag de offerte. Tot snel!"
+    },
+    "provider": {
+      "title": "Wie maakt van je stem tekst?",
+      "subtitle": "Parler werkt met je eigen account bij een van deze diensten. Je kunt altijd overstappen.",
+      "voice": "Je stem",
+      "text": "Je tekst"
+    },
+    "key": {
+      "title": "Koppel {provider}",
+      "subtitle": "Met een API-sleutel kan Parler {provider} voor je gebruiken. De sleutel blijft op deze computer.",
+      "customTitle": "Koppel je server",
+      "customSubtitle": "Elke server die de audio-API van OpenAI ondersteunt, werkt.",
+      "step1": "Open de website van {provider} en log in",
+      "step2": "Maak een nieuwe API-sleutel aan",
+      "step3": "Kopieer hem en plak hem hieronder",
+      "open": "Open {provider}",
+      "placeholder": "Plak je sleutel hier",
+      "checking": "Sleutel controleren…",
+      "valid": "Sleutel gecontroleerd",
+      "card": "API-sleutel",
+      "waiting": "Wacht op je sleutel"
+    },
+    "permissions": {
+      "title": "Laat Parler horen en typen",
+      "subtitle": "macOS vraagt het maar één keer. Parler luistert alleen terwijl je de sneltoets ingedrukt houdt.",
+      "microphone": "Microfoon",
+      "microphoneHint": "Om te horen wat je zegt.",
+      "accessibility": "Toegankelijkheid",
+      "accessibilityHint": "Om te typen waar je cursor staat.",
+      "allow": "Sta toe",
+      "allowed": "Toegestaan",
+      "later": "Later",
+      "panel": "Privacy en beveiliging"
+    },
+    "shortcut": {
+      "title": "Je dicteertoets",
+      "subtitle": "Houd hem ingedrukt, praat, laat los. Tik je er kort op? Dan luistert Parler tot je weer tikt.",
+      "hold": "Houd vast…",
+      "speak": "…praat…",
+      "release": "…laat los."
+    },
+    "try": {
+      "title": "Je eerste dictaat",
+      "holdToSpeak": "Klik in het vak, houd dan {keys} ingedrukt en praat.",
+      "pressToSpeak": "Klik in het vak, druk dan op {keys} en praat.",
+      "placeholder": "Je woorden verschijnen hier…",
+      "done": "Perfect. Parler is klaar.",
+      "finish": "Begin met Parler",
+      "skip": "Nu overslaan",
+      "ideas": "Iets om te zeggen",
+      "idea1": "Herinner me eraan om morgen om negen uur de bakker te bellen.",
+      "idea2": "Bedankt voor je bericht, ik kom er maandag op terug.",
+      "idea3": "Zet melk, eieren en koffie op het boodschappenlijstje.",
+      "tip": "Praat gewoon: leestekens worden voor je toegevoegd."
+    }
+  },
+  "home": {
+    "morning": "Goedemorgen",
+    "afternoon": "Goedemiddag",
+    "evening": "Goedenavond",
+    "subtitle": "Parler staat klaar in al je apps.",
+    "holdToSpeak": "Houd {keys} *ingedrukt en praat*",
+    "pressToSpeak": "Druk op {keys} *en praat*",
+    "hint": {
+      "smart": "Laat los als je klaar bent. Tik je kort? Dan luistert Parler tot de volgende tik.",
+      "hold": "Laat los als je klaar bent.",
+      "toggle": "Druk nog een keer als je klaar bent.",
+      "paste": "De tekst wordt getypt waar je cursor staat.",
+      "copy": "De tekst wordt naar je klembord gekopieerd."
+    },
+    "listening": "Ik luister…",
+    "listeningHint": "Esc om te annuleren",
+    "writing": "Ik schrijf…",
+    "stats": {
+      "words": "Gedicteerde woorden",
+      "saved": "Tijd bespaard",
+      "speed": "Woorden per minuut"
+    },
+    "recent": "Recente dictaten",
+    "seeAll": "Alles bekijken",
+    "empty": "Je dictaten verschijnen hier.",
+    "emptyHint": "Probeer het nu, in elke app.",
+    "seconds": "{s} s"
+  },
+  "history": {
+    "title": "Geschiedenis",
+    "count": "{n} dictaten, bewaard op deze computer.",
+    "countOne": "1 dictaat, bewaard op deze computer.",
+    "search": "Zoek in je dictaten…",
+    "clearSearch": "Zoekopdracht wissen",
+    "noResults": "Geen dictaat gevonden voor ‘{query}’.",
+    "showMore": "Meer tonen",
+    "clearAll": "Alles wissen",
+    "confirmClear": "Klik nog eens om alles te wissen"
+  },
+  "vocabulary": {
+    "title": "Woordenlijst",
+    "subtitle": "Namen, merken en vaktermen die Parler goed moet spellen. Ze gaan als hint mee naar de dienst.",
+    "placeholder": "Voeg een woord of naam toe…",
+    "add": "Toevoegen",
+    "remove": "{word} verwijderen",
+    "empty": "Nog geen woorden. Bijvoorbeeld:",
+    "count": "{n} woorden"
+  },
+  "problems": {
+    "unknownProvider": "Kies een dienst in de instellingen.",
+    "missingApiKey": "Voeg je API-sleutel van {provider} toe om te kunnen dicteren.",
+    "missingBaseUrl": "Vul het adres van je server in bij de instellingen.",
+    "unauthorized": "{provider} heeft de API-sleutel geweigerd. Controleer hem in de instellingen.",
+    "rateLimited": "{provider} beperkt de verzoeken (limiet of tegoed). Probeer het zo opnieuw.",
+    "offline": "Kan {provider} niet bereiken. Controleer je verbinding.",
+    "timeout": "{provider} deed er te lang over om te antwoorden.",
+    "rejected": "{provider} gaf een fout ({status}): {message}",
+    "invalidResponse": "{provider} stuurde een onverwacht antwoord.",
+    "microphone": "De microfoon kon niet worden gebruikt: {detail}",
+    "needsAccessibility": "Parler heeft toegang tot Toegankelijkheid nodig om voor je te typen. Je tekst staat op het klembord: plak hem met ⌘V.",
+    "noClipboard": "Het klembord is niet beschikbaar op dit systeem.",
+    "pasteFailed": "Plakken is mislukt ({detail}). Je tekst staat op het klembord.",
+    "shortcut": "{shortcut} wordt al door een andere app gebruikt. Kies een andere sneltoets.",
+    "retry": "Opnieuw proberen",
+    "openSettings": "Open instellingen",
+    "openAccessibility": "Open Toegankelijkheid"
+  },
+  "overlay": {
+    "empty": "Niets gehoord",
+    "error": "Er ging iets mis",
+    "unknownProvider": "Stel Parler in",
+    "missingApiKey": "API-sleutel ontbreekt",
+    "missingBaseUrl": "Stel Parler in",
+    "unauthorized": "API-sleutel geweigerd",
+    "rateLimited": "Limiet bereikt",
+    "offline": "Geen verbinding",
+    "timeout": "Antwoord te traag",
+    "rejected": "Fout bij de dienst",
+    "invalidResponse": "Fout bij de dienst",
+    "microphone": "Microfoon werkt niet"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "subtitle": "De rest gaat vanzelf.",
+    "saveFailed": "Opslaan mislukt: {error}",
+    "transcription": {
+      "title": "Transcriptie",
+      "description": "De dienst die je stem omzet in tekst.",
+      "provider": "Dienst",
+      "apiKey": "API-sleutel",
+      "apiKeyPlaceholder": "Plak je sleutel",
+      "apiKeyOptional": "Optioneel",
+      "getKey": "Sleutel aanmaken",
+      "language": "Gesproken taal",
+      "languageAuto": "Automatisch herkennen",
+      "languageHint": "Kies je taal voor een snellere en nauwkeurigere transcriptie.",
+      "advanced": "Geavanceerde opties",
+      "model": "Model",
+      "modelHint": "Kies er een, of typ een ander model dat de dienst aanbiedt.",
+      "baseUrl": "Serveradres",
+      "baseUrlHint": "Tot en met /v1, zonder /audio/transcriptions."
+    },
+    "shortcut": {
+      "title": "Sneltoets",
+      "description": "Hoe je een dictaat start en stopt.",
+      "label": "Sneltoets voor dicteren",
+      "recording": "Druk op je toetsen…",
+      "cancelHint": "Esc om te annuleren",
+      "invalid": "Voeg een speciale toets toe, zoals {modifiers}.",
+      "reserved": "{shortcut} gebruik je al dagelijks (kopiëren, plakken, bewaren…). Kies een andere.",
+      "mode": "Gedrag",
+      "smart": "Slim",
+      "hold": "Vasthouden",
+      "toggle": "Aan/uit",
+      "smartHint": "Houd ingedrukt om te praten, of tik één keer om te starten en nog een keer om te stoppen.",
+      "holdHint": "Neemt op zolang je de sneltoets ingedrukt houdt.",
+      "toggleHint": "Druk om te starten, druk nog een keer om te stoppen.",
+      "wayland": "Onder Wayland regelt je desktop de globale sneltoetsen: koppel er een aan het commando {command}."
+    },
+    "microphone": {
+      "title": "Microfoon",
+      "description": "De microfoon waar Parler naar luistert.",
+      "default": "Systeemstandaard"
+    },
+    "output": {
+      "title": "Tekst",
+      "description": "Wat er gebeurt zodra je woorden klaar zijn.",
+      "paste": "Typen",
+      "copy": "Kopiëren",
+      "pasteHint": "Getypt waar je cursor staat; daarna wordt je klembord teruggezet.",
+      "copyHint": "Op het klembord gezet, zodat je het zelf kunt plakken."
+    },
+    "general": {
+      "title": "Algemeen",
+      "description": "Geluiden, opstarten en taal.",
+      "sounds": "Geluiden",
+      "soundsHint": "Een zacht signaal als het luisteren begint en stopt.",
+      "autostart": "Open bij inloggen",
+      "autostartHint": "Parler wacht rustig in de menubalk.",
+      "theme": "Weergave",
+      "theme_system": "Systeem",
+      "theme_light": "Licht",
+      "theme_dark": "Donker",
+      "interfaceLanguage": "Taal van de app",
+      "system": "Systeem"
+    },
+    "about": {
+      "title": "Over Parler",
+      "version": "Versie {version}",
+      "source": "Broncode",
+      "credits": "Gratis en open source onder de MIT-licentie. De microfoonopname en delen van de desktopintegratie komen uit Handy."
+    }
+  },
+  "tray": {
+    "open": "Open Parler",
+    "toggle": "Dictaat starten of stoppen",
+    "copyLast": "Kopieer laatste transcriptie",
+    "history": "Geschiedenis…",
+    "quit": "Stop Parler"
+  }
+}

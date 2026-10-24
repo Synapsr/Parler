@@ -20,7 +20,7 @@ let settings = {
   apiKeys: onboarded || params.get("key") ? { groq: "gsk_demo" } : {},
   models: {},
   customBaseUrl: "http://localhost:8000/v1",
-  language: "fr",
+  language: params.get("lang") ?? "fr",
   vocabulary: "",
   shortcut: platform === "macos" ? "Alt+Space" : "Control+Space",
   shortcutMode: "smart",
@@ -32,7 +32,88 @@ let settings = {
 };
 const now = Date.now();
 const HOUR = 3_600_000;
-const HISTORY = [
+// Sample dictations in the interface language, for screenshots. French has the
+// longest list; the others show a handful.
+const SAMPLES: Record<string, string[]> = {
+  en: [
+    "Hi Camille, confirming our meeting on Thursday at 2 pm. I'll send you the quote today.",
+    "Add a test for when the microphone disconnects during recording.",
+    "Thanks for your feedback, I'll look at it tomorrow morning.",
+    "Remember to renew the domain name before the end of the month.",
+    "The design looks great, we can sign off on the homepage mockup.",
+  ],
+  es: [
+    "Hola Camille, te confirmo la reunión del jueves a las 14:00. Te envío el presupuesto hoy mismo.",
+    "Añadir una prueba para cuando el micrófono se desconecta durante la grabación.",
+    "Gracias por tus comentarios, lo miro mañana por la mañana.",
+    "Acordarme de renovar el dominio antes de fin de mes.",
+    "El diseño queda genial, podemos aprobar la maqueta de la página de inicio.",
+  ],
+  de: [
+    "Hallo Camille, ich bestätige unseren Termin am Donnerstag um 14 Uhr. Das Angebot schicke ich dir heute noch.",
+    "Einen Test für den Fall hinzufügen, dass sich das Mikrofon während der Aufnahme trennt.",
+    "Danke für dein Feedback, ich schaue es mir morgen früh an.",
+    "Daran denken, die Domain vor Monatsende zu verlängern.",
+    "Das Design sieht super aus, wir können den Entwurf der Startseite freigeben.",
+  ],
+  it: [
+    "Ciao Camille, ti confermo l'appuntamento di giovedì alle 14. Ti mando il preventivo in giornata.",
+    "Aggiungere un test per quando il microfono si disconnette durante la registrazione.",
+    "Grazie per il feedback, ci guardo domani mattina.",
+    "Ricordarsi di rinnovare il dominio prima della fine del mese.",
+    "Il design è davvero ottimo, possiamo approvare il mockup della home page.",
+  ],
+  pt: [
+    "Oi Camille, confirmo nossa reunião de quinta às 14h. Te envio o orçamento ainda hoje.",
+    "Adicionar um teste para quando o microfone desconecta durante a gravação.",
+    "Obrigado pelo retorno, vejo isso amanhã de manhã.",
+    "Lembrar de renovar o domínio antes do fim do mês.",
+    "O design ficou ótimo, podemos aprovar o layout da página inicial.",
+  ],
+  nl: [
+    "Hoi Camille, ik bevestig onze afspraak van donderdag om 14.00 uur. Ik stuur je de offerte vandaag nog.",
+    "Een test toevoegen voor als de microfoon tijdens de opname wegvalt.",
+    "Bedankt voor je feedback, ik kijk er morgenochtend naar.",
+    "Niet vergeten de domeinnaam voor het eind van de maand te verlengen.",
+    "Het ontwerp ziet er top uit, we kunnen de mockup van de homepage goedkeuren.",
+  ],
+  pl: [
+    "Cześć Camille, potwierdzam nasze spotkanie w czwartek o 14:00. Wyślę Ci dziś wycenę.",
+    "Dodać test na wypadek, gdy mikrofon rozłączy się podczas nagrywania.",
+    "Dzięki za opinię, przyjrzę się temu jutro rano.",
+    "Pamiętać o odnowieniu domeny przed końcem miesiąca.",
+    "Projekt wygląda świetnie, możemy zatwierdzić makietę strony głównej.",
+  ],
+  tr: [
+    "Merhaba Camille, perşembe saat 14:00'teki toplantımızı onaylıyorum. Teklifi bugün gönderiyorum.",
+    "Kayıt sırasında mikrofonun bağlantısı kesilirse diye bir test ekle.",
+    "Geri bildirimin için teşekkürler, yarın sabah bakacağım.",
+    "Ay sonundan önce alan adını yenilemeyi unutma.",
+    "Tasarım harika görünüyor, ana sayfa taslağını onaylayabiliriz.",
+  ],
+  ja: [
+    "カミーユさん、木曜日14時の打ち合わせ、承知しました。見積もりは本日中にお送りします。",
+    "録音中にマイクが切断された場合のテストを追加する。",
+    "フィードバックありがとうございます。明日の朝に確認します。",
+    "月末までにドメインを更新するのを忘れないように。",
+    "デザインとてもいいですね。トップページのモックアップはこれで確定しましょう。",
+  ],
+  zh: [
+    "Camille 你好，确认周四下午两点的会议。报价单我今天发给你。",
+    "添加一个测试：录音过程中麦克风断开的情况。",
+    "谢谢你的反馈，我明天上午看一下。",
+    "记得在月底前续费域名。",
+    "设计效果很棒，首页的样稿可以定下来了。",
+  ],
+  ko: [
+    "카미유 님, 목요일 오후 2시 회의 확인했습니다. 견적서는 오늘 중으로 보내 드릴게요.",
+    "녹음 중에 마이크 연결이 끊기는 경우에 대한 테스트 추가하기.",
+    "피드백 고마워요. 내일 아침에 확인할게요.",
+    "월말 전에 도메인 갱신하는 거 잊지 말기.",
+    "디자인 정말 좋네요. 홈페이지 시안은 이대로 확정해도 될 것 같아요.",
+  ],
+};
+const FRENCH = [
   "Bonjour Camille, je te confirme le rendez-vous de jeudi à 14\u00a0h à Plougastel. Je t'envoie le devis dans la journée.",
   "Ajouter un test pour le cas où le micro se déconnecte pendant l'enregistrement.",
   "Merci pour ton retour, je regarde ça demain matin.",
@@ -43,7 +124,8 @@ const HISTORY = [
   "Liste de courses : lait, œufs, café, pain complet.",
   "Je serai en télétravail vendredi, joignable par message.",
   "Super idée, on en parle à la prochaine rétro.",
-].map((text, i) => ({
+];
+const HISTORY = (SAMPLES[params.get("lang") ?? "fr"] ?? FRENCH).map((text, i) => ({
   id: now - [40_000, HOUR, 3 * HOUR, 26 * HOUR, 28 * HOUR, 30 * HOUR, 50 * HOUR, 75 * HOUR, 76 * HOUR, 100 * HOUR][i],
   text,
   durationMs: 1800 + ((i * 1371) % 5000),

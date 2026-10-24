@@ -157,6 +157,18 @@ body,
   margin: 0;
 }
 
+/* Korean breaks lines between words, like Latin scripts; Chinese and
+ * Japanese headings break at punctuation where they can. */
+:lang(ko) {
+  word-break: keep-all;
+}
+
+:lang(ja) :is(h1, h2, h3),
+:lang(zh) :is(h1, h2, h3) {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
 body {
   background: var(--canvas);
   color: var(--text);

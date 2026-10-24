@@ -1,17 +1,44 @@
+import de from "./locales/de.json";
 import en from "./locales/en.json";
+import es from "./locales/es.json";
 import fr from "./locales/fr.json";
+import it from "./locales/it.json";
+import ja from "./locales/ja.json";
+import ko from "./locales/ko.json";
+import nl from "./locales/nl.json";
+import pl from "./locales/pl.json";
+import pt from "./locales/pt.json";
+import tr from "./locales/tr.json";
+import zh from "./locales/zh.json";
+import { LOCALES, type Locale } from "./languages";
 
-export type Locale = "en" | "fr";
+export { LOCALES, type Locale };
 export type LanguagePref = "auto" | Locale;
 export type Params = Record<string, string | number>;
 
-const dictionaries: Record<Locale, unknown> = { en, fr };
+export const dictionaries: Record<Locale, unknown> = {
+  en,
+  fr,
+  es,
+  de,
+  it,
+  pt,
+  nl,
+  pl,
+  tr,
+  ja,
+  zh,
+  ko,
+};
 
+/** The interface language closest to `language` (a BCP 47 tag), English
+ * when Parler doesn't speak it. */
 export function detectLocale(language?: string): Locale {
   const lang = (
     language ?? (typeof navigator !== "undefined" ? navigator.language : "en")
   ).toLowerCase();
-  return lang.startsWith("fr") ? "fr" : "en";
+  const match = LOCALES.find((l) => lang === l.code || lang.startsWith(`${l.code}-`));
+  return match?.code ?? "en";
 }
 
 export function resolveLocale(pref: LanguagePref): Locale {
@@ -42,4 +69,9 @@ export function translate(locale: Locale, key: string, params?: Params): string 
     text = text.replaceAll(`{${name}}`, String(value));
   }
   return text;
+}
+
+/** Sentences side by side: Chinese and Japanese need no space after 。 */
+export function joinSentences(locale: Locale, ...sentences: string[]): string {
+  return sentences.join(locale === "ja" || locale === "zh" ? "" : " ");
 }

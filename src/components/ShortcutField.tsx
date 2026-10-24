@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useT } from "../i18n/context";
 import { api } from "../lib/api";
 import { acceleratorFromEvent, isReserved, keycaps } from "../lib/shortcut";
+import { useKeycaps } from "./useKeycaps";
 import { useParler } from "../state";
 import { Button, Keycaps } from "../ui";
 
@@ -9,6 +10,7 @@ import { Button, Keycaps } from "../ui";
 export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
   const { t } = useT();
   const { settings, info, update } = useParler();
+  const toKeys = useKeycaps();
   const [recording, setRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,12 +31,15 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
       if (!accelerator) {
         const modifierOnly = /^(Control|Alt|Shift|Meta|OS)/.test(event.code);
         if (!modifierOnly) {
-          const modifiers = info.platform === "macos" ? "⌘ ⌥ ⌃" : "Ctrl / Alt";
+          const modifiers = info.platform === "macos" ? "⌘ ⌥ ⌃" : `${t("common.ctrl")} / Alt`;
           setError(t("settings.shortcut.invalid", { modifiers }));
         }
         return;
       }
-      const label = keycaps(accelerator, info.platform, t("common.space")).join(" ");
+      const label = keycaps(accelerator, info.platform, {
+        space: t("common.space"),
+        ctrl: t("common.ctrl"),
+      }).join(" ");
       if (isReserved(accelerator, info.platform)) {
         setError(t("settings.shortcut.reserved", { shortcut: label }));
         return;
@@ -60,7 +65,7 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
           </span>
         ) : (
           <Keycaps
-            keys={keycaps(settings.shortcut, info.platform, t("common.space"))}
+            keys={toKeys(settings.shortcut)}
             size={size}
           />
         )}

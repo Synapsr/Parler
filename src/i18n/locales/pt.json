@@ -1,0 +1,264 @@
+{
+  "app": {
+    "tagline": "Fale. Suas palavras aparecem onde você digita."
+  },
+  "common": {
+    "continue": "Continuar",
+    "back": "Voltar",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "delete": "Excluir",
+    "change": "Alterar",
+    "show": "Mostrar",
+    "hide": "Ocultar",
+    "space": "Espaço",
+    "ctrl": "Ctrl",
+    "test": "Testar",
+    "testing": "Testando…",
+    "works": "Funcionou"
+  },
+  "nav": {
+    "home": "Início",
+    "history": "Histórico",
+    "vocabulary": "Vocabulário",
+    "settings": "Ajustes"
+  },
+  "status": {
+    "ready": "Pronto",
+    "listening": "Ouvindo…",
+    "writing": "Escrevendo…",
+    "attention": "Requer atenção"
+  },
+  "providers": {
+    "recommended": "Recomendado",
+    "customName": "Seu servidor",
+    "groq": "Muito rápido · cadastro grátis",
+    "openai": "Muito preciso · GPT-4o Transcribe",
+    "fireworks": "Whisper v3 rápido e acessível",
+    "custom": "Servidor compatível com OpenAI"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Sua voz, digitada onde você quiser.",
+      "subtitle": "Segure uma tecla, fale naturalmente e solte. O Parler digita suas palavras em qualquer app: e-mail, chat, documentos, código.",
+      "start": "Começar",
+      "time": "Leva uns dois minutos.",
+      "document": "Nova mensagem",
+      "demo": "Oi, Camille! Vou te mandar o orçamento hoje à tarde. Até mais!"
+    },
+    "provider": {
+      "title": "Quem transforma sua voz em texto?",
+      "subtitle": "O Parler funciona com sua própria conta em um destes serviços. Você pode trocar quando quiser.",
+      "voice": "Sua voz",
+      "text": "Seu texto"
+    },
+    "key": {
+      "title": "Conecte {provider}",
+      "subtitle": "Uma chave de API permite que o Parler use {provider} por você. Ela fica neste computador.",
+      "customTitle": "Conecte seu servidor",
+      "customSubtitle": "Qualquer servidor compatível com a API de áudio da OpenAI funciona.",
+      "step1": "Abra o site de {provider} e faça login",
+      "step2": "Crie uma nova chave de API",
+      "step3": "Copie e cole a chave abaixo",
+      "open": "Abrir {provider}",
+      "placeholder": "Cole sua chave aqui",
+      "checking": "Verificando sua chave…",
+      "valid": "Chave verificada",
+      "card": "Chave de API",
+      "waiting": "Aguardando sua chave"
+    },
+    "permissions": {
+      "title": "Deixe o Parler ouvir e digitar",
+      "subtitle": "O macOS pede só uma vez. O Parler só ouve enquanto você segura o atalho.",
+      "microphone": "Microfone",
+      "microphoneHint": "Para ouvir o que você diz.",
+      "accessibility": "Acessibilidade",
+      "accessibilityHint": "Para digitar o texto onde está seu cursor.",
+      "allow": "Permitir",
+      "allowed": "Permitido",
+      "later": "Fazer depois",
+      "panel": "Privacidade e Segurança"
+    },
+    "shortcut": {
+      "title": "Sua tecla de ditado",
+      "subtitle": "Segure, fale e solte. Um toque rápido continua ouvindo até você tocar de novo.",
+      "hold": "Segure…",
+      "speak": "…fale…",
+      "release": "…solte."
+    },
+    "try": {
+      "title": "Seu primeiro ditado",
+      "holdToSpeak": "Clique na caixa, depois segure {keys} e fale.",
+      "pressToSpeak": "Clique na caixa, depois pressione {keys} e fale.",
+      "placeholder": "Suas palavras vão aparecer aqui…",
+      "done": "Perfeito. O Parler está pronto.",
+      "finish": "Começar a usar o Parler",
+      "skip": "Pular por enquanto",
+      "ideas": "Algo para dizer",
+      "idea1": "Me lembre de ligar para a padaria amanhã às nove.",
+      "idea2": "Obrigado pela mensagem, te respondo na segunda.",
+      "idea3": "Coloque leite, ovos e café na lista de compras.",
+      "tip": "Fale naturalmente: a pontuação entra sozinha."
+    }
+  },
+  "home": {
+    "morning": "Bom dia",
+    "afternoon": "Boa tarde",
+    "evening": "Boa noite",
+    "subtitle": "O Parler está pronto em todos os seus apps.",
+    "holdToSpeak": "Segure {keys} *e fale*",
+    "pressToSpeak": "Pressione {keys} *e fale*",
+    "hint": {
+      "smart": "Solte para terminar. Um toque rápido continua ouvindo até o próximo.",
+      "hold": "Solte para terminar.",
+      "toggle": "Pressione de novo para terminar.",
+      "paste": "O texto é digitado onde está seu cursor.",
+      "copy": "O texto é copiado para a área de transferência."
+    },
+    "listening": "Ouvindo…",
+    "listeningHint": "Esc para cancelar",
+    "writing": "Escrevendo…",
+    "stats": {
+      "words": "Palavras ditadas",
+      "saved": "Tempo economizado",
+      "speed": "Palavras por minuto"
+    },
+    "recent": "Ditados recentes",
+    "seeAll": "Ver tudo",
+    "empty": "Seus ditados vão aparecer aqui.",
+    "emptyHint": "Experimente agora, em qualquer app.",
+    "seconds": "{s} s"
+  },
+  "history": {
+    "title": "Histórico",
+    "count": "{n} ditados, guardados neste computador.",
+    "countOne": "1 ditado, guardado neste computador.",
+    "search": "Pesquise nos seus ditados…",
+    "clearSearch": "Limpar a pesquisa",
+    "noResults": "Nenhum ditado corresponde a “{query}”.",
+    "showMore": "Mostrar mais",
+    "clearAll": "Limpar tudo",
+    "confirmClear": "Clique de novo para apagar tudo"
+  },
+  "vocabulary": {
+    "title": "Vocabulário",
+    "subtitle": "Nomes, marcas e jargões que o Parler deve escrever certo. Eles são enviados ao serviço como dica.",
+    "placeholder": "Adicione uma palavra ou um nome…",
+    "add": "Adicionar",
+    "remove": "Remover {word}",
+    "empty": "Nenhuma palavra ainda. Por exemplo:",
+    "count": "{n} palavras"
+  },
+  "problems": {
+    "unknownProvider": "Escolha um serviço nos ajustes.",
+    "missingApiKey": "Adicione sua chave de API de {provider} para começar a ditar.",
+    "missingBaseUrl": "Informe o endereço do seu servidor nos ajustes.",
+    "unauthorized": "{provider} recusou a chave de API. Confira a chave nos ajustes.",
+    "rateLimited": "{provider} está limitando as solicitações (limite de uso ou crédito). Tente de novo daqui a pouco.",
+    "offline": "Não foi possível acessar {provider}. Verifique sua conexão.",
+    "timeout": "{provider} demorou demais para responder.",
+    "rejected": "{provider} retornou um erro ({status}): {message}",
+    "invalidResponse": "{provider} enviou uma resposta inesperada.",
+    "microphone": "Não foi possível usar o microfone: {detail}",
+    "needsAccessibility": "O Parler precisa de acesso à Acessibilidade para digitar por você. Seu texto está na área de transferência: cole com ⌘V.",
+    "noClipboard": "A área de transferência não está disponível neste sistema.",
+    "pasteFailed": "Não foi possível colar ({detail}). Seu texto está na área de transferência.",
+    "shortcut": "{shortcut} já é usado por outro app. Escolha outro atalho.",
+    "retry": "Tentar de novo",
+    "openSettings": "Abrir ajustes",
+    "openAccessibility": "Abrir ajustes de Acessibilidade"
+  },
+  "overlay": {
+    "empty": "Não ouvi nada",
+    "error": "Algo deu errado",
+    "unknownProvider": "Configure o Parler",
+    "missingApiKey": "Falta a chave de API",
+    "missingBaseUrl": "Configure o Parler",
+    "unauthorized": "Chave de API recusada",
+    "rateLimited": "Limite atingido",
+    "offline": "Sem conexão",
+    "timeout": "Demorou demais",
+    "rejected": "Erro do serviço",
+    "invalidResponse": "Erro do serviço",
+    "microphone": "Microfone indisponível"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "subtitle": "Todo o resto é automático.",
+    "saveFailed": "Não foi possível salvar: {error}",
+    "transcription": {
+      "title": "Transcrição",
+      "description": "O serviço que transforma sua voz em texto.",
+      "provider": "Serviço",
+      "apiKey": "Chave de API",
+      "apiKeyPlaceholder": "Cole sua chave",
+      "apiKeyOptional": "Opcional",
+      "getKey": "Obter uma chave",
+      "language": "Idioma falado",
+      "languageAuto": "Detectar automaticamente",
+      "languageHint": "Escolher seu idioma deixa a transcrição mais rápida e precisa.",
+      "advanced": "Opções avançadas",
+      "model": "Modelo",
+      "modelHint": "Escolha um ou digite qualquer modelo que o serviço ofereça.",
+      "baseUrl": "Endereço do servidor",
+      "baseUrlHint": "Até /v1, sem /audio/transcriptions."
+    },
+    "shortcut": {
+      "title": "Atalho",
+      "description": "Como você começa e termina um ditado.",
+      "label": "Atalho de ditado",
+      "recording": "Pressione as teclas…",
+      "cancelHint": "Esc para cancelar",
+      "invalid": "Adicione uma tecla modificadora, como {modifiers}.",
+      "reserved": "{shortcut} é um atalho do dia a dia (copiar, colar, salvar…). Escolha outro.",
+      "mode": "Comportamento",
+      "smart": "Inteligente",
+      "hold": "Segurar",
+      "toggle": "Alternar",
+      "smartHint": "Segure para falar, ou pressione uma vez para começar e outra para parar.",
+      "holdHint": "Grava enquanto você segura o atalho.",
+      "toggleHint": "Pressione para começar e de novo para parar.",
+      "wayland": "No Wayland, os atalhos globais dependem do seu ambiente de desktop: associe um ao comando {command}."
+    },
+    "microphone": {
+      "title": "Microfone",
+      "description": "O microfone que o Parler usa para ouvir você.",
+      "default": "Padrão do sistema"
+    },
+    "output": {
+      "title": "Texto",
+      "description": "O que acontece quando suas palavras ficam prontas.",
+      "paste": "Digitar",
+      "copy": "Copiar",
+      "pasteHint": "Digitado onde está seu cursor; depois, sua área de transferência volta a ser o que era.",
+      "copyHint": "Colocado na área de transferência para você colar."
+    },
+    "general": {
+      "title": "Geral",
+      "description": "Sons, inicialização e idioma.",
+      "sounds": "Sons",
+      "soundsHint": "Um aviso suave quando a escuta começa e termina.",
+      "autostart": "Abrir ao iniciar sessão",
+      "autostartHint": "O Parler espera discretamente na barra de menus.",
+      "theme": "Aparência",
+      "theme_system": "Sistema",
+      "theme_light": "Claro",
+      "theme_dark": "Escuro",
+      "interfaceLanguage": "Idioma da interface",
+      "system": "Sistema"
+    },
+    "about": {
+      "title": "Sobre",
+      "version": "Versão {version}",
+      "source": "Código-fonte",
+      "credits": "Livre e de código aberto sob a licença MIT. A captura do microfone e parte da integração com o desktop vêm do Handy."
+    }
+  },
+  "tray": {
+    "open": "Abrir o Parler",
+    "toggle": "Iniciar ou parar o ditado",
+    "copyLast": "Copiar a última transcrição",
+    "history": "Histórico…",
+    "quit": "Sair do Parler"
+  }
+}

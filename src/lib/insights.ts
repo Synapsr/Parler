@@ -13,13 +13,20 @@ export function wordsPerMinute(stats: Stats): number {
   return stats.speechMs > 0 ? Math.round(stats.words / (stats.speechMs / 60_000)) : 0;
 }
 
-/** "45 min", "1 h 05", "3 h". */
-export function formatDuration(minutes: number): string {
+/** "45 min", "1 h 5 min", "12 h", with the units of the interface language. */
+export function formatDuration(minutes: number, locale: string): string {
+  const unit = (unit: "hour" | "minute", value: number) =>
+    new Intl.NumberFormat(locale, { style: "unit", unit, unitDisplay: "short" }).format(value);
   const total = Math.round(minutes);
-  if (total < 60) return `${total} min`;
+  if (total < 60) return unit("minute", total);
+  // Past ten hours, the minutes are noise.
+  if (total >= 600) return unit("hour", Math.round(total / 60));
   const hours = Math.floor(total / 60);
   const rest = total % 60;
-  return rest === 0 ? `${hours} h` : `${hours} h ${String(rest).padStart(2, "0")}`;
+  if (rest === 0) return unit("hour", hours);
+  // Chinese and Japanese write it without a space: 3小时9分钟.
+  const gap = locale === "ja" || locale === "zh" ? "" : " ";
+  return `${unit("hour", hours)}${gap}${unit("minute", rest)}`;
 }
 
 export interface Day {
