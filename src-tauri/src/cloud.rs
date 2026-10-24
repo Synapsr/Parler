@@ -431,4 +431,62 @@ mod tests {
         assert!(!name.trim().is_empty());
         assert!(name.chars().count() <= 64);
     }
+
+    /// The whole journey against a running Parler Cloud: link this "computer",
+    /// dictate once, read the account, sign out. Someone approves the printed
+    /// code on `/link` meanwhile (or the local dev server's database does).
+    /// `PARLER_CLOUD_URL=http://localhost:3100 cargo test --no-default-features e2e -- --ignored --nocapture`
+    #[test]
+    #[ignore]
+    fn e2e_against_a_running_service() {
+        let base = std::env::var("PARLER_CLOUD_URL").expect("PARLER_CLOUD_URL");
+        tauri::async_runtime::block_on(async {
+            let started = start(&base, "Parler e2e", "macos").await.unwrap();
+            println!(
+                "APPROVE {} at {}",
+                started.user_code, started.verification_url
+            );
+
+            let mut token = None;
+            for _ in 0..60 {
+                std::thread::sleep(std::time::Duration::from_secs(started.interval));
+                match poll(&base, &started.device_code).await.unwrap() {
+                    Poll::Pending => continue,
+                    Poll::Approved { token: t, account } => {
+                        println!("approved for {} ({:?})", account.email, account.status);
+                        token = Some(t);
+                        break;
+                    }
+                    other => panic!("sign-in ended with {other:?}"),
+                }
+            }
+            let token = token.expect("nobody approved the code in time");
+            assert_eq!(
+                poll(&base, &started.device_code).await.unwrap(),
+                Poll::Expired
+            );
+
+            let mut settings = crate::settings::Settings::default();
+            settings.provider = ID.to_string();
+            settings.api_keys.insert(ID.to_string(), token.clone());
+            let request = crate::providers::Request::from_settings(&settings).unwrap();
+            let tone: Vec<f32> = (0..32_000).map(|i| (i as f32 / 20.0).sin() * 0.2).collect();
+            let text = crate::providers::transcribe(&request, crate::audio::encode_wav(&tone))
+                .await
+                .unwrap();
+            println!("transcribed: {text}");
+            assert!(!text.is_empty());
+
+            let me = account(&base, &token).await.unwrap();
+            println!("usage today: {} s", me.usage.day_seconds);
+            assert!(me.usage.day_seconds >= 2.0);
+
+            revoke(&base, &token).await.unwrap();
+            assert!(account(&base, &token).await.is_err());
+            let after =
+                crate::providers::transcribe(&request, crate::audio::encode_wav(&tone)).await;
+            println!("after sign-out: {after:?}");
+            assert!(after.is_err());
+        });
+    }
 }
