@@ -164,7 +164,7 @@ function Recent({ openHistory }: { openHistory: () => void }) {
           <p className="mt-1 text-[13px] text-text-3">{t("home.emptyHint")}</p>
         </EmptyHistory>
       ) : (
-        <HistoryDays entries={history.slice(0, RECENT)} />
+        <HistoryDays entries={history.slice(0, RECENT)} clamp />
       )}
     </section>
   );

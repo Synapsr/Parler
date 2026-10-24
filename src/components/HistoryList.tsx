@@ -9,10 +9,13 @@ import { Card, IconButton, VoiceBars } from "../ui";
 export function HistoryDays({
   entries,
   highlight = "",
+  clamp = false,
 }: {
   entries: HistoryEntry[];
   /** Text to mark in each entry, e.g. a search. */
   highlight?: string;
+  /** Three lines per dictation at most, for a glance (copy keeps the whole text). */
+  clamp?: boolean;
 }) {
   const { locale } = useT();
   const now = Date.now();
@@ -25,7 +28,7 @@ export function HistoryDays({
           </h3>
           <Card padded={false} className="divide-y divide-border overflow-hidden">
             {day.entries.map((entry) => (
-              <Row key={entry.id} entry={entry} locale={locale} highlight={highlight} />
+              <Row key={entry.id} entry={entry} locale={locale} highlight={highlight} clamp={clamp} />
             ))}
           </Card>
         </div>
@@ -67,10 +70,12 @@ function Row({
   entry,
   locale,
   highlight,
+  clamp,
 }: {
   entry: HistoryEntry;
   locale: string;
   highlight: string;
+  clamp: boolean;
 }) {
   const { t } = useT();
   const [copied, setCopied] = useState(false);
@@ -87,7 +92,10 @@ function Row({
       <span className="w-16 shrink-0 pt-px font-mono text-[11.5px] whitespace-nowrap text-text-3">
         {time}
       </span>
-      <p data-selectable className="min-w-0 flex-1 text-[14px] leading-relaxed text-text">
+      <p
+        data-selectable
+        className={`min-w-0 flex-1 text-[14px] leading-relaxed text-text ${clamp ? "line-clamp-3" : ""}`}
+      >
         {marked(entry.text, highlight)}
       </p>
       <div className="-my-1 flex shrink-0 gap-0.5 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
