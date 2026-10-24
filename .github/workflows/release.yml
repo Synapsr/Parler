@@ -195,6 +195,26 @@ jobs:
           path: dist
           merge-multiple: true
 
+      # Stable names, so https://github.com/Synapsr/Parler/releases/latest/download/<name>
+      # always points at the newest build: the website and Parler Cloud link to them.
+      - name: Give the downloads stable names
+        working-directory: dist
+        run: |
+          set -euo pipefail
+          rename() {
+            local found
+            found=$(find . -type f -name "$1" | head -1)
+            if [ -z "$found" ]; then echo "::error::No $1 to publish."; exit 1; fi
+            mv "$found" "./$2"
+          }
+          rename '*.dmg' Parler-macOS.dmg
+          rename '*-setup.exe' Parler-Windows-x64-setup.exe
+          rename '*.msi' Parler-Windows-x64.msi
+          rename '*.AppImage' Parler-Linux-x86_64.AppImage
+          rename '*.deb' Parler-Linux-amd64.deb
+          rename '*.rpm' Parler-Linux-x86_64.rpm
+          ls -la
+
       # Lets anyone check a download with `sha256sum -c SHA256SUMS`.
       - name: Generate SHA256SUMS
         working-directory: dist
