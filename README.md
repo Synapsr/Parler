@@ -29,24 +29,24 @@ Hold a shortcut, speak, let go: your words are typed in any app.
 
 Parler is a free, open-source dictation app for your desktop: **voice typing that works in every app**, whether it's your email, chat, documents, browser or code editor. Hold a shortcut, speak naturally, let go. Parler sends your speech to a Whisper-compatible speech-to-text API and types the text where your cursor is.
 
-You choose who transcribes: **Groq** (the default, with free sign-up), **OpenAI**, **Fireworks**, or **your own server**. Your API key stays on your computer. There is no Parler account, no model to download and no telemetry.
+You choose who transcribes: **Parler Cloud**, with nothing to set up, or your own API key at **Groq** (free sign-up), **OpenAI**, **Fireworks** or **your own server**, which stays on your computer. No model to download, no telemetry.
 
 Looking for an open-source alternative to Wispr Flow, SuperWhisper or your system's built-in dictation, one that works the same on macOS, Windows and Linux? That's what Parler is for.
 
 ## How it works
 
-1. **Hold** <kbd>⌥ Option</kbd> + <kbd>Space</kbd> on macOS, or <kbd>Ctrl</kbd> + <kbd>Space</kbd> on Windows and Linux, and speak. A small pill at the bottom of the screen shows your voice level.
+1. **Hold** <kbd>fn</kbd> on macOS, or <kbd>Ctrl</kbd> + <kbd>Space</kbd> on Windows and Linux, and speak. A small pill at the bottom of the screen shows your voice level.
 2. **Let go.** Parler trims the silence and sends only your speech to the service you picked.
 3. **Done.** The text is typed where your cursor is, and your clipboard is put back the way it was.
 
-A quick tap instead of a hold keeps listening until your next press. <kbd>Esc</kbd> cancels. You can change the shortcut in Settings.
+A quick tap instead of a hold keeps listening until your next press. You can click and switch windows while you speak: the text goes where your cursor is when you let go. <kbd>Esc</kbd> cancels. You can change the shortcut in Settings.
 
 ## Features
 
 | Feature | What it does |
 | --- | --- |
 | **Works in any app** | Types into the focused window, then restores your clipboard. Prefer to paste yourself? Switch to copy-only. |
-| **One shortcut, three modes** | Smart (hold to talk, tap to keep listening), hold, or toggle. Choose your own key combination. |
+| **One shortcut, three modes** | Smart (hold to talk, tap to keep listening), hold, or toggle. On macOS, a single key such as fn or right ⌘; anywhere, your own key combination. |
 | **Never sends silence** | Whisper models invent text on silent audio ("Thank you."), so recordings without speech never leave your machine. |
 | **Vocabulary hints** | Names, brands and jargon come out spelled right. |
 | **Searchable history** | Find any dictation and copy it again, for when it landed in the wrong window. Retry when the network failed. |
@@ -55,6 +55,7 @@ A quick tap instead of a hold keeps listening until your next press. <kbd>Esc</k
 | **30+ spoken languages** | Auto-detect, or pick yours for faster, more accurate results. |
 | **Light or dark** | Or follow your system. The interface speaks 12 languages. |
 | **Your microphone** | Use the system default or pick one. Sound cues can be turned off. |
+| **Updates itself** | New versions install between two dictations, and only when signed by the project. |
 
 ## Speech-to-text providers and pricing
 
@@ -69,8 +70,8 @@ Parler is free. It works with any service that speaks the OpenAI audio API (`POS
 
 You can type any other model a provider serves in Settings, and switch providers at any time: each one keeps its own key.
 
-> [!NOTE]
-> **Parler Cloud is coming soon.** The same app with no API key to create: choose Parler Cloud, sign in once from your browser, and dictate. Unlimited transcription for one person's normal use ([fair use](https://parler.synapsr.io/fair-use)), for €8 a month or €49 a year, excluding VAT, after a 3-day free trial. It isn't open yet. Join the early access on [parler.synapsr.io](https://parler.synapsr.io) or write to [parler@synapsr.io](mailto:parler@synapsr.io).
+> [!TIP]
+> **Rather not create an API key? Choose Parler Cloud.** Pick it when you set up Parler, sign in once from your browser, and dictate. Unlimited transcription for one person's normal use ([fair use](https://parler.synapsr.io/fair-use)), for €8 a month or €49 a year, excluding VAT, after a 3-day free trial. Your account: [cloud.parler.synapsr.io](https://cloud.parler.synapsr.io). Questions: [parler@synapsr.io](mailto:parler@synapsr.io).
 
 <p align="center">
   <picture>
@@ -83,13 +84,13 @@ You can type any other model a provider serves in Settings, and switch providers
 
 ### Download
 
-Installers are published on the [Releases page](https://github.com/Synapsr/Parler/releases). **The first release, v0.1.0, is coming soon.** To hear about it, click **Watch → Custom → Releases** at the top of this page. Until then, [build from source](#build-from-source).
-
-| Platform | Files |
+| Platform | Latest version |
 | --- | --- |
-| macOS 11 or later (Apple Silicon and Intel) | Universal `.dmg`, notarized by Apple |
-| Windows 10 and 11 | `-setup.exe` or `.msi` |
-| Linux (x64) | `.AppImage`, `.deb` or `.rpm` |
+| macOS 11 or later (Apple Silicon and Intel) | [Parler-macOS.dmg](https://github.com/Synapsr/Parler/releases/latest/download/Parler-macOS.dmg), universal, notarized by Apple |
+| Windows 10 and 11 | [Installer (.exe)](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Windows-x64-setup.exe) or [.msi](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Windows-x64.msi) |
+| Linux (x64) | [.AppImage](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Linux-x86_64.AppImage), [.deb](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Linux-amd64.deb) or [.rpm](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Linux-x86_64.rpm) |
+
+Parler then updates itself: it checks for a new version at launch and every few hours, and installs it between two dictations. Updates must carry the project's signature, or Parler refuses them. The `.rpm` is the exception: install new versions from here. Every version is on the [Releases page](https://github.com/Synapsr/Parler/releases).
 
 Releases built by the [release workflow](.github/workflows/release.yml) come with a `SHA256SUMS` file and a [build attestation](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations) you can check with `gh attestation verify <file> --repo Synapsr/Parler`.
 
@@ -140,7 +141,8 @@ On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequ
 - Recordings without speech are never sent.
 - Your API key and settings live in a local file that only your user account can read.
 - Your transcripts (the last 5,000) stay on your computer so you can search and copy them again. Clear them anytime.
-- No analytics, no telemetry, no Parler server: your audio only goes to your provider. Parler also asks GitHub whether a newer version is out (packagers can turn that off with `PARLER_DISABLE_UPDATER=1`).
+- No analytics, no telemetry. Your audio goes only to the service you picked: your provider directly, or Parler Cloud if you chose it. Parler Cloud keeps the audio in memory for the length of the request, transcribes it with Groq, and stores neither the audio nor the text.
+- Parler checks GitHub for new versions and downloads them from there (packagers can turn that off with `PARLER_DISABLE_UPDATER=1`).
 - What a provider does with your audio is set by its own policy. With your own server, nothing leaves your network.
 
 ## Languages
@@ -154,14 +156,14 @@ On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequ
 <details>
 <summary><b>Is Parler free?</b></summary>
 
-Yes. The app is free and open source under the MIT licence. You connect it to your own account at a speech-to-text service and pay that service directly, at its own rates; Groq offers free sign-up to get you started. Parler Cloud, coming soon, will be the optional paid plan for people who'd rather not manage an API key.
+Yes. The app is free and open source under the MIT licence. You connect it to your own account at a speech-to-text service and pay that service directly, at its own rates; Groq offers free sign-up to get you started. Parler Cloud is the optional paid plan for people who'd rather not manage an API key: €8 a month or €49 a year, excluding VAT, after a 3-day free trial.
 
 </details>
 
 <details>
 <summary><b>Which provider should I choose?</b></summary>
 
-Groq is the default: it runs Whisper large-v3 turbo, answers fast and has free sign-up. Pick OpenAI or Fireworks if you already have an account there, or your own server for full control. You can switch at any time in Settings.
+Parler Cloud if you want nothing to set up. With your own key, Groq is the default: it runs Whisper large-v3 turbo, answers fast and has free sign-up. Pick OpenAI or Fireworks if you already have an account there, or your own server for full control. You can switch at any time in Settings.
 
 </details>
 

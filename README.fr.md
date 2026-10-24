@@ -29,24 +29,24 @@ Maintenez un raccourci, parlez, relâchez : vos mots s'écrivent dans n'importe 
 
 Parler est une app de dictée libre et gratuite pour votre ordinateur : **la saisie vocale qui marche dans toutes vos apps**, vos mails, votre messagerie, vos documents, votre navigateur ou votre éditeur de code. Maintenez un raccourci, parlez naturellement, relâchez. Parler envoie votre voix à une API de transcription compatible Whisper et écrit le texte là où se trouve votre curseur.
 
-Vous choisissez qui transcrit : **Groq** (par défaut, inscription gratuite), **OpenAI**, **Fireworks** ou **votre propre serveur**. Votre clé d'API reste sur votre ordinateur. Ni compte Parler, ni modèle à télécharger, ni télémétrie.
+Vous choisissez qui transcrit : **Parler Cloud**, sans rien à configurer, ou votre propre clé d'API chez **Groq** (inscription gratuite), **OpenAI**, **Fireworks** ou **votre propre serveur**, qui reste sur votre ordinateur. Aucun modèle à télécharger, aucune télémétrie.
 
 Vous cherchez une alternative open source à Wispr Flow, SuperWhisper ou à la dictée intégrée de votre système, qui marche pareil sous macOS, Windows et Linux ? C'est exactement ce que fait Parler.
 
 ## Comment ça marche
 
-1. **Maintenez** <kbd>⌥ Option</kbd> + <kbd>Espace</kbd> sur macOS, ou <kbd>Ctrl</kbd> + <kbd>Espace</kbd> sous Windows et Linux, et parlez. Une petite pastille en bas de l'écran montre le niveau de votre voix.
+1. **Maintenez** <kbd>fn</kbd> sur macOS, ou <kbd>Ctrl</kbd> + <kbd>Espace</kbd> sous Windows et Linux, et parlez. Une petite pastille en bas de l'écran montre le niveau de votre voix.
 2. **Relâchez.** Parler retire les silences et n'envoie que votre voix au service choisi.
 3. **C'est écrit.** Le texte apparaît là où se trouve votre curseur, et votre presse-papiers est remis comme il était.
 
-Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. <kbd>Échap</kbd> annule. Le raccourci se change dans les réglages.
+Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. Vous pouvez cliquer et changer de fenêtre pendant que vous parlez : le texte s'écrit là où se trouve votre curseur quand vous relâchez. <kbd>Échap</kbd> annule. Le raccourci se change dans les réglages.
 
 ## Fonctionnalités
 
 | Fonctionnalité | Ce qu'elle fait |
 | --- | --- |
 | **Marche dans toutes les apps** | Écrit dans la fenêtre active, puis rétablit votre presse-papiers. Vous préférez coller vous-même ? Passez en copie seule. |
-| **Un raccourci, trois modes** | Intelligent (maintenir pour parler, appui bref pour continuer d'écouter), Maintenir ou Basculer. Choisissez votre combinaison de touches. |
+| **Un raccourci, trois modes** | Intelligent (maintenir pour parler, appui bref pour continuer d'écouter), Maintenir ou Basculer. Sur macOS, une seule touche comme fn ou ⌘ droite ; partout, la combinaison de votre choix. |
 | **N'envoie jamais de silence** | Sur un audio vide, Whisper invente du texte (« Sous-titres réalisés par la communauté d'Amara.org »…), donc les enregistrements sans parole ne quittent pas votre machine. |
 | **Vocabulaire** | Noms, marques et jargon bien orthographiés. |
 | **Historique avec recherche** | Retrouvez une dictée et recopiez-la si elle a atterri dans la mauvaise fenêtre. Réessayez quand le réseau a lâché. |
@@ -55,6 +55,7 @@ Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. 
 | **Plus de 30 langues parlées** | Détection automatique, ou choisissez la vôtre pour une transcription plus rapide et plus juste. |
 | **Clair ou sombre** | Ou selon votre système. Interface en 12 langues. |
 | **Votre micro** | Celui du système ou celui de votre choix. Les sons peuvent être coupés. |
+| **Se met à jour seul** | Les nouvelles versions s'installent entre deux dictées, et seulement si elles portent la signature du projet. |
 
 ## Services de transcription et tarifs
 
@@ -69,8 +70,8 @@ Parler est gratuit. Il fonctionne avec tout service compatible avec l'API audio 
 
 Tout autre modèle proposé par un service peut être saisi dans les réglages, et vous pouvez changer de service à tout moment : chacun garde sa propre clé.
 
-> [!NOTE]
-> **Parler Cloud arrive bientôt.** La même app, sans clé d'API à créer : choisissez Parler Cloud, connectez-vous une fois depuis votre navigateur, et dictez. Transcription illimitée pour l'usage normal d'une personne ([usage raisonnable](https://parler.synapsr.io/fair-use)), pour 8 € HT par mois ou 49 € HT par an, après 3 jours d'essai gratuit. Ce n'est pas encore ouvert. Rejoignez l'accès anticipé sur [parler.synapsr.io](https://parler.synapsr.io) ou écrivez à [parler@synapsr.io](mailto:parler@synapsr.io).
+> [!TIP]
+> **Pas envie de créer une clé d'API ? Choisissez Parler Cloud.** Sélectionnez-le à la configuration de Parler, connectez-vous une fois depuis votre navigateur, et dictez. Transcription illimitée pour l'usage normal d'une personne ([usage raisonnable](https://parler.synapsr.io/fair-use)), pour 8 € HT par mois ou 49 € HT par an, après 3 jours d'essai gratuit. Votre compte : [cloud.parler.synapsr.io](https://cloud.parler.synapsr.io). Une question : [parler@synapsr.io](mailto:parler@synapsr.io).
 
 <p align="center">
   <picture>
@@ -83,13 +84,13 @@ Tout autre modèle proposé par un service peut être saisi dans les réglages, 
 
 ### Télécharger
 
-Les installeurs sont publiés sur la [page des versions](https://github.com/Synapsr/Parler/releases). **La première version, v0.1.0, arrive bientôt.** Pour être prévenu, cliquez sur **Watch → Custom → Releases** en haut de cette page. En attendant, [compilez depuis les sources](#compiler-depuis-les-sources).
-
-| Système | Fichiers |
+| Système | Dernière version |
 | --- | --- |
-| macOS 11 ou plus récent (Apple Silicon et Intel) | `.dmg` universel, notarisé par Apple |
-| Windows 10 et 11 | `-setup.exe` ou `.msi` |
-| Linux (x64) | `.AppImage`, `.deb` ou `.rpm` |
+| macOS 11 ou plus récent (Apple Silicon et Intel) | [Parler-macOS.dmg](https://github.com/Synapsr/Parler/releases/latest/download/Parler-macOS.dmg), universel, notarisé par Apple |
+| Windows 10 et 11 | [Installeur (.exe)](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Windows-x64-setup.exe) ou [.msi](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Windows-x64.msi) |
+| Linux (x64) | [.AppImage](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Linux-x86_64.AppImage), [.deb](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Linux-amd64.deb) ou [.rpm](https://github.com/Synapsr/Parler/releases/latest/download/Parler-Linux-x86_64.rpm) |
+
+Ensuite, Parler se met à jour seul : il cherche une nouvelle version au lancement puis toutes les quelques heures, et l'installe entre deux dictées. Une mise à jour doit porter la signature du projet, sinon Parler la refuse. Seul le `.rpm` fait exception : installez les nouvelles versions depuis ici. Toutes les versions sont sur la [page des versions](https://github.com/Synapsr/Parler/releases).
 
 Les versions produites par le [workflow de publication](.github/workflows/release.yml) fournissent un fichier `SHA256SUMS` et une [attestation de build](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations) vérifiable avec `gh attestation verify <fichier> --repo Synapsr/Parler`.
 
@@ -140,7 +141,8 @@ Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/pr
 - Les enregistrements sans parole ne sont jamais envoyés.
 - Votre clé d'API et vos réglages restent dans un fichier local lisible par votre seul compte utilisateur.
 - Vos transcriptions (les 5 000 dernières) restent sur votre ordinateur pour pouvoir les retrouver et les recopier. Effacez-les quand vous voulez.
-- Ni statistiques, ni télémétrie, ni serveur Parler : votre audio ne va qu'à votre service de transcription. Parler demande aussi à GitHub si une nouvelle version est sortie (les empaqueteurs peuvent le désactiver avec `PARLER_DISABLE_UPDATER=1`).
+- Ni statistiques, ni télémétrie. Votre audio ne va qu'au service choisi : votre fournisseur directement, ou Parler Cloud si vous l'avez choisi. Parler Cloud garde l'audio en mémoire le temps de la requête, le fait transcrire par Groq, et ne conserve ni l'audio ni le texte.
+- Parler cherche les nouvelles versions sur GitHub et les télécharge depuis GitHub (les empaqueteurs peuvent le désactiver avec `PARLER_DISABLE_UPDATER=1`).
 - Ce que le service fait de votre audio dépend de sa propre politique. Avec votre propre serveur, rien ne sort de votre réseau.
 
 ## Langues
@@ -154,14 +156,14 @@ Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/pr
 <details>
 <summary><b>Parler est-il gratuit ?</b></summary>
 
-Oui. L'app est libre et gratuite, sous licence MIT. Vous la reliez à votre propre compte chez un service de transcription et vous payez ce service directement, à ses tarifs ; Groq propose une inscription gratuite pour démarrer. Parler Cloud, bientôt disponible, sera l'offre payante facultative pour ceux qui préfèrent ne pas gérer de clé d'API.
+Oui. L'app est libre et gratuite, sous licence MIT. Vous la reliez à votre propre compte chez un service de transcription et vous payez ce service directement, à ses tarifs ; Groq propose une inscription gratuite pour démarrer. Parler Cloud est l'offre payante facultative pour ceux qui préfèrent ne pas gérer de clé d'API : 8 € HT par mois ou 49 € HT par an, après 3 jours d'essai gratuit.
 
 </details>
 
 <details>
 <summary><b>Quel service choisir ?</b></summary>
 
-Groq est le choix par défaut : il fait tourner Whisper large-v3 turbo, répond vite et propose une inscription gratuite. Prenez OpenAI ou Fireworks si vous y avez déjà un compte, ou votre propre serveur pour tout maîtriser. Vous pouvez en changer à tout moment dans les réglages.
+Parler Cloud si vous ne voulez rien configurer. Avec votre propre clé, Groq est le choix par défaut : il fait tourner Whisper large-v3 turbo, répond vite et propose une inscription gratuite. Prenez OpenAI ou Fireworks si vous y avez déjà un compte, ou votre propre serveur pour tout maîtriser. Vous pouvez en changer à tout moment dans les réglages.
 
 </details>
 
