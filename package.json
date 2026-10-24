@@ -1,7 +1,7 @@
 {
   "name": "parler",
   "private": true,
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Open-source voice dictation for macOS, Windows and Linux: hold a shortcut, speak, and your words are typed in any app. Cloud speech-to-text with Groq, OpenAI, Fireworks or any Whisper-compatible API.",
   "keywords": [
     "dictation",
