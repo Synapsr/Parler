@@ -18,6 +18,7 @@
   },
   "nav": {
     "home": "Accueil",
+    "history": "Historique",
     "vocabulary": "Vocabulaire",
     "settings": "Réglages"
   },
@@ -121,11 +122,22 @@
       "saved": "Temps gagné",
       "speed": "Mots par minute"
     },
-    "history": "Historique",
-    "clear": "Effacer",
+    "recent": "Dictées récentes",
+    "seeAll": "Voir tout",
     "empty": "Vos dictées apparaîtront ici.",
     "emptyHint": "Essayez maintenant, dans n'importe quelle app.",
     "seconds": "{s} s"
+  },
+  "history": {
+    "title": "Historique",
+    "count": "{n} dictées, gardées sur cet ordinateur.",
+    "countOne": "1 dictée, gardée sur cet ordinateur.",
+    "search": "Rechercher dans vos dictées…",
+    "clearSearch": "Effacer la recherche",
+    "noResults": "Aucune dictée ne correspond à « {query} ».",
+    "showMore": "Afficher plus",
+    "clearAll": "Tout effacer",
+    "confirmClear": "Cliquez encore pour tout supprimer"
   },
   "vocabulary": {
     "title": "Vocabulaire",
@@ -227,6 +239,10 @@
       "soundsHint": "Un signal discret quand l'écoute commence et s'arrête.",
       "autostart": "Ouvrir au démarrage",
       "autostartHint": "Parler attend discrètement dans la barre des menus.",
+      "theme": "Apparence",
+      "theme_system": "Système",
+      "theme_light": "Clair",
+      "theme_dark": "Sombre",
       "interfaceLanguage": "Langue de l'interface",
       "system": "Système"
     },

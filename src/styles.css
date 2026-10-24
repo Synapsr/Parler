@@ -37,8 +37,12 @@
   color-scheme: light;
 }
 
+/*
+ * Dark: what the system asks for, unless the person chose light in the
+ * settings; or always, when they chose dark. App.tsx sets data-theme.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --canvas: #141312;
     --sidebar: #191816;
     --surface: #1f1d1b;
@@ -63,6 +67,45 @@
     --elev-raised: 0 18px 40px -18px rgb(0 0 0 / 0.6), 0 0 0 1px var(--border);
     --grain-opacity: 0.2;
     color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --canvas: #141312;
+  --sidebar: #191816;
+  --surface: #1f1d1b;
+  --surface-2: #262421;
+  --border: rgb(255 255 255 / 0.07);
+  --border-strong: rgb(255 255 255 / 0.13);
+  --text: #f3f0ea;
+  --text-2: #bdb7ac;
+  --text-3: #8f897d;
+  --primary: #f3f0ea;
+  --on-primary: #141312;
+  --accent: #ff5a3c;
+  --accent-soft: rgb(255 90 60 / 0.13);
+  --accent-text: #ff8a72;
+  --success: #5fc48a;
+  --success-soft: rgb(95 196 138 / 0.13);
+  --warning: #e0a94a;
+  --warning-soft: rgb(224 169 74 / 0.13);
+  --ink: #0c0b0a;
+  --ink-2: #1c1a18;
+  --elev-card: 0 0 0 1px var(--border);
+  --elev-raised: 0 18px 40px -18px rgb(0 0 0 / 0.6), 0 0 0 1px var(--border);
+  --grain-opacity: 0.2;
+  color-scheme: dark;
+}
+
+/* Tailwind's `dark:` follows the same rule as the tokens. */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+  &:where(:root[data-theme="dark"] *) {
+    @slot;
   }
 }
 
@@ -139,9 +182,13 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  .grain::before {
+  :root:not([data-theme="light"]) .grain::before {
     mix-blend-mode: screen;
   }
+}
+
+:root[data-theme="dark"] .grain::before {
+  mix-blend-mode: screen;
 }
 
 /* The stage the onboarding scenes play on: soft glows over a dot grid. */

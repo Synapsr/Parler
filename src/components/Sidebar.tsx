@@ -1,4 +1,4 @@
-import { BookA, House, Settings2, type LucideIcon } from "lucide-react";
+import { BookA, History, House, Settings2, type LucideIcon } from "lucide-react";
 import { useT } from "../i18n/context";
 import { modelFor } from "../lib/api";
 import { lookOf } from "../lib/look";
@@ -6,10 +6,11 @@ import { keycaps } from "../lib/shortcut";
 import { useParler } from "../state";
 import { IconTile, Keycaps, LogoMark, StatusDot, Wordmark, type DotTone } from "../ui";
 
-export type Page = "home" | "vocabulary" | "settings";
+export type Page = "home" | "history" | "vocabulary" | "settings";
 
 const NAV: { page: Page; icon: LucideIcon; label: string }[] = [
   { page: "home", icon: House, label: "nav.home" },
+  { page: "history", icon: History, label: "nav.history" },
   { page: "vocabulary", icon: BookA, label: "nav.vocabulary" },
   { page: "settings", icon: Settings2, label: "nav.settings" },
 ];

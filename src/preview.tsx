@@ -28,8 +28,27 @@ let settings = {
   output: "paste",
   sounds: true,
   uiLanguage: params.get("lang") ?? "fr",
+  theme: params.get("theme") ?? "system",
 };
 const now = Date.now();
+const HOUR = 3_600_000;
+const HISTORY = [
+  "Bonjour Camille, je te confirme le rendez-vous de jeudi à 14\u00a0h à Plougastel. Je t'envoie le devis dans la journée.",
+  "Ajouter un test pour le cas où le micro se déconnecte pendant l'enregistrement.",
+  "Merci pour ton retour, je regarde ça demain matin.",
+  "Penser à renouveler le nom de domaine avant la fin du mois.",
+  "Le rendu est vraiment top, on peut valider la maquette pour la page d'accueil.",
+  "Rappelle-moi d'appeler la boulangerie demain à neuf heures.",
+  "On décale la réunion d'équipe à mardi, même heure.",
+  "Liste de courses : lait, œufs, café, pain complet.",
+  "Je serai en télétravail vendredi, joignable par message.",
+  "Super idée, on en parle à la prochaine rétro.",
+].map((text, i) => ({
+  id: now - [40_000, HOUR, 3 * HOUR, 26 * HOUR, 28 * HOUR, 30 * HOUR, 50 * HOUR, 75 * HOUR, 76 * HOUR, 100 * HOUR][i],
+  text,
+  durationMs: 1800 + ((i * 1371) % 5000),
+  provider: "Groq",
+}));
 const problem = params.get("problem")
   ? { kind: "transcription", error: { kind: "offline", provider: "Groq" } }
   : null;
@@ -60,13 +79,7 @@ mockIPC(
           canRetry: Boolean(problem),
         };
       case "get_history":
-        return onboarded
-          ? [
-              { id: now - 40_000, text: "Bonjour Camille, je te confirme le rendez-vous de jeudi à 14 h à Plougastel. Je t'envoie le devis dans la journée.", durationMs: 6400, provider: "Groq" },
-              { id: now - 3_600_000, text: "Ajouter un test pour le cas où le micro se déconnecte pendant l'enregistrement.", durationMs: 3900, provider: "Groq" },
-              { id: now - 86_400_000, text: "Merci pour ton retour, je regarde ça demain matin.", durationMs: 2100, provider: "Groq" },
-            ]
-          : [];
+        return onboarded ? HISTORY : [];
       case "get_stats":
         return onboarded
           ? { dictations: 214, words: 9840, speechMs: 3_420_000 }

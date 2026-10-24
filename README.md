@@ -50,7 +50,8 @@ No account, no subscription, no model to download. Bring your own API key; it st
 - **Pastes where you type**, then puts your clipboard back the way it was.
 - **Never sends silence**: Whisper invents text on silent audio ("Thank you.", "Sous-titres réalisés par…"), so empty recordings stay on your machine.
 - **Vocabulary hints** so names, brands and jargon come out spelled right.
-- **Recent dictations** to copy again if one landed in the wrong window, and **retry** when the network failed.
+- **A searchable history** of your dictations to copy one again if it landed in the wrong window, and **retry** when the network failed.
+- **Light or dark**, or following your system.
 - **Esc cancels** a dictation in progress.
 - A discreet **pill** at the bottom of the screen shows your voice level — and never steals focus.
 - Interface in **English and French**.
@@ -118,7 +119,7 @@ Any other model the provider serves can be typed in the settings. Prices and fre
 
 - Audio is recorded only while you dictate, and sent only to the provider you picked.
 - Your API key and settings live in a local file readable only by your user account.
-- The last 50 transcripts are kept locally so you can copy them again; clear them anytime.
+- Your transcripts (up to the last 5,000) are kept locally so you can find and copy them again; clear them anytime.
 - No analytics, no telemetry, no Parler server.
 
 ---

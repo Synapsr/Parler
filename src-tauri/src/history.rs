@@ -1,5 +1,5 @@
-//! The last few transcripts, so one that landed in the wrong window can be
-//! copied again, and lifetime totals for the home screen.
+//! Past transcripts, to find and copy again (one that landed in the wrong
+//! window, say), and lifetime totals for the home screen.
 
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -8,7 +8,8 @@ use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH};
 use tauri::{AppHandle, Emitter, Manager};
 
-const LIMIT: usize = 50;
+/// Thousands of dictations stay well under a megabyte of JSON.
+const LIMIT: usize = 5000;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -33,6 +34,7 @@ pub struct Stats {
 pub struct History {
     path: PathBuf,
     stats_path: PathBuf,
+    limit: usize,
     entries: Mutex<Vec<Entry>>,
     stats: Mutex<Stats>,
 }
@@ -55,12 +57,17 @@ fn write_json<T: Serialize>(path: &Path, value: &T) {
 
 impl History {
     pub fn load(path: PathBuf) -> Self {
+        Self::load_with_limit(path, LIMIT)
+    }
+
+    fn load_with_limit(path: PathBuf, limit: usize) -> Self {
         let stats_path = path.with_file_name("stats.json");
         Self {
             entries: Mutex::new(read_json(&path)),
             stats: Mutex::new(read_json(&stats_path)),
             path,
             stats_path,
+            limit,
         }
     }
 
@@ -90,7 +97,7 @@ impl History {
                 provider,
             },
         );
-        entries.truncate(LIMIT);
+        entries.truncate(self.limit);
         self.save(&entries);
 
         let mut stats = self.stats.lock().unwrap_or_else(|e| e.into_inner());
@@ -135,13 +142,14 @@ mod tests {
     #[test]
     fn keeps_the_newest_entries_first_and_bounded() {
         let dir = std::env::temp_dir().join(format!("parler-history-{}", std::process::id()));
-        let history = History::load(dir.join("history.json"));
-        for i in 0..(LIMIT + 5) {
+        let limit = 20;
+        let history = History::load_with_limit(dir.join("history.json"), limit);
+        for i in 0..(limit + 5) {
             history.add(format!("entry {i}"), 1000, "Groq".into());
         }
         let entries = history.entries();
-        assert_eq!(entries.len(), LIMIT);
-        assert_eq!(entries[0].text, format!("entry {}", LIMIT + 4));
+        assert_eq!(entries.len(), limit);
+        assert_eq!(entries[0].text, format!("entry {}", limit + 4));
         assert!(entries.windows(2).all(|w| w[0].id > w[1].id));
 
         let reloaded = History::load(dir.join("history.json"));

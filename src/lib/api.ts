@@ -5,6 +5,7 @@ import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 export type ShortcutMode = "smart" | "hold" | "toggle";
 export type Output = "paste" | "copy";
 export type UiLanguage = "auto" | "en" | "fr";
+export type Theme = "system" | "light" | "dark";
 
 export interface Settings {
   onboarded: boolean;
@@ -20,6 +21,7 @@ export interface Settings {
   output: Output;
   sounds: boolean;
   uiLanguage: UiLanguage;
+  theme: Theme;
 }
 
 export interface Provider {

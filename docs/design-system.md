@@ -58,6 +58,10 @@ Services are shown with an icon and tint, never a borrowed logo.
 Serif titles may put their second half in *italics* ("Your voice, *typed
 anywhere*."). Fonts are bundled, so Parler looks the same offline.
 
+**Theme**: light and dark follow the system by default; *Settings → General
+→ Appearance* can force either (`data-theme` on the root element, which the
+tokens and Tailwind's `dark:` variant both honour).
+
 ### Shape, depth, motion
 
 - Radius: fields 12 px, cards 18 px (`rounded-card`), hero and stage 22–26 px,
@@ -91,8 +95,9 @@ anywhere*."). Fonts are bundled, so Parler looks the same offline.
 
 ## Layouts
 
-- **Application**: a 236 px sidebar (brand, navigation, a status card showing
-  state, service and shortcut) and a centred column up to 700 px wide.
+- **Application**: a 236 px sidebar (brand, navigation: Home, History,
+  Vocabulary, Settings; a status card showing state, service and shortcut)
+  and a centred column up to 700 px wide.
 - **Onboarding**: words on the left (title, one decision, the main action at
   the bottom right), a *stage* on the right where the scene plays.
 - **The pill**: a dark capsule centred at the bottom of the screen, never

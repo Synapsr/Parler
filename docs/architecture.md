@@ -50,8 +50,8 @@ Built on the [design system](design-system.md).
 | `App.tsx`, `state.tsx` | Loads settings, status, history and totals once, then follows backend events. |
 | `ui/` | The design system's components. |
 | `onboarding/` | Welcome → service → key (checked on paste) → macOS permissions → shortcut → first dictation, each with its animated scene. |
-| `pages/` | Home (shortcut, totals, history by day), Vocabulary, Settings. |
-| `components/` | The sidebar, the shortcut recorder, the service form logic. |
+| `pages/` | Home (shortcut, totals, recent dictations), History (every dictation, searchable), Vocabulary, Settings. |
+| `components/` | The sidebar, the history list, the shortcut recorder, the service form logic. |
 | `overlay/` | The pill: level bars, phases, synthesized sound cues. |
 | `i18n/` | English and French, kept in sync by a test. |
 | `preview.tsx` | Dev only: every window in a browser against a simulated backend. |

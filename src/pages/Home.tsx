@@ -1,31 +1,24 @@
-import { Check, Copy, Gauge, RotateCw, Timer, Trash2, Type } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, Gauge, RotateCw, Timer, Type } from "lucide-react";
 import { requestAccessibilityPermission } from "tauri-plugin-macos-permissions-api";
 import { useT } from "../i18n/context";
-import { api, type HistoryEntry } from "../lib/api";
-import {
-  dayLabel,
-  formatDuration,
-  groupByDay,
-  minutesSaved,
-  wordsPerMinute,
-} from "../lib/insights";
+import { EmptyHistory, HistoryDays } from "../components/HistoryList";
+import { api } from "../lib/api";
+import { formatDuration, minutesSaved, wordsPerMinute } from "../lib/insights";
 import { describeProblem } from "../lib/problems";
 import { keycaps } from "../lib/shortcut";
 import { useParler } from "../state";
-import {
-  Banner,
-  Button,
-  Card,
-  FlowPill,
-  IconButton,
-  Keycaps,
-  PageHeader,
-  Stat,
-  VoiceBars,
-} from "../ui";
+import { Banner, Button, FlowPill, Keycaps, PageHeader, Stat } from "../ui";
 
-export function Home({ openSettings }: { openSettings: () => void }) {
+/** Dictations shown on the home page. */
+const RECENT = 5;
+
+export function Home({
+  openSettings,
+  openHistory,
+}: {
+  openSettings: () => void;
+  openHistory: () => void;
+}) {
   const { t } = useT();
   const hour = new Date().getHours();
   const greeting =
@@ -37,7 +30,7 @@ export function Home({ openSettings }: { openSettings: () => void }) {
       <Hero />
       <Problem openSettings={openSettings} />
       <Stats />
-      <History />
+      <Recent openHistory={openHistory} />
     </div>
   );
 }
@@ -136,73 +129,30 @@ function Stats() {
   );
 }
 
-function History() {
-  const { t, locale } = useT();
+/** The last few dictations; the History page has them all. */
+function Recent({ openHistory }: { openHistory: () => void }) {
+  const { t } = useT();
   const { history } = useParler();
-  const now = Date.now();
 
   return (
     <section className="rise mt-3 flex flex-col gap-3" style={{ animationDelay: "180ms" }}>
       <div className="flex items-baseline justify-between">
-        <h2 className="font-display text-heading text-text">{t("home.history")}</h2>
+        <h2 className="font-display text-heading text-text">{t("home.recent")}</h2>
         {history.length > 0 && (
-          <Button size="sm" variant="ghost" onClick={() => api.clearHistory()}>
-            {t("home.clear")}
+          <Button size="sm" variant="ghost" onClick={openHistory}>
+            {t("home.seeAll")}
+            <ArrowRight className="size-3.5" />
           </Button>
         )}
       </div>
-
       {history.length === 0 ? (
-        <Card className="flex flex-col items-center gap-3 py-10 text-center">
-          <VoiceBars className="text-text-3" />
-          <div>
-            <p className="text-[14px] font-medium text-text">{t("home.empty")}</p>
-            <p className="mt-1 text-[13px] text-text-3">{t("home.emptyHint")}</p>
-          </div>
-        </Card>
+        <EmptyHistory>
+          <p className="text-[14px] font-medium text-text">{t("home.empty")}</p>
+          <p className="mt-1 text-[13px] text-text-3">{t("home.emptyHint")}</p>
+        </EmptyHistory>
       ) : (
-        groupByDay(history).map((day) => (
-          <div key={day.start} className="flex flex-col gap-2">
-            <h3 className="px-1 text-[11.5px] font-semibold tracking-wide text-text-3 uppercase">
-              {dayLabel(day.start, now, locale)}
-            </h3>
-            <Card padded={false} className="divide-y divide-border overflow-hidden">
-              {day.entries.map((entry) => (
-                <Row key={entry.id} entry={entry} locale={locale} />
-              ))}
-            </Card>
-          </div>
-        ))
+        <HistoryDays entries={history.slice(0, RECENT)} />
       )}
     </section>
-  );
-}
-
-function Row({ entry, locale }: { entry: HistoryEntry; locale: string }) {
-  const { t } = useT();
-  const [copied, setCopied] = useState(false);
-  const time = new Intl.DateTimeFormat(locale, { hour: "2-digit", minute: "2-digit" }).format(entry.id);
-
-  const copy = async () => {
-    await api.copyText(entry.text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1400);
-  };
-
-  return (
-    <div className="group flex items-start gap-4 px-4 py-3.5 transition-colors hover:bg-surface-2">
-      <span className="w-16 shrink-0 pt-px font-mono text-[11.5px] whitespace-nowrap text-text-3">{time}</span>
-      <p data-selectable className="min-w-0 flex-1 text-[14px] leading-relaxed text-text">
-        {entry.text}
-      </p>
-      <div className="-my-1 flex shrink-0 gap-0.5 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100">
-        <IconButton label={copied ? t("common.copied") : t("common.copy")} onClick={copy}>
-          {copied ? <Check className="size-4 text-success" /> : <Copy className="size-4" />}
-        </IconButton>
-        <IconButton label={t("common.delete")} onClick={() => api.deleteHistoryEntry(entry.id)}>
-          <Trash2 className="size-4" />
-        </IconButton>
-      </div>
-    </div>
   );
 }

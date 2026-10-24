@@ -50,7 +50,8 @@ Ni compte, ni abonnement, ni modèle à télécharger. Vous apportez votre propr
 - **Écrit là où vous tapez**, puis remet votre presse-papiers comme il était.
 - **N'envoie jamais de silence** : sur un audio vide, Whisper invente du texte (« Sous-titres réalisés par la communauté d'Amara.org »…), donc les enregistrements vides ne quittent pas votre machine.
 - **Vocabulaire** pour que noms, marques et jargon soient bien orthographiés.
-- **Dictées récentes** à recopier si l'une a atterri dans la mauvaise fenêtre, et **Réessayer** quand le réseau a lâché.
+- **Un historique avec recherche** pour recopier une dictée qui a atterri dans la mauvaise fenêtre, et **Réessayer** quand le réseau a lâché.
+- **Clair ou sombre**, ou selon votre système.
 - **Échap annule** une dictée en cours.
 - Une **pastille** discrète en bas de l'écran montre le niveau de votre voix, sans jamais voler le focus.
 - Interface en **français et en anglais**.
@@ -118,7 +119,7 @@ Tout autre modèle proposé par le service peut être saisi dans les réglages. 
 
 - L'audio n'est enregistré que pendant la dictée, et n'est envoyé qu'au service que vous avez choisi.
 - Votre clé d'API et vos réglages restent dans un fichier local lisible par votre seul compte utilisateur.
-- Les 50 dernières transcriptions sont gardées en local pour pouvoir les recopier ; vous pouvez les effacer à tout moment.
+- Vos transcriptions (jusqu'aux 5 000 dernières) sont gardées en local pour pouvoir les retrouver et les recopier ; vous pouvez les effacer à tout moment.
 - Ni statistiques, ni télémétrie, ni serveur Parler.
 
 ---

@@ -40,17 +40,23 @@ export function Field({
 
 export function Input({
   className = "",
+  leading,
   trailing,
   ...props
-}: InputHTMLAttributes<HTMLInputElement> & { trailing?: ReactNode }) {
+}: InputHTMLAttributes<HTMLInputElement> & { leading?: ReactNode; trailing?: ReactNode }) {
   return (
     <div className="relative w-full">
+      {leading && (
+        <div className="pointer-events-none absolute top-1/2 left-3.5 flex -translate-y-1/2 items-center text-text-3">
+          {leading}
+        </div>
+      )}
       <input
         spellCheck={false}
         autoComplete="off"
         autoCorrect="off"
         {...props}
-        className={`h-11 px-3.5 ${trailing ? "pr-11" : ""} ${FIELD} ${className}`}
+        className={`h-11 px-3.5 ${leading ? "pl-10" : ""} ${trailing ? "pr-11" : ""} ${FIELD} ${className}`}
       />
       {trailing && (
         <div className="absolute top-1/2 right-1.5 flex -translate-y-1/2 items-center">

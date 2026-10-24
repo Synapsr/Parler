@@ -20,6 +20,7 @@ import {
   type Microphone,
   type Output,
   type ShortcutMode,
+  type Theme,
   type UiLanguage,
 } from "../lib/api";
 import { LANGUAGES } from "../lib/languages";
@@ -329,6 +330,16 @@ function General() {
       </Field>
       <Field inline label={t("settings.general.autostart")} hint={t("settings.general.autostartHint")}>
         <Toggle checked={autostart} onChange={toggleAutostart} label={t("settings.general.autostart")} />
+      </Field>
+      <Field inline label={t("settings.general.theme")}>
+        <Segmented<Theme>
+          options={(["system", "light", "dark"] as const).map((theme) => ({
+            value: theme,
+            label: t(`settings.general.theme_${theme}`),
+          }))}
+          value={settings.theme}
+          onChange={(theme) => update({ theme })}
+        />
       </Field>
       <Field inline label={t("settings.general.interfaceLanguage")}>
         <Select

@@ -31,6 +31,17 @@ pub enum Output {
     Copy,
 }
 
+/// The interface's colours.
+#[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[serde(rename_all = "camelCase")]
+pub enum Theme {
+    /// Follows the system's light or dark appearance.
+    #[default]
+    System,
+    Light,
+    Dark,
+}
+
 #[derive(Serialize, Deserialize, Clone, PartialEq)]
 #[serde(default, rename_all = "camelCase")]
 pub struct Settings {
@@ -57,6 +68,7 @@ pub struct Settings {
     pub sounds: bool,
     /// "auto", "en" or "fr".
     pub ui_language: String,
+    pub theme: Theme,
 }
 
 pub fn default_shortcut() -> &'static str {
@@ -83,6 +95,7 @@ impl Default for Settings {
             output: Output::default(),
             sounds: true,
             ui_language: "auto".to_string(),
+            theme: Theme::default(),
         }
     }
 }
@@ -109,6 +122,7 @@ impl fmt::Debug for Settings {
             .field("output", &self.output)
             .field("sounds", &self.sounds)
             .field("ui_language", &self.ui_language)
+            .field("theme", &self.theme)
             .finish_non_exhaustive()
     }
 }

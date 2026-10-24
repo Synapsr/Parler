@@ -18,6 +18,7 @@
   },
   "nav": {
     "home": "Home",
+    "history": "History",
     "vocabulary": "Vocabulary",
     "settings": "Settings"
   },
@@ -121,11 +122,22 @@
       "saved": "Time saved",
       "speed": "Words per minute"
     },
-    "history": "History",
-    "clear": "Clear",
+    "recent": "Recent dictations",
+    "seeAll": "See all",
     "empty": "Your dictations will appear here.",
     "emptyHint": "Try it now, in any app.",
     "seconds": "{s} s"
+  },
+  "history": {
+    "title": "History",
+    "count": "{n} dictations, kept on this computer.",
+    "countOne": "1 dictation, kept on this computer.",
+    "search": "Search your dictations…",
+    "clearSearch": "Clear the search",
+    "noResults": "No dictation matches “{query}”.",
+    "showMore": "Show more",
+    "clearAll": "Clear all",
+    "confirmClear": "Click again to delete all"
   },
   "vocabulary": {
     "title": "Vocabulary",
@@ -227,6 +239,10 @@
       "soundsHint": "A soft cue when listening starts and stops.",
       "autostart": "Open at login",
       "autostartHint": "Parler waits quietly in the menu bar.",
+      "theme": "Appearance",
+      "theme_system": "System",
+      "theme_light": "Light",
+      "theme_dark": "Dark",
       "interfaceLanguage": "Interface language",
       "system": "System"
     },
