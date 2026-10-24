@@ -226,7 +226,7 @@
     "noClipboard": "Het klembord is niet beschikbaar op dit systeem.",
     "pasteFailed": "Plakken is mislukt ({detail}). Je tekst staat op het klembord.",
     "shortcut": "{shortcut} wordt al door een andere app gebruikt. Kies een andere sneltoets.",
-    "fnKey": "Parler heeft toegang tot Toegankelijkheid nodig om naar de fn-toets te luisteren. Zet het aan in Systeeminstellingen: fn werkt zodra het is toegestaan.",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "Opnieuw proberen",
     "openSettings": "Open instellingen",
     "openAccessibility": "Open Toegankelijkheid"
@@ -276,9 +276,21 @@
       "label": "Sneltoets voor dicteren",
       "recording": "Druk op je toetsen…",
       "cancelHint": "Esc om te annuleren",
-      "useFn": "Gebruik de fn-toets",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS reageert ook op elke druk op 🌐 (emoji, invoerbron of Dicteren). Wil je hem aan Parler overlaten, zet dan ‘Druk op 🌐-toets om’ op ‘Doe niets’ in de instellingen voor Toetsenbord.",
       "openKeyboard": "Open toetsenbordinstellingen",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "Voeg een speciale toets toe, zoals {modifiers}.",
       "reserved": "{shortcut} gebruik je al dagelijks (kopiëren, plakken, bewaren…). Kies een andere.",
       "mode": "Gedrag",

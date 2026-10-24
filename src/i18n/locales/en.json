@@ -226,7 +226,7 @@
     "noClipboard": "The clipboard isn't available on this system.",
     "pasteFailed": "Pasting failed ({detail}). Your text is on the clipboard.",
     "shortcut": "{shortcut} is already used by another app. Pick another shortcut.",
-    "fnKey": "Parler needs Accessibility access to listen to the fn key. Turn it on in System Settings: fn works as soon as it's allowed.",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "Try again",
     "openSettings": "Open settings",
     "openAccessibility": "Open Accessibility settings"
@@ -276,9 +276,21 @@
       "label": "Dictation shortcut",
       "recording": "Press your keys…",
       "cancelHint": "Esc to cancel",
-      "useFn": "Use the fn key",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS also acts on each press of 🌐 (emoji, input source or Dictation). To leave it to Parler, set “Press 🌐 key to” to “Do Nothing” in Keyboard settings.",
       "openKeyboard": "Open Keyboard settings",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "Add a modifier such as {modifiers}.",
       "reserved": "{shortcut} is an everyday shortcut (copy, paste, save…). Pick another one.",
       "mode": "Behaviour",

@@ -29,6 +29,7 @@ const problems: Problem[] = [
   { kind: "paste", error: { kind: "failed", detail: "x" } },
   { kind: "shortcut", shortcut: "Alt+Space", detail: "taken" },
   { kind: "shortcut", shortcut: "Fn", detail: "accessibility" },
+  { kind: "shortcut", shortcut: "RightCommand", detail: "accessibility" },
 ];
 
 describe("describeProblem", () => {
@@ -65,10 +66,12 @@ describe("describeProblem", () => {
     expect(describeProblem(problems[12]).params.date).toBeTruthy();
   });
 
-  it("sends the fn key to the Accessibility settings", () => {
-    const fn = describeProblem(problems[problems.length - 1]);
-    expect(fn.key).toBe("problems.fnKey");
-    expect(fn.needsAccessibility).toBe(true);
-    expect(fn.needsSettings).toBe(false);
+  it("sends keys used alone to the Accessibility settings", () => {
+    for (const problem of problems.slice(-2)) {
+      const text = describeProblem(problem);
+      expect(text.key).toBe("problems.singleKey");
+      expect(text.needsAccessibility).toBe(true);
+      expect(text.needsSettings).toBe(false);
+    }
   });
 });

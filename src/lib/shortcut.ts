@@ -1,9 +1,15 @@
 // Shortcuts are stored as accelerators the global-shortcut plugin parses,
 // e.g. "Control+Shift+KeyD": modifiers first, then one KeyboardEvent.code.
-// On macOS, `FN` is the fn (🌐) key alone, which the backend follows itself.
+// On macOS a shortcut can also be one key alone (`SINGLE_KEYS`), which the
+// backend follows itself; those can't be recorded like other keys.
 
-/** The fn (🌐) key alone, macOS only: it can't be recorded like other keys. */
-export const FN = "Fn";
+/** Keys used alone (macOS only), as the picker lists them. */
+export const SINGLE_KEYS = ["Fn", "RightCommand", "RightOption", "RightControl"] as const;
+export type SingleKey = (typeof SINGLE_KEYS)[number];
+export const FN: SingleKey = "Fn";
+
+export const isSingleKey = (shortcut: string): shortcut is SingleKey =>
+  (SINGLE_KEYS as readonly string[]).includes(shortcut);
 
 const MODIFIERS = ["Control", "Alt", "Shift", "Super"] as const;
 type Modifier = (typeof MODIFIERS)[number];
@@ -110,13 +116,28 @@ const KEY_SYMBOLS: Record<string, string> = {
 export interface KeyNames {
   space?: string;
   ctrl?: string;
+  /** "Right ⌘", "⌘ droite"… */
+  rightCommand?: string;
+  rightOption?: string;
+  rightControl?: string;
 }
 
 /** The keycaps to draw for an accelerator, with `names` translating some keys. */
 export function keycaps(accelerator: string, platform: string, names: KeyNames = {}): string[] {
   const mac = platform === "macos";
-  // As printed on the key; the keycap draws the globe next to it.
-  if (accelerator === FN) return ["fn"];
+  if (isSingleKey(accelerator)) {
+    switch (accelerator) {
+      // As printed on the key; the keycap draws the globe next to it.
+      case "Fn":
+        return ["fn"];
+      case "RightCommand":
+        return [names.rightCommand ?? "Right ⌘"];
+      case "RightOption":
+        return [names.rightOption ?? "Right ⌥"];
+      case "RightControl":
+        return [names.rightControl ?? "Right ⌃"];
+    }
+  }
   return accelerator
     .split("+")
     .filter(Boolean)
@@ -163,7 +184,7 @@ const EVERYDAY_KEYS = new Set([
 
 /** Whether `accelerator` would shadow a system or everyday app shortcut. */
 export function isReserved(accelerator: string, platform: string): boolean {
-  if (accelerator === FN) return false;
+  if (isSingleKey(accelerator)) return false;
   const tokens = accelerator.split("+");
   const key = tokens[tokens.length - 1];
   const modifiers = tokens.slice(0, -1);

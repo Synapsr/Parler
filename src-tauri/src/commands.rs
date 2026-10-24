@@ -304,18 +304,9 @@ pub struct GlobeKey {
 }
 
 #[tauri::command]
-pub async fn globe_key() -> GlobeKey {
+pub fn globe_key() -> GlobeKey {
     #[cfg(target_os = "macos")]
-    let action = tauri::async_runtime::spawn_blocking(|| {
-        let output = std::process::Command::new("defaults")
-            .args(["read", "com.apple.HIToolbox", "AppleFnUsageType"])
-            .output()
-            .ok()?;
-        String::from_utf8_lossy(&output.stdout).trim().parse().ok()
-    })
-    .await
-    .ok()
-    .flatten();
+    let action = crate::modifier_key::globe_action();
     #[cfg(not(target_os = "macos"))]
     let action = None;
     GlobeKey { action }

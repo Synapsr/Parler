@@ -2,9 +2,9 @@ mod audio;
 mod cloud;
 mod commands;
 mod dictation;
-#[cfg(target_os = "macos")]
-mod fn_key;
 mod history;
+#[cfg(target_os = "macos")]
+mod modifier_key;
 mod overlay;
 mod paste;
 mod providers;

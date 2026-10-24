@@ -7,5 +7,11 @@ export function useKeycaps(): (accelerator: string) => string[] {
   const { t } = useT();
   const { info } = useParler();
   return (accelerator) =>
-    keycaps(accelerator, info.platform, { space: t("common.space"), ctrl: t("common.ctrl") });
+    keycaps(accelerator, info.platform, {
+      space: t("common.space"),
+      ctrl: t("common.ctrl"),
+      rightCommand: t("settings.shortcut.caps.rightCommand"),
+      rightOption: t("settings.shortcut.caps.rightOption"),
+      rightControl: t("settings.shortcut.caps.rightControl"),
+    });
 }

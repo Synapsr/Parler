@@ -226,7 +226,7 @@
     "noClipboard": "El portapapeles no está disponible en este sistema.",
     "pasteFailed": "No se pudo pegar ({detail}). Tu texto está en el portapapeles.",
     "shortcut": "Otra app ya usa {shortcut}. Elige otro atajo.",
-    "fnKey": "Parler necesita acceso de Accesibilidad para detectar la tecla fn. Actívalo en Ajustes del Sistema: fn funcionará en cuanto lo permitas.",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "Reintentar",
     "openSettings": "Abrir ajustes",
     "openAccessibility": "Abrir ajustes de Accesibilidad"
@@ -276,9 +276,21 @@
       "label": "Atajo de dictado",
       "recording": "Pulsa tus teclas…",
       "cancelHint": "Esc para cancelar",
-      "useFn": "Usar la tecla fn",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS también reacciona cada vez que pulsas 🌐 (emojis, fuente de entrada o Dictado). Para dejársela a Parler, en los ajustes de Teclado cambia «Pulsar la tecla 🌐 para» a «No hacer nada».",
       "openKeyboard": "Abrir ajustes de Teclado",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "Añade una tecla modificadora, como {modifiers}.",
       "reserved": "{shortcut} es un atajo de uso diario (copiar, pegar, guardar…). Elige otro.",
       "mode": "Comportamiento",

@@ -121,7 +121,13 @@ impl Dictation {
 
 enum Phase {
     Idle,
-    Recording { pressed_at: Instant, latched: bool },
+    Recording {
+        pressed_at: Instant,
+        latched: bool,
+        /// A press came to stop this hands-free recording; it stops when that
+        /// key comes up, unless the key turns out to be part of a chord.
+        stopping: bool,
+    },
     Transcribing,
 }
 
@@ -199,7 +205,18 @@ impl Controller {
                 let latched = self.settings().shortcut_mode == ShortcutMode::Toggle;
                 self.start(latched);
             }
-            Phase::Recording { latched: true, .. } => self.finish(),
+            // Stopped when the key comes back up: fn + ← must not end it.
+            Phase::Recording {
+                pressed_at,
+                latched: true,
+                ..
+            } => {
+                self.phase = Phase::Recording {
+                    pressed_at,
+                    latched: true,
+                    stopping: true,
+                }
+            }
             // Key repeat while held, or a press while the last one is still
             // being transcribed.
             Phase::Recording { latched: false, .. } | Phase::Transcribing => {}
@@ -209,11 +226,19 @@ impl Controller {
     fn release(&mut self) {
         let Phase::Recording {
             pressed_at,
-            latched: false,
+            latched,
+            stopping,
         } = self.phase
         else {
             return;
         };
+        if stopping {
+            self.finish();
+            return;
+        }
+        if latched {
+            return;
+        }
         match self.settings().shortcut_mode {
             ShortcutMode::Hold => self.finish(),
             ShortcutMode::Smart if pressed_at.elapsed() >= HOLD_THRESHOLD => self.finish(),
@@ -221,6 +246,7 @@ impl Controller {
                 self.phase = Phase::Recording {
                     pressed_at,
                     latched: true,
+                    stopping: false,
                 };
             }
         }
@@ -252,6 +278,7 @@ impl Controller {
                 self.phase = Phase::Recording {
                     pressed_at: Instant::now(),
                     latched,
+                    stopping: false,
                 };
                 self.retrying = false;
                 self.publish(State::Recording, None);
@@ -373,11 +400,23 @@ impl Controller {
         self.publish(State::Idle, None);
     }
 
-    /// While the key is still held, a recording can only come from its own
-    /// press: in toggle mode too, since a press that stops one transcribes.
+    /// The held key was part of a chord (fn + ←). A recording its press was
+    /// about to stop goes on; one its press started is dropped.
     fn interrupted(&mut self) {
-        if matches!(self.phase, Phase::Recording { .. }) {
-            self.cancel();
+        match self.phase {
+            Phase::Recording {
+                pressed_at,
+                stopping: true,
+                ..
+            } => {
+                self.phase = Phase::Recording {
+                    pressed_at,
+                    latched: true,
+                    stopping: false,
+                }
+            }
+            Phase::Recording { .. } => self.cancel(),
+            Phase::Idle | Phase::Transcribing => {}
         }
     }
 

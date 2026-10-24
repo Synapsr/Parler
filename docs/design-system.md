@@ -82,7 +82,7 @@ tokens and Tailwind's `dark:` variant both honour).
 | `IconButton` | Icon-only actions; always labelled. |
 | `Card` | Every group of content. |
 | `IconTile` | An icon on its tint, at the head of a section, choice or stat. |
-| `Keycaps` | Shortcuts, drawn as physical keys; `pressed` pushes them down, `dark` for ink surfaces. |
+| `Keycaps` | Shortcuts, drawn as physical keys; `pressed` pushes them down, `dark` for ink surfaces. `fn` carries its globe, as on Apple keyboards. |
 | `FlowPill` | The dictation pill as drawn inside the app (`idle`, `listening`, `writing`). |
 | `Banner` | A message that needs the user, with its actions (`error`, `warning`, `success`, `info`). |
 | `StatusDot` | Ready, listening, busy, needs attention. |

@@ -75,9 +75,11 @@ pub struct Settings {
     pub theme: Theme,
 }
 
+/// fn alone on macOS, like the dictation key Apple prints on it; a settings
+/// file always names its shortcut, so this never changes an existing setup.
 pub fn default_shortcut() -> &'static str {
     if cfg!(target_os = "macos") {
-        "Alt+Space"
+        "Fn"
     } else {
         "Control+Space"
     }
@@ -199,6 +201,18 @@ mod tests {
         assert_eq!(settings.provider, "openai");
         assert_eq!(settings.language, "auto");
         assert!(settings.sounds);
+    }
+
+    #[test]
+    fn a_first_launch_on_macos_dictates_with_fn() {
+        let expected = if cfg!(target_os = "macos") {
+            "Fn"
+        } else {
+            "Control+Space"
+        };
+        assert_eq!(Settings::default().shortcut, expected);
+        let existing: Settings = serde_json::from_str(r#"{"shortcut":"Alt+Space"}"#).unwrap();
+        assert_eq!(existing.shortcut, "Alt+Space");
     }
 
     #[test]

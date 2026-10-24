@@ -26,11 +26,18 @@ transcribes and pastes, and a React interface in two windows.
 | `paste.rs` | Clipboard and simulated paste; macOS resolves Cmd+V for the active keyboard layout. |
 | `overlay.rs` | The pill window: a non-activating panel on macOS, a no-activate topmost window on Windows, so it never takes focus. |
 | `shortcut.rs` | Registers the dictation shortcut, and Escape only while dictating. |
-| `fn_key.rs` | macOS: the fn (🌐) key alone as the shortcut, followed by an event tap (it needs Accessibility). |
+| `modifier_key.rs` | macOS: one key alone as the shortcut (fn, right ⌘, ⌥ or ⌃), followed by an event tap (it needs Accessibility). |
 | `settings.rs`, `history.rs` | JSON files in the app's config and data directories, readable by the user only. |
 | `tray.rs`, `commands.rs` | Tray menu and the commands the windows call. |
 
 ### Shortcut behaviour
+
+On macOS the shortcut can be one key alone, fn by default. Such a key is
+also half of every chord (fn + ←, right ⌘ + C), so it counts as a press only
+once held alone for 150 ms, or tapped cleanly; a key or click in between and
+nothing starts. A slower chord drops what its press started, and a press
+that would end a hands-free dictation ends it only when the key comes back
+up on its own.
 
 In **smart** mode a press starts recording; releasing after 350 ms or more
 stops it (push-to-talk), while a quicker tap keeps recording until the next

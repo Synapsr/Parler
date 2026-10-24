@@ -226,7 +226,7 @@
     "noClipboard": "Le presse-papiers n'est pas disponible sur ce système.",
     "pasteFailed": "Le collage a échoué ({detail}). Votre texte est dans le presse-papiers.",
     "shortcut": "{shortcut} est déjà utilisé par une autre app. Choisissez un autre raccourci.",
-    "fnKey": "Parler a besoin de l'accès Accessibilité pour écouter la touche fn. Activez-le dans les Réglages Système : la touche fonctionne dès qu'il est autorisé.",
+    "singleKey": "Parler a besoin de l'accès Accessibilité pour écouter votre touche de raccourci. Activez-le dans les Réglages Système : la touche fonctionne dès qu'il est autorisé.",
     "retry": "Réessayer",
     "openSettings": "Ouvrir les réglages",
     "openAccessibility": "Ouvrir les réglages d'Accessibilité"
@@ -276,9 +276,21 @@
       "label": "Raccourci de dictée",
       "recording": "Appuyez sur vos touches…",
       "cancelHint": "Échap pour annuler",
-      "useFn": "Utiliser la touche fn",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "⌘ Commande droite",
+        "rightOption": "⌥ Option droite",
+        "rightControl": "⌃ Contrôle droite",
+        "custom": "Raccourci personnalisé…"
+      },
+      "caps": {
+        "rightCommand": "⌘ droite",
+        "rightOption": "⌥ droite",
+        "rightControl": "⌃ droite"
+      },
       "globeHint": "macOS réagit aussi à chaque appui sur 🌐 (emoji, source de saisie ou Dictée). Pour la laisser à Parler, réglez « Appuyer sur la touche 🌐 pour » sur « Ne rien faire » dans les réglages Clavier.",
       "openKeyboard": "Ouvrir les réglages Clavier",
+      "singleKeyHint": "Utilisée avec une autre touche, comme ⌘C ou fn ←, elle ne lance pas de dictée.",
       "invalid": "Ajoutez une touche de modification comme {modifiers}.",
       "reserved": "{shortcut} sert déjà au quotidien (copier, coller, enregistrer…). Choisissez-en un autre.",
       "mode": "Comportement",

@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { acceleratorFromEvent, FN, isReserved, keycaps, type KeyInput } from "./shortcut";
+import {
+  acceleratorFromEvent,
+  FN,
+  isReserved,
+  isSingleKey,
+  keycaps,
+  SINGLE_KEYS,
+  type KeyInput,
+} from "./shortcut";
 
 const press = (code: string, mods: Partial<KeyInput> = {}): KeyInput => ({
   code,
@@ -77,9 +85,18 @@ describe("isReserved", () => {
   });
 });
 
-describe("the fn key", () => {
-  it("is drawn as fn and never reserved", () => {
+describe("keys alone", () => {
+  it("are drawn as one cap, named in the interface language", () => {
     expect(keycaps(FN, "macos")).toEqual(["fn"]);
-    expect(isReserved(FN, "macos")).toBe(false);
+    expect(keycaps("RightCommand", "macos")).toEqual(["Right ⌘"]);
+    expect(keycaps("RightOption", "macos", { rightOption: "⌥ droite" })).toEqual(["⌥ droite"]);
+    expect(keycaps("RightControl", "macos")).toEqual(["Right ⌃"]);
+  });
+
+  it("are never reserved, and recognised only by their exact name", () => {
+    for (const key of SINGLE_KEYS) expect(isReserved(key, "macos")).toBe(false);
+    expect(isSingleKey("RightCommand")).toBe(true);
+    expect(isSingleKey("Super+KeyK")).toBe(false);
+    expect(isSingleKey("fn")).toBe(false);
   });
 });

@@ -226,7 +226,7 @@
     "noClipboard": "Auf diesem System ist keine Zwischenablage verfügbar.",
     "pasteFailed": "Einfügen fehlgeschlagen ({detail}). Dein Text liegt in der Zwischenablage.",
     "shortcut": "{shortcut} wird schon von einer anderen App verwendet. Wähle ein anderes Tastenkürzel.",
-    "fnKey": "Parler braucht Zugriff auf die Bedienungshilfen, um auf die fn-Taste zu hören. Aktiviere ihn in den Systemeinstellungen: fn funktioniert, sobald er erlaubt ist.",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "Erneut versuchen",
     "openSettings": "Einstellungen öffnen",
     "openAccessibility": "Bedienungshilfen öffnen"
@@ -276,9 +276,21 @@
       "label": "Tastenkürzel zum Diktieren",
       "recording": "Drück deine Tasten…",
       "cancelHint": "Esc zum Abbrechen",
-      "useFn": "fn-Taste verwenden",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS reagiert auch auf jeden Druck auf 🌐 (Emoji, Eingabequelle oder Diktierfunktion). Damit nur Parler sie nutzt, stelle in den Tastatureinstellungen „Taste 🌐 drücken für“ auf „Keine Aktion“.",
       "openKeyboard": "Tastatureinstellungen öffnen",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "Füge eine Sondertaste wie {modifiers} hinzu.",
       "reserved": "{shortcut} brauchst du im Alltag (Kopieren, Einfügen, Sichern …). Wähle ein anderes.",
       "mode": "Verhalten",

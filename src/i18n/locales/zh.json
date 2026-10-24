@@ -226,7 +226,7 @@
     "noClipboard": "此系统上无法使用剪贴板。",
     "pasteFailed": "粘贴失败（{detail}）。文字已在剪贴板中。",
     "shortcut": "{shortcut} 已被其他应用占用。请换一个快捷键。",
-    "fnKey": "Parler 需要辅助功能权限才能监听 fn 键。请在系统设置中开启：一经允许，fn 键即可使用。",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "重试",
     "openSettings": "打开设置",
     "openAccessibility": "打开辅助功能设置"
@@ -276,9 +276,21 @@
       "label": "听写快捷键",
       "recording": "请按下按键…",
       "cancelHint": "按 Esc 取消",
-      "useFn": "使用 fn 键",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS 也会响应每次按下 🌐 键（表情符号、输入法或听写）。要把它留给 Parler，请在键盘设置中将“按下 🌐 键时”设为“不执行任何操作”。",
       "openKeyboard": "打开键盘设置",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "请加上修饰键，例如 {modifiers}。",
       "reserved": "{shortcut} 是常用快捷键（复制、粘贴、保存…）。请换一个。",
       "mode": "触发方式",

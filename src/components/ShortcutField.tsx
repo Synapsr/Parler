@@ -1,16 +1,32 @@
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import { requestAccessibilityPermission } from "tauri-plugin-macos-permissions-api";
 import { useT } from "../i18n/context";
 import { api } from "../lib/api";
-import { acceleratorFromEvent, FN, isReserved, keycaps } from "../lib/shortcut";
+import {
+  acceleratorFromEvent,
+  FN,
+  isReserved,
+  isSingleKey,
+  keycaps,
+  SINGLE_KEYS,
+  type SingleKey,
+} from "../lib/shortcut";
 import { useKeycaps } from "./useKeycaps";
 import { useParler } from "../state";
-import { Button, Keycaps } from "../ui";
+import { Button, Keycaps, Select } from "../ui";
 
-/** The dictation shortcut, with a way to record a new one (or, on macOS, to
- * pick the fn key, which can't be recorded). */
+/** The picker's value for a recorded combination. */
+const CUSTOM = "custom";
+
+/** "RightCommand" → "rightCommand", the key's name in the locale files. */
+const keyName = (key: SingleKey) => key.charAt(0).toLowerCase() + key.slice(1);
+
+/**
+ * The dictation shortcut. On macOS a picker offers keys used alone (fn,
+ * right ⌘, ⌥, ⌃), which can't be recorded, or a custom combination;
+ * elsewhere the combination is recorded directly.
+ */
 export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
   const { t } = useT();
   const { settings, status, info, update } = useParler();
@@ -18,7 +34,7 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
   const [recording, setRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const mac = info.platform === "macos";
-  const onFn = settings.shortcut === FN;
+  const single = isSingleKey(settings.shortcut);
 
   useEffect(() => {
     if (!recording) return;
@@ -62,47 +78,66 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
     };
   }, [recording, mac, info.platform, t, update]);
 
-  const chooseFn = async () => {
-    setRecording(false);
+  // A key is saved at once; "Custom shortcut…" records one, and leaving the
+  // recorder puts the picker back on what is saved.
+  const pick = async (value: string) => {
     setError(null);
-    const refused = await update({ shortcut: FN });
+    if (value === CUSTOM) {
+      setRecording(true);
+      return;
+    }
+    setRecording(false);
+    const refused = await update({ shortcut: value });
     if (refused) setError(refused);
   };
 
-  return (
-    <div className="flex flex-col items-start gap-2">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        {recording ? (
-          <span className="flex h-10 items-center rounded-xl bg-accent-soft px-3.5 text-[13px] font-medium text-accent-text">
-            {t("settings.shortcut.recording")}
-          </span>
-        ) : (
-          <Keycaps keys={toKeys(settings.shortcut)} size={size} />
-        )}
-        <span className="flex items-center gap-1">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              setError(null);
-              setRecording((r) => !r);
-            }}
-          >
-            {recording ? t("settings.shortcut.cancelHint") : t("common.change")}
-          </Button>
-          {/* fn never reaches the window, so it is offered rather than recorded. */}
-          {mac && !onFn && (
-            <Button size="sm" variant="ghost" onClick={chooseFn}>
-              <Globe className="size-3.5" />
-              {t("settings.shortcut.useFn")}
-            </Button>
-          )}
+  const recorder = (
+    <>
+      {recording ? (
+        <span className="flex h-10 items-center rounded-xl bg-accent-soft px-3.5 text-[13px] font-medium text-accent-text">
+          {t("settings.shortcut.recording")}
         </span>
+      ) : (
+        <Keycaps keys={toKeys(settings.shortcut)} size={size} />
+      )}
+      <Button
+        size="sm"
+        variant="ghost"
+        onClick={() => {
+          setError(null);
+          setRecording((r) => !r);
+        }}
+      >
+        {recording ? t("settings.shortcut.cancelHint") : t("common.change")}
+      </Button>
+    </>
+  );
+
+  return (
+    <div className="flex flex-col items-start gap-2.5">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        {mac && (
+          <Select
+            aria-label={t("settings.shortcut.label")}
+            value={recording || !single ? CUSTOM : settings.shortcut}
+            onChange={(e) => pick(e.target.value)}
+            className="w-56"
+          >
+            {SINGLE_KEYS.map((key) => (
+              <option key={key} value={key}>
+                {t(`settings.shortcut.keys.${keyName(key)}`)}
+              </option>
+            ))}
+            <option value={CUSTOM}>{t("settings.shortcut.keys.custom")}</option>
+          </Select>
+        )}
+        {mac && single && !recording ? <Keycaps keys={toKeys(settings.shortcut)} size={size} /> : recorder}
       </div>
       {error && <p className="text-[12.5px] text-accent-text">{error}</p>}
-      {mac && onFn && (
-        <FnHints
-          needsAccess={status.problem?.kind === "shortcut" && status.problem.shortcut === FN}
+      {mac && single && !recording && (
+        <KeyHints
+          fn={settings.shortcut === FN}
+          needsAccess={status.problem?.kind === "shortcut" && isSingleKey(status.problem.shortcut)}
         />
       )}
     </div>
@@ -110,16 +145,20 @@ export function ShortcutField({ size = "md" }: { size?: "md" | "lg" }) {
 }
 
 /**
- * What stands between the fn key and Parler: the Accessibility permission,
- * and macOS's own use of 🌐 (emoji, input source, Dictation) unless set to
- * do nothing.
+ * About a key used alone: chords don't start a dictation, the Accessibility
+ * permission it needs, and, for fn, macOS's own use of 🌐 (emoji, input
+ * source, Dictation) unless set to do nothing.
  */
-function FnHints({ needsAccess }: { needsAccess: boolean }) {
+function KeyHints({ fn, needsAccess }: { fn: boolean; needsAccess: boolean }) {
   const { t } = useT();
   const [globeBusy, setGlobeBusy] = useState(false);
 
   // Checked again when coming back from System Settings.
   useEffect(() => {
+    if (!fn) {
+      setGlobeBusy(false);
+      return;
+    }
     const check = () =>
       api
         .globeKey()
@@ -132,14 +171,14 @@ function FnHints({ needsAccess }: { needsAccess: boolean }) {
     return () => {
       unlisten.then((stop) => stop()).catch(() => {});
     };
-  }, []);
+  }, [fn]);
 
-  if (!needsAccess && !globeBusy) return null;
   return (
     <div className="flex max-w-[52ch] flex-col gap-2.5">
+      <p className="text-[12.5px] leading-snug text-text-3">{t("settings.shortcut.singleKeyHint")}</p>
       {needsAccess && (
         <Hint
-          text={t("problems.fnKey")}
+          text={t("problems.singleKey")}
           action={t("problems.openAccessibility")}
           onAction={() => requestAccessibilityPermission()}
         />

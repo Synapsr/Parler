@@ -226,7 +226,7 @@
     "noClipboard": "このシステムではクリップボードを使用できません。",
     "pasteFailed": "貼り付けに失敗しました（{detail}）。テキストはクリップボードにあります。",
     "shortcut": "{shortcut} はほかのアプリで使われています。別のショートカットを選んでください。",
-    "fnKey": "fn キーを聞き取るには、Parler にアクセシビリティへのアクセスが必要です。システム設定でオンにしてください。許可されるとすぐに fn キーが使えます。",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "もう一度試す",
     "openSettings": "設定を開く",
     "openAccessibility": "アクセシビリティ設定を開く"
@@ -276,9 +276,21 @@
       "label": "音声入力のショートカット",
       "recording": "キーを押してください…",
       "cancelHint": "Esc でキャンセル",
-      "useFn": "fn キーを使う",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS も 🌐 キーが押されるたびに反応します（絵文字、入力ソース、または音声入力）。Parler に任せるには、キーボード設定で「🌐キーを押して」を「何もしない」に設定してください。",
       "openKeyboard": "キーボード設定を開く",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "{modifiers} などの修飾キーを加えてください。",
       "reserved": "{shortcut} はよく使うショートカット（コピー、貼り付け、保存など）です。別のものを選んでください。",
       "mode": "動作",

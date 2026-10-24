@@ -226,7 +226,7 @@
     "noClipboard": "Schowek jest niedostępny w tym systemie.",
     "pasteFailed": "Nie udało się wkleić tekstu ({detail}). Jest w schowku.",
     "shortcut": "Skrót {shortcut} jest już używany przez inną aplikację. Wybierz inny.",
-    "fnKey": "Parler potrzebuje uprawnienia Dostępność, żeby nasłuchiwać klawisza fn. Włącz je w Ustawieniach systemowych: fn zadziała od razu po przyznaniu dostępu.",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "Spróbuj ponownie",
     "openSettings": "Otwórz ustawienia",
     "openAccessibility": "Otwórz ustawienia Dostępności"
@@ -276,9 +276,21 @@
       "label": "Skrót dyktowania",
       "recording": "Naciśnij klawisze…",
       "cancelHint": "Esc, aby anulować",
-      "useFn": "Użyj klawisza fn",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS też reaguje na każde naciśnięcie 🌐 (emoji, źródło wprowadzania lub Dyktowanie). Aby zostawić ten klawisz aplikacji Parler, w ustawieniach Klawiatura ustaw „Naciśnij klawisz 🌐, aby” na „Nic nie robić”.",
       "openKeyboard": "Otwórz ustawienia Klawiatury",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "Dodaj klawisz modyfikujący, np. {modifiers}.",
       "reserved": "{shortcut} to skrót do codziennych czynności (kopiuj, wklej, zapisz…). Wybierz inny.",
       "mode": "Działanie",

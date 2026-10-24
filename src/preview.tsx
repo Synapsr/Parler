@@ -32,8 +32,11 @@ let settings: Record<string, unknown> & { apiKeys: Record<string, string>; provi
   customBaseUrl: "http://localhost:8000/v1",
   language: params.get("lang") ?? "fr",
   vocabulary: "",
-  // `shortcut=Fn` shows the fn key (macOS).
-  shortcut: params.get("shortcut") ?? (platform === "macos" ? "Alt+Space" : "Control+Space"),
+  // `shortcut=RightCommand` (`Fn`, `RightOption`, `RightControl`, or any
+  // accelerator); a first launch on macOS dictates with fn.
+  shortcut:
+    params.get("shortcut") ??
+    (platform === "macos" ? (onboarded ? "Alt+Space" : "Fn") : "Control+Space"),
   shortcutMode: "smart",
   microphone: null,
   output: "paste",
@@ -184,14 +187,18 @@ const CLOUD_ERRORS: Record<string, object> = {
   fairmonth: { kind: "fairUseMonth", provider: "Parler Cloud" },
   signedout: { kind: "signedOut", provider: "Parler Cloud" },
 };
-// `problem=1` (offline), or a Parler Cloud one: `subscription`, `fairday`, `fairmonth`, `signedout`.
+// `problem=1` (offline), a Parler Cloud one (`subscription`, `fairday`,
+// `fairmonth`, `signedout`), or `key`: a key alone waiting for Accessibility.
 const problemParam = params.get("problem");
-const problem = problemParam
-  ? {
-      kind: "transcription",
-      error: CLOUD_ERRORS[problemParam] ?? { kind: "offline", provider: "Groq" },
-    }
-  : null;
+const problem =
+  problemParam === "key"
+    ? { kind: "shortcut", shortcut: settings.shortcut, detail: "Accessibility access is needed" }
+    : problemParam
+      ? {
+          kind: "transcription",
+          error: CLOUD_ERRORS[problemParam] ?? { kind: "offline", provider: "Groq" },
+        }
+      : null;
 let polls = 0;
 const settingsChanged = () => setTimeout(() => emit("parler://settings", settings), 0);
 

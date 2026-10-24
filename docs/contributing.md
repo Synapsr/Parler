@@ -23,8 +23,10 @@ pnpm tauri dev
 `pnpm dev`, then open <http://localhost:1420/preview.html>: the windows run in
 a browser against a simulated backend, no Rust build needed. Query parameters
 pick the state: `onboarded=1`, `lang=en`, `platform=windows`, `problem=1`,
-`state=recording`, `shortcut=Fn`, or `view=overlay&phase=recording`
-(`transcribing`, `error`, `empty`).
+`state=recording`, `shortcut=RightCommand` (`Fn`, `RightOption`,
+`RightControl`, or an accelerator), `problem=key` (a key alone waiting for
+Accessibility), or `view=overlay&phase=recording` (`transcribing`, `error`,
+`empty`).
 
 Parler Cloud: `cloud=signed-out` (or `trial`, `active`, `canceling`,
 `past-due`, `inactive`, `canceled`, `offline`) picks it in that state;

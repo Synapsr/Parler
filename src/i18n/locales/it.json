@@ -226,7 +226,7 @@
     "noClipboard": "Gli appunti non sono disponibili su questo sistema.",
     "pasteFailed": "Impossibile incollare ({detail}). Il testo è negli appunti.",
     "shortcut": "{shortcut} è già usata da un'altra app. Scegli un'altra scorciatoia.",
-    "fnKey": "Parler ha bisogno dell'accesso ad Accessibilità per sentire il tasto fn. Attivalo in Impostazioni di Sistema: fn funziona appena è consentito.",
+    "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "Riprova",
     "openSettings": "Apri le impostazioni",
     "openAccessibility": "Apri le impostazioni di Accessibilità"
@@ -276,9 +276,21 @@
       "label": "Scorciatoia per dettare",
       "recording": "Premi i tasti…",
       "cancelHint": "Esc per annullare",
-      "useFn": "Usa il tasto fn",
+      "keys": {
+        "fn": "🌐 fn (Globe)",
+        "rightCommand": "Right ⌘ Command",
+        "rightOption": "Right ⌥ Option",
+        "rightControl": "Right ⌃ Control",
+        "custom": "Custom shortcut…"
+      },
+      "caps": {
+        "rightCommand": "Right ⌘",
+        "rightOption": "Right ⌥",
+        "rightControl": "Right ⌃"
+      },
       "globeHint": "macOS reagisce anche a ogni pressione di 🌐 (emoji, sorgente di input o Dettatura). Per lasciarlo a Parler, nelle impostazioni Tastiera imposta «Premi il tasto 🌐 per» su «Non fare nulla».",
       "openKeyboard": "Apri le impostazioni Tastiera",
+      "singleKeyHint": "Used with another key, like ⌘C or fn ←, it doesn't start a dictation.",
       "invalid": "Aggiungi un tasto modificatore, come {modifiers}.",
       "reserved": "{shortcut} è una scorciatoia di tutti i giorni (copia, incolla, salva…). Scegline un'altra.",
       "mode": "Comportamento",

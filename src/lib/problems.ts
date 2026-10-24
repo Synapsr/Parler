@@ -1,7 +1,7 @@
 import type { Params } from "../i18n";
 import type { Problem } from "./api";
 import { formatDay, formatTime, nextUtcDay, nextUtcMonth } from "./cloud";
-import { FN } from "./shortcut";
+import { isSingleKey } from "./shortcut";
 
 export interface ProblemText {
   /** Full sentence for the main window, under `problems.`. */
@@ -83,9 +83,9 @@ export function describeProblem(
       }
       break;
     case "shortcut":
-      // The fn key can't be taken by another app; it waits for Accessibility.
-      if (problem.shortcut === FN) {
-        return text("fnKey", {}, { needsAccessibility: true });
+      // A key alone can't be taken by another app; it waits for Accessibility.
+      if (isSingleKey(problem.shortcut)) {
+        return text("singleKey", {}, { needsAccessibility: true });
       }
       return text(
         "shortcut",
