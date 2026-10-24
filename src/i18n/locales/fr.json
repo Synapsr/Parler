@@ -5,6 +5,7 @@
   "common": {
     "continue": "Continuer",
     "back": "Retour",
+    "cancel": "Annuler",
     "copy": "Copier",
     "copied": "Copié",
     "delete": "Supprimer",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Recommandé",
+    "cloudBadge": "3 jours offerts",
     "customName": "Votre serveur",
+    "cloud": "Sans clé : connectez-vous et dictez",
     "groq": "Très rapide · inscription gratuite",
     "openai": "Très précis · GPT-4o Transcribe",
     "fireworks": "Whisper v3 rapide et économique",
     "custom": "Votre serveur compatible OpenAI"
+  },
+  "cloud": {
+    "price": "Gratuit pendant 3 jours, puis 8 € HT par mois ou 49 € HT par an.",
+    "step1": "Connectez-vous avec votre adresse e-mail",
+    "step2": "Démarrez votre essai gratuit",
+    "step3": "Autorisez cet ordinateur",
+    "start": "Continuer dans le navigateur",
+    "checkCode": "Vérifiez que votre navigateur affiche ce code",
+    "waiting": "En attente de votre accord dans le navigateur…",
+    "reopen": "Rouvrir la page",
+    "connected": "Compte connecté : {email}",
+    "denied": "Cet ordinateur n'a pas été autorisé. Vous pouvez réessayer.",
+    "expired": "Le code a expiré. Réessayez pour en obtenir un nouveau.",
+    "loading": "Chargement de votre compte…",
+    "account": "Compte",
+    "usage": "Ce mois-ci",
+    "usageOf": "{used} sur {limit}",
+    "fairUse": "Usage raisonnable : jusqu'à {day} par jour et {month} par mois.",
+    "manage": "Gérer l'abonnement",
+    "choosePlan": "Choisir une formule",
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "plan": {
+      "monthly": "Formule mensuelle",
+      "yearly": "Formule annuelle",
+      "other": "Votre formule"
+    },
+    "status": {
+      "trial": "Essai gratuit, se termine {when}",
+      "trialOpen": "Essai gratuit",
+      "renews": "{plan}, renouvelée le {date}",
+      "cancels": "{plan}, prend fin le {date}",
+      "pastDue": "Le paiement a échoué. Mettez à jour votre carte pour continuer à dicter.",
+      "none": "Aucune formule active. Choisissez-en une pour commencer à dicter.",
+      "canceled": "Votre formule a pris fin. Choisissez-en une pour dicter de nouveau.",
+      "unknown": "Ouvrez votre compte pour voir votre formule."
+    },
+    "scene": {
+      "question": "Autoriser cet ordinateur ?",
+      "thisComputer": "Cet ordinateur",
+      "authorize": "Autoriser",
+      "linked": "Ordinateur relié"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Clé vérifiée",
       "card": "Clé d'API",
       "waiting": "En attente de votre clé"
+    },
+    "signIn": {
+      "title": "Connectez-vous à Parler Cloud",
+      "subtitle": "Aucune clé à créer : votre navigateur s'ouvre, vous vous connectez, et cet ordinateur est relié à votre compte."
     },
     "permissions": {
       "title": "Autorisez Parler à écouter et écrire",
@@ -159,6 +209,10 @@
     "timeout": "{provider} a mis trop de temps à répondre.",
     "rejected": "{provider} a renvoyé une erreur ({status}) : {message}",
     "invalidResponse": "{provider} a envoyé une réponse inattendue.",
+    "signedOut": "Cet ordinateur n'est pas connecté à {provider}. Connectez-vous pour continuer à dicter.",
+    "subscriptionRequired": "Votre abonnement {provider} n'est pas actif. Choisissez une formule pour continuer à dicter.",
+    "fairUseDay": "Vous avez atteint la limite d'usage raisonnable de {provider} pour aujourd'hui. Vous pourrez de nouveau dicter à partir de {time}.",
+    "fairUseMonth": "Vous avez atteint la limite d'usage raisonnable de {provider} pour ce mois-ci. Vous pourrez de nouveau dicter à partir du {date}.",
     "microphone": "Impossible d'utiliser le micro : {detail}",
     "needsAccessibility": "Parler a besoin de l'accès Accessibilité pour écrire à votre place. Votre texte est dans le presse-papiers : collez-le avec ⌘V.",
     "noClipboard": "Le presse-papiers n'est pas disponible sur ce système.",
@@ -180,6 +234,10 @@
     "timeout": "Réponse trop lente",
     "rejected": "Erreur du service",
     "invalidResponse": "Erreur du service",
+    "signedOut": "Non connecté",
+    "subscriptionRequired": "Abonnement inactif",
+    "fairUseDay": "Limite du jour atteinte",
+    "fairUseMonth": "Limite du mois atteinte",
     "microphone": "Micro indisponible"
   },
   "settings": {

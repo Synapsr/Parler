@@ -5,6 +5,7 @@
   "common": {
     "continue": "继续",
     "back": "返回",
+    "cancel": "取消",
     "copy": "复制",
     "copied": "已复制",
     "delete": "删除",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "推荐",
+    "cloudBadge": "免费 3 天",
     "customName": "你的服务器",
+    "cloud": "无需 API 密钥：登录即可听写",
     "groq": "速度很快 · 免费注册",
     "openai": "非常准确 · GPT-4o Transcribe",
     "fireworks": "快速实惠的 Whisper v3",
     "custom": "你的 OpenAI 兼容服务器"
+  },
+  "cloud": {
+    "price": "免费试用 3 天，之后每月 €8 或每年 €49（不含税）。",
+    "step1": "用你的邮箱地址登录",
+    "step2": "开始免费试用",
+    "step3": "授权这台电脑",
+    "start": "在浏览器中继续",
+    "checkCode": "请确认浏览器中显示的是这个代码",
+    "waiting": "正在等待你在浏览器中确认…",
+    "reopen": "重新打开页面",
+    "connected": "已登录：{email}",
+    "denied": "这台电脑未获授权。你可以再试一次。",
+    "expired": "代码已过期。再试一次即可获取新代码。",
+    "loading": "正在加载你的账户…",
+    "account": "账户",
+    "usage": "本月",
+    "usageOf": "{used} / {limit}",
+    "fairUse": "合理使用：每天最多 {day}，每月最多 {month}。",
+    "manage": "管理订阅",
+    "choosePlan": "选择方案",
+    "signIn": "登录",
+    "signOut": "退出登录",
+    "plan": {
+      "monthly": "月付方案",
+      "yearly": "年付方案",
+      "other": "你的方案"
+    },
+    "status": {
+      "trial": "免费试用，{when}结束",
+      "trialOpen": "免费试用中",
+      "renews": "{plan}，{date}续订",
+      "cancels": "{plan}，{date}到期",
+      "pastDue": "付款失败。请更新你的银行卡信息，以继续听写。",
+      "none": "没有生效的方案。选择一个方案即可开始听写。",
+      "canceled": "你的方案已结束。选择一个方案即可再次听写。",
+      "unknown": "打开你的账户查看方案。"
+    },
+    "scene": {
+      "question": "授权这台电脑？",
+      "thisComputer": "这台电脑",
+      "authorize": "授权",
+      "linked": "电脑已关联"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "密钥已验证",
       "card": "API 密钥",
       "waiting": "等待你的密钥"
+    },
+    "signIn": {
+      "title": "登录 Parler Cloud",
+      "subtitle": "无需创建密钥：浏览器会打开，你登录后，这台电脑就会关联到你的账户。"
     },
     "permissions": {
       "title": "允许 Parler 收听和输入",
@@ -159,6 +209,10 @@
     "timeout": "{provider} 响应时间过长。",
     "rejected": "{provider} 返回了错误（{status}）：{message}",
     "invalidResponse": "{provider} 返回了意外的响应。",
+    "signedOut": "这台电脑尚未登录 {provider}。请登录以继续听写。",
+    "subscriptionRequired": "你的 {provider} 方案未生效。请选择一个方案以继续听写。",
+    "fairUseDay": "你已达到 {provider} 今天的合理使用上限。{time} 起可以再次听写。",
+    "fairUseMonth": "你已达到 {provider} 本月的合理使用上限。{date}起可以再次听写。",
     "microphone": "无法使用麦克风：{detail}",
     "needsAccessibility": "Parler 需要辅助功能权限才能替你输入。文字已在剪贴板中，按 ⌘V 即可粘贴。",
     "noClipboard": "此系统上无法使用剪贴板。",
@@ -180,6 +234,10 @@
     "timeout": "响应太慢",
     "rejected": "服务出错",
     "invalidResponse": "服务出错",
+    "signedOut": "未登录",
+    "subscriptionRequired": "方案未生效",
+    "fairUseDay": "已达今日上限",
+    "fairUseMonth": "已达本月上限",
     "microphone": "麦克风不可用"
   },
   "settings": {

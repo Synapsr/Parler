@@ -1,4 +1,5 @@
 mod audio;
+mod cloud;
 mod commands;
 mod dictation;
 mod history;
@@ -64,6 +65,9 @@ pub fn run() {
     builder
         .setup(|app| {
             let handle = app.handle().clone();
+            if cloud::base_url() != cloud::DEFAULT_URL {
+                log::info!("Parler Cloud at {}", cloud::base_url());
+            }
             let config_dir = app.path().app_config_dir()?;
             let data_dir = app.path().app_data_dir()?;
             app.manage(SettingsStore::load(config_dir.join("settings.json")));
@@ -112,6 +116,10 @@ pub fn run() {
             commands::save_settings,
             commands::get_providers,
             commands::test_provider,
+            commands::cloud_sign_in_start,
+            commands::cloud_sign_in_poll,
+            commands::cloud_account,
+            commands::cloud_sign_out,
             commands::list_microphones,
             commands::get_history,
             commands::get_stats,

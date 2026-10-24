@@ -321,11 +321,14 @@ impl Controller {
             }
             Outcome::Failed { error, samples } => {
                 log::warn!("Transcription failed: {error}");
-                // A key problem needs the window; anything else can be
-                // retried from it later.
+                // A key or plan problem needs the window; anything else can
+                // be retried from it later.
                 let needs_setup = matches!(
                     error,
-                    TranscribeError::MissingApiKey { .. } | TranscribeError::Unauthorized { .. }
+                    TranscribeError::MissingApiKey { .. }
+                        | TranscribeError::Unauthorized { .. }
+                        | TranscribeError::SignedOut { .. }
+                        | TranscribeError::SubscriptionRequired { .. }
                 );
                 self.retry = Some(samples);
                 self.fail(Problem::Transcription { error }, needs_setup);

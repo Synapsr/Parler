@@ -1,4 +1,5 @@
 import { ArrowRight, Gauge, RotateCw, Timer, Type } from "lucide-react";
+import { PlanButton } from "../components/Cloud";
 import { requestAccessibilityPermission } from "tauri-plugin-macos-permissions-api";
 import { joinSentences } from "../i18n";
 import { useT } from "../i18n/context";
@@ -83,10 +84,12 @@ function Hero() {
 }
 
 function Problem({ openSettings }: { openSettings: () => void }) {
-  const { t } = useT();
-  const { status } = useParler();
+  const { t, locale } = useT();
+  const { status, cloud } = useParler();
   if (!status.problem || status.state !== "idle") return null;
-  const problem = describeProblem(status.problem, t("providers.customName"));
+  const problem = describeProblem(status.problem, t("providers.customName"), locale);
+  // The account knows the plan page best; the error knows it too.
+  const manageUrl = problem.manageUrl && (cloud.account?.manageUrl ?? problem.manageUrl);
 
   return (
     <Banner
@@ -97,6 +100,14 @@ function Problem({ openSettings }: { openSettings: () => void }) {
             <Button size="sm" variant="primary" onClick={() => api.retryDictation()}>
               <RotateCw className="size-3.5" />
               {t("problems.retry")}
+            </Button>
+          )}
+          {manageUrl && (
+            <PlanButton quiet={status.canRetry} account={{ status: cloud.account?.status ?? "none", manageUrl }} />
+          )}
+          {problem.needsSignIn && (
+            <Button size="sm" onClick={openSettings}>
+              {t("cloud.signIn")}
             </Button>
           )}
           {problem.needsSettings && (

@@ -5,6 +5,7 @@
   "common": {
     "continue": "Dalej",
     "back": "Wstecz",
+    "cancel": "Anuluj",
     "copy": "Kopiuj",
     "copied": "Skopiowano",
     "delete": "Usuń",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Polecane",
+    "cloudBadge": "3 dni za darmo",
     "customName": "Twój serwer",
+    "cloud": "Bez klucza API: zaloguj się i dyktuj",
     "groq": "Bardzo szybki · darmowa rejestracja",
     "openai": "Bardzo dokładny · GPT-4o Transcribe",
     "fireworks": "Szybki i niedrogi Whisper v3",
     "custom": "Twój serwer zgodny z OpenAI"
+  },
+  "cloud": {
+    "price": "Za darmo przez 3 dni, potem 8 € netto miesięcznie lub 49 € netto rocznie.",
+    "step1": "Zaloguj się adresem e-mail",
+    "step2": "Rozpocznij darmowy okres próbny",
+    "step3": "Autoryzuj ten komputer",
+    "start": "Otwórz przeglądarkę",
+    "checkCode": "Sprawdź, czy przeglądarka pokazuje ten kod",
+    "waiting": "Czekam na twoją zgodę w przeglądarce…",
+    "reopen": "Otwórz stronę ponownie",
+    "connected": "Zalogowano jako {email}",
+    "denied": "Ten komputer nie został autoryzowany. Możesz spróbować ponownie.",
+    "expired": "Kod wygasł. Spróbuj ponownie, aby dostać nowy.",
+    "loading": "Wczytuję konto…",
+    "account": "Konto",
+    "usage": "Ten miesiąc",
+    "usageOf": "{used} z {limit}",
+    "fairUse": "Uczciwe korzystanie: do {day} dziennie i {month} miesięcznie.",
+    "manage": "Zarządzaj subskrypcją",
+    "choosePlan": "Wybierz plan",
+    "signIn": "Zaloguj się",
+    "signOut": "Wyloguj się",
+    "plan": {
+      "monthly": "Plan miesięczny",
+      "yearly": "Plan roczny",
+      "other": "Twój plan"
+    },
+    "status": {
+      "trial": "Darmowy okres próbny, kończy się {when}",
+      "trialOpen": "Darmowy okres próbny",
+      "renews": "{plan}, odnawia się {date}",
+      "cancels": "{plan}, kończy się {date}",
+      "pastDue": "Płatność się nie powiodła. Zaktualizuj kartę, aby dalej dyktować.",
+      "none": "Brak aktywnego planu. Wybierz plan, aby zacząć dyktować.",
+      "canceled": "Twój plan wygasł. Wybierz plan, aby znowu dyktować.",
+      "unknown": "Otwórz konto, aby zobaczyć swój plan."
+    },
+    "scene": {
+      "question": "Autoryzować ten komputer?",
+      "thisComputer": "Ten komputer",
+      "authorize": "Autoryzuj",
+      "linked": "Komputer połączony"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -47,8 +93,8 @@
       "demo": "Cześć Camille, wyślę ci wycenę dziś po południu. Do usłyszenia!"
     },
     "provider": {
-      "title": "Kto zamieni twój głos na tekst?",
-      "subtitle": "Parler działa z twoim własnym kontem w jednej z tych usług. Usługę możesz zmienić w każdej chwili.",
+      "title": "Kto zamieni głos na tekst?",
+      "subtitle": "Parler korzysta z twojego konta w jednej z tych usług. Możesz ją zmienić w każdej chwili.",
       "voice": "Twój głos",
       "text": "Twój tekst"
     },
@@ -66,6 +112,10 @@
       "valid": "Klucz zweryfikowany",
       "card": "Klucz API",
       "waiting": "Czekam na twój klucz"
+    },
+    "signIn": {
+      "title": "Zaloguj się do Parler Cloud",
+      "subtitle": "Bez tworzenia klucza: otwiera się przeglądarka, logujesz się, a ten komputer zostaje połączony z twoim kontem."
     },
     "permissions": {
       "title": "Pozwól aplikacji Parler słyszeć i pisać",
@@ -159,6 +209,10 @@
     "timeout": "Usługa {provider} nie odpowiedziała na czas.",
     "rejected": "Usługa {provider} zwróciła błąd ({status}): {message}",
     "invalidResponse": "Usługa {provider} zwróciła nieoczekiwaną odpowiedź.",
+    "signedOut": "Ten komputer nie jest zalogowany w usłudze {provider}. Zaloguj się, aby dalej dyktować.",
+    "subscriptionRequired": "Twoja subskrypcja {provider} jest nieaktywna. Wybierz plan, aby dalej dyktować.",
+    "fairUseDay": "Osiągnięto dzisiejszy limit uczciwego korzystania z usługi {provider}. Możesz znowu dyktować od {time}.",
+    "fairUseMonth": "Osiągnięto limit uczciwego korzystania z usługi {provider} w tym miesiącu. Możesz znowu dyktować od {date}.",
     "microphone": "Nie udało się użyć mikrofonu: {detail}",
     "needsAccessibility": "Parler potrzebuje uprawnienia Dostępność, żeby pisać za ciebie. Twój tekst jest w schowku: wklej go skrótem ⌘V.",
     "noClipboard": "Schowek jest niedostępny w tym systemie.",
@@ -180,6 +234,10 @@
     "timeout": "Brak odpowiedzi",
     "rejected": "Błąd usługi",
     "invalidResponse": "Błąd usługi",
+    "signedOut": "Nie zalogowano",
+    "subscriptionRequired": "Plan nieaktywny",
+    "fairUseDay": "Dzienny limit wyczerpany",
+    "fairUseMonth": "Miesięczny limit wyczerpany",
     "microphone": "Mikrofon niedostępny"
   },
   "settings": {

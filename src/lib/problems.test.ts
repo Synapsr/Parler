@@ -16,6 +16,13 @@ const problems: Problem[] = [
     error: { kind: "rejected", provider: "Groq", status: 400, message: "bad" },
   },
   { kind: "transcription", error: { kind: "invalidResponse", provider: "Groq" } },
+  { kind: "transcription", error: { kind: "signedOut", provider: "Parler Cloud" } },
+  {
+    kind: "transcription",
+    error: { kind: "subscriptionRequired", provider: "Parler Cloud", manageUrl: "https://cloud.parler.synapsr.io/account" },
+  },
+  { kind: "transcription", error: { kind: "fairUseDay", provider: "Parler Cloud" } },
+  { kind: "transcription", error: { kind: "fairUseMonth", provider: "Parler Cloud" } },
   { kind: "microphone", detail: "gone" },
   { kind: "paste", error: { kind: "needsAccessibility" } },
   { kind: "paste", error: { kind: "noClipboard" } },
@@ -26,8 +33,8 @@ const problems: Problem[] = [
 describe("describeProblem", () => {
   it("has a translated sentence and pill text for every problem", () => {
     for (const problem of problems) {
-      const { key, short, params } = describeProblem(problem);
       for (const { code: locale } of LOCALES) {
+        const { key, short, params } = describeProblem(problem, undefined, locale);
         expect(translate(locale, key, params)).not.toBe(key);
         expect(translate(locale, short)).not.toBe(short);
         expect(translate(locale, key, params)).not.toMatch(/\{\w+\}/);
@@ -44,5 +51,16 @@ describe("describeProblem", () => {
   it("sends key problems to the settings", () => {
     expect(describeProblem(problems[3]).needsSettings).toBe(true);
     expect(describeProblem(problems[5]).needsSettings).toBe(false);
+  });
+
+  it("offers the fix for Parler Cloud problems", () => {
+    const signedOut = describeProblem(problems[9]);
+    expect(signedOut.needsSignIn).toBe(true);
+    expect(signedOut.short).toBe("overlay.signedOut");
+    const plan = describeProblem(problems[10]);
+    expect(plan.manageUrl).toBe("https://cloud.parler.synapsr.io/account");
+    expect(plan.needsSettings).toBe(false);
+    expect(describeProblem(problems[11]).params.time).toBeTruthy();
+    expect(describeProblem(problems[12]).params.date).toBeTruthy();
   });
 });

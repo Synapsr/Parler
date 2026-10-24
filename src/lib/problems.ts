@@ -1,5 +1,6 @@
 import type { Params } from "../i18n";
 import type { Problem } from "./api";
+import { formatDay, formatTime, nextUtcDay, nextUtcMonth } from "./cloud";
 
 export interface ProblemText {
   /** Full sentence for the main window, under `problems.`. */
@@ -10,12 +11,20 @@ export interface ProblemText {
   /** Fixing it means visiting the settings. */
   needsSettings: boolean;
   needsAccessibility: boolean;
+  /** Fixing it means signing in to Parler Cloud again. */
+  needsSignIn: boolean;
+  /** Fixing it means choosing a plan on this page. */
+  manageUrl?: string;
 }
 
 /** The backend's label for the user's own server, shown as `customName` instead. */
 const CUSTOM_LABEL = "Custom";
 
-export function describeProblem(problem: Problem, customName?: string): ProblemText {
+export function describeProblem(
+  problem: Problem,
+  customName?: string,
+  locale = "en",
+): ProblemText {
   const text = (
     key: string,
     params: Params = {},
@@ -26,6 +35,7 @@ export function describeProblem(problem: Problem, customName?: string): ProblemT
     params,
     needsSettings: false,
     needsAccessibility: false,
+    needsSignIn: false,
     ...flags,
   });
 
@@ -40,6 +50,15 @@ export function describeProblem(problem: Problem, customName?: string): ProblemT
         case "missingApiKey":
         case "unauthorized":
           return text(error.kind, { provider }, { needsSettings: true });
+        case "signedOut":
+          return text("signedOut", { provider }, { needsSignIn: true });
+        case "subscriptionRequired":
+          return text("subscriptionRequired", { provider }, { manageUrl: error.manageUrl });
+        // Fair use counts by UTC day and month: say when, in local time.
+        case "fairUseDay":
+          return text("fairUseDay", { provider, time: formatTime(nextUtcDay(), locale) });
+        case "fairUseMonth":
+          return text("fairUseMonth", { provider, date: formatDay(nextUtcMonth(), locale) });
         case "rejected":
           return text("rejected", {
             provider,
@@ -83,5 +102,9 @@ const SHORT: Record<string, true> = {
   timeout: true,
   rejected: true,
   invalidResponse: true,
+  signedOut: true,
+  subscriptionRequired: true,
+  fairUseDay: true,
+  fairUseMonth: true,
   microphone: true,
 };

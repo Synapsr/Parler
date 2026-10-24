@@ -42,7 +42,8 @@ and open <http://localhost:1420/preview.html> (see
 
 **Tints** colour the icon tiles; each area keeps its own so people learn where
 they are: transcription violet, shortcut amber, microphone red, text blue,
-general stone. Services: Groq amber, OpenAI green, Fireworks red, custom blue.
+general stone. Services: Parler Cloud violet, Groq amber, OpenAI green,
+Fireworks red, custom blue.
 Services are shown with an icon and tint, never a borrowed logo.
 
 ### Type
@@ -90,7 +91,7 @@ tokens and Tailwind's `dark:` variant both honour).
 | `StepDots` | Progress through the onboarding. |
 | `PageHeader`, `SectionHeader` | The title of a page; the head of a settings card. |
 | `Field`, `Input`, `TextArea`, `Select`, `Toggle`, `Segmented` | Forms. `Field inline` puts the control on the right. |
-| `ChoiceCard` | A big radio option with icon, description and optional badge. |
+| `ChoiceCard` | A big radio option with icon, description and optional badge (green; vermilion only for Parler's own offer). |
 | `Disclosure` | Folds away what most people never need. |
 
 ## Layouts

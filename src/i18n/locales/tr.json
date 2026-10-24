@@ -5,6 +5,7 @@
   "common": {
     "continue": "Devam",
     "back": "Geri",
+    "cancel": "İptal",
     "copy": "Kopyala",
     "copied": "Kopyalandı",
     "delete": "Sil",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Önerilen",
+    "cloudBadge": "3 gün ücretsiz",
     "customName": "Sunucunuz",
+    "cloud": "Anahtar gerekmez: oturum açın, dikte edin",
     "groq": "Çok hızlı · ücretsiz kayıt",
     "openai": "Çok isabetli · GPT-4o Transcribe",
     "fireworks": "Hızlı ve uygun fiyatlı Whisper v3",
     "custom": "OpenAI uyumlu kendi sunucunuz"
+  },
+  "cloud": {
+    "price": "3 gün ücretsiz, ardından KDV hariç aylık €8 veya yıllık €49.",
+    "step1": "E-posta adresinizle oturum açın",
+    "step2": "Ücretsiz denemenizi başlatın",
+    "step3": "Bu bilgisayarı yetkilendirin",
+    "start": "Tarayıcıda devam et",
+    "checkCode": "Tarayıcınızın bu kodu gösterdiğini kontrol edin",
+    "waiting": "Tarayıcıda onayınız bekleniyor…",
+    "reopen": "Sayfayı yeniden aç",
+    "connected": "Bağlı hesap: {email}",
+    "denied": "Bu bilgisayar yetkilendirilmedi. Yeniden deneyebilirsiniz.",
+    "expired": "Kodun süresi doldu. Yeni bir kod almak için yeniden deneyin.",
+    "loading": "Hesabınız yükleniyor…",
+    "account": "Hesap",
+    "usage": "Bu ay",
+    "usageOf": "{used} / {limit}",
+    "fairUse": "Adil kullanım: günde en fazla {day}, ayda en fazla {month} konuşma.",
+    "manage": "Aboneliği yönet",
+    "choosePlan": "Plan seç",
+    "signIn": "Oturum aç",
+    "signOut": "Oturumu kapat",
+    "plan": {
+      "monthly": "Aylık plan",
+      "yearly": "Yıllık plan",
+      "other": "Planınız"
+    },
+    "status": {
+      "trial": "Ücretsiz deneme, {when} bitiyor",
+      "trialOpen": "Ücretsiz deneme",
+      "renews": "{plan}, {date} tarihinde yenilenir",
+      "cancels": "{plan}, {date} tarihinde sona erer",
+      "pastDue": "Ödeme başarısız oldu. Dikte etmeye devam etmek için kartınızı güncelleyin.",
+      "none": "Etkin bir plan yok. Dikte etmeye başlamak için bir plan seçin.",
+      "canceled": "Planınız sona erdi. Yeniden dikte etmek için bir plan seçin.",
+      "unknown": "Planınızı görmek için hesabınızı açın."
+    },
+    "scene": {
+      "question": "Bu bilgisayar yetkilendirilsin mi?",
+      "thisComputer": "Bu bilgisayar",
+      "authorize": "Yetkilendir",
+      "linked": "Bilgisayar bağlandı"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Anahtar doğrulandı",
       "card": "API anahtarı",
       "waiting": "Anahtarınız bekleniyor"
+    },
+    "signIn": {
+      "title": "Parler Cloud'da oturum açın",
+      "subtitle": "Oluşturulacak anahtar yok: tarayıcınız açılır, oturum açarsınız ve bu bilgisayar hesabınıza bağlanır."
     },
     "permissions": {
       "title": "Parler duysun ve yazsın",
@@ -159,6 +209,10 @@
     "timeout": "{provider} çok geç yanıt verdi.",
     "rejected": "{provider} bir hata döndürdü ({status}): {message}",
     "invalidResponse": "{provider} beklenmeyen bir yanıt gönderdi.",
+    "signedOut": "Bu bilgisayarda {provider} oturumu açık değil. Dikte etmeye devam etmek için oturum açın.",
+    "subscriptionRequired": "{provider} aboneliğiniz etkin değil. Dikte etmeye devam etmek için bir plan seçin.",
+    "fairUseDay": "{provider} için bugünkü adil kullanım sınırına ulaştınız. {time} itibarıyla yeniden dikte edebilirsiniz.",
+    "fairUseMonth": "{provider} için bu ayın adil kullanım sınırına ulaştınız. {date} itibarıyla yeniden dikte edebilirsiniz.",
     "microphone": "Mikrofon kullanılamadı: {detail}",
     "needsAccessibility": "Sizin yerinize yazabilmek için Parler, Erişilebilirlik iznine ihtiyaç duyar. Metniniz panoda: ⌘V ile yapıştırın.",
     "noClipboard": "Bu sistemde pano kullanılamıyor.",
@@ -180,6 +234,10 @@
     "timeout": "Yanıt çok gecikti",
     "rejected": "Hizmet hatası",
     "invalidResponse": "Hizmet hatası",
+    "signedOut": "Oturum açık değil",
+    "subscriptionRequired": "Plan etkin değil",
+    "fairUseDay": "Günlük sınıra ulaşıldı",
+    "fairUseMonth": "Aylık sınıra ulaşıldı",
     "microphone": "Mikrofon kullanılamıyor"
   },
   "settings": {

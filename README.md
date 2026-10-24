@@ -70,7 +70,7 @@ Parler is free. It works with any service that speaks the OpenAI audio API (`POS
 You can type any other model a provider serves in Settings, and switch providers at any time: each one keeps its own key.
 
 > [!NOTE]
-> **Parler Cloud is coming soon.** The same app with no API key to create: unlimited transcription for one person's normal use ([fair use](https://parler.synapsr.io/fair-use)), for €8 a month or €49 a year, excluding VAT. It isn't open yet. Join the early access on [parler.synapsr.io](https://parler.synapsr.io) or write to [parler@synapsr.io](mailto:parler@synapsr.io).
+> **Parler Cloud is coming soon.** The same app with no API key to create: choose Parler Cloud, sign in once from your browser, and dictate. Unlimited transcription for one person's normal use ([fair use](https://parler.synapsr.io/fair-use)), for €8 a month or €49 a year, excluding VAT, after a 3-day free trial. It isn't open yet. Join the early access on [parler.synapsr.io](https://parler.synapsr.io) or write to [parler@synapsr.io](mailto:parler@synapsr.io).
 
 <p align="center">
   <picture>

@@ -5,6 +5,7 @@
   "common": {
     "continue": "계속",
     "back": "뒤로",
+    "cancel": "취소",
     "copy": "복사",
     "copied": "복사됨",
     "delete": "삭제",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "추천",
+    "cloudBadge": "3일 무료",
     "customName": "내 서버",
+    "cloud": "API 키 없이 로그인하고 받아쓰기",
     "groq": "아주 빠름 · 무료 가입",
     "openai": "아주 정확함 · GPT-4o Transcribe",
     "fireworks": "빠르고 저렴한 Whisper v3",
     "custom": "OpenAI 호환 내 서버"
+  },
+  "cloud": {
+    "price": "3일 무료, 이후 월 €8 또는 연 €49(부가세 별도)예요.",
+    "step1": "이메일 주소로 로그인하세요",
+    "step2": "무료 체험을 시작하세요",
+    "step3": "이 컴퓨터를 승인하세요",
+    "start": "브라우저에서 계속하기",
+    "checkCode": "브라우저에 이 코드가 표시되는지 확인하세요",
+    "waiting": "브라우저에서 승인하기를 기다리는 중…",
+    "reopen": "페이지 다시 열기",
+    "connected": "{email} 계정으로 연결됨",
+    "denied": "이 컴퓨터가 승인되지 않았어요. 다시 시도할 수 있어요.",
+    "expired": "코드가 만료됐어요. 다시 시도하면 새 코드를 받을 수 있어요.",
+    "loading": "계정을 불러오는 중…",
+    "account": "계정",
+    "usage": "이번 달",
+    "usageOf": "{used} / {limit}",
+    "fairUse": "공정 사용: 하루 최대 {day}, 한 달 최대 {month}.",
+    "manage": "구독 관리",
+    "choosePlan": "요금제 선택",
+    "signIn": "로그인",
+    "signOut": "로그아웃",
+    "plan": {
+      "monthly": "월간 요금제",
+      "yearly": "연간 요금제",
+      "other": "내 요금제"
+    },
+    "status": {
+      "trial": "무료 체험, {when} 종료",
+      "trialOpen": "무료 체험 중",
+      "renews": "{plan}, {date}에 갱신",
+      "cancels": "{plan}, {date}에 종료",
+      "pastDue": "결제에 실패했어요. 계속 받아쓰려면 카드 정보를 업데이트하세요.",
+      "none": "활성 요금제가 없어요. 받아쓰기를 시작하려면 요금제를 고르세요.",
+      "canceled": "요금제가 종료됐어요. 다시 받아쓰려면 요금제를 고르세요.",
+      "unknown": "계정을 열어 요금제를 확인하세요."
+    },
+    "scene": {
+      "question": "이 컴퓨터를 승인할까요?",
+      "thisComputer": "이 컴퓨터",
+      "authorize": "승인",
+      "linked": "컴퓨터 연결됨"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "키 확인 완료",
       "card": "API 키",
       "waiting": "키를 기다리는 중"
+    },
+    "signIn": {
+      "title": "Parler Cloud에 로그인",
+      "subtitle": "키를 만들 필요가 없어요. 브라우저가 열리면 로그인하세요. 이 컴퓨터가 내 계정에 연결돼요."
     },
     "permissions": {
       "title": "Parler가 듣고 입력하도록 허용하세요",
@@ -159,6 +209,10 @@
     "timeout": "{provider}의 응답이 너무 오래 걸렸어요.",
     "rejected": "{provider}에서 오류를 보냈어요({status}): {message}",
     "invalidResponse": "{provider}에서 예상치 못한 응답을 보냈어요.",
+    "signedOut": "이 컴퓨터는 {provider}에 로그인되어 있지 않아요. 계속 받아쓰려면 로그인하세요.",
+    "subscriptionRequired": "{provider} 요금제가 활성 상태가 아니에요. 계속 받아쓰려면 요금제를 고르세요.",
+    "fairUseDay": "오늘 {provider} 공정 사용 한도에 도달했어요. {time}부터 다시 받아쓸 수 있어요.",
+    "fairUseMonth": "이번 달 {provider} 공정 사용 한도에 도달했어요. {date}부터 다시 받아쓸 수 있어요.",
     "microphone": "마이크를 사용할 수 없어요: {detail}",
     "needsAccessibility": "Parler가 대신 입력하려면 손쉬운 사용 권한이 필요해요. 텍스트는 클립보드에 있으니 ⌘V로 붙여넣으세요.",
     "noClipboard": "이 시스템에서는 클립보드를 사용할 수 없어요.",
@@ -180,6 +234,10 @@
     "timeout": "응답이 너무 느림",
     "rejected": "서비스 오류",
     "invalidResponse": "서비스 오류",
+    "signedOut": "로그인 안 됨",
+    "subscriptionRequired": "요금제 비활성",
+    "fairUseDay": "오늘 한도 도달",
+    "fairUseMonth": "이번 달 한도 도달",
     "microphone": "마이크 사용 불가"
   },
   "settings": {

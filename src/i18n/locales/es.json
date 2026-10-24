@@ -5,6 +5,7 @@
   "common": {
     "continue": "Continuar",
     "back": "Atrás",
+    "cancel": "Cancelar",
     "copy": "Copiar",
     "copied": "Copiado",
     "delete": "Eliminar",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Recomendado",
+    "cloudBadge": "3 días gratis",
     "customName": "Tu servidor",
+    "cloud": "Sin clave: inicia sesión y dicta",
     "groq": "Muy rápido · registro gratis",
     "openai": "Muy preciso · GPT-4o Transcribe",
     "fireworks": "Whisper v3 rápido y económico",
     "custom": "Servidor compatible con OpenAI"
+  },
+  "cloud": {
+    "price": "Gratis durante 3 días; después, 8 € al mes o 49 € al año, sin IVA.",
+    "step1": "Inicia sesión con tu correo electrónico",
+    "step2": "Empieza tu prueba gratuita",
+    "step3": "Autoriza este equipo",
+    "start": "Continuar en el navegador",
+    "checkCode": "Comprueba que tu navegador muestra este código",
+    "waiting": "Esperando tu aprobación en el navegador…",
+    "reopen": "Volver a abrir la página",
+    "connected": "Sesión iniciada como {email}",
+    "denied": "Este equipo no se autorizó. Puedes volver a intentarlo.",
+    "expired": "El código ha caducado. Vuelve a intentarlo para obtener uno nuevo.",
+    "loading": "Cargando tu cuenta…",
+    "account": "Cuenta",
+    "usage": "Este mes",
+    "usageOf": "{used} de {limit}",
+    "fairUse": "Uso razonable: hasta {day} al día y {month} al mes.",
+    "manage": "Gestionar suscripción",
+    "choosePlan": "Elegir un plan",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "plan": {
+      "monthly": "Plan mensual",
+      "yearly": "Plan anual",
+      "other": "Tu plan"
+    },
+    "status": {
+      "trial": "Prueba gratuita, termina {when}",
+      "trialOpen": "Prueba gratuita",
+      "renews": "{plan}, se renueva el {date}",
+      "cancels": "{plan}, termina el {date}",
+      "pastDue": "El pago no se pudo hacer. Actualiza tu tarjeta para seguir dictando.",
+      "none": "No tienes ningún plan activo. Elige uno para empezar a dictar.",
+      "canceled": "Tu plan ha terminado. Elige uno para volver a dictar.",
+      "unknown": "Abre tu cuenta para ver tu plan."
+    },
+    "scene": {
+      "question": "¿Autorizar este equipo?",
+      "thisComputer": "Este equipo",
+      "authorize": "Autorizar",
+      "linked": "Equipo vinculado"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Clave verificada",
       "card": "Clave de API",
       "waiting": "Esperando tu clave"
+    },
+    "signIn": {
+      "title": "Inicia sesión en Parler Cloud",
+      "subtitle": "Sin claves que crear: se abre tu navegador, inicias sesión y este equipo queda vinculado a tu cuenta."
     },
     "permissions": {
       "title": "Deja que Parler escuche y escriba",
@@ -159,6 +209,10 @@
     "timeout": "{provider} tardó demasiado en responder.",
     "rejected": "{provider} devolvió un error ({status}): {message}",
     "invalidResponse": "{provider} envió una respuesta inesperada.",
+    "signedOut": "Este equipo no ha iniciado sesión en {provider}. Inicia sesión para seguir dictando.",
+    "subscriptionRequired": "Tu plan de {provider} no está activo. Elige un plan para seguir dictando.",
+    "fairUseDay": "Has alcanzado el límite de uso razonable de {provider} por hoy. Podrás volver a dictar a partir de las {time}.",
+    "fairUseMonth": "Has alcanzado el límite de uso razonable de {provider} de este mes. Podrás volver a dictar a partir del {date}.",
     "microphone": "No se pudo usar el micrófono: {detail}",
     "needsAccessibility": "Parler necesita acceso de Accesibilidad para escribir por ti. Tu texto está en el portapapeles: pégalo con ⌘V.",
     "noClipboard": "El portapapeles no está disponible en este sistema.",
@@ -180,6 +234,10 @@
     "timeout": "Tardó demasiado",
     "rejected": "Error del servicio",
     "invalidResponse": "Error del servicio",
+    "signedOut": "Sin sesión iniciada",
+    "subscriptionRequired": "Plan inactivo",
+    "fairUseDay": "Límite diario alcanzado",
+    "fairUseMonth": "Límite mensual alcanzado",
     "microphone": "Micrófono no disponible"
   },
   "settings": {

@@ -1,5 +1,5 @@
 // The right-hand scenes of the first-run flow: each shows, rather than tells.
-import { Check, KeyRound, Lightbulb, LoaderCircle, Mic, PersonStanding, Type, X } from "lucide-react";
+import { Check, KeyRound, Lightbulb, LoaderCircle, Lock, Mic, PersonStanding, Type, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Locale } from "../i18n";
 import { useT } from "../i18n/context";
@@ -139,6 +139,70 @@ export function KeyScene({
           <span className="rise flex items-center gap-1.5 text-[#ff8a72]"><X className="size-4" />{t("overlay.unauthorized")}</span>
         )}
         {check.state === "idle" && <span className="text-on-ink-2">{t("onboarding.key.waiting")}</span>}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The page the browser opens on, as a miniature: the same code as in Parler,
+ * the button to press, then the computer linked.
+ */
+export function SignInScene({
+  stage,
+  code,
+  deviceName,
+  host,
+}: {
+  stage: "idle" | "waiting" | "linked";
+  code?: string;
+  deviceName?: string;
+  host: string;
+}) {
+  const { t } = useT();
+  const linked = stage === "linked";
+  const live = stage !== "idle";
+  return (
+    <div className="w-[360px] overflow-hidden rounded-[16px] bg-surface shadow-raised">
+      <div className="flex items-center gap-1.5 border-b border-border px-4 py-3">
+        {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
+          <span key={c} className="size-2.5 rounded-full" style={{ background: c }} />
+        ))}
+        <span className="ml-3 flex h-6 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md bg-surface-2 px-2 font-mono text-[11px] text-text-3">
+          <Lock className="size-3 shrink-0" />
+          <span className="truncate">{host}</span>
+        </span>
+      </div>
+      <div className="flex flex-col items-center px-8 pt-8 pb-9 text-center">
+        <LogoMark size={36} />
+        <div className="mt-4 font-display text-[25px] leading-tight text-text">
+          {linked ? t("cloud.scene.linked") : t("cloud.scene.question")}
+        </div>
+        <div className="mt-1 max-w-full truncate text-[13px] text-text-3">
+          {deviceName || t("cloud.scene.thisComputer")}
+        </div>
+        <div
+          className={`mt-5 h-8 font-mono text-[22px] font-medium tracking-[0.14em] transition-colors duration-300 ${
+            live ? "text-text" : "text-text/25"
+          }`}
+        >
+          {code ?? (linked ? "" : "••••-••••")}
+        </div>
+        <div className="mt-6 flex h-10 items-center">
+          {linked ? (
+            <span className="rise flex size-10 items-center justify-center rounded-full bg-success-soft text-success">
+              <Check className="size-5" strokeWidth={2.5} />
+            </span>
+          ) : (
+            <span
+              className={`inline-flex h-10 items-center rounded-full bg-primary px-6 text-[14px] font-medium text-on-primary transition-opacity duration-300 ${
+                live ? "" : "opacity-30"
+              }`}
+            >
+              {t("cloud.scene.authorize")}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

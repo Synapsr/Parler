@@ -11,7 +11,10 @@ export type Theme = "system" | "light" | "dark";
 export interface Settings {
   onboarded: boolean;
   provider: string;
+  /** Parler Cloud's entry is the device token, written by the backend only. */
   apiKeys: Record<string, string>;
+  /** Kept by the backend: the service to go back to on signing out. */
+  providerBeforeCloud?: string | null;
   models: Record<string, string>;
   customBaseUrl: string;
   language: string;
@@ -44,7 +47,50 @@ export type TranscribeError =
   | { kind: "offline"; provider: string }
   | { kind: "timeout"; provider: string }
   | { kind: "rejected"; provider: string; status: number; message: string }
-  | { kind: "invalidResponse"; provider: string };
+  | { kind: "invalidResponse"; provider: string }
+  | { kind: "signedOut"; provider: string }
+  | { kind: "subscriptionRequired"; provider: string; manageUrl: string }
+  | { kind: "fairUseDay"; provider: string }
+  | { kind: "fairUseMonth"; provider: string };
+
+/** The provider id of Parler Cloud, the plan that replaces an API key. */
+export const CLOUD = "cloud";
+
+export type CloudStatus = "none" | "trialing" | "active" | "past_due" | "canceled" | "unknown";
+
+export interface CloudAccount {
+  email: string;
+  status: CloudStatus;
+  plan: "monthly" | "yearly" | string | null;
+  trialEndsAt: string | null;
+  renewsAt: string | null;
+  cancelAtPeriodEnd: boolean;
+  usage: {
+    daySeconds: number;
+    monthSeconds: number;
+    dayLimitSeconds: number;
+    monthLimitSeconds: number;
+  };
+  manageUrl: string;
+}
+
+/** A sign-in in progress: the code to check and the page it was opened on. */
+export interface DeviceStart {
+  deviceCode: string;
+  userCode: string;
+  verificationUrl: string;
+  /** Seconds. */
+  expiresIn: number;
+  /** Seconds between polls. */
+  interval: number;
+  deviceName: string;
+}
+
+export type SignInPoll =
+  | { status: "pending" }
+  | { status: "approved"; account: CloudAccount }
+  | { status: "denied" }
+  | { status: "expired" };
 
 export type PasteError =
   | { kind: "noClipboard" }
@@ -119,6 +165,12 @@ export const api = {
   getProviders: () => invoke<Provider[]>("get_providers"),
   testProvider: (settings: Settings) =>
     invoke<null>("test_provider", { settings }),
+  cloudSignInStart: () => invoke<DeviceStart>("cloud_sign_in_start"),
+  cloudSignInPoll: (deviceCode: string) =>
+    invoke<SignInPoll>("cloud_sign_in_poll", { deviceCode }),
+  /** `null` when this computer isn't signed in. */
+  cloudAccount: () => invoke<CloudAccount | null>("cloud_account"),
+  cloudSignOut: () => invoke<Settings>("cloud_sign_out"),
   listMicrophones: () => invoke<Microphone[]>("list_microphones"),
   getHistory: () => invoke<HistoryEntry[]>("get_history"),
   getStats: () => invoke<Stats>("get_stats"),
@@ -134,6 +186,9 @@ export const api = {
 };
 
 export const events = {
+  /** The backend changed the settings (Parler Cloud sign-in or sign-out). */
+  settings: (handler: (settings: Settings) => void): Promise<UnlistenFn> =>
+    listen<Settings>("parler://settings", (e) => handler(e.payload)),
   status: (handler: (status: Status) => void): Promise<UnlistenFn> =>
     listen<Status>("parler://status", (e) => handler(e.payload)),
   history: (handler: (entries: HistoryEntry[]) => void): Promise<UnlistenFn> =>

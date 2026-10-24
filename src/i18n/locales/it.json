@@ -5,6 +5,7 @@
   "common": {
     "continue": "Continua",
     "back": "Indietro",
+    "cancel": "Annulla",
     "copy": "Copia",
     "copied": "Copiato",
     "delete": "Elimina",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Consigliato",
+    "cloudBadge": "3 giorni gratis",
     "customName": "Il tuo server",
+    "cloud": "Nessuna chiave API: accedi e detta",
     "groq": "Molto veloce · iscrizione gratuita",
     "openai": "Molto preciso · GPT-4o Transcribe",
     "fireworks": "Whisper v3 veloce ed economico",
     "custom": "Server compatibile con OpenAI"
+  },
+  "cloud": {
+    "price": "Gratis per 3 giorni, poi 8 € al mese o 49 € all'anno, IVA esclusa.",
+    "step1": "Accedi con il tuo indirizzo email",
+    "step2": "Inizia la prova gratuita",
+    "step3": "Autorizza questo computer",
+    "start": "Continua nel browser",
+    "checkCode": "Verifica che il browser mostri questo codice",
+    "waiting": "In attesa della tua approvazione nel browser…",
+    "reopen": "Riapri la pagina",
+    "connected": "Accesso effettuato come {email}",
+    "denied": "Questo computer non è stato autorizzato. Puoi riprovare.",
+    "expired": "Il codice è scaduto. Riprova per riceverne uno nuovo.",
+    "loading": "Caricamento dell'account…",
+    "account": "Account",
+    "usage": "Questo mese",
+    "usageOf": "{used} su {limit}",
+    "fairUse": "Uso ragionevole: fino a {day} al giorno e {month} al mese.",
+    "manage": "Gestisci abbonamento",
+    "choosePlan": "Scegli un piano",
+    "signIn": "Accedi",
+    "signOut": "Esci",
+    "plan": {
+      "monthly": "Piano mensile",
+      "yearly": "Piano annuale",
+      "other": "Il tuo piano"
+    },
+    "status": {
+      "trial": "Prova gratuita, termina {when}",
+      "trialOpen": "Prova gratuita",
+      "renews": "{plan}, si rinnova il {date}",
+      "cancels": "{plan}, termina il {date}",
+      "pastDue": "Il pagamento non è andato a buon fine. Aggiorna la carta per continuare a dettare.",
+      "none": "Nessun piano attivo. Scegline uno per iniziare a dettare.",
+      "canceled": "Il tuo piano è terminato. Scegline uno per dettare di nuovo.",
+      "unknown": "Apri il tuo account per vedere il piano."
+    },
+    "scene": {
+      "question": "Autorizzare questo computer?",
+      "thisComputer": "Questo computer",
+      "authorize": "Autorizza",
+      "linked": "Computer collegato"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Chiave verificata",
       "card": "Chiave API",
       "waiting": "In attesa della tua chiave"
+    },
+    "signIn": {
+      "title": "Accedi a Parler Cloud",
+      "subtitle": "Nessuna chiave da creare: si apre il browser, accedi e questo computer viene collegato al tuo account."
     },
     "permissions": {
       "title": "Lascia che Parler ascolti e scriva",
@@ -159,6 +209,10 @@
     "timeout": "{provider} ci ha messo troppo a rispondere.",
     "rejected": "{provider} ha restituito un errore ({status}): {message}",
     "invalidResponse": "{provider} ha inviato una risposta inattesa.",
+    "signedOut": "Questo computer non ha effettuato l'accesso a {provider}. Accedi per continuare a dettare.",
+    "subscriptionRequired": "Il tuo piano {provider} non è attivo. Scegli un piano per continuare a dettare.",
+    "fairUseDay": "Hai raggiunto il limite di uso ragionevole di {provider} per oggi. Potrai dettare di nuovo dalle {time}.",
+    "fairUseMonth": "Hai raggiunto il limite di uso ragionevole di {provider} per questo mese. Potrai dettare di nuovo dal {date}.",
     "microphone": "Impossibile usare il microfono: {detail}",
     "needsAccessibility": "Parler ha bisogno dell'accesso ad Accessibilità per scrivere al posto tuo. Il testo è negli appunti: incollalo con ⌘V.",
     "noClipboard": "Gli appunti non sono disponibili su questo sistema.",
@@ -180,6 +234,10 @@
     "timeout": "Risposta troppo lenta",
     "rejected": "Errore del servizio",
     "invalidResponse": "Errore del servizio",
+    "signedOut": "Accesso non effettuato",
+    "subscriptionRequired": "Piano non attivo",
+    "fairUseDay": "Limite giornaliero raggiunto",
+    "fairUseMonth": "Limite mensile raggiunto",
     "microphone": "Microfono non disponibile"
   },
   "settings": {

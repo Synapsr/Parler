@@ -12,11 +12,13 @@ import {
 import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useEffect, useState, type ReactNode } from "react";
+import { CloudAccountPanel } from "../components/Cloud";
 import { ShortcutField } from "../components/ShortcutField";
 import { useProviderForm } from "../components/useProviderForm";
 import { useT } from "../i18n/context";
 import {
   api,
+  CLOUD,
   type Microphone,
   type Output,
   type ShortcutMode,
@@ -92,6 +94,8 @@ function Transcription() {
   const provider = form.provider;
   if (!provider) return null;
   const custom = provider.id === "custom";
+  // Parler Cloud has an account instead of a key, and picks its own model.
+  const cloud = provider.id === CLOUD;
 
   return (
     <Section
@@ -123,56 +127,62 @@ function Transcription() {
         </Field>
       )}
 
-      <Field
-        label={t("settings.transcription.apiKey")}
-        hint={
-          provider.apiKeyUrl && (
-            <button
-              type="button"
-              onClick={() => openUrl(provider.apiKeyUrl!)}
-              className="inline-flex items-center gap-0.5 font-medium text-accent-text hover:underline"
-            >
-              {t("settings.transcription.getKey")}
-              <ArrowUpRight className="size-3.5" />
-            </button>
-          )
-        }
-      >
-        <div className="flex gap-2">
-          <Input
-            type={revealed ? "text" : "password"}
-            value={form.key}
-            onChange={(e) => form.setKey(e.target.value)}
-            onBlur={() => form.save()}
-            placeholder={
-              custom
-                ? t("settings.transcription.apiKeyOptional")
-                : t("settings.transcription.apiKeyPlaceholder")
-            }
-            className="font-mono text-[13px]"
-            trailing={
+      {cloud ? (
+        <Field label={t("cloud.account")}>
+          <CloudAccountPanel />
+        </Field>
+      ) : (
+        <Field
+          label={t("settings.transcription.apiKey")}
+          hint={
+            provider.apiKeyUrl && (
               <button
                 type="button"
-                onClick={() => setRevealed((r) => !r)}
-                aria-label={revealed ? t("common.hide") : t("common.show")}
-                className="flex size-8 items-center justify-center rounded-lg text-text-3 hover:text-text"
+                onClick={() => openUrl(provider.apiKeyUrl!)}
+                className="inline-flex items-center gap-0.5 font-medium text-accent-text hover:underline"
               >
-                {revealed ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                {t("settings.transcription.getKey")}
+                <ArrowUpRight className="size-3.5" />
               </button>
-            }
-          />
-          <Button
-            className="h-11"
-            onClick={() => form.verify()}
-            busy={form.check.state === "checking"}
-            disabled={form.needsKey}
-          >
-            {form.check.state === "checking" ? t("common.testing") : t("common.test")}
-          </Button>
-        </div>
-        {form.check.state === "ok" && <Banner tone="success">{t("common.works")}</Banner>}
-        {form.check.state === "failed" && <Banner tone="error">{form.check.message}</Banner>}
-      </Field>
+            )
+          }
+        >
+          <div className="flex gap-2">
+            <Input
+              type={revealed ? "text" : "password"}
+              value={form.key}
+              onChange={(e) => form.setKey(e.target.value)}
+              onBlur={() => form.save()}
+              placeholder={
+                custom
+                  ? t("settings.transcription.apiKeyOptional")
+                  : t("settings.transcription.apiKeyPlaceholder")
+              }
+              className="font-mono text-[13px]"
+              trailing={
+                <button
+                  type="button"
+                  onClick={() => setRevealed((r) => !r)}
+                  aria-label={revealed ? t("common.hide") : t("common.show")}
+                  className="flex size-8 items-center justify-center rounded-lg text-text-3 hover:text-text"
+                >
+                  {revealed ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                </button>
+              }
+            />
+            <Button
+              className="h-11"
+              onClick={() => form.verify()}
+              busy={form.check.state === "checking"}
+              disabled={form.needsKey}
+            >
+              {form.check.state === "checking" ? t("common.testing") : t("common.test")}
+            </Button>
+          </div>
+          {form.check.state === "ok" && <Banner tone="success">{t("common.works")}</Banner>}
+          {form.check.state === "failed" && <Banner tone="error">{form.check.message}</Banner>}
+        </Field>
+      )}
 
       <Field label={t("settings.transcription.language")} hint={t("settings.transcription.languageHint")}>
         <Select value={settings.language} onChange={(e) => update({ language: e.target.value })}>
@@ -185,25 +195,27 @@ function Transcription() {
         </Select>
       </Field>
 
-      <div className="py-3.5 last:pb-0">
-        <Disclosure label={t("settings.transcription.advanced")}>
-          <Field label={t("settings.transcription.model")} hint={t("settings.transcription.modelHint")}>
-            <Input
-              value={form.model}
-              list={`models-${provider.id}`}
-              onChange={(e) => form.setModel(e.target.value)}
-              onBlur={() => form.save()}
-              placeholder={provider.defaultModel}
-              className="font-mono text-[13px]"
-            />
-            <datalist id={`models-${provider.id}`}>
-              {provider.models.map((m) => (
-                <option key={m} value={m} />
-              ))}
-            </datalist>
-          </Field>
-        </Disclosure>
-      </div>
+      {!cloud && (
+        <div className="py-3.5 last:pb-0">
+          <Disclosure label={t("settings.transcription.advanced")}>
+            <Field label={t("settings.transcription.model")} hint={t("settings.transcription.modelHint")}>
+              <Input
+                value={form.model}
+                list={`models-${provider.id}`}
+                onChange={(e) => form.setModel(e.target.value)}
+                onBlur={() => form.save()}
+                placeholder={provider.defaultModel}
+                className="font-mono text-[13px]"
+              />
+              <datalist id={`models-${provider.id}`}>
+                {provider.models.map((m) => (
+                  <option key={m} value={m} />
+                ))}
+              </datalist>
+            </Field>
+          </Disclosure>
+        </div>
+      )}
     </Section>
   );
 }

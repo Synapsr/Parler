@@ -1,14 +1,16 @@
 //! What the windows can ask of the backend.
 
 use crate::audio::{self, Microphone};
+use crate::cloud::{self, Account, DeviceStart, Poll, SignIn};
 use crate::dictation::{Dictation, Event, Problem, Status, StatusState};
 use crate::history::{self, Entry, History, Stats};
 use crate::paste::{self, PasteError};
-use crate::providers::{self, Provider, Request, TranscribeError, PROVIDERS};
+use crate::providers::{self, Provider, Request, TranscribeError};
 use crate::settings::{Settings, SettingsStore};
 use crate::{shortcut, tray};
 use serde::Serialize;
 use tauri::{AppHandle, Emitter, Manager, State};
+use tauri_plugin_opener::OpenerExt;
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -33,14 +35,47 @@ pub fn get_settings(store: State<SettingsStore>) -> Settings {
 /// Saves the settings, registering a changed shortcut first: if the new one
 /// can't be registered nothing is saved.
 #[tauri::command]
-pub fn save_settings(app: AppHandle, settings: Settings) -> Result<Settings, String> {
+pub fn save_settings(app: AppHandle, mut settings: Settings) -> Result<Settings, String> {
     let store = app.state::<SettingsStore>();
     let previous = store.get();
+    keep_cloud_state(&mut settings, &previous);
     if settings.shortcut != previous.shortcut {
         shortcut::replace(&app, &previous.shortcut, &settings.shortcut)?;
         clear_shortcut_problem(&app);
     }
     store.set(settings.clone()).map_err(|e| e.to_string())?;
+    Ok(settings)
+}
+
+/// The Parler Cloud token and the service to go back to are the backend's:
+/// a window saving its copy of the settings never changes them, so a copy
+/// taken before signing in can't erase the token.
+fn keep_cloud_state(settings: &mut Settings, previous: &Settings) {
+    match previous.api_keys.get(cloud::ID) {
+        Some(token) => settings
+            .api_keys
+            .insert(cloud::ID.to_string(), token.clone()),
+        None => settings.api_keys.remove(cloud::ID),
+    };
+    settings.provider_before_cloud =
+        if settings.provider == cloud::ID && previous.provider != cloud::ID {
+            Some(previous.provider.clone())
+        } else {
+            previous.provider_before_cloud.clone()
+        };
+}
+
+/// Saves settings changed by the backend and hands them to the window, so
+/// its copy stays current.
+fn save_and_notify(app: &AppHandle, settings: Settings) -> Result<Settings, TranscribeError> {
+    app.state::<SettingsStore>()
+        .set(settings.clone())
+        .map_err(|e| TranscribeError::Rejected {
+            provider: cloud::LABEL.to_string(),
+            status: 0,
+            message: e.to_string(),
+        })?;
+    let _ = app.emit_to("main", "parler://settings", settings.clone());
     Ok(settings)
 }
 
@@ -53,18 +88,145 @@ fn clear_shortcut_problem(app: &AppHandle) {
     }
 }
 
+/// Once signed in again, a problem that asked for it is out of date.
+fn clear_cloud_problem(app: &AppHandle) {
+    let state = app.state::<StatusState>();
+    let mut status = state.0.lock().unwrap_or_else(|e| e.into_inner());
+    if let Some(Problem::Transcription {
+        error: TranscribeError::SignedOut { .. } | TranscribeError::SubscriptionRequired { .. },
+    }) = status.problem
+    {
+        status.problem = None;
+        let _ = app.emit_to("main", "parler://status", status.clone());
+    }
+}
+
 #[tauri::command]
 pub fn get_providers() -> Vec<Provider> {
-    PROVIDERS.to_vec()
+    providers::all()
 }
 
 /// Sends half a second of silence with `settings`, which need not be saved
-/// yet, so a wrong key, model or URL shows up during setup.
+/// yet, so a wrong key, model or URL shows up during setup. Parler Cloud
+/// checks the account instead, which costs no dictation time.
 #[tauri::command]
 pub async fn test_provider(settings: Settings) -> Result<(), TranscribeError> {
     let request = Request::from_settings(&settings)?;
+    if settings.provider == cloud::ID {
+        let token = settings
+            .api_keys
+            .get(cloud::ID)
+            .cloned()
+            .unwrap_or_default();
+        return cloud::account(cloud::base_url(), token.trim())
+            .await
+            .map(|_| ());
+    }
     let silence = audio::encode_wav(&[0.0; audio::SAMPLE_RATE as usize / 2]);
     providers::transcribe(&request, silence).await.map(|_| ())
+}
+
+/// Starts linking this computer to Parler Cloud: gets a code and opens the
+/// page where the person signs in and authorizes it.
+#[tauri::command]
+pub async fn cloud_sign_in_start(app: AppHandle) -> Result<DeviceStart, TranscribeError> {
+    let name = tauri::async_runtime::spawn_blocking(cloud::device_name)
+        .await
+        .unwrap_or_else(|_| "Computer".to_string());
+    let start = cloud::start(cloud::base_url(), &name, std::env::consts::OS).await?;
+    let url = &start.verification_url;
+    if url.starts_with("https://") || url.starts_with("http://") {
+        if let Err(e) = app.opener().open_url(url, None::<&str>) {
+            log::warn!("Could not open the browser: {e}");
+        }
+    }
+    Ok(start)
+}
+
+/// Asks once whether the person authorized this computer. Once they have,
+/// the token is saved, Parler Cloud becomes the service and the window comes
+/// back to the front.
+#[tauri::command]
+pub async fn cloud_sign_in_poll(
+    app: AppHandle,
+    device_code: String,
+) -> Result<SignIn, TranscribeError> {
+    Ok(match cloud::poll(cloud::base_url(), &device_code).await? {
+        Poll::Pending => SignIn::Pending,
+        Poll::Denied => SignIn::Denied,
+        Poll::Expired => SignIn::Expired,
+        Poll::Approved { token, account } => {
+            let store = app.state::<SettingsStore>();
+            let mut settings = store.get();
+            if settings.provider != cloud::ID {
+                settings.provider_before_cloud = Some(settings.provider.clone());
+                settings.provider = cloud::ID.to_string();
+            }
+            settings.api_keys.insert(cloud::ID.to_string(), token);
+            save_and_notify(&app, settings)?;
+            clear_cloud_problem(&app);
+            log::info!("Signed in to {}", cloud::LABEL);
+            crate::show_main_window(&app);
+            SignIn::Approved { account }
+        }
+    })
+}
+
+/// The Parler Cloud account, or `None` when this computer isn't signed in.
+/// A token the service no longer knows is forgotten.
+#[tauri::command]
+pub async fn cloud_account(app: AppHandle) -> Result<Option<Account>, TranscribeError> {
+    let token = cloud_token(&app);
+    if token.is_empty() {
+        return Ok(None);
+    }
+    match cloud::account(cloud::base_url(), &token).await {
+        Ok(account) => Ok(Some(account)),
+        Err(TranscribeError::SignedOut { .. }) => {
+            let mut settings = app.state::<SettingsStore>().get();
+            // Unless a new sign-in replaced it meanwhile.
+            if settings.api_keys.get(cloud::ID) == Some(&token) {
+                log::info!("{} no longer knows this computer", cloud::LABEL);
+                settings.api_keys.remove(cloud::ID);
+                save_and_notify(&app, settings)?;
+            }
+            Ok(None)
+        }
+        Err(error) => Err(error),
+    }
+}
+
+/// Unlinks this computer from Parler Cloud and goes back to the service used
+/// before it, or Groq.
+#[tauri::command]
+pub async fn cloud_sign_out(app: AppHandle) -> Result<Settings, TranscribeError> {
+    let token = cloud_token(&app);
+    if !token.is_empty() {
+        // Best effort: offline, the token is still forgotten here.
+        if let Err(e) = cloud::revoke(cloud::base_url(), &token).await {
+            log::warn!("Could not revoke the {} token: {e}", cloud::LABEL);
+        }
+    }
+    let mut settings = app.state::<SettingsStore>().get();
+    settings.api_keys.remove(cloud::ID);
+    if settings.provider == cloud::ID {
+        settings.provider = settings
+            .provider_before_cloud
+            .take()
+            .filter(|id| id != cloud::ID && providers::find(id).is_some())
+            .unwrap_or_else(|| "groq".to_string());
+    }
+    log::info!("Signed out of {}", cloud::LABEL);
+    save_and_notify(&app, settings)
+}
+
+fn cloud_token(app: &AppHandle) -> String {
+    app.state::<SettingsStore>()
+        .get()
+        .api_keys
+        .get(cloud::ID)
+        .map(|token| token.trim().to_string())
+        .unwrap_or_default()
 }
 
 #[tauri::command]

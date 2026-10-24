@@ -70,7 +70,7 @@ Parler est gratuit. Il fonctionne avec tout service compatible avec l'API audio 
 Tout autre modèle proposé par un service peut être saisi dans les réglages, et vous pouvez changer de service à tout moment : chacun garde sa propre clé.
 
 > [!NOTE]
-> **Parler Cloud arrive bientôt.** La même app, sans clé d'API à créer : transcription illimitée pour l'usage normal d'une personne ([usage raisonnable](https://parler.synapsr.io/fair-use)), pour 8 € HT par mois ou 49 € HT par an. Ce n'est pas encore ouvert. Rejoignez l'accès anticipé sur [parler.synapsr.io](https://parler.synapsr.io) ou écrivez à [parler@synapsr.io](mailto:parler@synapsr.io).
+> **Parler Cloud arrive bientôt.** La même app, sans clé d'API à créer : choisissez Parler Cloud, connectez-vous une fois depuis votre navigateur, et dictez. Transcription illimitée pour l'usage normal d'une personne ([usage raisonnable](https://parler.synapsr.io/fair-use)), pour 8 € HT par mois ou 49 € HT par an, après 3 jours d'essai gratuit. Ce n'est pas encore ouvert. Rejoignez l'accès anticipé sur [parler.synapsr.io](https://parler.synapsr.io) ou écrivez à [parler@synapsr.io](mailto:parler@synapsr.io).
 
 <p align="center">
   <picture>

@@ -5,6 +5,7 @@
   "common": {
     "continue": "Doorgaan",
     "back": "Terug",
+    "cancel": "Annuleren",
     "copy": "Kopiëren",
     "copied": "Gekopieerd",
     "delete": "Verwijderen",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Aanbevolen",
+    "cloudBadge": "3 dagen gratis",
     "customName": "Eigen server",
+    "cloud": "Geen sleutel: log in en dicteer",
     "groq": "Zeer snel · gratis aanmelden",
     "openai": "Zeer precies · GPT-4o Transcribe",
     "fireworks": "Snelle, voordelige Whisper v3",
     "custom": "Je OpenAI-compatibele server"
+  },
+  "cloud": {
+    "price": "3 dagen gratis, daarna €\u00a08 per maand of €\u00a049 per jaar, excl. btw.",
+    "step1": "Log in met je e-mailadres",
+    "step2": "Start je gratis proefperiode",
+    "step3": "Geef deze computer toegang",
+    "start": "Verder in de browser",
+    "checkCode": "Controleer of je browser deze code toont",
+    "waiting": "Wacht op je toestemming in de browser…",
+    "reopen": "Open de pagina opnieuw",
+    "connected": "Ingelogd als {email}",
+    "denied": "Deze computer heeft geen toegang gekregen. Je kunt het opnieuw proberen.",
+    "expired": "De code is verlopen. Probeer het opnieuw voor een nieuwe code.",
+    "loading": "Je account wordt geladen…",
+    "account": "Account",
+    "usage": "Deze maand",
+    "usageOf": "{used} van {limit}",
+    "fairUse": "Redelijk gebruik: tot {day} per dag en {month} per maand.",
+    "manage": "Abonnement beheren",
+    "choosePlan": "Kies een abonnement",
+    "signIn": "Inloggen",
+    "signOut": "Uitloggen",
+    "plan": {
+      "monthly": "Maandabonnement",
+      "yearly": "Jaarabonnement",
+      "other": "Je abonnement"
+    },
+    "status": {
+      "trial": "Gratis proefperiode, eindigt {when}",
+      "trialOpen": "Gratis proefperiode",
+      "renews": "{plan}, wordt verlengd op {date}",
+      "cancels": "{plan}, eindigt op {date}",
+      "pastDue": "De betaling is mislukt. Werk je kaart bij om te blijven dicteren.",
+      "none": "Geen actief abonnement. Kies er een om te beginnen met dicteren.",
+      "canceled": "Je abonnement is afgelopen. Kies er een om weer te dicteren.",
+      "unknown": "Open je account om je abonnement te zien."
+    },
+    "scene": {
+      "question": "Deze computer toegang geven?",
+      "thisComputer": "Deze computer",
+      "authorize": "Toestaan",
+      "linked": "Computer gekoppeld"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Sleutel gecontroleerd",
       "card": "API-sleutel",
       "waiting": "Wacht op je sleutel"
+    },
+    "signIn": {
+      "title": "Log in bij Parler Cloud",
+      "subtitle": "Geen sleutel nodig: je browser opent, je logt in en deze computer wordt aan je account gekoppeld."
     },
     "permissions": {
       "title": "Laat Parler horen en typen",
@@ -159,6 +209,10 @@
     "timeout": "{provider} deed er te lang over om te antwoorden.",
     "rejected": "{provider} gaf een fout ({status}): {message}",
     "invalidResponse": "{provider} stuurde een onverwacht antwoord.",
+    "signedOut": "Deze computer is niet ingelogd bij {provider}. Log in om te blijven dicteren.",
+    "subscriptionRequired": "Je abonnement op {provider} is niet actief. Kies een abonnement om te blijven dicteren.",
+    "fairUseDay": "Je hebt de daglimiet voor redelijk gebruik van {provider} bereikt. Vanaf {time} kun je weer dicteren.",
+    "fairUseMonth": "Je hebt de maandlimiet voor redelijk gebruik van {provider} bereikt. Vanaf {date} kun je weer dicteren.",
     "microphone": "De microfoon kon niet worden gebruikt: {detail}",
     "needsAccessibility": "Parler heeft toegang tot Toegankelijkheid nodig om voor je te typen. Je tekst staat op het klembord: plak hem met ⌘V.",
     "noClipboard": "Het klembord is niet beschikbaar op dit systeem.",
@@ -180,6 +234,10 @@
     "timeout": "Antwoord te traag",
     "rejected": "Fout bij de dienst",
     "invalidResponse": "Fout bij de dienst",
+    "signedOut": "Niet ingelogd",
+    "subscriptionRequired": "Abonnement inactief",
+    "fairUseDay": "Daglimiet bereikt",
+    "fairUseMonth": "Maandlimiet bereikt",
     "microphone": "Microfoon werkt niet"
   },
   "settings": {

@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock, Mic, PersonStanding } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Clock, LoaderCircle, Mic, PersonStanding } from "lucide-react";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useEffect, useState, type ReactNode } from "react";
 import {
@@ -7,11 +7,15 @@ import {
   requestAccessibilityPermission,
   requestMicrophonePermission,
 } from "tauri-plugin-macos-permissions-api";
+import { AccountStatus, PlanButton, SignInWaiting, signInTrouble } from "../components/Cloud";
 import { KeysSentence } from "../components/KeysSentence";
 import { ShortcutField } from "../components/ShortcutField";
 import { useKeycaps } from "../components/useKeycaps";
+import { useCloudSignIn } from "../components/useCloudSignIn";
 import { useProviderForm } from "../components/useProviderForm";
 import { useT } from "../i18n/context";
+import { CLOUD } from "../lib/api";
+import { needsPlan } from "../lib/cloud";
 import { lookOf } from "../lib/look";
 import { describeProblem } from "../lib/problems";
 import { useParler } from "../state";
@@ -33,6 +37,7 @@ import {
   KeyScene,
   PermissionsScene,
   ShortcutScene,
+  SignInScene,
   WelcomeScene,
 } from "./visuals";
 
@@ -46,7 +51,7 @@ interface Nav {
 }
 
 export function Onboarding() {
-  const { info } = useParler();
+  const { info, settings } = useParler();
   const steps: Step[] = [
     "welcome",
     "provider",
@@ -69,7 +74,8 @@ export function Onboarding() {
     case "provider":
       return <ProviderStep nav={nav} />;
     case "key":
-      return <KeyStep nav={nav} />;
+      // Parler Cloud needs no key: the person signs in instead.
+      return settings.provider === CLOUD ? <SignInStep nav={nav} /> : <KeyStep nav={nav} />;
     case "permissions":
       return <PermissionsStep nav={nav} />;
     case "shortcut":
@@ -195,7 +201,7 @@ function ProviderStep({ nav }: { nav: Nav }) {
       }
     >
       <Title title={t("onboarding.provider.title")} subtitle={t("onboarding.provider.subtitle")} />
-      <div className="flex flex-col gap-2" role="radiogroup">
+      <div className="flex flex-col gap-1.5" role="radiogroup">
         {providers.map((p, i) => {
           const look = lookOf(p.id);
           return (
@@ -205,7 +211,14 @@ function ProviderStep({ nav }: { nav: Nav }) {
               tint={look.tint}
               title={name(p.id, p.label)}
               description={t(`providers.${p.id}`)}
-              badge={p.id === "groq" ? t("providers.recommended") : undefined}
+              badge={
+                p.id === "groq"
+                  ? t("providers.recommended")
+                  : p.id === CLOUD
+                    ? t("providers.cloudBadge")
+                    : undefined
+              }
+              badgeTone={p.id === CLOUD ? "brand" : "success"}
               selected={p.id === settings.provider}
               onSelect={() => update({ provider: p.id })}
               delay={60 + i * 50}
@@ -306,6 +319,115 @@ function KeyStep({ nav }: { nav: Nav }) {
   );
 }
 
+/** Parler Cloud: sign in with the browser instead of pasting a key. */
+function SignInStep({ nav }: { nav: Nav }) {
+  const { t } = useT();
+  const { cloud, providers } = useParler();
+  const signIn = useCloudSignIn();
+  const { state } = signIn;
+  const account = state.phase === "approved" ? state.account : cloud.account;
+  const connected = cloud.signedIn || state.phase === "approved";
+  const trouble = signInTrouble(signIn, t);
+
+  // Signed in with a plan: carry on once the person has seen it worked.
+  useEffect(() => {
+    if (state.phase !== "approved" || needsPlan(state.account)) return;
+    const timer = setTimeout(nav.next, 2600);
+    return () => clearTimeout(timer);
+  }, [state]);
+
+  const cloudUrl = providers.find((p) => p.id === CLOUD)?.baseUrl ?? "https://cloud.parler.synapsr.io";
+  const host = (url: string) => {
+    try {
+      return new URL(url).host;
+    } catch {
+      return url;
+    }
+  };
+  const begun = state.phase === "waiting" || state.phase === "approved" ? state.start : null;
+  const scene = (
+    <SignInScene
+      stage={connected ? "linked" : begun ? "waiting" : "idle"}
+      code={begun?.userCode}
+      deviceName={begun?.deviceName}
+      host={host(begun?.verificationUrl ?? cloudUrl)}
+    />
+  );
+
+  let footer;
+  if (connected) {
+    footer = (
+      <Button variant="primary" size="lg" onClick={nav.next}>
+        {t("common.continue")}
+        <ArrowRight className="size-4" />
+      </Button>
+    );
+  } else if (state.phase === "waiting") {
+    footer = (
+      <Button variant="primary" size="lg" disabled>
+        {t("common.continue")}
+        <ArrowRight className="size-4" />
+      </Button>
+    );
+  } else {
+    footer = (
+      <Button variant="primary" size="lg" onClick={signIn.start} busy={state.phase === "starting"}>
+        {trouble ? t("problems.retry") : t("cloud.start")}
+        <ArrowUpRight className="size-4" />
+      </Button>
+    );
+  }
+
+  return (
+    <StepLayout nav={nav} scene={scene} footer={footer}>
+      <Title title={t("onboarding.signIn.title")} subtitle={t("onboarding.signIn.subtitle")} />
+
+      {connected ? (
+        account ? (
+          <div className="rise">
+            <Banner
+              tone={needsPlan(account) ? "warning" : "success"}
+              actions={needsPlan(account) ? <PlanButton account={account} /> : undefined}
+            >
+              <span className="flex flex-col gap-1">
+                <span className="font-medium">{t("cloud.connected", { email: account.email })}</span>
+                <AccountStatus account={account} />
+              </span>
+            </Banner>
+          </div>
+        ) : (
+          // Offline, the account can wait: being signed in is what counts here.
+          cloud.loading && (
+            <p className="flex items-center gap-2 text-[13.5px] text-text-3" role="status">
+              <LoaderCircle className="size-4 animate-spin" />
+              {t("cloud.loading")}
+            </p>
+          )
+        )
+      ) : state.phase === "waiting" ? (
+        <SignInWaiting signIn={signIn} />
+      ) : (
+        <div className="flex flex-col gap-5">
+          <ol className="rise flex flex-col gap-3" style={{ animationDelay: "60ms" }}>
+            {(["step1", "step2", "step3"] as const).map((step, i) => (
+              <li key={step} className="flex items-center gap-3 text-[14px] text-text">
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-text text-[12px] font-semibold text-surface">
+                  {i + 1}
+                </span>
+                {t(`cloud.${step}`)}
+              </li>
+            ))}
+          </ol>
+          <p className="rise text-[13px] text-text-3" style={{ animationDelay: "120ms" }}>
+            {t("cloud.price")}
+          </p>
+          {trouble && <Banner tone={state.phase === "expired" ? "warning" : "error"}>{trouble}</Banner>}
+        </div>
+      )}
+    </StepLayout>
+  );
+}
+
 type Permission = "microphone" | "accessibility";
 
 function PermissionsStep({ nav }: { nav: Nav }) {
@@ -397,16 +519,17 @@ function ShortcutStep({ nav }: { nav: Nav }) {
 }
 
 function TryStep({ nav }: { nav: Nav }) {
-  const { t } = useT();
-  const { settings, status, update } = useParler();
+  const { t, locale } = useT();
+  const { settings, status, update, cloud } = useParler();
   const toKeys = useKeycaps();
   const [text, setText] = useState("");
   const done = text.trim().length > 0;
   const problem =
     status.problem && status.state === "idle"
-      ? describeProblem(status.problem, t("providers.customName"))
+      ? describeProblem(status.problem, t("providers.customName"), locale)
       : null;
   const finish = () => update({ onboarded: true });
+  const manageUrl = cloud.account?.manageUrl ?? problem?.manageUrl;
 
   return (
     <StepLayout
@@ -455,7 +578,18 @@ function TryStep({ nav }: { nav: Nav }) {
             {t("onboarding.try.done")}
           </p>
         )}
-        {problem && !done && <Banner tone="error">{t(problem.key, problem.params)}</Banner>}
+        {problem && !done && (
+          <Banner
+            tone="error"
+            actions={
+              problem.manageUrl && manageUrl ? (
+                <PlanButton account={{ status: cloud.account?.status ?? "none", manageUrl }} />
+              ) : undefined
+            }
+          >
+            {t(problem.key, problem.params)}
+          </Banner>
+        )}
       </div>
     </StepLayout>
   );

@@ -5,6 +5,7 @@
   "common": {
     "continue": "続ける",
     "back": "戻る",
+    "cancel": "キャンセル",
     "copy": "コピー",
     "copied": "コピーしました",
     "delete": "削除",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "おすすめ",
+    "cloudBadge": "3日間無料",
     "customName": "自分のサーバー",
+    "cloud": "キー不要、サインインして音声入力",
     "groq": "とても速い · 無料で登録",
     "openai": "高精度 · GPT-4o Transcribe",
     "fireworks": "高速で手頃な Whisper v3",
     "custom": "OpenAI 互換の自分のサーバー"
+  },
+  "cloud": {
+    "price": "3日間無料。その後は月額 €8 または年額 €49（税抜）です。",
+    "step1": "メールアドレスでサインイン",
+    "step2": "無料体験を開始",
+    "step3": "このコンピュータを承認",
+    "start": "ブラウザで続ける",
+    "checkCode": "ブラウザにこのコードが表示されていることを確認してください",
+    "waiting": "ブラウザでの承認を待っています…",
+    "reopen": "ページをもう一度開く",
+    "connected": "{email} でサインイン中",
+    "denied": "このコンピュータは承認されませんでした。もう一度お試しください。",
+    "expired": "コードの有効期限が切れました。もう一度試すと、新しいコードを取得できます。",
+    "loading": "アカウントを読み込んでいます…",
+    "account": "アカウント",
+    "usage": "今月",
+    "usageOf": "{used} / {limit}",
+    "fairUse": "フェアユース：1日 {day}、1か月 {month} まで。",
+    "manage": "サブスクリプションを管理",
+    "choosePlan": "プランを選ぶ",
+    "signIn": "サインイン",
+    "signOut": "サインアウト",
+    "plan": {
+      "monthly": "月額プラン",
+      "yearly": "年額プラン",
+      "other": "現在のプラン"
+    },
+    "status": {
+      "trial": "無料体験中・終了は{when}",
+      "trialOpen": "無料体験中",
+      "renews": "{plan}・{date}に更新",
+      "cancels": "{plan}・{date}に終了",
+      "pastDue": "お支払いに失敗しました。音声入力を続けるには、カード情報を更新してください。",
+      "none": "有効なプランがありません。音声入力を始めるには、プランを選んでください。",
+      "canceled": "プランは終了しました。もう一度音声入力するには、プランを選んでください。",
+      "unknown": "アカウントを開いて、プランを確認してください。"
+    },
+    "scene": {
+      "question": "このコンピュータを承認しますか？",
+      "thisComputer": "このコンピュータ",
+      "authorize": "承認",
+      "linked": "連携しました"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "キーを確認しました",
       "card": "API キー",
       "waiting": "キーを待っています"
+    },
+    "signIn": {
+      "title": "Parler Cloud にサインイン",
+      "subtitle": "キーの作成は不要です。ブラウザが開いたらサインインするだけで、このコンピュータがアカウントに連携されます。"
     },
     "permissions": {
       "title": "聞き取りと入力を許可",
@@ -159,6 +209,10 @@
     "timeout": "{provider} の応答に時間がかかりすぎました。",
     "rejected": "{provider} がエラーを返しました（{status}）：{message}",
     "invalidResponse": "{provider} から予期しない応答がありました。",
+    "signedOut": "このコンピュータは {provider} にサインインしていません。音声入力を続けるには、サインインしてください。",
+    "subscriptionRequired": "{provider} のプランが有効ではありません。音声入力を続けるには、プランを選んでください。",
+    "fairUseDay": "本日の {provider} のフェアユース上限に達しました。{time} からまた音声入力できます。",
+    "fairUseMonth": "今月の {provider} のフェアユース上限に達しました。{date} からまた音声入力できます。",
     "microphone": "マイクを使用できませんでした：{detail}",
     "needsAccessibility": "Parler があなたの代わりに入力するには、アクセシビリティへのアクセスが必要です。テキストはクリップボードにあるので、⌘V で貼り付けてください。",
     "noClipboard": "このシステムではクリップボードを使用できません。",
@@ -180,6 +234,10 @@
     "timeout": "応答が遅すぎます",
     "rejected": "サービスエラー",
     "invalidResponse": "サービスエラー",
+    "signedOut": "未サインイン",
+    "subscriptionRequired": "プランが無効",
+    "fairUseDay": "本日の上限に到達",
+    "fairUseMonth": "今月の上限に到達",
     "microphone": "マイクが使えません"
   },
   "settings": {

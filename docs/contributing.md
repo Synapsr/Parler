@@ -26,6 +26,14 @@ pick the state: `onboarded=1`, `lang=en`, `platform=windows`, `problem=1`,
 `state=recording`, or `view=overlay&phase=recording` (`transcribing`,
 `error`, `empty`).
 
+Parler Cloud: `cloud=signed-out` (or `trial`, `active`, `canceling`,
+`past-due`, `inactive`, `canceled`, `offline`) picks it in that state;
+`signin=wait` keeps a sign-in waiting (`deny`, `expire`; it is approved by
+default); `problem=subscription` (`fairday`, `fairmonth`, `signedout`) shows
+its problems, and `view=overlay&phase=error&error=subscription` the pill. To
+run the app against a local Parler Cloud service:
+`PARLER_CLOUD_URL=http://localhost:3100 pnpm tauri dev`.
+
 ## Checks
 
 CI runs these on every pull request; run them before pushing:

@@ -5,6 +5,7 @@
   "common": {
     "continue": "Continuar",
     "back": "Voltar",
+    "cancel": "Cancelar",
     "copy": "Copiar",
     "copied": "Copiado",
     "delete": "Excluir",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Recomendado",
+    "cloudBadge": "3 dias grátis",
     "customName": "Seu servidor",
+    "cloud": "Sem chave de API: entre e dite",
     "groq": "Muito rápido · cadastro grátis",
     "openai": "Muito preciso · GPT-4o Transcribe",
     "fireworks": "Whisper v3 rápido e acessível",
     "custom": "Servidor compatível com OpenAI"
+  },
+  "cloud": {
+    "price": "Grátis por 3 dias, depois € 8 por mês ou € 49 por ano, sem impostos.",
+    "step1": "Entre com seu endereço de e-mail",
+    "step2": "Comece seu teste grátis",
+    "step3": "Autorize este computador",
+    "start": "Continuar no navegador",
+    "checkCode": "Confira se o navegador mostra este código",
+    "waiting": "Aguardando sua aprovação no navegador…",
+    "reopen": "Abrir a página de novo",
+    "connected": "Conectado como {email}",
+    "denied": "Este computador não foi autorizado. Você pode tentar de novo.",
+    "expired": "O código expirou. Tente de novo para receber um novo.",
+    "loading": "Carregando sua conta…",
+    "account": "Conta",
+    "usage": "Este mês",
+    "usageOf": "{used} de {limit}",
+    "fairUse": "Uso justo: até {day} por dia e {month} por mês.",
+    "manage": "Gerenciar assinatura",
+    "choosePlan": "Escolher um plano",
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "plan": {
+      "monthly": "Plano mensal",
+      "yearly": "Plano anual",
+      "other": "Seu plano"
+    },
+    "status": {
+      "trial": "Teste grátis, termina {when}",
+      "trialOpen": "Teste grátis",
+      "renews": "{plan}, renova em {date}",
+      "cancels": "{plan}, termina em {date}",
+      "pastDue": "O pagamento falhou. Atualize seu cartão para continuar ditando.",
+      "none": "Nenhum plano ativo. Escolha um para começar a ditar.",
+      "canceled": "Seu plano terminou. Escolha um para voltar a ditar.",
+      "unknown": "Abra sua conta para ver seu plano."
+    },
+    "scene": {
+      "question": "Autorizar este computador?",
+      "thisComputer": "Este computador",
+      "authorize": "Autorizar",
+      "linked": "Computador conectado"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Chave verificada",
       "card": "Chave de API",
       "waiting": "Aguardando sua chave"
+    },
+    "signIn": {
+      "title": "Entre no Parler Cloud",
+      "subtitle": "Nenhuma chave para criar: o navegador abre, você entra na sua conta e este computador fica conectado a ela."
     },
     "permissions": {
       "title": "Deixe o Parler ouvir e digitar",
@@ -159,6 +209,10 @@
     "timeout": "{provider} demorou demais para responder.",
     "rejected": "{provider} retornou um erro ({status}): {message}",
     "invalidResponse": "{provider} enviou uma resposta inesperada.",
+    "signedOut": "Este computador não está conectado ao {provider}. Entre para continuar ditando.",
+    "subscriptionRequired": "Seu plano do {provider} não está ativo. Escolha um plano para continuar ditando.",
+    "fairUseDay": "Você atingiu o limite de uso justo do {provider} de hoje. Poderá ditar de novo a partir das {time}.",
+    "fairUseMonth": "Você atingiu o limite de uso justo do {provider} deste mês. Poderá ditar de novo a partir de {date}.",
     "microphone": "Não foi possível usar o microfone: {detail}",
     "needsAccessibility": "O Parler precisa de acesso à Acessibilidade para digitar por você. Seu texto está na área de transferência: cole com ⌘V.",
     "noClipboard": "A área de transferência não está disponível neste sistema.",
@@ -180,6 +234,10 @@
     "timeout": "Demorou demais",
     "rejected": "Erro do serviço",
     "invalidResponse": "Erro do serviço",
+    "signedOut": "Não conectado",
+    "subscriptionRequired": "Plano inativo",
+    "fairUseDay": "Limite diário atingido",
+    "fairUseMonth": "Limite mensal atingido",
     "microphone": "Microfone indisponível"
   },
   "settings": {

@@ -13,11 +13,20 @@ const params = new URLSearchParams(location.search);
 const view = params.get("view") ?? "main";
 const onboarded = params.get("onboarded") === "1";
 const platform = params.get("platform") ?? "macos";
+// Parler Cloud: `cloud=signed-out|trial|active|canceling|past-due|inactive|canceled|offline`
+// (`signed-in` is `active`) picks it as the service, in that state.
+// `signin=wait|approve|deny|expire` decides how a sign-in ends (default: approve).
+const cloudMode = params.get("cloud");
+const signInMode = params.get("signin") ?? "approve";
 
-let settings = {
+let settings: Record<string, unknown> & { apiKeys: Record<string, string>; provider: string } = {
   onboarded,
-  provider: "groq",
-  apiKeys: onboarded || params.get("key") ? { groq: "gsk_demo" } : {},
+  provider: cloudMode ? "cloud" : "groq",
+  apiKeys: {
+    ...(onboarded || params.get("key") ? { groq: "gsk_demo" } : {}),
+    ...(cloudMode && cloudMode !== "signed-out" ? { cloud: "pc_demo" } : {}),
+  },
+  providerBeforeCloud: cloudMode ? "groq" : null,
   models: {},
   customBaseUrl: "http://localhost:8000/v1",
   language: params.get("lang") ?? "fr",
@@ -131,9 +140,58 @@ const HISTORY = (SAMPLES[params.get("lang") ?? "fr"] ?? FRENCH).map((text, i) =>
   durationMs: 1800 + ((i * 1371) % 5000),
   provider: "Groq",
 }));
-const problem = params.get("problem")
-  ? { kind: "transcription", error: { kind: "offline", provider: "Groq" } }
+const DAY = 86_400_000;
+const at = (days: number) => new Date(now + days * DAY).toISOString();
+const usage = (monthHours: number, dayHours = 0.4) => ({
+  daySeconds: dayHours * 3600,
+  monthSeconds: monthHours * 3600,
+  dayLimitSeconds: 14_400,
+  monthLimitSeconds: 144_000,
+});
+const MANAGE_URL = "https://cloud.parler.synapsr.io/account";
+const account = (mode: string | null) => {
+  const base = {
+    email: params.get("email") ?? "camille@example.com",
+    status: "active",
+    plan: "monthly",
+    trialEndsAt: null as string | null,
+    renewsAt: at(18) as string | null,
+    cancelAtPeriodEnd: false,
+    usage: usage(12),
+    manageUrl: MANAGE_URL,
+  };
+  switch (mode) {
+    case "active":
+    case "signed-in":
+      return base;
+    case "canceling":
+      return { ...base, plan: "yearly", renewsAt: at(140), cancelAtPeriodEnd: true, usage: usage(36.5) };
+    case "past-due":
+      return { ...base, status: "past_due", usage: usage(21) };
+    case "inactive":
+      return { ...base, status: "none", plan: null, renewsAt: null, usage: usage(0, 0) };
+    case "canceled":
+      return { ...base, status: "canceled", renewsAt: null, usage: usage(0, 0) };
+    default:
+      return { ...base, status: "trialing", trialEndsAt: at(2.4), renewsAt: at(2.4), usage: usage(3.2) };
+  }
+};
+const CLOUD_ERRORS: Record<string, object> = {
+  subscription: { kind: "subscriptionRequired", provider: "Parler Cloud", manageUrl: MANAGE_URL },
+  fairday: { kind: "fairUseDay", provider: "Parler Cloud" },
+  fairmonth: { kind: "fairUseMonth", provider: "Parler Cloud" },
+  signedout: { kind: "signedOut", provider: "Parler Cloud" },
+};
+// `problem=1` (offline), or a Parler Cloud one: `subscription`, `fairday`, `fairmonth`, `signedout`.
+const problemParam = params.get("problem");
+const problem = problemParam
+  ? {
+      kind: "transcription",
+      error: CLOUD_ERRORS[problemParam] ?? { kind: "offline", provider: "Groq" },
+    }
   : null;
+let polls = 0;
+const settingsChanged = () => setTimeout(() => emit("parler://settings", settings), 0);
 
 mockWindows(view === "overlay" ? "overlay" : "main");
 mockIPC(
@@ -144,11 +202,59 @@ mockIPC(
         return { platform, version: "0.1.0" };
       case "get_settings":
         return settings;
-      case "save_settings":
-        settings = a.settings as typeof settings;
+      case "save_settings": {
+        // As in the backend, the window never writes the Parler Cloud token.
+        const next = a.settings as typeof settings;
+        const apiKeys = { ...next.apiKeys };
+        delete apiKeys.cloud;
+        if (settings.apiKeys.cloud) apiKeys.cloud = settings.apiKeys.cloud;
+        settings = { ...next, apiKeys };
         return settings;
+      }
+      case "cloud_sign_in_start":
+        polls = 0;
+        return new Promise((resolve) =>
+          setTimeout(
+            () =>
+              resolve({
+                deviceCode: "dc_preview",
+                userCode: "K7PM-Q2XW",
+                verificationUrl: "https://cloud.parler.synapsr.io/link?code=K7PM-Q2XW",
+                expiresIn: 600,
+                interval: 2,
+                deviceName: "MacBook Pro",
+              }),
+            500,
+          ),
+        );
+      case "cloud_sign_in_poll":
+        polls += 1;
+        if (signInMode === "wait" || polls < 2) return { status: "pending" };
+        if (signInMode === "deny") return { status: "denied" };
+        if (signInMode === "expire") return { status: "expired" };
+        settings = { ...settings, provider: "cloud", apiKeys: { ...settings.apiKeys, cloud: "pc_demo" } };
+        settingsChanged();
+        return { status: "approved", account: account(cloudMode === "signed-out" ? null : cloudMode) };
+      case "cloud_account":
+        if (!settings.apiKeys.cloud) return null;
+        if (cloudMode === "offline") {
+          return new Promise((_, reject) =>
+            setTimeout(() => reject({ kind: "offline", provider: "Parler Cloud" }), 400),
+          );
+        }
+        return new Promise((resolve) =>
+          setTimeout(() => resolve(account(cloudMode === "signed-out" ? null : cloudMode)), 250),
+        );
+      case "cloud_sign_out": {
+        const apiKeys = { ...settings.apiKeys };
+        delete apiKeys.cloud;
+        settings = { ...settings, apiKeys, provider: (settings.providerBeforeCloud as string) ?? "groq" };
+        settingsChanged();
+        return settings;
+      }
       case "get_providers":
         return [
+          { id: "cloud", label: "Parler Cloud", baseUrl: "https://cloud.parler.synapsr.io/v1", defaultModel: "whisper-large-v3-turbo", models: [], requiresApiKey: true, apiKeyUrl: null },
           { id: "groq", label: "Groq", baseUrl: "", defaultModel: "whisper-large-v3-turbo", models: ["whisper-large-v3-turbo", "whisper-large-v3"], requiresApiKey: true, apiKeyUrl: "https://console.groq.com/keys" },
           { id: "openai", label: "OpenAI", baseUrl: "", defaultModel: "gpt-4o-mini-transcribe", models: ["gpt-4o-mini-transcribe", "gpt-4o-transcribe", "whisper-1"], requiresApiKey: true, apiKeyUrl: "https://platform.openai.com/api-keys" },
           { id: "fireworks", label: "Fireworks", baseUrl: "", defaultModel: "whisper-v3-turbo", models: ["whisper-v3-turbo", "whisper-v3"], requiresApiKey: true, apiKeyUrl: "https://app.fireworks.ai" },
@@ -193,7 +299,9 @@ if (view === "overlay") {
   createRoot(document.getElementById("root")!).render(<Overlay />);
   const phase = params.get("phase") ?? "recording";
   setTimeout(async () => {
-    await emit("parler://overlay", { phase, sounds: false, problem: phase === "error" ? { kind: "transcription", error: { kind: "unauthorized", provider: "Groq" } } : null });
+    // `error=subscription|fairday|fairmonth|signedout` shows a Parler Cloud problem.
+    const error = CLOUD_ERRORS[params.get("error") ?? ""] ?? { kind: "unauthorized", provider: "Groq" };
+    await emit("parler://overlay", { phase, sounds: false, problem: phase === "error" ? { kind: "transcription", error } : null });
     let t = 0;
     setInterval(() => {
       t += 1;

@@ -5,6 +5,7 @@
   "common": {
     "continue": "Weiter",
     "back": "Zurück",
+    "cancel": "Abbrechen",
     "copy": "Kopieren",
     "copied": "Kopiert",
     "delete": "Löschen",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Empfohlen",
+    "cloudBadge": "3 Tage gratis",
     "customName": "Eigener Server",
+    "cloud": "Ohne Schlüssel, nur anmelden",
     "groq": "Sehr schnell · Gratis-Konto",
     "openai": "Sehr genau · GPT-4o Transcribe",
     "fireworks": "Whisper v3, schnell und günstig",
     "custom": "Dein OpenAI-kompatibler Server"
+  },
+  "cloud": {
+    "price": "3 Tage kostenlos, danach 8\u00a0€ im Monat oder 49\u00a0€ im Jahr, zzgl. MwSt.",
+    "step1": "Melde dich mit deiner E-Mail-Adresse an",
+    "step2": "Starte deine kostenlose Testphase",
+    "step3": "Gib diesen Computer frei",
+    "start": "Im Browser fortfahren",
+    "checkCode": "Prüfe, ob dein Browser diesen Code anzeigt",
+    "waiting": "Warte auf deine Bestätigung im Browser…",
+    "reopen": "Seite erneut öffnen",
+    "connected": "Angemeldet als {email}",
+    "denied": "Dieser Computer wurde nicht freigegeben. Du kannst es noch einmal versuchen.",
+    "expired": "Der Code ist abgelaufen. Versuch es noch einmal, um einen neuen zu bekommen.",
+    "loading": "Dein Konto wird geladen…",
+    "account": "Konto",
+    "usage": "Diesen Monat",
+    "usageOf": "{used} von {limit}",
+    "fairUse": "Faire Nutzung: bis zu {day} am Tag und {month} im Monat.",
+    "manage": "Abo verwalten",
+    "choosePlan": "Abo wählen",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "plan": {
+      "monthly": "Monatsabo",
+      "yearly": "Jahresabo",
+      "other": "Dein Abo"
+    },
+    "status": {
+      "trial": "Kostenlose Testphase, endet {when}",
+      "trialOpen": "Kostenlose Testphase",
+      "renews": "{plan}, verlängert sich am {date}",
+      "cancels": "{plan}, endet am {date}",
+      "pastDue": "Die Zahlung ist fehlgeschlagen. Aktualisiere deine Karte, um weiter zu diktieren.",
+      "none": "Kein aktives Abo. Wähle eines, um mit dem Diktieren zu beginnen.",
+      "canceled": "Dein Abo ist beendet. Wähle eines, um wieder zu diktieren.",
+      "unknown": "Öffne dein Konto, um dein Abo zu sehen."
+    },
+    "scene": {
+      "question": "Diesen Computer freigeben?",
+      "thisComputer": "Dieser Computer",
+      "authorize": "Freigeben",
+      "linked": "Computer verbunden"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Schlüssel bestätigt",
       "card": "API-Schlüssel",
       "waiting": "Warte auf deinen Schlüssel"
+    },
+    "signIn": {
+      "title": "Bei Parler Cloud anmelden",
+      "subtitle": "Kein Schlüssel nötig: Dein Browser öffnet sich, du meldest dich an, und dieser Computer wird mit deinem Konto verbunden."
     },
     "permissions": {
       "title": "Lass Parler hören und tippen",
@@ -159,6 +209,10 @@
     "timeout": "{provider} hat zu lange für die Antwort gebraucht.",
     "rejected": "{provider} hat einen Fehler gemeldet ({status}): {message}",
     "invalidResponse": "{provider} hat eine unerwartete Antwort geschickt.",
+    "signedOut": "Dieser Computer ist nicht bei {provider} angemeldet. Melde dich an, um weiter zu diktieren.",
+    "subscriptionRequired": "Dein Abo für {provider} ist nicht aktiv. Wähle ein Abo, um weiter zu diktieren.",
+    "fairUseDay": "Du hast das Tageslimit für faire Nutzung bei {provider} erreicht. Ab {time} Uhr kannst du wieder diktieren.",
+    "fairUseMonth": "Du hast das Monatslimit für faire Nutzung bei {provider} erreicht. Ab dem {date} kannst du wieder diktieren.",
     "microphone": "Das Mikrofon ließ sich nicht verwenden: {detail}",
     "needsAccessibility": "Parler braucht Zugriff auf die Bedienungshilfen, um für dich zu tippen. Dein Text liegt in der Zwischenablage: Füge ihn mit ⌘V ein.",
     "noClipboard": "Auf diesem System ist keine Zwischenablage verfügbar.",
@@ -180,6 +234,10 @@
     "timeout": "Antwort zu langsam",
     "rejected": "Fehler beim Dienst",
     "invalidResponse": "Fehler beim Dienst",
+    "signedOut": "Nicht angemeldet",
+    "subscriptionRequired": "Abo inaktiv",
+    "fairUseDay": "Tageslimit erreicht",
+    "fairUseMonth": "Monatslimit erreicht",
     "microphone": "Mikrofon nicht verfügbar"
   },
   "settings": {

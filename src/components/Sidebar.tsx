@@ -1,6 +1,7 @@
 import { BookA, History, House, Settings2, type LucideIcon } from "lucide-react";
 import { useT } from "../i18n/context";
-import { modelFor } from "../lib/api";
+import { CLOUD, modelFor } from "../lib/api";
+import { needsPlan } from "../lib/cloud";
 import { lookOf } from "../lib/look";
 import { useKeycaps } from "./useKeycaps";
 import { useParler } from "../state";
@@ -23,17 +24,19 @@ export function Sidebar({
   onNavigate: (page: Page) => void;
 }) {
   const { t } = useT();
-  const { info, settings, status, provider } = useParler();
+  const { info, settings, status, provider, cloud } = useParler();
   const toKeys = useKeycaps();
   const mac = info.platform === "macos";
 
   const missingKey = (provider?.requiresApiKey ?? false) && !settings.apiKeys[settings.provider]?.trim();
+  const onCloud = settings.provider === CLOUD;
+  const planMissing = onCloud && cloud.account !== null && needsPlan(cloud.account);
   const [tone, label]: [DotTone, string] =
     status.state === "recording"
       ? ["listening", t("status.listening")]
       : status.state === "transcribing"
         ? ["busy", t("status.writing")]
-        : status.problem || missingKey
+        : status.problem || missingKey || planMissing
           ? ["attention", t("status.attention")]
           : ["ready", t("status.ready")];
   const look = lookOf(settings.provider);
@@ -85,7 +88,8 @@ export function Sidebar({
           <span className="min-w-0">
             <span className="block text-[12.5px] font-medium text-text">{provider?.label}</span>
             <span className="block truncate font-mono text-[10.5px] text-text-3">
-              {provider ? modelFor(settings, provider) : ""}
+              {/* Parler Cloud picks its model: the account says more. */}
+              {onCloud ? (cloud.account?.email ?? "") : provider ? modelFor(settings, provider) : ""}
             </span>
           </span>
         </span>

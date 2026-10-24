@@ -48,8 +48,12 @@ pub struct Settings {
     /// Set once the first-run setup is done.
     pub onboarded: bool,
     pub provider: String,
-    /// API key per provider id.
+    /// API key per provider id. Parler Cloud's is the device token from
+    /// signing in, which only the backend writes.
     pub api_keys: HashMap<String, String>,
+    /// The service in use before Parler Cloud was picked, to go back to on
+    /// signing out. Kept by the backend.
+    pub provider_before_cloud: Option<String>,
     /// Model per provider id; a provider without one uses its default.
     pub models: HashMap<String, String>,
     /// Base URL of the custom provider, the only editable one.
@@ -85,6 +89,7 @@ impl Default for Settings {
             onboarded: false,
             provider: "groq".to_string(),
             api_keys: HashMap::new(),
+            provider_before_cloud: None,
             models: HashMap::new(),
             custom_base_url: crate::providers::DEFAULT_CUSTOM_BASE_URL.to_string(),
             language: "auto".to_string(),
@@ -113,6 +118,7 @@ impl fmt::Debug for Settings {
             .field("onboarded", &self.onboarded)
             .field("provider", &self.provider)
             .field("api_keys_for", &keys)
+            .field("provider_before_cloud", &self.provider_before_cloud)
             .field("models", &self.models)
             .field("custom_base_url", &self.custom_base_url)
             .field("language", &self.language)

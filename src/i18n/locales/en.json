@@ -5,6 +5,7 @@
   "common": {
     "continue": "Continue",
     "back": "Back",
+    "cancel": "Cancel",
     "copy": "Copy",
     "copied": "Copied",
     "delete": "Delete",
@@ -31,11 +32,56 @@
   },
   "providers": {
     "recommended": "Recommended",
+    "cloudBadge": "3 days free",
     "customName": "Your server",
+    "cloud": "No API key: sign in and dictate",
     "groq": "Very fast · free sign-up",
     "openai": "Very accurate · GPT-4o Transcribe",
     "fireworks": "Fast and affordable Whisper v3",
     "custom": "Your OpenAI-compatible server"
+  },
+  "cloud": {
+    "price": "Free for 3 days, then €8 a month or €49 a year, excluding VAT.",
+    "step1": "Sign in with your email address",
+    "step2": "Start your free trial",
+    "step3": "Authorize this computer",
+    "start": "Continue in the browser",
+    "checkCode": "Check that your browser shows this code",
+    "waiting": "Waiting for your approval in the browser…",
+    "reopen": "Open the page again",
+    "connected": "Connected as {email}",
+    "denied": "This computer wasn't authorized. You can try again.",
+    "expired": "The code has expired. Try again to get a new one.",
+    "loading": "Loading your account…",
+    "account": "Account",
+    "usage": "This month",
+    "usageOf": "{used} of {limit}",
+    "fairUse": "Fair use: up to {day} a day and {month} a month.",
+    "manage": "Manage subscription",
+    "choosePlan": "Choose a plan",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "plan": {
+      "monthly": "Monthly plan",
+      "yearly": "Yearly plan",
+      "other": "Your plan"
+    },
+    "status": {
+      "trial": "Free trial, ends {when}",
+      "trialOpen": "Free trial",
+      "renews": "{plan}, renews on {date}",
+      "cancels": "{plan}, ends on {date}",
+      "pastDue": "Payment failed. Update your card to keep dictating.",
+      "none": "No active plan. Choose one to start dictating.",
+      "canceled": "Your plan has ended. Choose one to dictate again.",
+      "unknown": "Open your account to see your plan."
+    },
+    "scene": {
+      "question": "Authorize this computer?",
+      "thisComputer": "This computer",
+      "authorize": "Authorize",
+      "linked": "Computer linked"
+    }
   },
   "onboarding": {
     "welcome": {
@@ -66,6 +112,10 @@
       "valid": "Key verified",
       "card": "API key",
       "waiting": "Waiting for your key"
+    },
+    "signIn": {
+      "title": "Sign in to Parler Cloud",
+      "subtitle": "No key to create: your browser opens, you sign in, and this computer is linked to your account."
     },
     "permissions": {
       "title": "Let Parler hear and type",
@@ -159,6 +209,10 @@
     "timeout": "{provider} took too long to answer.",
     "rejected": "{provider} returned an error ({status}): {message}",
     "invalidResponse": "{provider} sent an unexpected answer.",
+    "signedOut": "This computer isn't signed in to {provider}. Sign in to keep dictating.",
+    "subscriptionRequired": "Your {provider} plan isn't active. Choose a plan to keep dictating.",
+    "fairUseDay": "You've reached today's fair use limit for {provider}. You can dictate again from {time}.",
+    "fairUseMonth": "You've reached this month's fair use limit for {provider}. You can dictate again from {date}.",
     "microphone": "The microphone couldn't be used: {detail}",
     "needsAccessibility": "Parler needs Accessibility access to type for you. Your text is on the clipboard: paste it with ⌘V.",
     "noClipboard": "The clipboard isn't available on this system.",
@@ -180,6 +234,10 @@
     "timeout": "Too slow to answer",
     "rejected": "Service error",
     "invalidResponse": "Service error",
+    "signedOut": "Not signed in",
+    "subscriptionRequired": "Plan inactive",
+    "fairUseDay": "Daily limit reached",
+    "fairUseMonth": "Monthly limit reached",
     "microphone": "Microphone unavailable"
   },
   "settings": {

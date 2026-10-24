@@ -1,8 +1,9 @@
 //! Speech-to-text providers. Every one speaks the OpenAI audio API: a
 //! multipart `POST {base_url}/audio/transcriptions` answered with
-//! `{"text": "..."}`. That covers Groq, OpenAI, Fireworks and self-hosted
-//! Whisper servers (speaches, LocalAI, ...).
+//! `{"text": "..."}`. That covers Parler Cloud, Groq, OpenAI, Fireworks and
+//! self-hosted Whisper servers (speaches, LocalAI, ...).
 
+use crate::cloud;
 use crate::settings::Settings;
 use serde::{Deserialize, Serialize};
 use std::fmt;
@@ -39,6 +40,18 @@ pub struct Provider {
 }
 
 pub const PROVIDERS: &[Provider] = &[
+    // Its key is the device token from signing in (see `cloud`), and its
+    // address follows `PARLER_CLOUD_URL`: read it through `all()` or
+    // `Request`, not here.
+    Provider {
+        id: cloud::ID,
+        label: cloud::LABEL,
+        base_url: "https://cloud.parler.synapsr.io/v1",
+        default_model: "whisper-large-v3-turbo",
+        models: &[],
+        requires_api_key: true,
+        api_key_url: None,
+    },
     Provider {
         id: "groq",
         label: "Groq",
@@ -81,6 +94,34 @@ pub fn find(id: &str) -> Option<&'static Provider> {
     PROVIDERS.iter().find(|p| p.id == id)
 }
 
+/// The providers as the interface shows them, Parler Cloud at its current
+/// address.
+pub fn all() -> Vec<Provider> {
+    PROVIDERS
+        .iter()
+        .map(|p| Provider {
+            base_url: if p.id == cloud::ID {
+                cloud::api_url()
+            } else {
+                p.base_url
+            },
+            ..p.clone()
+        })
+        .collect()
+}
+
+/// The HTTP client every request goes through.
+pub(crate) fn http_client(timeout: Duration) -> reqwest::Result<reqwest::Client> {
+    reqwest::Client::builder()
+        .timeout(timeout)
+        .user_agent(concat!(
+            "Parler/",
+            env!("CARGO_PKG_VERSION"),
+            " (+https://github.com/Synapsr/Parler)"
+        ))
+        .build()
+}
+
 /// Why a transcription failed, in terms the interface can explain.
 #[derive(Serialize, Debug, Clone, PartialEq)]
 #[serde(tag = "kind", rename_all = "camelCase")]
@@ -112,6 +153,25 @@ pub enum TranscribeError {
     InvalidResponse {
         provider: String,
     },
+    /// Parler Cloud: this computer has no device token, or the service no
+    /// longer accepts it.
+    SignedOut {
+        provider: String,
+    },
+    /// Parler Cloud: no trial or active plan.
+    SubscriptionRequired {
+        provider: String,
+        #[serde(rename = "manageUrl")]
+        manage_url: String,
+    },
+    /// Parler Cloud: the fair use limit for the day (UTC) is reached.
+    FairUseDay {
+        provider: String,
+    },
+    /// Parler Cloud: the fair use limit for the month (UTC) is reached.
+    FairUseMonth {
+        provider: String,
+    },
 }
 
 impl fmt::Display for TranscribeError {
@@ -132,6 +192,14 @@ impl fmt::Display for TranscribeError {
             Self::InvalidResponse { provider } => {
                 write!(f, "{provider} returned an unexpected response")
             }
+            Self::SignedOut { provider } => write!(f, "{provider}: this computer is signed out"),
+            Self::SubscriptionRequired { provider, .. } => {
+                write!(f, "{provider}: no active plan")
+            }
+            Self::FairUseDay { provider } => write!(f, "{provider}: daily fair use limit reached"),
+            Self::FairUseMonth { provider } => {
+                write!(f, "{provider}: monthly fair use limit reached")
+            }
         }
     }
 }
@@ -140,6 +208,7 @@ impl fmt::Display for TranscribeError {
 /// sent so a misconfiguration fails at once.
 #[derive(Debug)]
 pub struct Request {
+    provider_id: &'static str,
     label: String,
     endpoint: String,
     api_key: String,
@@ -158,20 +227,25 @@ impl Request {
             .get(provider.id)
             .map(|key| key.trim().to_string())
             .unwrap_or_default();
+        if provider.id == cloud::ID && api_key.is_empty() {
+            return Err(TranscribeError::SignedOut { provider: label });
+        }
         if provider.requires_api_key && api_key.is_empty() {
             return Err(TranscribeError::MissingApiKey { provider: label });
         }
 
+        // Parler Cloud picks its model itself.
         let model = settings
             .models
             .get(provider.id)
             .map(|model| model.trim())
-            .filter(|model| !model.is_empty())
+            .filter(|model| !model.is_empty() && provider.id != cloud::ID)
             .unwrap_or(provider.default_model)
             .to_string();
 
         let base_url = match (provider.id, model.as_str()) {
             (CUSTOM, _) => settings.custom_base_url.trim(),
+            (cloud::ID, _) => cloud::api_url(),
             ("fireworks", "whisper-v3") => FIREWORKS_V3_BASE_URL,
             _ => provider.base_url,
         };
@@ -185,6 +259,7 @@ impl Request {
         };
 
         Ok(Self {
+            provider_id: provider.id,
             label,
             endpoint: format!("{}/audio/transcriptions", base_url.trim_end_matches('/')),
             api_key,
@@ -251,17 +326,9 @@ pub async fn transcribe(request: &Request, wav: Vec<u8>) -> Result<String, Trans
         form = form.text("prompt", prompt.clone());
     }
 
-    let client = reqwest::Client::builder()
-        .timeout(REQUEST_TIMEOUT)
-        .user_agent(concat!(
-            "Parler/",
-            env!("CARGO_PKG_VERSION"),
-            " (+https://github.com/Synapsr/Parler)"
-        ))
-        .build()
-        .map_err(|_| TranscribeError::Offline {
-            provider: provider.clone(),
-        })?;
+    let client = http_client(REQUEST_TIMEOUT).map_err(|_| TranscribeError::Offline {
+        provider: provider.clone(),
+    })?;
     let mut http = client.post(&request.endpoint).multipart(form);
     if !request.api_key.is_empty() {
         http = http.bearer_auth(&request.api_key);
@@ -284,15 +351,12 @@ pub async fn transcribe(request: &Request, wav: Vec<u8>) -> Result<String, Trans
     if !status.is_success() {
         let body = response.text().await.unwrap_or_default();
         log::warn!("{} answered {status}: {body}", request.label);
-        return Err(match status.as_u16() {
-            401 | 403 => TranscribeError::Unauthorized { provider },
-            429 => TranscribeError::RateLimited { provider },
-            code => TranscribeError::Rejected {
-                provider,
-                status: code,
-                message: api_error_message(&body),
-            },
-        });
+        return Err(http_error(
+            request.provider_id,
+            provider,
+            status.as_u16(),
+            &body,
+        ));
     }
 
     let parsed: TranscriptionResponse = response
@@ -302,9 +366,40 @@ pub async fn transcribe(request: &Request, wav: Vec<u8>) -> Result<String, Trans
     Ok(parsed.text.trim().to_string())
 }
 
+/// What a refused request means. Parler Cloud's own codes only count from
+/// Parler Cloud: another service's 402 or 429 keeps its usual meaning.
+fn http_error(provider_id: &str, provider: String, status: u16, body: &str) -> TranscribeError {
+    let cloud = provider_id == cloud::ID;
+    match (status, api_error_code(body).as_deref()) {
+        (401, _) if cloud => TranscribeError::SignedOut { provider },
+        (402, _) if cloud => TranscribeError::SubscriptionRequired {
+            provider,
+            manage_url: cloud::manage_url(),
+        },
+        (429, Some("daily_limit")) if cloud => TranscribeError::FairUseDay { provider },
+        (429, Some("monthly_limit")) if cloud => TranscribeError::FairUseMonth { provider },
+        (401 | 403, _) => TranscribeError::Unauthorized { provider },
+        (429, _) => TranscribeError::RateLimited { provider },
+        (status, _) => TranscribeError::Rejected {
+            provider,
+            status,
+            message: api_error_message(body),
+        },
+    }
+}
+
+/// The machine-readable `{"error": {"code": ...}}` of an OpenAI-style error.
+fn api_error_code(body: &str) -> Option<String> {
+    serde_json::from_str::<serde_json::Value>(body)
+        .ok()?
+        .pointer("/error/code")?
+        .as_str()
+        .map(str::to_string)
+}
+
 /// OpenAI-style errors carry `{"error": {"message": ...}}`; anything else is
 /// shown as-is, cut short.
-fn api_error_message(body: &str) -> String {
+pub(crate) fn api_error_message(body: &str) -> String {
     serde_json::from_str::<serde_json::Value>(body)
         .ok()
         .and_then(|json| {
@@ -316,7 +411,7 @@ fn api_error_message(body: &str) -> String {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn settings(provider: &str) -> Settings {
@@ -382,7 +477,10 @@ mod tests {
 
     /// Serves one HTTP response on a local port and hands back the raw
     /// request it received.
-    fn one_shot_server(status: &str, body: &str) -> (String, std::thread::JoinHandle<String>) {
+    pub(crate) fn one_shot_server(
+        status: &str,
+        body: &str,
+    ) -> (String, std::thread::JoinHandle<String>) {
         use std::io::{Read, Write};
         let response = format!(
             "HTTP/1.1 {status}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
@@ -475,6 +573,156 @@ mod tests {
                 provider: "Custom".to_string()
             }
         );
+    }
+
+    #[test]
+    fn parler_cloud_needs_a_sign_in() {
+        let mut s = settings(cloud::ID);
+        assert_eq!(
+            Request::from_settings(&s).unwrap_err(),
+            TranscribeError::SignedOut {
+                provider: "Parler Cloud".to_string()
+            }
+        );
+
+        s.api_keys.insert(cloud::ID.into(), "pc_token".into());
+        // A model left over from another setup is not sent.
+        s.models.insert(cloud::ID.into(), "whisper-1".into());
+        let request = Request::from_settings(&s).unwrap();
+        assert_eq!(
+            request.endpoint,
+            format!("{}/audio/transcriptions", cloud::api_url())
+        );
+        assert_eq!(request.model, "whisper-large-v3-turbo");
+        assert_eq!(request.api_key, "pc_token");
+    }
+
+    #[test]
+    fn parler_cloud_is_listed_at_its_address() {
+        let listed = all();
+        assert_eq!(listed[0].id, cloud::ID);
+        assert_eq!(listed[0].base_url, cloud::api_url());
+    }
+
+    fn cloud_request(base_url: String) -> Request {
+        Request {
+            provider_id: cloud::ID,
+            label: "Parler Cloud".to_string(),
+            endpoint: format!("{base_url}/audio/transcriptions"),
+            api_key: "pc_token".to_string(),
+            model: "whisper-large-v3-turbo".to_string(),
+            language: None,
+            prompt: None,
+        }
+    }
+
+    fn openai_error(code: &str) -> String {
+        format!(r#"{{"error":{{"message":"refused","type":"parler","code":"{code}"}}}}"#)
+    }
+
+    #[test]
+    fn parler_cloud_errors_explain_the_plan() {
+        let provider = || "Parler Cloud".to_string();
+        let cases = [
+            (
+                "401 Unauthorized",
+                "invalid_token",
+                TranscribeError::SignedOut {
+                    provider: provider(),
+                },
+            ),
+            (
+                "402 Payment Required",
+                "subscription_required",
+                TranscribeError::SubscriptionRequired {
+                    provider: provider(),
+                    manage_url: cloud::manage_url(),
+                },
+            ),
+            (
+                "429 Too Many Requests",
+                "daily_limit",
+                TranscribeError::FairUseDay {
+                    provider: provider(),
+                },
+            ),
+            (
+                "429 Too Many Requests",
+                "monthly_limit",
+                TranscribeError::FairUseMonth {
+                    provider: provider(),
+                },
+            ),
+            (
+                "429 Too Many Requests",
+                "rate_limited",
+                TranscribeError::RateLimited {
+                    provider: provider(),
+                },
+            ),
+        ];
+        for (status, code, expected) in cases {
+            let (base_url, server) = one_shot_server(status, &openai_error(code));
+            let request = cloud_request(base_url);
+            let result = tauri::async_runtime::block_on(transcribe(&request, Vec::new()));
+            let raw = server.join().unwrap();
+            assert!(raw
+                .to_ascii_lowercase()
+                .contains("authorization: bearer pc_token"));
+            assert_eq!(result.unwrap_err(), expected, "{code}");
+        }
+    }
+
+    #[test]
+    fn other_services_keep_their_usual_errors() {
+        assert_eq!(
+            http_error("groq", "Groq".into(), 429, &openai_error("daily_limit")),
+            TranscribeError::RateLimited {
+                provider: "Groq".into()
+            }
+        );
+        assert_eq!(
+            http_error(
+                "openai",
+                "OpenAI".into(),
+                401,
+                &openai_error("invalid_token")
+            ),
+            TranscribeError::Unauthorized {
+                provider: "OpenAI".into()
+            }
+        );
+        assert!(matches!(
+            http_error(
+                "custom",
+                "Custom".into(),
+                402,
+                &openai_error("subscription_required")
+            ),
+            TranscribeError::Rejected { status: 402, .. }
+        ));
+        assert!(matches!(
+            http_error(
+                cloud::ID,
+                "Parler Cloud".into(),
+                503,
+                &openai_error("upstream_error")
+            ),
+            TranscribeError::Rejected { status: 503, .. }
+        ));
+    }
+
+    #[test]
+    fn subscription_errors_carry_the_plan_page() {
+        let error = http_error(
+            cloud::ID,
+            "Parler Cloud".into(),
+            402,
+            &openai_error("subscription_required"),
+        );
+        let json = serde_json::to_value(&error).unwrap();
+        assert_eq!(json["kind"], "subscriptionRequired");
+        assert_eq!(json["manageUrl"], format!("{}/account", cloud::base_url()));
     }
 
     #[test]
