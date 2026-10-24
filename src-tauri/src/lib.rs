@@ -67,6 +67,18 @@ pub fn run() {
     builder
         .setup(|app| {
             let handle = app.handle().clone();
+            // Launch at login names whichever copy of Parler turned it on (a
+            // dev build, an older download): the installed app takes it back.
+            #[cfg(not(debug_assertions))]
+            {
+                use tauri_plugin_autostart::ManagerExt;
+                let launcher = app.autolaunch();
+                if launcher.is_enabled().unwrap_or(false) {
+                    if let Err(e) = launcher.enable() {
+                        log::warn!("Couldn't refresh launch at login: {e}");
+                    }
+                }
+            }
             if cloud::base_url() != cloud::DEFAULT_URL {
                 log::info!("Parler Cloud at {}", cloud::base_url());
             }
