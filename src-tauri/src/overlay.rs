@@ -12,7 +12,7 @@ use std::time::Duration;
 use tauri::{AppHandle, Emitter, Manager, PhysicalPosition, WebviewUrl};
 
 pub const LABEL: &str = "overlay";
-const WIDTH: f64 = 240.0;
+const WIDTH: f64 = 280.0;
 const HEIGHT: f64 = 72.0;
 /// Logical points between the pill and the bottom of the work area.
 const BOTTOM_MARGIN: f64 = 40.0;
@@ -32,6 +32,22 @@ pub enum Phase {
     Empty,
     Error,
     Hidden,
+}
+
+/// A short message on the pill while the dictation goes on.
+#[derive(Serialize, Clone, Copy, Debug, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+pub enum Hint {
+    /// Esc was pressed once: once more cancels.
+    EscapeAgain,
+}
+
+#[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
+struct HintEvent {
+    hint: Hint,
+    duration_ms: u64,
+    sounds: bool,
 }
 
 #[derive(Serialize, Clone)]
@@ -134,6 +150,21 @@ fn show_with(app: &AppHandle, phase: Phase, sounds: bool, problem: Option<Proble
             },
         );
     });
+}
+
+/// Puts `hint` on the pill for `duration`, then the pill goes back to what
+/// it was showing.
+pub fn hint(app: &AppHandle, hint: Hint, duration: Duration, sounds: bool) {
+    if let Some(window) = app.get_webview_window(LABEL) {
+        let _ = window.emit(
+            "parler://overlay-hint",
+            HintEvent {
+                hint,
+                duration_ms: duration.as_millis() as u64,
+                sounds,
+            },
+        );
+    }
 }
 
 /// Fades the pill out, then hides its window.

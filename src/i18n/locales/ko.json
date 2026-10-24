@@ -189,7 +189,7 @@
       "copy": "텍스트가 클립보드에 복사돼요."
     },
     "listening": "듣는 중…",
-    "listeningHint": "Esc 키로 취소",
+    "listeningHint": "Esc 키를 두 번 눌러 취소",
     "writing": "입력 중…",
     "stats": {
       "words": "받아쓴 단어",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "요금제 비활성",
     "fairUseDay": "오늘 한도 도달",
     "fairUseMonth": "이번 달 한도 도달",
-    "microphone": "마이크 사용 불가"
+    "microphone": "마이크 사용 불가",
+    "escapeAgain": "Esc 키를 한 번 더 눌러 취소"
   },
   "settings": {
     "title": "설정",
@@ -348,7 +349,20 @@
       "title": "정보",
       "version": "버전 {version}",
       "source": "소스 코드",
-      "credits": "MIT 라이선스로 공개된 무료 오픈 소스 소프트웨어예요. 마이크 입력과 데스크톱 연동의 일부는 Handy에서 가져왔어요."
+      "credits": "MIT 라이선스로 공개된 무료 오픈 소스 소프트웨어예요. 마이크 입력과 데스크톱 연동의 일부는 Handy에서 가져왔어요.",
+      "log": {
+        "open": "문제가 있나요? 로그 보내기",
+        "placeholder": "무슨 일이 있었나요? (선택 사항)",
+        "placeholderEmail": "무슨 일이 있었나요? 답변을 받으려면 이메일 주소도 적어 주세요.",
+        "privacy": "Parler 버전, 시스템 정보, 기술 로그를 보내요. 받아쓴 내용이나 API 키는 절대 보내지 않아요.",
+        "replyTo": "{email} 주소로 답변해 드릴게요.",
+        "send": "보내기",
+        "sending": "보내는 중…",
+        "sent": "보냈어요, 고마워요. 접수 번호: {reference}",
+        "failed": "보내지 못했어요. 인터넷 연결을 확인하거나, 파일을 이메일에 첨부해 {email} 주소로 보내 주세요.",
+        "tooMany": "최근 1시간 동안 이미 로그를 여러 번 보냈어요. 나중에 다시 시도하세요.",
+        "showFile": "파일 보기"
+      }
     }
   },
   "updates": {

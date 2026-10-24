@@ -29,4 +29,5 @@ export const sounds = {
   start: () => chime([740, 988]),
   stop: () => chime([988, 740]),
   error: () => chime([330, 247], 0.06),
+  hint: () => chime([660], 0.045),
 };

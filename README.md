@@ -39,7 +39,7 @@ Looking for an open-source alternative to Wispr Flow, SuperWhisper or your syste
 2. **Let go.** Parler trims the silence and sends only your speech to the service you picked.
 3. **Done.** The text is typed where your cursor is, and your clipboard is put back the way it was.
 
-A quick tap instead of a hold keeps listening until your next press. You can click and switch windows while you speak: the text goes where your cursor is when you let go. <kbd>Esc</kbd> cancels. You can change the shortcut in Settings.
+A quick tap instead of a hold keeps listening until your next press. You can click and switch windows while you speak: the text goes where your cursor is when you let go. Press <kbd>Esc</kbd> twice to cancel. You can change the shortcut in Settings.
 
 ## Features
 
@@ -143,6 +143,7 @@ On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequ
 - Your transcripts (the last 5,000) stay on your computer so you can search and copy them again. Clear them anytime.
 - No analytics, no telemetry. Your audio goes only to the service you picked: your provider directly, or Parler Cloud if you chose it. Parler Cloud keeps the audio in memory for the length of the request, transcribes it with Groq, and stores neither the audio nor the text.
 - Parler checks GitHub for new versions and downloads them from there (packagers can turn that off with `PARLER_DISABLE_UPDATER=1`).
+- **Settings → About → Send the log** sends support Parler's version, your system and its technical log, only when you ask. Parler Cloud forwards it by email and keeps nothing.
 - What a provider does with your audio is set by its own policy. With your own server, nothing leaves your network.
 
 ## Languages

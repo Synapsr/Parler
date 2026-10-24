@@ -189,7 +189,7 @@
       "copy": "テキストはクリップボードにコピーされます。"
     },
     "listening": "聞き取り中…",
-    "listeningHint": "Esc でキャンセル",
+    "listeningHint": "Esc を2回押してキャンセル",
     "writing": "入力中…",
     "stats": {
       "words": "入力した語数",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "プランが無効",
     "fairUseDay": "本日の上限に到達",
     "fairUseMonth": "今月の上限に到達",
-    "microphone": "マイクが使えません"
+    "microphone": "マイクが使えません",
+    "escapeAgain": "もう一度 Esc でキャンセル"
   },
   "settings": {
     "title": "設定",
@@ -348,7 +349,20 @@
       "title": "情報",
       "version": "バージョン {version}",
       "source": "ソースコード",
-      "credits": "MIT ライセンスで公開されている、無料のオープンソースソフトウェアです。マイク入力とデスクトップ連携の一部は Handy に由来します。"
+      "credits": "MIT ライセンスで公開されている、無料のオープンソースソフトウェアです。マイク入力とデスクトップ連携の一部は Handy に由来します。",
+      "log": {
+        "open": "問題がありますか？ログを送信",
+        "placeholder": "何が起きましたか？（任意）",
+        "placeholderEmail": "何が起きましたか？返信をご希望の場合は、メールアドレスも入力してください。",
+        "privacy": "送信されるのは、Parler のバージョン、お使いのシステム、技術ログです。音声入力の内容や API キーは含まれません。",
+        "replyTo": "返信は {email} にお送りします。",
+        "send": "送信",
+        "sending": "送信中…",
+        "sent": "送信しました。ありがとうございます。受付番号は {reference} です。",
+        "failed": "送信できませんでした。接続を確認するか、ファイルをメールに添付して {email} に送ってください。",
+        "tooMany": "この1時間に、すでに何件かのログが送信されています。しばらくしてから、もう一度お試しください。",
+        "showFile": "ファイルを表示"
+      }
     }
   },
   "updates": {

@@ -212,6 +212,8 @@ const UPDATE_STATES: Record<string, object> = {
   disabled: { state: "disabled" },
 };
 const updateMode = params.get("update");
+// `log=offline|tooMany|failed` makes sending the log to support fail that way.
+const logMode = params.get("log");
 let polls = 0;
 const settingsChanged = () => setTimeout(() => emit("parler://settings", settings), 0);
 
@@ -326,6 +328,12 @@ mockIPC(
         }, 250);
         return null;
       }
+      case "send_diagnostics":
+        return new Promise((resolve, reject) =>
+          setTimeout(() => (logMode ? reject(logMode) : resolve("PRL-7K2M9Q")), 900),
+        );
+      case "reveal_log":
+        return null;
       case "github_stars":
         // `stars=0` shows the scene without a count, as offline.
         return params.get("stars") === "0" ? null : 1284;
@@ -357,6 +365,9 @@ if (view === "overlay") {
     // `error=subscription|fairday|fairmonth|signedout` shows a Parler Cloud problem.
     const error = CLOUD_ERRORS[params.get("error") ?? ""] ?? { kind: "unauthorized", provider: "Groq" };
     await emit("parler://overlay", { phase, sounds: false, problem: phase === "error" ? { kind: "transcription", error } : null });
+    // `hint=escapeAgain` shows what a first Esc says.
+    const hint = params.get("hint");
+    if (hint) setTimeout(() => emit("parler://overlay-hint", { hint, durationMs: 60_000, sounds: false }), 400);
     let t = 0;
     setInterval(() => {
       t += 1;

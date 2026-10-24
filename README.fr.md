@@ -39,7 +39,7 @@ Vous cherchez une alternative open source à Wispr Flow, SuperWhisper ou à la d
 2. **Relâchez.** Parler retire les silences et n'envoie que votre voix au service choisi.
 3. **C'est écrit.** Le texte apparaît là où se trouve votre curseur, et votre presse-papiers est remis comme il était.
 
-Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. Vous pouvez cliquer et changer de fenêtre pendant que vous parlez : le texte s'écrit là où se trouve votre curseur quand vous relâchez. <kbd>Échap</kbd> annule. Le raccourci se change dans les réglages.
+Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. Vous pouvez cliquer et changer de fenêtre pendant que vous parlez : le texte s'écrit là où se trouve votre curseur quand vous relâchez. Appuyez deux fois sur <kbd>Échap</kbd> pour annuler. Le raccourci se change dans les réglages.
 
 ## Fonctionnalités
 
@@ -143,6 +143,7 @@ Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/pr
 - Vos transcriptions (les 5 000 dernières) restent sur votre ordinateur pour pouvoir les retrouver et les recopier. Effacez-les quand vous voulez.
 - Ni statistiques, ni télémétrie. Votre audio ne va qu'au service choisi : votre fournisseur directement, ou Parler Cloud si vous l'avez choisi. Parler Cloud garde l'audio en mémoire le temps de la requête, le fait transcrire par Groq, et ne conserve ni l'audio ni le texte.
 - Parler cherche les nouvelles versions sur GitHub et les télécharge depuis GitHub (les empaqueteurs peuvent le désactiver avec `PARLER_DISABLE_UPDATER=1`).
+- **Réglages → À propos → Envoyer le journal** envoie au support la version de Parler, votre système et son journal technique, seulement quand vous le demandez. Parler Cloud le transmet par e-mail et ne garde rien.
 - Ce que le service fait de votre audio dépend de sa propre politique. Avec votre propre serveur, rien ne sort de votre réseau.
 
 ## Langues

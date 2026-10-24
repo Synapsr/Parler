@@ -189,7 +189,7 @@
       "copy": "De tekst wordt naar je klembord gekopieerd."
     },
     "listening": "Ik luister…",
-    "listeningHint": "Esc om te annuleren",
+    "listeningHint": "Twee keer Esc om te annuleren",
     "writing": "Ik schrijf…",
     "stats": {
       "words": "Gedicteerde woorden",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "Abonnement inactief",
     "fairUseDay": "Daglimiet bereikt",
     "fairUseMonth": "Maandlimiet bereikt",
-    "microphone": "Microfoon werkt niet"
+    "microphone": "Microfoon werkt niet",
+    "escapeAgain": "Nog een Esc om te annuleren"
   },
   "settings": {
     "title": "Instellingen",
@@ -348,7 +349,20 @@
       "title": "Over Parler",
       "version": "Versie {version}",
       "source": "Broncode",
-      "credits": "Gratis en open source onder de MIT-licentie. De microfoonopname en delen van de desktopintegratie komen uit Handy."
+      "credits": "Gratis en open source onder de MIT-licentie. De microfoonopname en delen van de desktopintegratie komen uit Handy.",
+      "log": {
+        "open": "Gaat er iets mis? Stuur het logbestand",
+        "placeholder": "Wat is er gebeurd? (optioneel)",
+        "placeholderEmail": "Wat is er gebeurd? Voeg je e-mailadres toe als je een antwoord wilt.",
+        "privacy": "Verstuurt de versie van Parler, gegevens over je systeem en het technische logbestand. Nooit je dictaten of sleutels.",
+        "replyTo": "Je krijgt antwoord op {email}.",
+        "send": "Versturen",
+        "sending": "Versturen…",
+        "sent": "Verstuurd, dank je. Referentie: {reference}.",
+        "failed": "Versturen is mislukt. Controleer je verbinding, of mail het bestand als bijlage naar {email}.",
+        "tooMany": "Er zijn dit uur al meerdere logbestanden verstuurd. Probeer het later opnieuw.",
+        "showFile": "Toon het bestand"
+      }
     }
   },
   "updates": {

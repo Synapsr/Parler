@@ -189,7 +189,7 @@
       "copy": "Der Text landet in deiner Zwischenablage."
     },
     "listening": "Ich höre zu…",
-    "listeningHint": "Esc zum Abbrechen",
+    "listeningHint": "Zweimal Esc zum Abbrechen",
     "writing": "Ich schreibe…",
     "stats": {
       "words": "Diktierte Wörter",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "Abo inaktiv",
     "fairUseDay": "Tageslimit erreicht",
     "fairUseMonth": "Monatslimit erreicht",
-    "microphone": "Mikrofon nicht verfügbar"
+    "microphone": "Mikrofon nicht verfügbar",
+    "escapeAgain": "Erneut Esc zum Abbrechen"
   },
   "settings": {
     "title": "Einstellungen",
@@ -348,7 +349,20 @@
       "title": "Über Parler",
       "version": "Version {version}",
       "source": "Quellcode",
-      "credits": "Kostenlos und Open Source unter der MIT-Lizenz. Die Mikrofonaufnahme und Teile der Desktop-Integration stammen aus Handy."
+      "credits": "Kostenlos und Open Source unter der MIT-Lizenz. Die Mikrofonaufnahme und Teile der Desktop-Integration stammen aus Handy.",
+      "log": {
+        "open": "Ein Problem? Protokoll senden",
+        "placeholder": "Was ist passiert? (optional)",
+        "placeholderEmail": "Was ist passiert? Gib deine E-Mail-Adresse an, wenn du eine Antwort möchtest.",
+        "privacy": "Sendet die Version von Parler, Angaben zu deinem System und das technische Protokoll. Nie deine Diktate oder Schlüssel.",
+        "replyTo": "Unsere Antwort geht an {email}.",
+        "send": "Senden",
+        "sending": "Wird gesendet…",
+        "sent": "Gesendet, danke. Referenz: {reference}.",
+        "failed": "Senden fehlgeschlagen. Prüfe deine Verbindung oder hänge die Datei an eine E-Mail an {email}.",
+        "tooMany": "In dieser Stunde wurden schon mehrere Protokolle gesendet. Versuch es später noch mal.",
+        "showFile": "Datei anzeigen"
+      }
     }
   },
   "updates": {

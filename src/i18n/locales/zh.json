@@ -189,7 +189,7 @@
       "copy": "文字会复制到剪贴板。"
     },
     "listening": "正在聆听…",
-    "listeningHint": "按 Esc 取消",
+    "listeningHint": "按两次 Esc 取消",
     "writing": "正在输入…",
     "stats": {
       "words": "听写词数",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "方案未生效",
     "fairUseDay": "已达今日上限",
     "fairUseMonth": "已达本月上限",
-    "microphone": "麦克风不可用"
+    "microphone": "麦克风不可用",
+    "escapeAgain": "再按一次 Esc 取消"
   },
   "settings": {
     "title": "设置",
@@ -348,7 +349,20 @@
       "title": "关于",
       "version": "版本 {version}",
       "source": "源代码",
-      "credits": "基于 MIT 许可证的免费开源软件。麦克风采集和部分桌面集成功能来自 Handy。"
+      "credits": "基于 MIT 许可证的免费开源软件。麦克风采集和部分桌面集成功能来自 Handy。",
+      "log": {
+        "open": "遇到问题？发送日志",
+        "placeholder": "发生了什么？（可选）",
+        "placeholderEmail": "发生了什么？如需回复，请留下你的邮箱地址。",
+        "privacy": "将发送 Parler 的版本、你的系统信息和技术日志，绝不会包含你的听写内容或 API 密钥。",
+        "replyTo": "我们会通过 {email} 回复你。",
+        "send": "发送",
+        "sending": "正在发送…",
+        "sent": "已发送，谢谢！参考编号：{reference}",
+        "failed": "发送失败。请检查网络连接，或把文件附在邮件中发送至 {email}。",
+        "tooMany": "这一小时内已经发送了多份日志。请稍后再试。",
+        "showFile": "显示文件"
+      }
     }
   },
   "updates": {

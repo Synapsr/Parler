@@ -189,7 +189,7 @@
       "copy": "Metin panoya kopyalanır."
     },
     "listening": "Dinliyorum…",
-    "listeningHint": "İptal etmek için Esc",
+    "listeningHint": "İptal etmek için iki kez Esc",
     "writing": "Yazıyorum…",
     "stats": {
       "words": "Dikte edilen kelime",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "Plan etkin değil",
     "fairUseDay": "Günlük sınıra ulaşıldı",
     "fairUseMonth": "Aylık sınıra ulaşıldı",
-    "microphone": "Mikrofon kullanılamıyor"
+    "microphone": "Mikrofon kullanılamıyor",
+    "escapeAgain": "İptal için yeniden Esc"
   },
   "settings": {
     "title": "Ayarlar",
@@ -348,7 +349,20 @@
       "title": "Hakkında",
       "version": "Sürüm {version}",
       "source": "Kaynak kodu",
-      "credits": "MIT lisansıyla ücretsiz ve açık kaynak. Mikrofon kaydı ve masaüstü entegrasyonunun bir kısmı Handy projesinden gelir."
+      "credits": "MIT lisansıyla ücretsiz ve açık kaynak. Mikrofon kaydı ve masaüstü entegrasyonunun bir kısmı Handy projesinden gelir.",
+      "log": {
+        "open": "Bir sorun mu var? Günlüğü gönder",
+        "placeholder": "Ne oldu? (isteğe bağlı)",
+        "placeholderEmail": "Ne oldu? Yanıt almak isterseniz e-posta adresinizi ekleyin.",
+        "privacy": "Parler sürümünü, sistem bilgilerinizi ve teknik günlüğü gönderir. Dikteleriniz ve anahtarlarınız asla dahil edilmez.",
+        "replyTo": "{email} adresine yanıt vereceğiz.",
+        "send": "Gönder",
+        "sending": "Gönderiliyor…",
+        "sent": "Gönderildi, teşekkürler. Referans numaranız: {reference}.",
+        "failed": "Gönderilemedi. Bağlantınızı kontrol edin ya da dosyayı bir e-postaya ekleyip {email} adresine gönderin.",
+        "tooMany": "Son bir saatte günlük zaten birkaç kez gönderildi. Daha sonra yeniden deneyin.",
+        "showFile": "Dosyayı göster"
+      }
     }
   },
   "updates": {

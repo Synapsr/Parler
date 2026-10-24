@@ -17,6 +17,9 @@ export function Overlay() {
   const [shown, setShown] = useState<OverlayPhase>("connecting");
   const [levels, setLevels] = useState<number[]>(() => Array(BARS).fill(0));
   const [locale, setLocale] = useState<Locale>("en");
+  // A short message over the bars (Esc once more cancels), then gone.
+  const [hint, setHint] = useState<string | null>(null);
+  const hintTimer = useRef<number | undefined>(undefined);
   const previous = useRef<OverlayPhase>("hidden");
 
   useEffect(() => {
@@ -38,7 +41,17 @@ export function Overlay() {
         if (next.phase === "error") sounds.error();
       }
       if (next.phase !== "hidden") setShown(next.phase);
+      if (next.phase !== before) {
+        window.clearTimeout(hintTimer.current);
+        setHint(null);
+      }
       setEvent(next);
+    });
+    const hinted = events.overlayHint((next) => {
+      if (next.sounds) sounds.hint();
+      setHint(`overlay.${next.hint}`);
+      window.clearTimeout(hintTimer.current);
+      hintTimer.current = window.setTimeout(() => setHint(null), next.durationMs);
     });
     const level = events.level((value) => {
       setLevels((current) => [...current.slice(1), value]);
@@ -46,6 +59,8 @@ export function Overlay() {
     return () => {
       overlay.then((unlisten) => unlisten());
       level.then((unlisten) => unlisten());
+      hinted.then((unlisten) => unlisten());
+      window.clearTimeout(hintTimer.current);
     };
   }, []);
 
@@ -53,7 +68,7 @@ export function Overlay() {
   const phase = shown;
   const hidden = event.phase === "hidden";
 
-  let message: string | null = null;
+  let message: string | null = hint ? t(hint) : null;
   if (phase === "empty") message = t("overlay.empty");
   if (phase === "error") {
     message = event.problem
@@ -62,7 +77,7 @@ export function Overlay() {
   }
 
   return (
-    <div className={`pill ${phase} ${hidden ? "out" : ""}`}>
+    <div className={`pill ${phase} ${hint ? "hinted" : ""} ${hidden ? "out" : ""}`}>
       {phase === "transcribing" ? <span className="spinner" /> : <span className="dot" />}
       {message ? (
         <span className="message">{message}</span>

@@ -1,6 +1,7 @@
 mod audio;
 mod cloud;
 mod commands;
+mod diagnostics;
 mod dictation;
 mod history;
 #[cfg(target_os = "macos")]
@@ -50,6 +51,9 @@ pub fn run() {
         .plugin(
             tauri_plugin_log::Builder::new()
                 .level(log::LevelFilter::Info)
+                // Weeks of use rather than hours, for a report to support.
+                .max_file_size(512 * 1024)
+                .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepSome(2))
                 .build(),
         )
         .plugin(tauri_plugin_opener::init())
@@ -152,6 +156,8 @@ pub fn run() {
             commands::globe_key,
             commands::open_keyboard_settings,
             commands::github_stars,
+            commands::send_diagnostics,
+            commands::reveal_log,
             commands::update_status,
             commands::check_for_update,
             commands::install_update,

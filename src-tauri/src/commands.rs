@@ -2,6 +2,7 @@
 
 use crate::audio::{self, Microphone};
 use crate::cloud::{self, Account, DeviceStart, Poll, SignIn};
+use crate::diagnostics::{self, SendError};
 use crate::dictation::{Dictation, Event, Problem, Status, StatusState};
 use crate::history::{self, Entry, History, Stats};
 use crate::paste::{self, PasteError};
@@ -329,6 +330,24 @@ pub async fn check_for_update(app: AppHandle) -> UpdateStatus {
 #[tauri::command]
 pub async fn install_update(app: AppHandle) -> Result<(), UpdateError> {
     updates::install(&app).await
+}
+
+/// Sends Parler's log to support with the person's note; the reference to
+/// quote.
+#[tauri::command]
+pub async fn send_diagnostics(app: AppHandle, note: String) -> Result<String, SendError> {
+    diagnostics::send(&app, &note).await
+}
+
+/// Shows the log file in the file manager, for when it can't be sent.
+#[tauri::command]
+pub fn reveal_log(app: AppHandle) {
+    let Some(path) = diagnostics::current_log(&app) else {
+        return;
+    };
+    if let Err(e) = app.opener().reveal_item_in_dir(&path) {
+        log::warn!("Could not show the log: {e}");
+    }
 }
 
 /// Parler's star count on GitHub, for the onboarding; nothing when offline

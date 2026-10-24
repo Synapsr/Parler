@@ -189,7 +189,7 @@
       "copy": "Le texte est copié dans le presse-papiers."
     },
     "listening": "Je vous écoute…",
-    "listeningHint": "Échap pour annuler",
+    "listeningHint": "Échap deux fois pour annuler",
     "writing": "J'écris…",
     "stats": {
       "words": "Mots dictés",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "Abonnement inactif",
     "fairUseDay": "Limite du jour atteinte",
     "fairUseMonth": "Limite du mois atteinte",
-    "microphone": "Micro indisponible"
+    "microphone": "Micro indisponible",
+    "escapeAgain": "Échap encore pour annuler"
   },
   "settings": {
     "title": "Réglages",
@@ -348,7 +349,20 @@
       "title": "À propos",
       "version": "Version {version}",
       "source": "Code source",
-      "credits": "Libre et open source sous licence MIT. La capture du micro et une partie de l'intégration au bureau viennent de Handy."
+      "credits": "Libre et open source sous licence MIT. La capture du micro et une partie de l'intégration au bureau viennent de Handy.",
+      "log": {
+        "open": "Un souci ? Envoyer le journal",
+        "placeholder": "Que s'est-il passé ? (facultatif)",
+        "placeholderEmail": "Que s'est-il passé ? Ajoutez votre e-mail pour avoir une réponse.",
+        "privacy": "Envoie la version de Parler, votre système et son journal technique. Jamais vos dictées ni vos clés.",
+        "replyTo": "Nous vous répondrons à {email}.",
+        "send": "Envoyer",
+        "sending": "Envoi…",
+        "sent": "Envoyé, merci. Référence {reference}.",
+        "failed": "Envoi impossible. Vérifiez votre connexion, ou joignez le fichier à un e-mail à {email}.",
+        "tooMany": "Plusieurs journaux ont déjà été envoyés cette heure-ci. Réessayez plus tard.",
+        "showFile": "Afficher le fichier"
+      }
     }
   },
   "updates": {

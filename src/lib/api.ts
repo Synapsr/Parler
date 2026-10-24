@@ -174,6 +174,16 @@ export interface OverlayEvent {
   problem: Problem | null;
 }
 
+/** Why the log couldn't be sent to support. */
+export type SendLogError = "offline" | "tooMany" | "failed";
+
+/** A short message on the pill while the dictation goes on. */
+export interface OverlayHintEvent {
+  hint: "escapeAgain";
+  durationMs: number;
+  sounds: boolean;
+}
+
 export const api = {
   appInfo: () => invoke<AppInfo>("app_info"),
   getSettings: () => invoke<Settings>("get_settings"),
@@ -206,6 +216,9 @@ export const api = {
   updateStatus: () => invoke<UpdateStatus>("update_status"),
   checkForUpdate: () => invoke<UpdateStatus>("check_for_update"),
   installUpdate: () => invoke<null>("install_update"),
+  /** Sends the log to support; the reference to quote. Rejects with a `SendLogError`. */
+  sendDiagnostics: (note: string) => invoke<string>("send_diagnostics", { note }),
+  revealLog: () => invoke<null>("reveal_log"),
   /** Parler's stars on GitHub; `null` offline. */
   githubStars: () => invoke<number | null>("github_stars"),
 };
@@ -229,6 +242,8 @@ export const events = {
     listen<OverlayEvent>("parler://overlay", (e) => handler(e.payload)),
   level: (handler: (level: number) => void): Promise<UnlistenFn> =>
     listen<number>("parler://level", (e) => handler(e.payload)),
+  overlayHint: (handler: (event: OverlayHintEvent) => void): Promise<UnlistenFn> =>
+    listen<OverlayHintEvent>("parler://overlay-hint", (e) => handler(e.payload)),
 };
 
 /** The model a provider will use with these settings. */

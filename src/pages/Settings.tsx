@@ -15,6 +15,7 @@ import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useEffect, useState, type ReactNode } from "react";
 import { CloudAccountPanel } from "../components/Cloud";
+import { SendLog } from "../components/SendLog";
 import { ShortcutField } from "../components/ShortcutField";
 import { usePercent, useUpdate, useUpdateError } from "../components/useUpdate";
 import { useProviderForm } from "../components/useProviderForm";
@@ -387,6 +388,7 @@ function About() {
           {t("settings.about.source")}
           <ArrowUpRight className="size-3.5" />
         </Button>
+        <SendLog />
       </div>
     </Section>
   );

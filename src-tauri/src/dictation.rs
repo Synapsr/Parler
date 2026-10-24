@@ -20,6 +20,9 @@ use tauri::{AppHandle, Emitter, Manager};
 /// In smart mode, a press held at least this long is push-to-talk; a shorter
 /// tap keeps recording until the next press.
 const HOLD_THRESHOLD: Duration = Duration::from_millis(350);
+/// Esc cancels when pressed twice within this. Once, it only says so, so an
+/// Esc meant for another app never throws a dictation away.
+const ESCAPE_AGAIN: Duration = Duration::from_millis(1500);
 
 pub enum Event {
     /// The dictation shortcut went down.
@@ -28,7 +31,8 @@ pub enum Event {
     Release,
     /// Start or stop, from the tray, the window or `parler --toggle`.
     Toggle,
-    Cancel,
+    /// Esc, while dictating: twice in a row cancels.
+    Escape,
     /// Send the last failed recording again.
     Retry,
     Capture(CaptureEvent),
@@ -103,6 +107,7 @@ impl Dictation {
             session: 0,
             retry: None,
             retrying: false,
+            escaped_at: None,
         };
         thread::Builder::new()
             .name("dictation".into())
@@ -142,6 +147,8 @@ struct Controller {
     /// The current transcription is a retry from the window, so its text is
     /// copied rather than pasted into Parler itself.
     retrying: bool,
+    /// When Esc was last pressed during this dictation.
+    escaped_at: Option<Instant>,
 }
 
 impl Controller {
@@ -151,7 +158,7 @@ impl Controller {
                 Event::Press => self.press(),
                 Event::Release => self.release(),
                 Event::Toggle => self.toggle(),
-                Event::Cancel => self.cancel(),
+                Event::Escape => self.escape(),
                 Event::Retry => self.retry(),
                 Event::Capture(CaptureEvent::Ready { id }) => {
                     if self.is_current(id) {
@@ -266,6 +273,7 @@ impl Controller {
 
         overlay::show(&self.app, OverlayPhase::Connecting, settings.sounds);
         shortcut::set_cancel_active(&self.app, true);
+        self.escaped_at = None;
         self.next_recorder += 1;
         let id = self.next_recorder;
         match audio::start(&self.app, id, settings.microphone.clone(), &self.tx) {
@@ -382,7 +390,27 @@ impl Controller {
         });
     }
 
+    /// Esc: the first press says a second one cancels; the second does.
+    fn escape(&mut self) {
+        if matches!(self.phase, Phase::Idle) {
+            return;
+        }
+        let now = Instant::now();
+        if is_second_escape(self.escaped_at, now) {
+            self.cancel();
+        } else {
+            self.escaped_at = Some(now);
+            overlay::hint(
+                &self.app,
+                overlay::Hint::EscapeAgain,
+                ESCAPE_AGAIN,
+                self.sounds(),
+            );
+        }
+    }
+
     fn cancel(&mut self) {
+        self.escaped_at = None;
         match self.phase {
             Phase::Idle => return,
             // Dropping the recorder discards the audio and closes the mic.
@@ -451,6 +479,11 @@ impl Controller {
     }
 }
 
+/// Whether an Esc at `now` follows the last one closely enough to cancel.
+fn is_second_escape(last: Option<Instant>, now: Instant) -> bool {
+    last.is_some_and(|at| now.duration_since(at) < ESCAPE_AGAIN)
+}
+
 async fn transcribe(settings: &crate::settings::Settings, samples: Vec<f32>) -> Outcome {
     let Some(speech) = audio::speech(&samples) else {
         log::info!("Nothing heard in {} samples", samples.len());
@@ -478,5 +511,19 @@ async fn transcribe(settings: &crate::settings::Settings, samples: Vec<f32>) -> 
             }
         }
         Err(error) => Outcome::Failed { error, samples },
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn esc_cancels_only_when_pressed_twice_quickly() {
+        let t0 = Instant::now();
+        assert!(!is_second_escape(None, t0));
+        assert!(is_second_escape(Some(t0), t0 + Duration::from_millis(400)));
+        assert!(!is_second_escape(Some(t0), t0 + ESCAPE_AGAIN));
+        assert!(!is_second_escape(Some(t0), t0 + Duration::from_secs(5)));
     }
 }

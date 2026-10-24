@@ -189,7 +189,7 @@
       "copy": "Il testo viene copiato negli appunti."
     },
     "listening": "In ascolto…",
-    "listeningHint": "Esc per annullare",
+    "listeningHint": "Esc due volte per annullare",
     "writing": "Sto scrivendo…",
     "stats": {
       "words": "Parole dettate",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "Piano non attivo",
     "fairUseDay": "Limite giornaliero raggiunto",
     "fairUseMonth": "Limite mensile raggiunto",
-    "microphone": "Microfono non disponibile"
+    "microphone": "Microfono non disponibile",
+    "escapeAgain": "Esc ancora per annullare"
   },
   "settings": {
     "title": "Impostazioni",
@@ -348,7 +349,20 @@
       "title": "Informazioni",
       "version": "Versione {version}",
       "source": "Codice sorgente",
-      "credits": "Libero e open source con licenza MIT. L'acquisizione del microfono e parte dell'integrazione con il desktop vengono da Handy."
+      "credits": "Libero e open source con licenza MIT. L'acquisizione del microfono e parte dell'integrazione con il desktop vengono da Handy.",
+      "log": {
+        "open": "Qualcosa non va? Invia il log",
+        "placeholder": "Cos'è successo? (facoltativo)",
+        "placeholderEmail": "Cos'è successo? Aggiungi la tua email se vuoi una risposta.",
+        "privacy": "Include la versione di Parler, il tuo sistema e il log tecnico. Mai le tue dettature né le tue chiavi.",
+        "replyTo": "Ti risponderemo a {email}.",
+        "send": "Invia",
+        "sending": "Invio…",
+        "sent": "Inviato, grazie. Riferimento {reference}.",
+        "failed": "Invio non riuscito. Controlla la connessione o invia il file come allegato a {email}.",
+        "tooMany": "Sono già stati inviati diversi log nell'ultima ora. Riprova più tardi.",
+        "showFile": "Mostra il file"
+      }
     }
   },
   "updates": {

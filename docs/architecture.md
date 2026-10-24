@@ -24,9 +24,10 @@ transcribes and pastes, and a React interface in two windows.
 | `providers.rs` | The provider list and the request to a Whisper-compatible API, with errors the interface can explain. |
 | `cloud.rs` | Parler Cloud: linking a computer with a device code, the account, signing out. |
 | `updates.rs` | Checks for updates, downloads and installs them, then restarts Parler. |
+| `diagnostics.rs` | Settings → About → "Send the log": version, system, a few settings and the end of the log (keys masked) to `POST /api/diagnostics` on Parler Cloud, which emails support and keeps nothing. |
 | `paste.rs` | Clipboard and simulated paste; macOS resolves Cmd+V for the active keyboard layout. |
 | `overlay.rs` | The pill window: a non-activating panel on macOS, a no-activate topmost window on Windows, so it never takes focus. |
-| `shortcut.rs` | Registers the dictation shortcut, and Escape only while dictating. |
+| `shortcut.rs` | Registers the dictation shortcut, and Escape only while dictating (twice cancels; once only says so on the pill). |
 | `modifier_key.rs` | macOS: one key alone as the shortcut (fn, right ⌘, ⌥ or ⌃), followed by an event tap (it needs Accessibility). |
 | `settings.rs`, `history.rs` | JSON files in the app's config and data directories, readable by the user only. |
 | `tray.rs`, `commands.rs` | Tray menu and the commands the windows call. |
@@ -41,7 +42,8 @@ type or switch windows while they speak, and a slow chord only records a
 moment with no speech, which is never sent. If macOS pauses the key's
 listener, Parler asks where the key is rather than assume it came up. A
 press that would end a hands-free dictation ends it when the key comes back
-up. Only Esc (or Cancel in the menu) throws a recording away.
+up. Only Esc pressed twice throws a recording away: the first press only
+says so on the pill, so an Esc meant for another app loses nothing.
 
 In **smart** mode a press starts recording; releasing after 350 ms or more
 stops it (push-to-talk), while a quicker tap keeps recording until the next
@@ -129,7 +131,7 @@ Built on the [design system](design-system.md).
 | `ui/` | The design system's components. |
 | `onboarding/` | Welcome → service (Parler Cloud suggested first; your own key or server behind a link) → Parler Cloud sign-in, or the key (checked on paste) → macOS permissions → shortcut → first dictation, each with its animated scene. |
 | `pages/` | Home (shortcut, totals, recent dictations), History (every dictation, searchable), Vocabulary, Settings. |
-| `components/` | The sidebar, the history list, the shortcut recorder, the service form logic, the Parler Cloud sign-in and account. |
+| `components/` | The sidebar, the history list, the shortcut recorder, the service form logic, the Parler Cloud sign-in and account, sending the log to support. |
 | `overlay/` | The pill: level bars, phases, synthesized sound cues. |
 | `i18n/` | 12 languages (`languages.ts`), kept in sync by a test. |
 | `preview.tsx` | Dev only: every window in a browser against a simulated backend. |

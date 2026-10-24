@@ -154,7 +154,7 @@ pub fn set_cancel_active(app: &AppHandle, active: bool) {
         }
         let registered = shortcuts.on_shortcut(CANCEL, |app, _, event| {
             if event.state == ShortcutState::Pressed {
-                app.state::<Dictation>().send(Event::Cancel);
+                app.state::<Dictation>().send(Event::Escape);
             }
         });
         if let Err(e) = registered {

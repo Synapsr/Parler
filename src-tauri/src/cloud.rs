@@ -277,7 +277,7 @@ pub fn device_name() -> String {
 }
 
 #[cfg(not(windows))]
-fn command_output(program: &str, args: &[&str]) -> Option<String> {
+pub(crate) fn command_output(program: &str, args: &[&str]) -> Option<String> {
     let output = std::process::Command::new(program)
         .args(args)
         .output()

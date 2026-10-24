@@ -105,6 +105,10 @@ body,
   opacity: 0.7;
 }
 
+.hinted .message {
+  animation: rise 0.18s ease-out;
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -122,6 +126,13 @@ body,
   }
   50% {
     box-shadow: 0 0 0 5px rgb(255 90 60 / 0);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
   }
 }
 

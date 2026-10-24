@@ -189,7 +189,7 @@
       "copy": "Tekst trafi do schowka."
     },
     "listening": "Słucham…",
-    "listeningHint": "Esc, aby anulować",
+    "listeningHint": "Esc dwa razy, aby anulować",
     "writing": "Piszę…",
     "stats": {
       "words": "Podyktowane słowa",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "Plan nieaktywny",
     "fairUseDay": "Dzienny limit wyczerpany",
     "fairUseMonth": "Miesięczny limit wyczerpany",
-    "microphone": "Mikrofon niedostępny"
+    "microphone": "Mikrofon niedostępny",
+    "escapeAgain": "Esc ponownie, aby anulować"
   },
   "settings": {
     "title": "Ustawienia",
@@ -348,7 +349,20 @@
       "title": "O aplikacji",
       "version": "Wersja {version}",
       "source": "Kod źródłowy",
-      "credits": "Darmowa aplikacja open source na licencji MIT. Obsługa mikrofonu i część integracji z systemem pochodzą z projektu Handy."
+      "credits": "Darmowa aplikacja open source na licencji MIT. Obsługa mikrofonu i część integracji z systemem pochodzą z projektu Handy.",
+      "log": {
+        "open": "Coś nie działa? Wyślij dziennik",
+        "placeholder": "Co się stało? (opcjonalnie)",
+        "placeholderEmail": "Co się stało? Dodaj swój adres e-mail, jeśli chcesz dostać odpowiedź.",
+        "privacy": "Wysyła wersję Parler, informacje o systemie i dziennik techniczny. Nigdy nie wysyła twoich dyktowań ani kluczy.",
+        "replyTo": "Odpowiemy na adres {email}.",
+        "send": "Wyślij",
+        "sending": "Wysyłam…",
+        "sent": "Wysłano, dziękujemy. Numer zgłoszenia: {reference}.",
+        "failed": "Nie udało się wysłać. Sprawdź połączenie lub dołącz plik do e-maila na adres {email}.",
+        "tooMany": "W ciągu ostatniej godziny wysłano już kilka dzienników. Spróbuj ponownie później.",
+        "showFile": "Pokaż plik"
+      }
     }
   },
   "updates": {

@@ -189,7 +189,7 @@
       "copy": "The text is copied to your clipboard."
     },
     "listening": "Listening…",
-    "listeningHint": "Esc to cancel",
+    "listeningHint": "Esc twice to cancel",
     "writing": "Writing…",
     "stats": {
       "words": "Words dictated",
@@ -262,7 +262,8 @@
     "subscriptionRequired": "Plan inactive",
     "fairUseDay": "Daily limit reached",
     "fairUseMonth": "Monthly limit reached",
-    "microphone": "Microphone unavailable"
+    "microphone": "Microphone unavailable",
+    "escapeAgain": "Esc again to cancel"
   },
   "settings": {
     "title": "Settings",
@@ -348,7 +349,20 @@
       "title": "About",
       "version": "Version {version}",
       "source": "Source code",
-      "credits": "Free and open source under the MIT licence. Microphone capture and parts of the desktop integration come from Handy."
+      "credits": "Free and open source under the MIT licence. Microphone capture and parts of the desktop integration come from Handy.",
+      "log": {
+        "open": "Something wrong? Send the log",
+        "placeholder": "What happened? (optional)",
+        "placeholderEmail": "What happened? Add your email if you'd like an answer.",
+        "privacy": "Sends Parler's version, your system and its technical log. Never your dictations or keys.",
+        "replyTo": "We'll answer at {email}.",
+        "send": "Send",
+        "sending": "Sending…",
+        "sent": "Sent, thank you. Reference {reference}.",
+        "failed": "Couldn't send it. Check your connection, or attach the file to an email to {email}.",
+        "tooMany": "Several logs were sent this hour already. Try again later.",
+        "showFile": "Show the file"
+      }
     }
   },
   "updates": {
