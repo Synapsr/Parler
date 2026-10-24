@@ -42,9 +42,10 @@ and open <http://localhost:1420/preview.html> (see
 
 **Tints** colour the icon tiles; each area keeps its own so people learn where
 they are: transcription violet, shortcut amber, microphone red, text blue,
-general stone. Services: Parler Cloud violet, Groq amber, OpenAI green,
-Fireworks red, custom blue.
-Services are shown with an icon and tint, never a borrowed logo.
+general stone. Services: Groq amber, OpenAI green, Fireworks red, custom blue.
+Services are shown with an icon and tint, never a borrowed logo; Parler Cloud,
+being Parler's own, wears the Parler mark with a cloud badge (`CloudMark`).
+`ProviderMark` picks the right one for a service.
 
 ### Type
 
@@ -78,7 +79,8 @@ tokens and Tailwind's `dark:` variant both honour).
 | Component | Use |
 | --- | --- |
 | `LogoMark`, `Wordmark` | The brand. `LogoMark live` moves its bars while listening. |
-| `Button` | `primary` for the one main action of a screen, `secondary` otherwise, `ghost` for back and skip, `accent` sparingly. Sizes `sm`, `md`, `lg` (onboarding). |
+| `CloudMark` | Parler Cloud: the mark with a cloud badge, on surface cards. |
+| `Button` | `primary` for the one main action of a screen, `secondary` otherwise, `ghost` for skip (onboarding's back is a round arrow `IconButton`), `accent` sparingly. Sizes `sm`, `md`, `lg` (onboarding). |
 | `IconButton` | Icon-only actions; always labelled. |
 | `Card` | Every group of content. |
 | `IconTile` | An icon on its tint, at the head of a section, choice or stat. |

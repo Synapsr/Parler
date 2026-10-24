@@ -3,7 +3,7 @@ import { Check, KeyRound, Lightbulb, LoaderCircle, Lock, Mic, PersonStanding, St
 import { useEffect, useState } from "react";
 import type { Locale } from "../i18n";
 import { useT } from "../i18n/context";
-import { lookOf } from "../lib/look";
+import { ProviderMark } from "../components/ProviderMark";
 import type { Check as KeyCheck } from "../components/useProviderForm";
 import { FlowPill, IconTile, Keycaps, LogoMark } from "../ui";
 
@@ -56,7 +56,6 @@ export function WelcomeScene() {
 /** Voice → service → text, following the selection. */
 export function FlowScene({ providerId, providerLabel }: { providerId: string; providerLabel: string }) {
   const { t } = useT();
-  const look = lookOf(providerId);
   const node = "flex w-[250px] items-center gap-3 rounded-2xl bg-surface px-4 py-3.5 shadow-raised";
   const connector = (
     <svg width="2" height="54" className="overflow-visible" aria-hidden="true">
@@ -77,7 +76,7 @@ export function FlowScene({ providerId, providerLabel }: { providerId: string; p
       </div>
       {connector}
       <div key={providerId} className={`${node} rise`}>
-        <IconTile icon={look.icon} tint={look.tint} />
+        <ProviderMark providerId={providerId} />
         <span className="text-[14px] font-semibold text-text">{providerLabel}</span>
         <LoaderCircle className="ml-auto size-4 animate-spin text-text-3" />
       </div>
@@ -107,7 +106,6 @@ export function KeyScene({
   check: KeyCheck;
 }) {
   const { t } = useT();
-  const look = lookOf(providerId);
   const trimmed = apiKey.trim();
   const masked =
     trimmed.length > 10 ? `${trimmed.slice(0, 4)}••••••••${trimmed.slice(-4)}` : "•••• •••• •••• ••••";
@@ -117,7 +115,7 @@ export function KeyScene({
       <div aria-hidden="true" className="pointer-events-none absolute -right-20 -bottom-24 size-64 rounded-full bg-[radial-gradient(circle,rgb(255_90_60/0.3),transparent_65%)]" />
       <div className="relative flex items-center justify-between">
         <span className="flex items-center gap-2.5">
-          <IconTile icon={look.icon} tint={look.tint} size="sm" />
+          <ProviderMark providerId={providerId} size="sm" />
           <span className="text-[14px] font-semibold">{providerLabel}</span>
         </span>
         <KeyRound className="size-5 text-on-ink-2" />

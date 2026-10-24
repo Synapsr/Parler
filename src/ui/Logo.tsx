@@ -1,3 +1,5 @@
+import { Cloud } from "lucide-react";
+
 /** The Parler mark: the recording light and four bars of a voice. */
 export function LogoMark({
   size = 28,
@@ -57,6 +59,27 @@ export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`font-display text-[22px] leading-none text-text ${className}`}>
       Parler
+    </span>
+  );
+}
+
+/** Parler Cloud: the Parler mark with a cloud badge, so the service reads as
+ * Parler's own rather than a third party's. Made for surface cards. */
+export function CloudMark({ size = 36 }: { size?: number }) {
+  const badge = Math.round(size * 0.46);
+  const glyph = Math.round(badge * 0.64);
+  return (
+    <span
+      className="relative inline-flex shrink-0 dark:shadow-[0_0_0_1px_rgb(255_255_255/0.14)]"
+      style={{ width: size, height: size, borderRadius: size * 0.23 }}
+    >
+      <LogoMark size={size} />
+      <span
+        className="absolute inline-flex items-center justify-center rounded-full bg-accent text-white ring-2 ring-surface"
+        style={{ width: badge, height: badge, right: -badge * 0.38, bottom: -badge * 0.38 }}
+      >
+        <Cloud fill="currentColor" strokeWidth={1.5} style={{ width: glyph, height: glyph }} />
+      </span>
     </span>
   );
 }

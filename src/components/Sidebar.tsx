@@ -2,10 +2,10 @@ import { BookA, History, House, Settings2, type LucideIcon } from "lucide-react"
 import { useT } from "../i18n/context";
 import { CLOUD, modelFor } from "../lib/api";
 import { needsPlan } from "../lib/cloud";
-import { lookOf } from "../lib/look";
+import { ProviderMark } from "./ProviderMark";
 import { useKeycaps } from "./useKeycaps";
 import { useParler } from "../state";
-import { IconTile, Keycaps, LogoMark, StatusDot, Wordmark, type DotTone } from "../ui";
+import { Keycaps, LogoMark, StatusDot, Wordmark, type DotTone } from "../ui";
 
 export type Page = "home" | "history" | "vocabulary" | "settings";
 
@@ -39,7 +39,6 @@ export function Sidebar({
         : status.problem || missingKey || planMissing
           ? ["attention", t("status.attention")]
           : ["ready", t("status.ready")];
-  const look = lookOf(settings.provider);
 
   return (
     <aside className="relative z-10 flex w-[236px] shrink-0 flex-col border-r border-border bg-sidebar/80">
@@ -84,7 +83,7 @@ export function Sidebar({
           {label}
         </span>
         <span className="flex items-center gap-2.5">
-          <IconTile icon={look.icon} tint={look.tint} size="sm" />
+          <ProviderMark providerId={settings.provider} size="sm" />
           <span className="min-w-0">
             <span className="block text-[12.5px] font-medium text-text">{provider?.label}</span>
             <span className="block truncate font-mono text-[10.5px] text-text-3">

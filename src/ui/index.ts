@@ -28,4 +28,4 @@ export {
   TextArea,
   Toggle,
 } from "./forms";
-export { LogoMark, Wordmark } from "./Logo";
+export { CloudMark, LogoMark, Wordmark } from "./Logo";
