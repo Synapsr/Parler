@@ -36,9 +36,11 @@ transcribes and pastes, and a React interface in two windows.
 On macOS the shortcut can be one key alone, fn by default. Such a key is
 also half of every chord (fn + ←, right ⌘ + C), so it counts as a press only
 once held alone for 150 ms, or tapped cleanly; a key or click in between and
-nothing starts. A slower chord drops what its press started, and a press
-that would end a hands-free dictation ends it only when the key comes back
-up on its own.
+nothing starts. A key within 500 ms of the press is a slower chord and drops
+what the press started. After that, and for clicks as soon as the press has
+started, nothing cuts the dictation: people click, switch windows or scroll
+while they speak. A press that would end a hands-free dictation ends it only
+when the key comes back up on its own.
 
 In **smart** mode a press starts recording; releasing after 350 ms or more
 stops it (push-to-talk), while a quicker tap keeps recording until the next
