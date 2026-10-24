@@ -21,6 +21,7 @@ import {
 import { AccountStatus, PlanButton, SignInWaiting, signInTrouble } from "../components/Cloud";
 import { KeysSentence } from "../components/KeysSentence";
 import { ShortcutField, useGlobeConflict } from "../components/ShortcutField";
+import { ProviderMark } from "../components/ProviderMark";
 import { useKeycaps } from "../components/useKeycaps";
 import { useCloudSignIn } from "../components/useCloudSignIn";
 import { useProviderForm } from "../components/useProviderForm";
@@ -35,6 +36,7 @@ import {
   Banner,
   Button,
   ChoiceCard,
+  IconButton,
   IconTile,
   Input,
   Keycaps,
@@ -121,7 +123,7 @@ function StepLayout({
   const { info } = useParler();
   return (
     <div className="grain relative grid h-full grid-cols-[minmax(400px,46%)_1fr]">
-      <section className="relative z-10 flex min-h-0 flex-col px-11 pb-9">
+      <section className="relative z-10 flex min-h-0 flex-col px-10 pb-9">
         <div data-tauri-drag-region className={info.platform === "macos" ? "h-[52px]" : "h-7"} />
         <div data-tauri-drag-region className="flex items-center justify-between">
           <span className="flex items-center gap-2.5">
@@ -137,11 +139,11 @@ function StepLayout({
           <div className="my-auto">{children}</div>
         </div>
         <div className="flex items-center gap-3">
+          {/* A round arrow, so long labels on the main button still fit. */}
           {nav.back && (
-            <Button variant="ghost" onClick={nav.back}>
-              <ArrowLeft className="size-4" />
-              {t("common.back")}
-            </Button>
+            <IconButton label={t("common.back")} onClick={nav.back} className="size-10 text-text-2 ring-1 ring-border">
+              <ArrowLeft className="size-[18px]" />
+            </IconButton>
           )}
           <div className="flex-1" />
           {footer}
@@ -282,14 +284,13 @@ function ProviderStep({ nav }: { nav: Nav }) {
 /** Parler Cloud, chosen for you: what it is, and the trial first. */
 function CloudOffer({ label }: { label: string }) {
   const { t } = useT();
-  const look = lookOf(CLOUD);
   return (
     <div
       className="rise rounded-card bg-surface p-5 shadow-[0_0_0_2px_var(--text),0_10px_24px_-14px_rgb(0_0_0/0.35)]"
       style={{ animationDelay: "60ms" }}
     >
       <div className="flex items-center gap-3.5">
-        <IconTile icon={look.icon} tint={look.tint} />
+        <ProviderMark providerId={CLOUD} />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-[14.5px] font-semibold text-text">
             {label}
