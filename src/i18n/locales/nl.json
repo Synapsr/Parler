@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Aanbevolen",
-    "cloudBadge": "3 dagen gratis",
     "customName": "Eigen server",
     "cloud": "Geen sleutel: log in en dicteer",
     "groq": "Zeer snel · gratis aanmelden",
@@ -41,7 +40,7 @@
     "custom": "Je OpenAI-compatibele server"
   },
   "cloud": {
-    "price": "3 dagen gratis, daarna €\u00a08 per maand of €\u00a049 per jaar, excl. btw.",
+    "price": "3 dagen gratis, daarna €\u00a08 per maand of €\u00a049 per jaar, excl.\u00a0btw.",
     "step1": "Log in met je e-mailadres",
     "step2": "Start je gratis proefperiode",
     "step3": "Geef deze computer toegang",
@@ -54,6 +53,7 @@
     "expired": "De code is verlopen. Probeer het opnieuw voor een nieuwe code.",
     "loading": "Je account wordt geladen…",
     "account": "Account",
+    "usageToggle": "Gebruik",
     "usage": "Deze maand",
     "usageOf": "{used} van {limit}",
     "fairUse": "Redelijk gebruik: tot {day} per dag en {month} per maand.",
@@ -96,7 +96,15 @@
       "title": "Wie maakt van je stem tekst?",
       "subtitle": "Parler werkt met je eigen account bij een van deze diensten. Je kunt altijd overstappen.",
       "voice": "Je stem",
-      "text": "Je tekst"
+      "text": "Je tekst",
+      "cloudTitle": "Begin met Parler Cloud",
+      "cloudSubtitle": "Niets in te stellen: log één keer in en dicteer. Je kunt altijd overstappen op je eigen API-sleutel.",
+      "trial": "3 dagen gratis",
+      "trialThen": "Daarna €\u00a08 per maand of €\u00a049 per jaar, excl.\u00a0btw.",
+      "trialTerms": "Kaart vereist, altijd opzegbaar.",
+      "startTrial": "Gratis proberen",
+      "ownKey": "Mijn eigen API-sleutel of server gebruiken",
+      "useCloud": "Toch Parler Cloud gebruiken"
     },
     "key": {
       "title": "Koppel {provider}",
@@ -218,6 +226,7 @@
     "noClipboard": "Het klembord is niet beschikbaar op dit systeem.",
     "pasteFailed": "Plakken is mislukt ({detail}). Je tekst staat op het klembord.",
     "shortcut": "{shortcut} wordt al door een andere app gebruikt. Kies een andere sneltoets.",
+    "fnKey": "Parler heeft toegang tot Toegankelijkheid nodig om naar de fn-toets te luisteren. Zet het aan in Systeeminstellingen: fn werkt zodra het is toegestaan.",
     "retry": "Opnieuw proberen",
     "openSettings": "Open instellingen",
     "openAccessibility": "Open Toegankelijkheid"
@@ -267,6 +276,9 @@
       "label": "Sneltoets voor dicteren",
       "recording": "Druk op je toetsen…",
       "cancelHint": "Esc om te annuleren",
+      "useFn": "Gebruik de fn-toets",
+      "globeHint": "macOS reageert ook op elke druk op 🌐 (emoji, invoerbron of Dicteren). Wil je hem aan Parler overlaten, zet dan ‘Druk op 🌐-toets om’ op ‘Doe niets’ in de instellingen voor Toetsenbord.",
+      "openKeyboard": "Open toetsenbordinstellingen",
       "invalid": "Voeg een speciale toets toe, zoals {modifiers}.",
       "reserved": "{shortcut} gebruik je al dagelijks (kopiëren, plakken, bewaren…). Kies een andere.",
       "mode": "Gedrag",

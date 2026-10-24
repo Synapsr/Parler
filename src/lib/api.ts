@@ -183,6 +183,9 @@ export const api = {
   setTrayLabels: (labels: TrayLabels) => invoke("set_tray_labels", { labels }),
   suspendShortcut: () => invoke("suspend_shortcut"),
   resumeShortcut: () => invoke("resume_shortcut"),
+  /** macOS: what the system does with a 🌐 press (0 = nothing, null = its default). */
+  globeKey: () => invoke<{ action: number | null }>("globe_key"),
+  openKeyboardSettings: () => invoke("open_keyboard_settings"),
 };
 
 export const events = {

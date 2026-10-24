@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "推荐",
-    "cloudBadge": "免费 3 天",
     "customName": "你的服务器",
     "cloud": "无需 API 密钥：登录即可听写",
     "groq": "速度很快 · 免费注册",
@@ -54,6 +53,7 @@
     "expired": "代码已过期。再试一次即可获取新代码。",
     "loading": "正在加载你的账户…",
     "account": "账户",
+    "usageToggle": "用量",
     "usage": "本月",
     "usageOf": "{used} / {limit}",
     "fairUse": "合理使用：每天最多 {day}，每月最多 {month}。",
@@ -96,7 +96,15 @@
       "title": "谁来把声音转成文字？",
       "subtitle": "Parler 使用你在以下某个服务上的账户。你可以随时更换。",
       "voice": "你的声音",
-      "text": "你的文字"
+      "text": "你的文字",
+      "cloudTitle": "从 Parler Cloud 开始",
+      "cloudSubtitle": "无需任何设置：登录一次即可听写。你可以随时改用自己的 API 密钥。",
+      "trial": "免费 3 天",
+      "trialThen": "之后每月 €8 或每年 €49（不含税）。",
+      "trialTerms": "需绑定银行卡，可随时取消。",
+      "startTrial": "开始免费试用",
+      "ownKey": "使用我自己的 API 密钥或服务器",
+      "useCloud": "改用 Parler Cloud"
     },
     "key": {
       "title": "连接 {provider}",
@@ -218,6 +226,7 @@
     "noClipboard": "此系统上无法使用剪贴板。",
     "pasteFailed": "粘贴失败（{detail}）。文字已在剪贴板中。",
     "shortcut": "{shortcut} 已被其他应用占用。请换一个快捷键。",
+    "fnKey": "Parler 需要辅助功能权限才能监听 fn 键。请在系统设置中开启：一经允许，fn 键即可使用。",
     "retry": "重试",
     "openSettings": "打开设置",
     "openAccessibility": "打开辅助功能设置"
@@ -267,6 +276,9 @@
       "label": "听写快捷键",
       "recording": "请按下按键…",
       "cancelHint": "按 Esc 取消",
+      "useFn": "使用 fn 键",
+      "globeHint": "macOS 也会响应每次按下 🌐 键（表情符号、输入法或听写）。要把它留给 Parler，请在键盘设置中将“按下 🌐 键时”设为“不执行任何操作”。",
+      "openKeyboard": "打开键盘设置",
       "invalid": "请加上修饰键，例如 {modifiers}。",
       "reserved": "{shortcut} 是常用快捷键（复制、粘贴、保存…）。请换一个。",
       "mode": "触发方式",

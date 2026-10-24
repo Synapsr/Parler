@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Recommended",
-    "cloudBadge": "3 days free",
     "customName": "Your server",
     "cloud": "No API key: sign in and dictate",
     "groq": "Very fast · free sign-up",
@@ -54,6 +53,7 @@
     "expired": "The code has expired. Try again to get a new one.",
     "loading": "Loading your account…",
     "account": "Account",
+    "usageToggle": "Usage",
     "usage": "This month",
     "usageOf": "{used} of {limit}",
     "fairUse": "Fair use: up to {day} a day and {month} a month.",
@@ -96,7 +96,15 @@
       "title": "Who turns your voice into text?",
       "subtitle": "Parler works with your own account at one of these services. You can switch at any time.",
       "voice": "Your voice",
-      "text": "Your text"
+      "text": "Your text",
+      "cloudTitle": "Start with Parler Cloud",
+      "cloudSubtitle": "Nothing to set up: sign in once and dictate. You can switch to your own API key at any time.",
+      "trial": "3 days free",
+      "trialThen": "Then €8 a month or €49 a year, excl. VAT.",
+      "trialTerms": "Card required, cancel anytime.",
+      "startTrial": "Start my free trial",
+      "ownKey": "Use my own API key or server",
+      "useCloud": "Use Parler Cloud instead"
     },
     "key": {
       "title": "Connect {provider}",
@@ -218,6 +226,7 @@
     "noClipboard": "The clipboard isn't available on this system.",
     "pasteFailed": "Pasting failed ({detail}). Your text is on the clipboard.",
     "shortcut": "{shortcut} is already used by another app. Pick another shortcut.",
+    "fnKey": "Parler needs Accessibility access to listen to the fn key. Turn it on in System Settings: fn works as soon as it's allowed.",
     "retry": "Try again",
     "openSettings": "Open settings",
     "openAccessibility": "Open Accessibility settings"
@@ -267,6 +276,9 @@
       "label": "Dictation shortcut",
       "recording": "Press your keys…",
       "cancelHint": "Esc to cancel",
+      "useFn": "Use the fn key",
+      "globeHint": "macOS also acts on each press of 🌐 (emoji, input source or Dictation). To leave it to Parler, set “Press 🌐 key to” to “Do Nothing” in Keyboard settings.",
+      "openKeyboard": "Open Keyboard settings",
       "invalid": "Add a modifier such as {modifiers}.",
       "reserved": "{shortcut} is an everyday shortcut (copy, paste, save…). Pick another one.",
       "mode": "Behaviour",

@@ -43,6 +43,10 @@ enigo = "0.6"
 # Turns the overlay into a non-activating panel, so showing it never takes
 # focus away from the app the text is pasted into.
 tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2.1" }
+# The event tap that follows the fn key (already in the tree through enigo
+# and tao).
+core-foundation = "0.10"
+core-graphics = "0.25"
 
 [target.'cfg(windows)'.dependencies]
 windows = { version = "0.61", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging"] }

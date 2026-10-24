@@ -28,6 +28,9 @@ pub enum Event {
     Release,
     /// Start or stop, from the tray, the window or `parler --toggle`.
     Toggle,
+    /// The held shortcut key turned out to be part of a key combination
+    /// (fn + ←): drop the recording its press just started.
+    Interrupted,
     Cancel,
     /// Send the last failed recording again.
     Retry,
@@ -145,6 +148,7 @@ impl Controller {
                 Event::Press => self.press(),
                 Event::Release => self.release(),
                 Event::Toggle => self.toggle(),
+                Event::Interrupted => self.interrupted(),
                 Event::Cancel => self.cancel(),
                 Event::Retry => self.retry(),
                 Event::Capture(CaptureEvent::Ready { id }) => {
@@ -367,6 +371,14 @@ impl Controller {
         shortcut::set_cancel_active(&self.app, false);
         overlay::hide(&self.app);
         self.publish(State::Idle, None);
+    }
+
+    /// While the key is still held, a recording can only come from its own
+    /// press: in toggle mode too, since a press that stops one transcribes.
+    fn interrupted(&mut self) {
+        if matches!(self.phase, Phase::Recording { .. }) {
+            self.cancel();
+        }
     }
 
     fn retry(&mut self) {

@@ -87,7 +87,9 @@ impl Default for Settings {
     fn default() -> Self {
         Self {
             onboarded: false,
-            provider: "groq".to_string(),
+            // A first launch suggests Parler Cloud; a settings file always
+            // names its provider, so this never changes an existing setup.
+            provider: crate::cloud::ID.to_string(),
             api_keys: HashMap::new(),
             provider_before_cloud: None,
             models: HashMap::new(),
@@ -197,6 +199,13 @@ mod tests {
         assert_eq!(settings.provider, "openai");
         assert_eq!(settings.language, "auto");
         assert!(settings.sounds);
+    }
+
+    #[test]
+    fn a_first_launch_suggests_parler_cloud_but_keeps_existing_choices() {
+        assert_eq!(Settings::default().provider, crate::cloud::ID);
+        let existing: Settings = serde_json::from_str(r#"{"provider":"groq"}"#).unwrap();
+        assert_eq!(existing.provider, "groq");
     }
 
     #[test]

@@ -41,7 +41,7 @@ pub fn save_settings(app: AppHandle, mut settings: Settings) -> Result<Settings,
     keep_cloud_state(&mut settings, &previous);
     if settings.shortcut != previous.shortcut {
         shortcut::replace(&app, &previous.shortcut, &settings.shortcut)?;
-        clear_shortcut_problem(&app);
+        shortcut::clear_problem(&app);
     }
     store.set(settings.clone()).map_err(|e| e.to_string())?;
     Ok(settings)
@@ -77,15 +77,6 @@ fn save_and_notify(app: &AppHandle, settings: Settings) -> Result<Settings, Tran
         })?;
     let _ = app.emit_to("main", "parler://settings", settings.clone());
     Ok(settings)
-}
-
-fn clear_shortcut_problem(app: &AppHandle) {
-    let state = app.state::<StatusState>();
-    let mut status = state.0.lock().unwrap_or_else(|e| e.into_inner());
-    if matches!(status.problem, Some(Problem::Shortcut { .. })) {
-        status.problem = None;
-        let _ = app.emit_to("main", "parler://status", status.clone());
-    }
 }
 
 /// Once signed in again, a problem that asked for it is out of date.
@@ -295,11 +286,48 @@ pub fn suspend_shortcut(store: State<SettingsStore>, app: AppHandle) {
 
 #[tauri::command]
 pub fn resume_shortcut(store: State<SettingsStore>, app: AppHandle) -> Result<(), String> {
-    use tauri_plugin_global_shortcut::GlobalShortcutExt;
-
     let accelerator = store.get().shortcut;
-    if app.global_shortcut().is_registered(accelerator.as_str()) {
+    if shortcut::is_registered(&app, &accelerator) {
         return Ok(());
     }
     shortcut::register(&app, &accelerator)
+}
+
+/// What macOS itself does when the fn (🌐) key is pressed, as set in System
+/// Settings → Keyboard: 0 nothing, 1 change the input source, 2 show emoji,
+/// 3 start Dictation; `None` when never changed (the system default, which
+/// does something). Always `None` on other systems.
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GlobeKey {
+    action: Option<i64>,
+}
+
+#[tauri::command]
+pub async fn globe_key() -> GlobeKey {
+    #[cfg(target_os = "macos")]
+    let action = tauri::async_runtime::spawn_blocking(|| {
+        let output = std::process::Command::new("defaults")
+            .args(["read", "com.apple.HIToolbox", "AppleFnUsageType"])
+            .output()
+            .ok()?;
+        String::from_utf8_lossy(&output.stdout).trim().parse().ok()
+    })
+    .await
+    .ok()
+    .flatten();
+    #[cfg(not(target_os = "macos"))]
+    let action = None;
+    GlobeKey { action }
+}
+
+/// System Settings → Keyboard, where the 🌐 key's own action is chosen.
+#[tauri::command]
+pub fn open_keyboard_settings(app: AppHandle) {
+    if let Err(e) = app.opener().open_url(
+        "x-apple.systempreferences:com.apple.Keyboard-Settings.extension",
+        None::<&str>,
+    ) {
+        log::warn!("Could not open the keyboard settings: {e}");
+    }
 }

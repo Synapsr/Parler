@@ -1,5 +1,9 @@
 // Shortcuts are stored as accelerators the global-shortcut plugin parses,
 // e.g. "Control+Shift+KeyD": modifiers first, then one KeyboardEvent.code.
+// On macOS, `FN` is the fn (🌐) key alone, which the backend follows itself.
+
+/** The fn (🌐) key alone, macOS only: it can't be recorded like other keys. */
+export const FN = "Fn";
 
 const MODIFIERS = ["Control", "Alt", "Shift", "Super"] as const;
 type Modifier = (typeof MODIFIERS)[number];
@@ -111,6 +115,8 @@ export interface KeyNames {
 /** The keycaps to draw for an accelerator, with `names` translating some keys. */
 export function keycaps(accelerator: string, platform: string, names: KeyNames = {}): string[] {
   const mac = platform === "macos";
+  // As printed on the key; the keycap draws the globe next to it.
+  if (accelerator === FN) return ["fn"];
   return accelerator
     .split("+")
     .filter(Boolean)
@@ -157,6 +163,7 @@ const EVERYDAY_KEYS = new Set([
 
 /** Whether `accelerator` would shadow a system or everyday app shortcut. */
 export function isReserved(accelerator: string, platform: string): boolean {
+  if (accelerator === FN) return false;
   const tokens = accelerator.split("+");
   const key = tokens[tokens.length - 1];
   const modifiers = tokens.slice(0, -1);

@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle2, Info, X, type LucideIcon } from "lucide-react";
+import { AlertCircle, CheckCircle2, Globe, Info, X, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 /** A white surface: the building block of every screen. */
@@ -50,7 +50,8 @@ export function IconTile({
   );
 }
 
-/** Keys drawn as physical caps. `pressed` pushes them down. */
+/** Keys drawn as physical caps. `pressed` pushes them down; `fn` carries
+ * its globe, as on Apple keyboards. */
 export function Keycaps({
   keys,
   size = "md",
@@ -86,7 +87,14 @@ export function Keycaps({
             transform: pressed ? `translateY(${depth - 1}px)` : undefined,
           }}
         >
-          {key}
+          {key === "fn" ? (
+            <span className="inline-flex items-center gap-[0.3em]">
+              <Globe className="size-[0.95em]" strokeWidth={1.8} aria-hidden="true" />
+              fn
+            </span>
+          ) : (
+            key
+          )}
         </kbd>
       ))}
     </span>

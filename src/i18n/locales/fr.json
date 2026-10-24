@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Recommandé",
-    "cloudBadge": "3 jours offerts",
     "customName": "Votre serveur",
     "cloud": "Sans clé : connectez-vous et dictez",
     "groq": "Très rapide · inscription gratuite",
@@ -54,6 +53,7 @@
     "expired": "Le code a expiré. Réessayez pour en obtenir un nouveau.",
     "loading": "Chargement de votre compte…",
     "account": "Compte",
+    "usageToggle": "Utilisation",
     "usage": "Ce mois-ci",
     "usageOf": "{used} sur {limit}",
     "fairUse": "Usage raisonnable : jusqu'à {day} par jour et {month} par mois.",
@@ -96,7 +96,15 @@
       "title": "Qui transforme votre voix en texte ?",
       "subtitle": "Parler fonctionne avec votre propre compte chez l'un de ces services. Vous pourrez en changer à tout moment.",
       "voice": "Votre voix",
-      "text": "Votre texte"
+      "text": "Votre texte",
+      "cloudTitle": "Commencez avec Parler Cloud",
+      "cloudSubtitle": "Rien à configurer : connectez-vous une fois et dictez. Vous pourrez passer à votre propre clé d'API à tout moment.",
+      "trial": "3 jours gratuits",
+      "trialThen": "Puis 8 € HT par mois ou 49 € HT par an.",
+      "trialTerms": "Carte bancaire requise, résiliable à tout moment.",
+      "startTrial": "Commencer l'essai gratuit",
+      "ownKey": "Utiliser ma propre clé d'API ou mon serveur",
+      "useCloud": "Utiliser plutôt Parler Cloud"
     },
     "key": {
       "title": "Connectez {provider}",
@@ -218,6 +226,7 @@
     "noClipboard": "Le presse-papiers n'est pas disponible sur ce système.",
     "pasteFailed": "Le collage a échoué ({detail}). Votre texte est dans le presse-papiers.",
     "shortcut": "{shortcut} est déjà utilisé par une autre app. Choisissez un autre raccourci.",
+    "fnKey": "Parler a besoin de l'accès Accessibilité pour écouter la touche fn. Activez-le dans les Réglages Système : la touche fonctionne dès qu'il est autorisé.",
     "retry": "Réessayer",
     "openSettings": "Ouvrir les réglages",
     "openAccessibility": "Ouvrir les réglages d'Accessibilité"
@@ -267,6 +276,9 @@
       "label": "Raccourci de dictée",
       "recording": "Appuyez sur vos touches…",
       "cancelHint": "Échap pour annuler",
+      "useFn": "Utiliser la touche fn",
+      "globeHint": "macOS réagit aussi à chaque appui sur 🌐 (emoji, source de saisie ou Dictée). Pour la laisser à Parler, réglez « Appuyer sur la touche 🌐 pour » sur « Ne rien faire » dans les réglages Clavier.",
+      "openKeyboard": "Ouvrir les réglages Clavier",
       "invalid": "Ajoutez une touche de modification comme {modifiers}.",
       "reserved": "{shortcut} sert déjà au quotidien (copier, coller, enregistrer…). Choisissez-en un autre.",
       "mode": "Comportement",

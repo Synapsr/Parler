@@ -156,7 +156,6 @@ export function ChoiceCard({
   title,
   description,
   badge,
-  badgeTone = "success",
   selected,
   onSelect,
   delay = 0,
@@ -166,8 +165,6 @@ export function ChoiceCard({
   title: string;
   description: string;
   badge?: string;
-  /** `brand` for Parler's own offer. */
-  badgeTone?: "success" | "brand";
   selected: boolean;
   onSelect: () => void;
   delay?: number;
@@ -190,11 +187,7 @@ export function ChoiceCard({
         <span className="flex items-center gap-2 text-[14.5px] font-semibold text-text">
           {title}
           {badge && (
-            <span
-              className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
-                badgeTone === "brand" ? "bg-accent-soft text-accent-text" : "bg-success-soft text-success"
-              }`}
-            >
+            <span className="rounded-full bg-success-soft px-2 py-0.5 text-[11px] font-medium text-success">
               {badge}
             </span>
           )}

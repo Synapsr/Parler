@@ -1,6 +1,6 @@
 // Parler Cloud in the interface: the code to check while signing in, and the
 // account once signed in.
-import { ArrowUpRight, LoaderCircle, RotateCw } from "lucide-react";
+import { ArrowUpRight, ChevronDown, LoaderCircle, RotateCw } from "lucide-react";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useState } from "react";
 import { joinSentences } from "../i18n";
@@ -13,6 +13,9 @@ import { Banner, Button, Keycaps } from "../ui";
 import { useCloudSignIn, type CloudSignIn } from "./useCloudSignIn";
 
 const open = (url: string) => openUrl(url).catch(() => {});
+
+/** Whether the usage is unfolded: kept while Parler runs, folded at launch. */
+let usageShown = false;
 
 /** "Check that your browser shows" ABCD – EFGH, drawn as keys. */
 export function CloudCode({ code, size = "xl" }: { code: string; size?: "lg" | "xl" }) {
@@ -117,6 +120,11 @@ export function PlanButton({
 function AccountDetails({ account }: { account: CloudAccount }) {
   const { t, locale } = useT();
   const [leaving, setLeaving] = useState(false);
+  const [showUsage, setShowUsage] = useState(usageShown);
+  const toggleUsage = () => {
+    usageShown = !showUsage;
+    setShowUsage(usageShown);
+  };
   const usage = monthUsage(account, locale);
   const signOut = async () => {
     setLeaving(true);
@@ -145,31 +153,51 @@ function AccountDetails({ account }: { account: CloudAccount }) {
       </div>
 
       {!needsPlan(account) && (
-        <div className="rounded-xl bg-surface-2 px-3.5 py-3 shadow-[inset_0_0_0_1px_var(--border)]">
-          <div className="flex items-baseline justify-between gap-3 text-[12.5px]">
-            <span className="text-text-2">{t("cloud.usage")}</span>
-            <span className="font-medium text-text tabular-nums">
-              {t("cloud.usageOf", { used: usage.used, limit: usage.limit })}
-            </span>
-          </div>
-          <div
-            className="mt-2 h-1.5 overflow-hidden rounded-full bg-text/10"
-            role="meter"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={Math.round(usage.share * 100)}
-            aria-label={t("cloud.usage")}
+        <div>
+          {/* Folded like the other secondary details. */}
+          <button
+            type="button"
+            onClick={toggleUsage}
+            aria-expanded={showUsage}
+            aria-controls="cloud-usage"
+            className="inline-flex items-center gap-1 text-[13px] font-medium text-text-2 hover:text-text"
           >
-            <div
-              className={`h-full rounded-full transition-[width] duration-500 ${
-                usage.share >= 1 ? "bg-accent" : usage.share >= 0.85 ? "bg-warning" : "bg-text"
-              }`}
-              style={{ width: `${Math.max(usage.share * 100, usage.share > 0 ? 2 : 0)}%` }}
+            <ChevronDown
+              className={`size-4 transition-transform duration-200 ${showUsage ? "" : "-rotate-90"}`}
             />
-          </div>
-          <p className="mt-2 text-[12px] text-text-3">
-            {t("cloud.fairUse", { day: usage.day, month: usage.limit })}
-          </p>
+            {t("cloud.usageToggle")}
+          </button>
+          {showUsage && (
+            <div
+              id="cloud-usage"
+              className="rise mt-3 rounded-xl bg-surface-2 px-3.5 py-3 shadow-[inset_0_0_0_1px_var(--border)]"
+            >
+              <div className="flex items-baseline justify-between gap-3 text-[12.5px]">
+                <span className="text-text-2">{t("cloud.usage")}</span>
+                <span className="font-medium text-text tabular-nums">
+                  {t("cloud.usageOf", { used: usage.used, limit: usage.limit })}
+                </span>
+              </div>
+              <div
+                className="mt-2 h-1.5 overflow-hidden rounded-full bg-text/10"
+                role="meter"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(usage.share * 100)}
+                aria-label={t("cloud.usage")}
+              >
+                <div
+                  className={`h-full rounded-full transition-[width] duration-500 ${
+                    usage.share >= 1 ? "bg-accent" : usage.share >= 0.85 ? "bg-warning" : "bg-text"
+                  }`}
+                  style={{ width: `${Math.max(usage.share * 100, usage.share > 0 ? 2 : 0)}%` }}
+                />
+              </div>
+              <p className="mt-2 text-[12px] text-text-3">
+                {t("cloud.fairUse", { day: usage.day, month: usage.limit })}
+              </p>
+            </div>
+          )}
         </div>
       )}
 

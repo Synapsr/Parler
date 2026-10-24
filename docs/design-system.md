@@ -91,7 +91,7 @@ tokens and Tailwind's `dark:` variant both honour).
 | `StepDots` | Progress through the onboarding. |
 | `PageHeader`, `SectionHeader` | The title of a page; the head of a settings card. |
 | `Field`, `Input`, `TextArea`, `Select`, `Toggle`, `Segmented` | Forms. `Field inline` puts the control on the right. |
-| `ChoiceCard` | A big radio option with icon, description and optional badge (green; vermilion only for Parler's own offer). |
+| `ChoiceCard` | A big radio option with icon, description and optional badge. |
 | `Disclosure` | Folds away what most people never need. |
 
 ## Layouts

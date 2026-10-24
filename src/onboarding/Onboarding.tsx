@@ -187,7 +187,22 @@ function WelcomeStep({ nav }: { nav: Nav }) {
 function ProviderStep({ nav }: { nav: Nav }) {
   const { t } = useT();
   const { settings, providers, provider, update } = useParler();
+  // Parler Cloud is the suggested path; the services that take your own key
+  // wait behind a link, as they were.
+  const [own, setOwn] = useState(settings.provider !== CLOUD);
   const name = (id: string, label: string) => (id === "custom" ? t("providers.customName") : label);
+  const others = providers.filter((p) => p.id !== CLOUD);
+  const cloud = providers.find((p) => p.id === CLOUD);
+
+  const chooseOwn = () => {
+    setOwn(true);
+    if (settings.provider === CLOUD && others[0]) update({ provider: others[0].id });
+  };
+  const chooseCloud = () => {
+    setOwn(false);
+    update({ provider: CLOUD });
+  };
+  const link = "inline-flex items-center gap-1.5 text-[13px] font-medium text-text-2 hover:text-text";
 
   return (
     <StepLayout
@@ -195,38 +210,80 @@ function ProviderStep({ nav }: { nav: Nav }) {
       scene={<FlowScene providerId={settings.provider} providerLabel={name(settings.provider, provider?.label ?? "")} />}
       footer={
         <Button variant="primary" size="lg" onClick={nav.next}>
-          {t("common.continue")}
+          {own || !cloud ? t("common.continue") : t("onboarding.provider.startTrial")}
           <ArrowRight className="size-4" />
         </Button>
       }
     >
-      <Title title={t("onboarding.provider.title")} subtitle={t("onboarding.provider.subtitle")} />
-      <div className="flex flex-col gap-1.5" role="radiogroup">
-        {providers.map((p, i) => {
-          const look = lookOf(p.id);
-          return (
-            <ChoiceCard
-              key={p.id}
-              icon={look.icon}
-              tint={look.tint}
-              title={name(p.id, p.label)}
-              description={t(`providers.${p.id}`)}
-              badge={
-                p.id === "groq"
-                  ? t("providers.recommended")
-                  : p.id === CLOUD
-                    ? t("providers.cloudBadge")
-                    : undefined
-              }
-              badgeTone={p.id === CLOUD ? "brand" : "success"}
-              selected={p.id === settings.provider}
-              onSelect={() => update({ provider: p.id })}
-              delay={60 + i * 50}
-            />
-          );
-        })}
-      </div>
+      {own || !cloud ? (
+        <div key="own">
+          <Title title={t("onboarding.provider.title")} subtitle={t("onboarding.provider.subtitle")} />
+          <div className="flex flex-col gap-1.5" role="radiogroup">
+            {others.map((p, i) => {
+              const look = lookOf(p.id);
+              return (
+                <ChoiceCard
+                  key={p.id}
+                  icon={look.icon}
+                  tint={look.tint}
+                  title={name(p.id, p.label)}
+                  description={t(`providers.${p.id}`)}
+                  badge={p.id === "groq" ? t("providers.recommended") : undefined}
+                  selected={p.id === settings.provider}
+                  onSelect={() => update({ provider: p.id })}
+                  delay={60 + i * 50}
+                />
+              );
+            })}
+          </div>
+          {cloud && (
+            <button type="button" onClick={chooseCloud} className={`rise mt-4 ${link}`} style={{ animationDelay: "260ms" }}>
+              <ArrowLeft className="size-3.5" />
+              {t("onboarding.provider.useCloud")}
+            </button>
+          )}
+        </div>
+      ) : (
+        <div key="cloud">
+          <Title title={t("onboarding.provider.cloudTitle")} subtitle={t("onboarding.provider.cloudSubtitle")} />
+          <CloudOffer label={cloud.label} />
+          <button type="button" onClick={chooseOwn} className={`rise mt-5 ${link}`} style={{ animationDelay: "160ms" }}>
+            {t("onboarding.provider.ownKey")}
+            <ArrowRight className="size-3.5" />
+          </button>
+        </div>
+      )}
     </StepLayout>
+  );
+}
+
+/** Parler Cloud, chosen for you: what it is, and the trial first. */
+function CloudOffer({ label }: { label: string }) {
+  const { t } = useT();
+  const look = lookOf(CLOUD);
+  return (
+    <div
+      className="rise rounded-card bg-surface p-5 shadow-[0_0_0_2px_var(--text),0_10px_24px_-14px_rgb(0_0_0/0.35)]"
+      style={{ animationDelay: "60ms" }}
+    >
+      <div className="flex items-center gap-3.5">
+        <IconTile icon={look.icon} tint={look.tint} />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 text-[14.5px] font-semibold text-text">
+            {label}
+            <span className="rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent-text">
+              {t("providers.recommended")}
+            </span>
+          </div>
+          <div className="text-[12.5px] text-text-3">{t("providers.cloud")}</div>
+        </div>
+      </div>
+      <div className="mt-4 border-t border-border pt-4">
+        <div className="font-display text-[30px] leading-none text-text">{t("onboarding.provider.trial")}</div>
+        <p className="mt-2 text-[13.5px] text-text-2">{t("onboarding.provider.trialThen")}</p>
+        <p className="mt-1 text-[12.5px] text-text-3">{t("onboarding.provider.trialTerms")}</p>
+      </div>
+    </div>
   );
 }
 

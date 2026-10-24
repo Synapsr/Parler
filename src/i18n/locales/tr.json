@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Önerilen",
-    "cloudBadge": "3 gün ücretsiz",
     "customName": "Sunucunuz",
     "cloud": "Anahtar gerekmez: oturum açın, dikte edin",
     "groq": "Çok hızlı · ücretsiz kayıt",
@@ -54,6 +53,7 @@
     "expired": "Kodun süresi doldu. Yeni bir kod almak için yeniden deneyin.",
     "loading": "Hesabınız yükleniyor…",
     "account": "Hesap",
+    "usageToggle": "Kullanım",
     "usage": "Bu ay",
     "usageOf": "{used} / {limit}",
     "fairUse": "Adil kullanım: günde en fazla {day}, ayda en fazla {month} konuşma.",
@@ -96,7 +96,15 @@
       "title": "Sesinizi kim yazıya dökecek?",
       "subtitle": "Parler, bu hizmetlerden birindeki kendi hesabınızla çalışır. İstediğiniz zaman değiştirebilirsiniz.",
       "voice": "Sesiniz",
-      "text": "Metniniz"
+      "text": "Metniniz",
+      "cloudTitle": "Parler Cloud ile başlayın",
+      "cloudSubtitle": "Ayarlanacak bir şey yok: bir kez oturum açın ve dikte edin. İstediğiniz zaman kendi API anahtarınıza geçebilirsiniz.",
+      "trial": "3 gün ücretsiz",
+      "trialThen": "Ardından KDV hariç aylık €8 veya yıllık €49.",
+      "trialTerms": "Kart gerekli, istediğiniz zaman iptal edin.",
+      "startTrial": "Ücretsiz denemeyi başlat",
+      "ownKey": "Kendi API anahtarımı veya sunucumu kullan",
+      "useCloud": "Bunun yerine Parler Cloud kullan"
     },
     "key": {
       "title": "{provider} hesabınızı bağlayın",
@@ -218,6 +226,7 @@
     "noClipboard": "Bu sistemde pano kullanılamıyor.",
     "pasteFailed": "Yapıştırma başarısız oldu ({detail}). Metniniz panoda.",
     "shortcut": "{shortcut} başka bir uygulama tarafından kullanılıyor. Başka bir kısayol seçin.",
+    "fnKey": "fn tuşunu dinleyebilmek için Parler, Erişilebilirlik iznine ihtiyaç duyar. Sistem Ayarları'nda açın: izin verilir verilmez fn çalışır.",
     "retry": "Yeniden dene",
     "openSettings": "Ayarları aç",
     "openAccessibility": "Erişilebilirlik ayarlarını aç"
@@ -267,6 +276,9 @@
       "label": "Dikte kısayolu",
       "recording": "Tuşlarınıza basın…",
       "cancelHint": "İptal etmek için Esc",
+      "useFn": "fn tuşunu kullan",
+      "globeHint": "macOS da 🌐 tuşuna her basışta bir işlem yapar (emoji, giriş kaynağı veya Dikte). Tuşu yalnızca Parler kullansın istiyorsanız Klavye ayarlarında “🌐 tuşuna basıldığında” seçeneğini “Hiçbir Şey Yapma” olarak ayarlayın.",
+      "openKeyboard": "Klavye ayarlarını aç",
       "invalid": "{modifiers} gibi bir değiştirici tuş ekleyin.",
       "reserved": "{shortcut} günlük işlerde kullanılan bir kısayol (kopyala, yapıştır, kaydet…). Başka birini seçin.",
       "mode": "Davranış",

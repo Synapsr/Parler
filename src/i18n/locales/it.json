@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Consigliato",
-    "cloudBadge": "3 giorni gratis",
     "customName": "Il tuo server",
     "cloud": "Nessuna chiave API: accedi e detta",
     "groq": "Molto veloce · iscrizione gratuita",
@@ -54,6 +53,7 @@
     "expired": "Il codice è scaduto. Riprova per riceverne uno nuovo.",
     "loading": "Caricamento dell'account…",
     "account": "Account",
+    "usageToggle": "Utilizzo",
     "usage": "Questo mese",
     "usageOf": "{used} su {limit}",
     "fairUse": "Uso ragionevole: fino a {day} al giorno e {month} al mese.",
@@ -96,7 +96,15 @@
       "title": "Chi trasforma la tua voce in testo?",
       "subtitle": "Parler funziona con il tuo account presso uno di questi servizi. Puoi cambiarlo quando vuoi.",
       "voice": "La tua voce",
-      "text": "Il tuo testo"
+      "text": "Il tuo testo",
+      "cloudTitle": "Inizia con Parler Cloud",
+      "cloudSubtitle": "Niente da configurare: accedi una volta e detta. Puoi passare alla tua chiave API quando vuoi.",
+      "trial": "3 giorni gratis",
+      "trialThen": "Poi 8 € al mese o 49 € all'anno, IVA esclusa.",
+      "trialTerms": "Serve una carta. Disdici quando vuoi.",
+      "startTrial": "Prova gratis",
+      "ownKey": "Usa la mia chiave API o il mio server",
+      "useCloud": "Usa invece Parler Cloud"
     },
     "key": {
       "title": "Collega {provider}",
@@ -218,6 +226,7 @@
     "noClipboard": "Gli appunti non sono disponibili su questo sistema.",
     "pasteFailed": "Impossibile incollare ({detail}). Il testo è negli appunti.",
     "shortcut": "{shortcut} è già usata da un'altra app. Scegli un'altra scorciatoia.",
+    "fnKey": "Parler ha bisogno dell'accesso ad Accessibilità per sentire il tasto fn. Attivalo in Impostazioni di Sistema: fn funziona appena è consentito.",
     "retry": "Riprova",
     "openSettings": "Apri le impostazioni",
     "openAccessibility": "Apri le impostazioni di Accessibilità"
@@ -267,6 +276,9 @@
       "label": "Scorciatoia per dettare",
       "recording": "Premi i tasti…",
       "cancelHint": "Esc per annullare",
+      "useFn": "Usa il tasto fn",
+      "globeHint": "macOS reagisce anche a ogni pressione di 🌐 (emoji, sorgente di input o Dettatura). Per lasciarlo a Parler, nelle impostazioni Tastiera imposta «Premi il tasto 🌐 per» su «Non fare nulla».",
+      "openKeyboard": "Apri le impostazioni Tastiera",
       "invalid": "Aggiungi un tasto modificatore, come {modifiers}.",
       "reserved": "{shortcut} è una scorciatoia di tutti i giorni (copia, incolla, salva…). Scegline un'altra.",
       "mode": "Comportamento",

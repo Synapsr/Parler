@@ -2,6 +2,8 @@ mod audio;
 mod cloud;
 mod commands;
 mod dictation;
+#[cfg(target_os = "macos")]
+mod fn_key;
 mod history;
 mod overlay;
 mod paste;
@@ -132,6 +134,8 @@ pub fn run() {
             commands::set_tray_labels,
             commands::suspend_shortcut,
             commands::resume_shortcut,
+            commands::globe_key,
+            commands::open_keyboard_settings,
         ])
         .build(tauri::generate_context!())
         .expect("Parler failed to start")

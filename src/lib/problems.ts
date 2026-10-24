@@ -1,6 +1,7 @@
 import type { Params } from "../i18n";
 import type { Problem } from "./api";
 import { formatDay, formatTime, nextUtcDay, nextUtcMonth } from "./cloud";
+import { FN } from "./shortcut";
 
 export interface ProblemText {
   /** Full sentence for the main window, under `problems.`. */
@@ -82,6 +83,10 @@ export function describeProblem(
       }
       break;
     case "shortcut":
+      // The fn key can't be taken by another app; it waits for Accessibility.
+      if (problem.shortcut === FN) {
+        return text("fnKey", {}, { needsAccessibility: true });
+      }
       return text(
         "shortcut",
         { shortcut: problem.shortcut },

@@ -28,6 +28,7 @@ const problems: Problem[] = [
   { kind: "paste", error: { kind: "noClipboard" } },
   { kind: "paste", error: { kind: "failed", detail: "x" } },
   { kind: "shortcut", shortcut: "Alt+Space", detail: "taken" },
+  { kind: "shortcut", shortcut: "Fn", detail: "accessibility" },
 ];
 
 describe("describeProblem", () => {
@@ -62,5 +63,12 @@ describe("describeProblem", () => {
     expect(plan.needsSettings).toBe(false);
     expect(describeProblem(problems[11]).params.time).toBeTruthy();
     expect(describeProblem(problems[12]).params.date).toBeTruthy();
+  });
+
+  it("sends the fn key to the Accessibility settings", () => {
+    const fn = describeProblem(problems[problems.length - 1]);
+    expect(fn.key).toBe("problems.fnKey");
+    expect(fn.needsAccessibility).toBe(true);
+    expect(fn.needsSettings).toBe(false);
   });
 });

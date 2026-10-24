@@ -26,6 +26,7 @@ transcribes and pastes, and a React interface in two windows.
 | `paste.rs` | Clipboard and simulated paste; macOS resolves Cmd+V for the active keyboard layout. |
 | `overlay.rs` | The pill window: a non-activating panel on macOS, a no-activate topmost window on Windows, so it never takes focus. |
 | `shortcut.rs` | Registers the dictation shortcut, and Escape only while dictating. |
+| `fn_key.rs` | macOS: the fn (🌐) key alone as the shortcut, followed by an event tap (it needs Accessibility). |
 | `settings.rs`, `history.rs` | JSON files in the app's config and data directories, readable by the user only. |
 | `tray.rs`, `commands.rs` | Tray menu and the commands the windows call. |
 
@@ -87,7 +88,7 @@ Built on the [design system](design-system.md).
 | --- | --- |
 | `App.tsx`, `state.tsx` | Loads settings, status, history and totals once, then follows backend events. |
 | `ui/` | The design system's components. |
-| `onboarding/` | Welcome → service → key (checked on paste), or the Parler Cloud sign-in → macOS permissions → shortcut → first dictation, each with its animated scene. |
+| `onboarding/` | Welcome → service (Parler Cloud suggested first; your own key or server behind a link) → Parler Cloud sign-in, or the key (checked on paste) → macOS permissions → shortcut → first dictation, each with its animated scene. |
 | `pages/` | Home (shortcut, totals, recent dictations), History (every dictation, searchable), Vocabulary, Settings. |
 | `components/` | The sidebar, the history list, the shortcut recorder, the service form logic, the Parler Cloud sign-in and account. |
 | `overlay/` | The pill: level bars, phases, synthesized sound cues. |

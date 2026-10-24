@@ -21,7 +21,8 @@ const signInMode = params.get("signin") ?? "approve";
 
 let settings: Record<string, unknown> & { apiKeys: Record<string, string>; provider: string } = {
   onboarded,
-  provider: cloudMode ? "cloud" : "groq",
+  // A first launch suggests Parler Cloud; an existing setup keeps Groq here.
+  provider: cloudMode || !onboarded ? "cloud" : "groq",
   apiKeys: {
     ...(onboarded || params.get("key") ? { groq: "gsk_demo" } : {}),
     ...(cloudMode && cloudMode !== "signed-out" ? { cloud: "pc_demo" } : {}),
@@ -31,7 +32,8 @@ let settings: Record<string, unknown> & { apiKeys: Record<string, string>; provi
   customBaseUrl: "http://localhost:8000/v1",
   language: params.get("lang") ?? "fr",
   vocabulary: "",
-  shortcut: platform === "macos" ? "Alt+Space" : "Control+Space",
+  // `shortcut=Fn` shows the fn key (macOS).
+  shortcut: params.get("shortcut") ?? (platform === "macos" ? "Alt+Space" : "Control+Space"),
   shortcutMode: "smart",
   microphone: null,
   output: "paste",
@@ -277,6 +279,9 @@ mockIPC(
           { id: "1", name: "MacBook Pro Microphone", isDefault: true },
           { id: "2", name: "AirPods Pro", isDefault: false },
         ];
+      case "globe_key":
+        // Never changed in System Settings: macOS still acts on 🌐.
+        return { action: null };
       case "test_provider":
         return new Promise((resolve) => setTimeout(() => resolve(null), 700));
       case "plugin:macos-permissions|check_microphone_permission":

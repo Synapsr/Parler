@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "おすすめ",
-    "cloudBadge": "3日間無料",
     "customName": "自分のサーバー",
     "cloud": "キー不要、サインインして音声入力",
     "groq": "とても速い · 無料で登録",
@@ -54,6 +53,7 @@
     "expired": "コードの有効期限が切れました。もう一度試すと、新しいコードを取得できます。",
     "loading": "アカウントを読み込んでいます…",
     "account": "アカウント",
+    "usageToggle": "利用状況",
     "usage": "今月",
     "usageOf": "{used} / {limit}",
     "fairUse": "フェアユース：1日 {day}、1か月 {month} まで。",
@@ -96,7 +96,15 @@
       "title": "声を文字にするのは、どのサービス？",
       "subtitle": "Parler は、これらのサービスにあるご自身のアカウントで動作します。あとからいつでも変更できます。",
       "voice": "あなたの声",
-      "text": "テキスト"
+      "text": "テキスト",
+      "cloudTitle": "Parler Cloud ではじめる",
+      "cloudSubtitle": "設定は不要です。一度サインインすれば、すぐに音声入力できます。ご自身の API キーにはいつでも切り替えられます。",
+      "trial": "3日間無料",
+      "trialThen": "その後は月額 €8 または年額 €49（税抜）。",
+      "trialTerms": "カード登録が必要です。いつでも解約できます。",
+      "startTrial": "無料体験を始める",
+      "ownKey": "自分の API キーやサーバーを使う",
+      "useCloud": "代わりに Parler Cloud を使う"
     },
     "key": {
       "title": "{provider} に接続",
@@ -218,6 +226,7 @@
     "noClipboard": "このシステムではクリップボードを使用できません。",
     "pasteFailed": "貼り付けに失敗しました（{detail}）。テキストはクリップボードにあります。",
     "shortcut": "{shortcut} はほかのアプリで使われています。別のショートカットを選んでください。",
+    "fnKey": "fn キーを聞き取るには、Parler にアクセシビリティへのアクセスが必要です。システム設定でオンにしてください。許可されるとすぐに fn キーが使えます。",
     "retry": "もう一度試す",
     "openSettings": "設定を開く",
     "openAccessibility": "アクセシビリティ設定を開く"
@@ -267,6 +276,9 @@
       "label": "音声入力のショートカット",
       "recording": "キーを押してください…",
       "cancelHint": "Esc でキャンセル",
+      "useFn": "fn キーを使う",
+      "globeHint": "macOS も 🌐 キーが押されるたびに反応します（絵文字、入力ソース、または音声入力）。Parler に任せるには、キーボード設定で「🌐キーを押して」を「何もしない」に設定してください。",
+      "openKeyboard": "キーボード設定を開く",
       "invalid": "{modifiers} などの修飾キーを加えてください。",
       "reserved": "{shortcut} はよく使うショートカット（コピー、貼り付け、保存など）です。別のものを選んでください。",
       "mode": "動作",

@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Polecane",
-    "cloudBadge": "3 dni za darmo",
     "customName": "Twój serwer",
     "cloud": "Bez klucza API: zaloguj się i dyktuj",
     "groq": "Bardzo szybki · darmowa rejestracja",
@@ -54,6 +53,7 @@
     "expired": "Kod wygasł. Spróbuj ponownie, aby dostać nowy.",
     "loading": "Wczytuję konto…",
     "account": "Konto",
+    "usageToggle": "Wykorzystanie",
     "usage": "Ten miesiąc",
     "usageOf": "{used} z {limit}",
     "fairUse": "Uczciwe korzystanie: do {day} dziennie i {month} miesięcznie.",
@@ -96,7 +96,15 @@
       "title": "Kto zamieni głos na tekst?",
       "subtitle": "Parler korzysta z twojego konta w jednej z tych usług. Możesz ją zmienić w każdej chwili.",
       "voice": "Twój głos",
-      "text": "Twój tekst"
+      "text": "Twój tekst",
+      "cloudTitle": "Zacznij od Parler Cloud",
+      "cloudSubtitle": "Nic do konfigurowania: zaloguj się raz i dyktuj. W każdej chwili możesz przejść na własny klucz API.",
+      "trial": "3 dni za darmo",
+      "trialThen": "Potem 8 € netto miesięcznie lub 49 € netto rocznie.",
+      "trialTerms": "Wymagana karta, możesz anulować w każdej chwili.",
+      "startTrial": "Wypróbuj za darmo",
+      "ownKey": "Użyj własnego klucza API lub serwera",
+      "useCloud": "Użyj jednak Parler Cloud"
     },
     "key": {
       "title": "Połącz konto {provider}",
@@ -218,6 +226,7 @@
     "noClipboard": "Schowek jest niedostępny w tym systemie.",
     "pasteFailed": "Nie udało się wkleić tekstu ({detail}). Jest w schowku.",
     "shortcut": "Skrót {shortcut} jest już używany przez inną aplikację. Wybierz inny.",
+    "fnKey": "Parler potrzebuje uprawnienia Dostępność, żeby nasłuchiwać klawisza fn. Włącz je w Ustawieniach systemowych: fn zadziała od razu po przyznaniu dostępu.",
     "retry": "Spróbuj ponownie",
     "openSettings": "Otwórz ustawienia",
     "openAccessibility": "Otwórz ustawienia Dostępności"
@@ -267,6 +276,9 @@
       "label": "Skrót dyktowania",
       "recording": "Naciśnij klawisze…",
       "cancelHint": "Esc, aby anulować",
+      "useFn": "Użyj klawisza fn",
+      "globeHint": "macOS też reaguje na każde naciśnięcie 🌐 (emoji, źródło wprowadzania lub Dyktowanie). Aby zostawić ten klawisz aplikacji Parler, w ustawieniach Klawiatura ustaw „Naciśnij klawisz 🌐, aby” na „Nic nie robić”.",
+      "openKeyboard": "Otwórz ustawienia Klawiatury",
       "invalid": "Dodaj klawisz modyfikujący, np. {modifiers}.",
       "reserved": "{shortcut} to skrót do codziennych czynności (kopiuj, wklej, zapisz…). Wybierz inny.",
       "mode": "Działanie",

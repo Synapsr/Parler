@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Recomendado",
-    "cloudBadge": "3 días gratis",
     "customName": "Tu servidor",
     "cloud": "Sin clave: inicia sesión y dicta",
     "groq": "Muy rápido · registro gratis",
@@ -54,6 +53,7 @@
     "expired": "El código ha caducado. Vuelve a intentarlo para obtener uno nuevo.",
     "loading": "Cargando tu cuenta…",
     "account": "Cuenta",
+    "usageToggle": "Uso",
     "usage": "Este mes",
     "usageOf": "{used} de {limit}",
     "fairUse": "Uso razonable: hasta {day} al día y {month} al mes.",
@@ -96,7 +96,15 @@
       "title": "¿Quién convierte tu voz en texto?",
       "subtitle": "Parler funciona con tu propia cuenta en uno de estos servicios. Puedes cambiar cuando quieras.",
       "voice": "Tu voz",
-      "text": "Tu texto"
+      "text": "Tu texto",
+      "cloudTitle": "Empieza con Parler Cloud",
+      "cloudSubtitle": "Nada que configurar: inicia sesión una vez y dicta. Puedes pasar a tu propia clave de API cuando quieras.",
+      "trial": "3 días gratis",
+      "trialThen": "Después, 8 € al mes o 49 € al año, sin IVA.",
+      "trialTerms": "Se pide tarjeta. Cancela cuando quieras.",
+      "startTrial": "Probar gratis",
+      "ownKey": "Usar mi propia clave de API o servidor",
+      "useCloud": "Usar Parler Cloud en su lugar"
     },
     "key": {
       "title": "Conecta {provider}",
@@ -218,6 +226,7 @@
     "noClipboard": "El portapapeles no está disponible en este sistema.",
     "pasteFailed": "No se pudo pegar ({detail}). Tu texto está en el portapapeles.",
     "shortcut": "Otra app ya usa {shortcut}. Elige otro atajo.",
+    "fnKey": "Parler necesita acceso de Accesibilidad para detectar la tecla fn. Actívalo en Ajustes del Sistema: fn funcionará en cuanto lo permitas.",
     "retry": "Reintentar",
     "openSettings": "Abrir ajustes",
     "openAccessibility": "Abrir ajustes de Accesibilidad"
@@ -267,6 +276,9 @@
       "label": "Atajo de dictado",
       "recording": "Pulsa tus teclas…",
       "cancelHint": "Esc para cancelar",
+      "useFn": "Usar la tecla fn",
+      "globeHint": "macOS también reacciona cada vez que pulsas 🌐 (emojis, fuente de entrada o Dictado). Para dejársela a Parler, en los ajustes de Teclado cambia «Pulsar la tecla 🌐 para» a «No hacer nada».",
+      "openKeyboard": "Abrir ajustes de Teclado",
       "invalid": "Añade una tecla modificadora, como {modifiers}.",
       "reserved": "{shortcut} es un atajo de uso diario (copiar, pegar, guardar…). Elige otro.",
       "mode": "Comportamiento",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { acceleratorFromEvent, isReserved, keycaps, type KeyInput } from "./shortcut";
+import { acceleratorFromEvent, FN, isReserved, keycaps, type KeyInput } from "./shortcut";
 
 const press = (code: string, mods: Partial<KeyInput> = {}): KeyInput => ({
   code,
@@ -74,5 +74,12 @@ describe("isReserved", () => {
     expect(isReserved("Super+Shift+KeyX", "macos")).toBe(false);
     expect(isReserved("Control+KeyX", "macos")).toBe(false);
     expect(isReserved("Control+Space", "windows")).toBe(false);
+  });
+});
+
+describe("the fn key", () => {
+  it("is drawn as fn and never reserved", () => {
+    expect(keycaps(FN, "macos")).toEqual(["fn"]);
+    expect(isReserved(FN, "macos")).toBe(false);
   });
 });

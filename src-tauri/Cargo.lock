@@ -3223,6 +3223,8 @@ name = "parler"
 version = "0.1.0"
 dependencies = [
  "arboard",
+ "core-foundation 0.10.1",
+ "core-graphics",
  "enigo",
  "handy-recorder",
  "hound",

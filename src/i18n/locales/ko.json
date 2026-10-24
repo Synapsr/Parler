@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "추천",
-    "cloudBadge": "3일 무료",
     "customName": "내 서버",
     "cloud": "API 키 없이 로그인하고 받아쓰기",
     "groq": "아주 빠름 · 무료 가입",
@@ -54,6 +53,7 @@
     "expired": "코드가 만료됐어요. 다시 시도하면 새 코드를 받을 수 있어요.",
     "loading": "계정을 불러오는 중…",
     "account": "계정",
+    "usageToggle": "사용량",
     "usage": "이번 달",
     "usageOf": "{used} / {limit}",
     "fairUse": "공정 사용: 하루 최대 {day}, 한 달 최대 {month}.",
@@ -96,7 +96,15 @@
       "title": "누가 목소리를 글로 바꿀까요?",
       "subtitle": "Parler는 이 서비스 중 하나에 있는 내 계정으로 작동해요. 언제든 바꿀 수 있어요.",
       "voice": "내 목소리",
-      "text": "내 글"
+      "text": "내 글",
+      "cloudTitle": "Parler Cloud로 시작하기",
+      "cloudSubtitle": "설정할 것이 없어요. 한 번 로그인하면 바로 받아쓸 수 있어요. 언제든 내 API 키로 바꿀 수 있어요.",
+      "trial": "3일 무료",
+      "trialThen": "이후 월 €8 또는 연 €49(부가세 별도).",
+      "trialTerms": "카드 등록이 필요해요. 언제든 해지할 수 있어요.",
+      "startTrial": "무료 체험 시작하기",
+      "ownKey": "내 API 키나 서버 사용하기",
+      "useCloud": "대신 Parler Cloud 사용하기"
     },
     "key": {
       "title": "{provider} 연결",
@@ -218,6 +226,7 @@
     "noClipboard": "이 시스템에서는 클립보드를 사용할 수 없어요.",
     "pasteFailed": "붙여넣지 못했어요({detail}). 텍스트는 클립보드에 있어요.",
     "shortcut": "{shortcut} 단축키는 이미 다른 앱에서 사용 중이에요. 다른 단축키를 고르세요.",
+    "fnKey": "fn 키를 감지하려면 Parler에 손쉬운 사용 권한이 필요해요. 시스템 설정에서 켜세요. 허용하는 즉시 fn 키가 작동해요.",
     "retry": "다시 시도",
     "openSettings": "설정 열기",
     "openAccessibility": "손쉬운 사용 설정 열기"
@@ -267,6 +276,9 @@
       "label": "받아쓰기 단축키",
       "recording": "키를 누르세요…",
       "cancelHint": "Esc 키로 취소",
+      "useFn": "fn 키 사용",
+      "globeHint": "macOS도 🌐 키를 누를 때마다 반응해요(이모티콘, 입력 소스 또는 받아쓰기). Parler에 맡기려면 키보드 설정에서 ‘🌐 키를 눌러’를 ‘동작 안 함’으로 설정하세요.",
+      "openKeyboard": "키보드 설정 열기",
       "invalid": "{modifiers} 같은 보조 키를 추가하세요.",
       "reserved": "{shortcut} 키는 복사, 붙여넣기, 저장처럼 자주 쓰는 단축키예요. 다른 단축키를 고르세요.",
       "mode": "동작 방식",

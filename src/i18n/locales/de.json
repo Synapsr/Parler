@@ -32,7 +32,6 @@
   },
   "providers": {
     "recommended": "Empfohlen",
-    "cloudBadge": "3 Tage gratis",
     "customName": "Eigener Server",
     "cloud": "Ohne Schlüssel, nur anmelden",
     "groq": "Sehr schnell · Gratis-Konto",
@@ -41,7 +40,7 @@
     "custom": "Dein OpenAI-kompatibler Server"
   },
   "cloud": {
-    "price": "3 Tage kostenlos, danach 8\u00a0€ im Monat oder 49\u00a0€ im Jahr, zzgl. MwSt.",
+    "price": "3 Tage kostenlos, danach 8\u00a0€ im Monat oder 49\u00a0€ im Jahr, zzgl.\u00a0MwSt.",
     "step1": "Melde dich mit deiner E-Mail-Adresse an",
     "step2": "Starte deine kostenlose Testphase",
     "step3": "Gib diesen Computer frei",
@@ -54,6 +53,7 @@
     "expired": "Der Code ist abgelaufen. Versuch es noch einmal, um einen neuen zu bekommen.",
     "loading": "Dein Konto wird geladen…",
     "account": "Konto",
+    "usageToggle": "Nutzung",
     "usage": "Diesen Monat",
     "usageOf": "{used} von {limit}",
     "fairUse": "Faire Nutzung: bis zu {day} am Tag und {month} im Monat.",
@@ -96,7 +96,15 @@
       "title": "Wer macht aus deiner Stimme\u00a0Text?",
       "subtitle": "Parler nutzt dein eigenes Konto bei einem dieser Dienste. Du kannst jederzeit wechseln.",
       "voice": "Deine Stimme",
-      "text": "Dein Text"
+      "text": "Dein Text",
+      "cloudTitle": "Starte mit Parler Cloud",
+      "cloudSubtitle": "Nichts einzurichten: einmal anmelden und diktieren. Du kannst jederzeit zu deinem eigenen API-Schlüssel wechseln.",
+      "trial": "3 Tage gratis",
+      "trialThen": "Danach 8\u00a0€ im Monat oder 49\u00a0€ im Jahr, zzgl.\u00a0MwSt.",
+      "trialTerms": "Karte erforderlich, jederzeit kündbar.",
+      "startTrial": "Kostenlos testen",
+      "ownKey": "Eigenen API-Schlüssel oder Server nutzen",
+      "useCloud": "Lieber Parler Cloud nutzen"
     },
     "key": {
       "title": "{provider} verbinden",
@@ -218,6 +226,7 @@
     "noClipboard": "Auf diesem System ist keine Zwischenablage verfügbar.",
     "pasteFailed": "Einfügen fehlgeschlagen ({detail}). Dein Text liegt in der Zwischenablage.",
     "shortcut": "{shortcut} wird schon von einer anderen App verwendet. Wähle ein anderes Tastenkürzel.",
+    "fnKey": "Parler braucht Zugriff auf die Bedienungshilfen, um auf die fn-Taste zu hören. Aktiviere ihn in den Systemeinstellungen: fn funktioniert, sobald er erlaubt ist.",
     "retry": "Erneut versuchen",
     "openSettings": "Einstellungen öffnen",
     "openAccessibility": "Bedienungshilfen öffnen"
@@ -267,6 +276,9 @@
       "label": "Tastenkürzel zum Diktieren",
       "recording": "Drück deine Tasten…",
       "cancelHint": "Esc zum Abbrechen",
+      "useFn": "fn-Taste verwenden",
+      "globeHint": "macOS reagiert auch auf jeden Druck auf 🌐 (Emoji, Eingabequelle oder Diktierfunktion). Damit nur Parler sie nutzt, stelle in den Tastatureinstellungen „Taste 🌐 drücken für“ auf „Keine Aktion“.",
+      "openKeyboard": "Tastatureinstellungen öffnen",
       "invalid": "Füge eine Sondertaste wie {modifiers} hinzu.",
       "reserved": "{shortcut} brauchst du im Alltag (Kopieren, Einfügen, Sichern …). Wähle ein anderes.",
       "mode": "Verhalten",
