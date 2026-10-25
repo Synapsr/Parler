@@ -19,10 +19,11 @@ Maintenez un raccourci, parlez, relâchez : vos mots s'écrivent dans n'importe 
 </div>
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.webp" />
-    <img src="docs/images/home-light.webp" width="760" alt="Écran d'accueil de Parler : maintenir Option + Espace et parler, avec les mots dictés, le temps gagné et les dernières dictées" />
-  </picture>
+  <a href="https://parler.synapsr.io/videos/parler-open-source-fr.v1.mp4">
+    <img src="docs/media/parler-open-source-fr.webp" width="760" alt="Parler en action : maintenir fn, parler, et les mots s'écrivent dans un terminal. La dictée vocale, open source." />
+  </a>
+  <br />
+  <sub><a href="https://parler.synapsr.io/videos/parler-open-source-fr.v1.mp4">▶ Voir la vidéo complète, avec le son (54 s)</a></sub>
 </p>
 
 ## Parler, c'est quoi ?
@@ -40,6 +41,13 @@ Vous cherchez une alternative open source à Wispr Flow, SuperWhisper ou à la d
 3. **C'est écrit.** Le texte apparaît là où se trouve votre curseur, et votre presse-papiers est remis comme il était.
 
 Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. Vous pouvez cliquer et changer de fenêtre pendant que vous parlez : le texte s'écrit là où se trouve votre curseur quand vous relâchez. Appuyez deux fois sur <kbd>Échap</kbd> pour annuler. Le raccourci se change dans les réglages.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.webp" />
+    <img src="docs/images/home-light.webp" width="760" alt="Écran d'accueil de Parler : maintenir Option + Espace et parler, avec les mots dictés, le temps gagné et les dernières dictées" />
+  </picture>
+</p>
 
 ## Fonctionnalités
 

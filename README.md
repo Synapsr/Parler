@@ -19,10 +19,11 @@ Hold a shortcut, speak, let go: your words are typed in any app.
 </div>
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.webp" />
-    <img src="docs/images/home-light.webp" width="760" alt="Parler home screen: hold Option + Space and speak, with words dictated, time saved and recent dictations" />
-  </picture>
+  <a href="https://parler.synapsr.io/videos/parler-open-source-en.v1.mp4">
+    <img src="docs/media/parler-open-source-en.webp" width="760" alt="Parler in action: hold fn, speak, and the words are typed into a terminal. Voice dictation, open source." />
+  </a>
+  <br />
+  <sub><a href="https://parler.synapsr.io/videos/parler-open-source-en.v1.mp4">▶ Watch the full video, with sound (54 s)</a></sub>
 </p>
 
 ## What is Parler?
@@ -40,6 +41,13 @@ Looking for an open-source alternative to Wispr Flow, SuperWhisper or your syste
 3. **Done.** The text is typed where your cursor is, and your clipboard is put back the way it was.
 
 A quick tap instead of a hold keeps listening until your next press. You can click and switch windows while you speak: the text goes where your cursor is when you let go. Press <kbd>Esc</kbd> twice to cancel. You can change the shortcut in Settings.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/home-dark.webp" />
+    <img src="docs/images/home-light.webp" width="760" alt="Parler home screen: hold Option + Space and speak, with words dictated, time saved and recent dictations" />
+  </picture>
+</p>
 
 ## Features
 
