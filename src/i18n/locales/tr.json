@@ -81,6 +81,10 @@
       "thisComputer": "Bu bilgisayar",
       "authorize": "Yetkilendir",
       "linked": "Bilgisayar bağlandı"
+    },
+    "trialEnding": {
+      "continues": "Ücretsiz denemeniz {when} bitiyor, ardından planınız devreye girecek. Yapmanız gereken bir şey yok.",
+      "stops": "Ücretsiz denemeniz {when} bitiyor ve yenilenmeyecek. Dikte etmeye devam etmek için planınızı yeniden etkinleştirin."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "“{query}” ile eşleşen dikte yok.",
     "showMore": "Daha fazla göster",
     "clearAll": "Tümünü temizle",
-    "confirmClear": "Tümünü silmek için yeniden tıklayın"
+    "confirmClear": "Tümünü silmek için yeniden tıklayın",
+    "unsent": {
+      "row": "Gönderilmedi · {ago} · {length}",
+      "note": "Ses kaydı, gönderilene kadar en fazla 7 gün bu bilgisayarda kalır."
+    }
   },
   "vocabulary": {
     "title": "Sözlük",
@@ -237,6 +245,8 @@
     "fairUseDay": "{provider} için bugünkü adil kullanım sınırına ulaştınız. {time} itibarıyla yeniden dikte edebilirsiniz.",
     "fairUseMonth": "{provider} için bu ayın adil kullanım sınırına ulaştınız. {date} itibarıyla yeniden dikte edebilirsiniz.",
     "microphone": "Mikrofon kullanılamadı: {detail}",
+    "microphoneDenied": "Parler'in mikrofonu kullanma izni yok. Dikte etmek için gizlilik ayarlarından izin verin.",
+    "noSound": "Parler mikrofondan hiç ses alamadı: mikrofonun sessize alınmadığını ve Parler'in onu kullanma izni olduğunu kontrol edin.",
     "needsAccessibility": "Sizin yerinize yazabilmek için Parler, Erişilebilirlik iznine ihtiyaç duyar. Metniniz panoda: ⌘V ile yapıştırın.",
     "noClipboard": "Bu sistemde pano kullanılamıyor.",
     "pasteFailed": "Yapıştırma başarısız oldu ({detail}). Metniniz panoda.",
@@ -244,7 +254,8 @@
     "singleKey": "Kısayol tuşunuzu dinleyebilmek için Parler, Erişilebilirlik iznine ihtiyaç duyar. Sistem Ayarları'nda açın: izin verilir verilmez tuş çalışır.",
     "retry": "Yeniden dene",
     "openSettings": "Ayarları aç",
-    "openAccessibility": "Erişilebilirlik ayarlarını aç"
+    "openAccessibility": "Erişilebilirlik ayarlarını aç",
+    "openMicrophone": "Mikrofon ayarlarını aç"
   },
   "overlay": {
     "empty": "Ses duyulmadı",
@@ -263,6 +274,8 @@
     "fairUseDay": "Günlük sınıra ulaşıldı",
     "fairUseMonth": "Aylık sınıra ulaşıldı",
     "microphone": "Mikrofon kullanılamıyor",
+    "microphoneDenied": "Mikrofon izni yok",
+    "noSound": "Mikrofondan ses gelmiyor",
     "escapeAgain": "İptal için yeniden Esc"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "Bu Parler kopyası kendini güncelleyemez. Yeni sürümü web sitesinden indirin.",
     "signature": "Güncelleme Parler tarafından imzalanmadığı için yüklenmedi.",
     "failed": "Güncelleme yüklenemedi: {detail}",
-    "disabled": "Bu sistemde güncellemeler Parler dışında yönetiliyor."
+    "disabled": "Bu sistemde güncellemeler Parler dışında yönetiliyor.",
+    "whatsNew": "Yenilikler"
   },
   "tray": {
     "open": "Parler penceresini aç",
     "toggle": "Dikteyi başlat veya durdur",
     "copyLast": "Son dikteyi kopyala",
     "history": "Geçmiş…",
-    "quit": "Parler'den çık"
+    "quit": "Parler'den çık",
+    "update": "Parler {version} sürümüne güncelle",
+    "updating": "Parler {version} sürümüne güncelleniyor…"
   }
 }

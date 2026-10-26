@@ -81,6 +81,10 @@
       "thisComputer": "Questo computer",
       "authorize": "Autorizza",
       "linked": "Computer collegato"
+    },
+    "trialEnding": {
+      "continues": "La tua prova gratuita termina {when}, poi inizia il tuo piano. Non devi fare nulla.",
+      "stops": "La tua prova gratuita termina {when} e non verrà rinnovata. Per continuare a dettare, riattiva il tuo piano."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "Nessuna dettatura corrisponde a «{query}».",
     "showMore": "Mostra altre",
     "clearAll": "Cancella tutto",
-    "confirmClear": "Fai clic di nuovo per eliminare tutto"
+    "confirmClear": "Fai clic di nuovo per eliminare tutto",
+    "unsent": {
+      "row": "Non inviata · {ago} · {length}",
+      "note": "L'audio resta su questo computer finché non viene inviato, per 7 giorni al massimo."
+    }
   },
   "vocabulary": {
     "title": "Vocabolario",
@@ -237,6 +245,8 @@
     "fairUseDay": "Hai raggiunto il limite di uso ragionevole di {provider} per oggi. Potrai dettare di nuovo dalle {time}.",
     "fairUseMonth": "Hai raggiunto il limite di uso ragionevole di {provider} per questo mese. Potrai dettare di nuovo dal {date}.",
     "microphone": "Impossibile usare il microfono: {detail}",
+    "microphoneDenied": "Parler non ha accesso al microfono. Consentilo nelle impostazioni della privacy per dettare.",
+    "noSound": "Parler non ha ricevuto alcun suono dal microfono: controlla che non sia disattivato e che Parler abbia il permesso di usarlo.",
     "needsAccessibility": "Parler ha bisogno dell'accesso ad Accessibilità per scrivere al posto tuo. Il testo è negli appunti: incollalo con ⌘V.",
     "noClipboard": "Gli appunti non sono disponibili su questo sistema.",
     "pasteFailed": "Impossibile incollare ({detail}). Il testo è negli appunti.",
@@ -244,7 +254,8 @@
     "singleKey": "Parler ha bisogno dell'accesso ad Accessibilità per sentire il tasto della scorciatoia. Attivalo in Impostazioni di Sistema: il tasto funziona appena è consentito.",
     "retry": "Riprova",
     "openSettings": "Apri le impostazioni",
-    "openAccessibility": "Apri le impostazioni di Accessibilità"
+    "openAccessibility": "Apri le impostazioni di Accessibilità",
+    "openMicrophone": "Apri le impostazioni del microfono"
   },
   "overlay": {
     "empty": "Non ho sentito nulla",
@@ -263,6 +274,8 @@
     "fairUseDay": "Limite giornaliero raggiunto",
     "fairUseMonth": "Limite mensile raggiunto",
     "microphone": "Microfono non disponibile",
+    "microphoneDenied": "Microfono non autorizzato",
+    "noSound": "Nessun suono dal microfono",
     "escapeAgain": "Esc ancora per annullare"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "Questa copia di Parler non può aggiornarsi da sola. Scarica la nuova versione dal sito.",
     "signature": "L'aggiornamento non è firmato da Parler, quindi non è stato installato.",
     "failed": "Impossibile installare l'aggiornamento: {detail}",
-    "disabled": "Su questo sistema gli aggiornamenti sono gestiti al di fuori di Parler."
+    "disabled": "Su questo sistema gli aggiornamenti sono gestiti al di fuori di Parler.",
+    "whatsNew": "Novità"
   },
   "tray": {
     "open": "Apri Parler",
     "toggle": "Avvia o interrompi la dettatura",
     "copyLast": "Copia l'ultima trascrizione",
     "history": "Cronologia…",
-    "quit": "Esci da Parler"
+    "quit": "Esci da Parler",
+    "update": "Aggiorna a Parler {version}",
+    "updating": "Aggiornamento a Parler {version}…"
   }
 }

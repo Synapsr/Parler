@@ -81,6 +81,10 @@
       "thisComputer": "这台电脑",
       "authorize": "授权",
       "linked": "电脑已关联"
+    },
+    "trialEnding": {
+      "continues": "你的免费试用{when}结束，之后会自动转为你的方案。无需任何操作。",
+      "stops": "你的免费试用{when}结束，不会自动续订。要继续听写，请重新开启你的方案。"
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "没有与“{query}”匹配的听写。",
     "showMore": "显示更多",
     "clearAll": "全部清除",
-    "confirmClear": "再次点击以全部删除"
+    "confirmClear": "再次点击以全部删除",
+    "unsent": {
+      "row": "未发送 · {ago} · {length}",
+      "note": "音频在发送前会保存在这台电脑上，最多保留 7 天。"
+    }
   },
   "vocabulary": {
     "title": "词汇表",
@@ -237,6 +245,8 @@
     "fairUseDay": "你已达到 {provider} 今天的合理使用上限。{time} 起可以再次听写。",
     "fairUseMonth": "你已达到 {provider} 本月的合理使用上限。{date}起可以再次听写。",
     "microphone": "无法使用麦克风：{detail}",
+    "microphoneDenied": "Parler 没有使用麦克风的权限。要听写，请在隐私设置中允许访问。",
+    "noSound": "Parler 没有收到麦克风的声音。请检查麦克风是否被静音，以及 Parler 是否有权使用它。",
     "needsAccessibility": "Parler 需要辅助功能权限才能替你输入。文字已在剪贴板中，按 ⌘V 即可粘贴。",
     "noClipboard": "此系统上无法使用剪贴板。",
     "pasteFailed": "粘贴失败（{detail}）。文字已在剪贴板中。",
@@ -244,7 +254,8 @@
     "singleKey": "Parler 需要辅助功能权限才能监听你的快捷键。请在系统设置中开启：一经允许，该键即可使用。",
     "retry": "重试",
     "openSettings": "打开设置",
-    "openAccessibility": "打开辅助功能设置"
+    "openAccessibility": "打开辅助功能设置",
+    "openMicrophone": "打开麦克风设置"
   },
   "overlay": {
     "empty": "没有听到声音",
@@ -263,6 +274,8 @@
     "fairUseDay": "已达今日上限",
     "fairUseMonth": "已达本月上限",
     "microphone": "麦克风不可用",
+    "microphoneDenied": "未获得麦克风权限",
+    "noSound": "麦克风没有声音",
     "escapeAgain": "再按一次 Esc 取消"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "此 Parler 副本无法自行更新。请从官网下载新版本。",
     "signature": "此更新没有 Parler 的签名，因此未安装。",
     "failed": "无法安装更新：{detail}",
-    "disabled": "在此系统上，更新由 Parler 以外的方式管理。"
+    "disabled": "在此系统上，更新由 Parler 以外的方式管理。",
+    "whatsNew": "新功能"
   },
   "tray": {
     "open": "打开 Parler",
     "toggle": "开始或停止听写",
     "copyLast": "复制最近一次转写",
     "history": "历史记录…",
-    "quit": "退出 Parler"
+    "quit": "退出 Parler",
+    "update": "更新到 Parler {version}",
+    "updating": "正在更新到 Parler {version}…"
   }
 }

@@ -81,6 +81,10 @@
       "thisComputer": "Dieser Computer",
       "authorize": "Freigeben",
       "linked": "Computer verbunden"
+    },
+    "trialEnding": {
+      "continues": "Deine kostenlose Testphase endet {when}, danach übernimmt dein Abo. Du musst nichts tun.",
+      "stops": "Deine kostenlose Testphase endet {when} und wird nicht verlängert. Um weiter zu diktieren, aktiviere dein Abo wieder."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "Kein Diktat passt zu „{query}“.",
     "showMore": "Mehr anzeigen",
     "clearAll": "Alle löschen",
-    "confirmClear": "Zum Löschen erneut klicken"
+    "confirmClear": "Zum Löschen erneut klicken",
+    "unsent": {
+      "row": "Nicht gesendet · {ago} · {length}",
+      "note": "Die Aufnahme bleibt bis zum Senden auf diesem Computer, höchstens 7 Tage lang."
+    }
   },
   "vocabulary": {
     "title": "Vokabular",
@@ -237,6 +245,8 @@
     "fairUseDay": "Du hast das Tageslimit für faire Nutzung bei {provider} erreicht. Ab {time} Uhr kannst du wieder diktieren.",
     "fairUseMonth": "Du hast das Monatslimit für faire Nutzung bei {provider} erreicht. Ab dem {date} kannst du wieder diktieren.",
     "microphone": "Das Mikrofon ließ sich nicht verwenden: {detail}",
+    "microphoneDenied": "Parler hat keinen Zugriff auf das Mikrofon. Erlaube ihn in den Datenschutzeinstellungen, um zu diktieren.",
+    "noSound": "Parler hat vom Mikrofon keinen Ton empfangen: Prüfe, ob es stummgeschaltet ist und ob Parler es verwenden darf.",
     "needsAccessibility": "Parler braucht Zugriff auf die Bedienungshilfen, um für dich zu tippen. Dein Text liegt in der Zwischenablage: Füge ihn mit ⌘V ein.",
     "noClipboard": "Auf diesem System ist keine Zwischenablage verfügbar.",
     "pasteFailed": "Einfügen fehlgeschlagen ({detail}). Dein Text liegt in der Zwischenablage.",
@@ -244,7 +254,8 @@
     "singleKey": "Parler braucht Zugriff auf die Bedienungshilfen, um auf deine Diktiertaste zu hören. Aktiviere ihn in den Systemeinstellungen: Die Taste funktioniert, sobald er erlaubt ist.",
     "retry": "Erneut versuchen",
     "openSettings": "Einstellungen öffnen",
-    "openAccessibility": "Bedienungshilfen öffnen"
+    "openAccessibility": "Bedienungshilfen öffnen",
+    "openMicrophone": "Mikrofoneinstellungen öffnen"
   },
   "overlay": {
     "empty": "Nichts gehört",
@@ -263,6 +274,8 @@
     "fairUseDay": "Tageslimit erreicht",
     "fairUseMonth": "Monatslimit erreicht",
     "microphone": "Mikrofon nicht verfügbar",
+    "microphoneDenied": "Kein Mikrofonzugriff",
+    "noSound": "Kein Ton vom Mikrofon",
     "escapeAgain": "Erneut Esc zum Abbrechen"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "Diese Kopie von Parler kann sich nicht selbst aktualisieren. Lade die neue Version von der Website.",
     "signature": "Das Update ist nicht von Parler signiert und wurde deshalb nicht installiert.",
     "failed": "Das Update konnte nicht installiert werden: {detail}",
-    "disabled": "Auf diesem System werden Updates außerhalb von Parler verwaltet."
+    "disabled": "Auf diesem System werden Updates außerhalb von Parler verwaltet.",
+    "whatsNew": "Neuerungen"
   },
   "tray": {
     "open": "Parler öffnen",
     "toggle": "Diktat starten oder beenden",
     "copyLast": "Letztes Transkript kopieren",
     "history": "Verlauf…",
-    "quit": "Parler beenden"
+    "quit": "Parler beenden",
+    "update": "Auf Parler {version} aktualisieren",
+    "updating": "Wird auf Parler {version} aktualisiert…"
   }
 }

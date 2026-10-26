@@ -81,6 +81,10 @@
       "thisComputer": "このコンピュータ",
       "authorize": "承認",
       "linked": "連携しました"
+    },
+    "trialEnding": {
+      "continues": "無料体験は{when}で終了し、その後は自動的にプランが始まります。お手続きは不要です。",
+      "stops": "無料体験は{when}で終了し、自動更新されません。音声入力を続けるには、プランを再開してください。"
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "「{query}」に一致する音声入力はありません。",
     "showMore": "さらに表示",
     "clearAll": "すべて消去",
-    "confirmClear": "もう一度クリックするとすべて削除します"
+    "confirmClear": "もう一度クリックするとすべて削除します",
+    "unsent": {
+      "row": "未送信 · {ago} · {length}",
+      "note": "音声は送信されるまで、最長7日間このコンピュータに保存されます。"
+    }
   },
   "vocabulary": {
     "title": "辞書",
@@ -237,6 +245,8 @@
     "fairUseDay": "本日の {provider} のフェアユース上限に達しました。{time} からまた音声入力できます。",
     "fairUseMonth": "今月の {provider} のフェアユース上限に達しました。{date} からまた音声入力できます。",
     "microphone": "マイクを使用できませんでした：{detail}",
+    "microphoneDenied": "Parler にマイクへのアクセスが許可されていません。音声入力するには、プライバシー設定で許可してください。",
+    "noSound": "マイクから音が届きませんでした。ミュートになっていないか、Parler にマイクへのアクセスが許可されているかを確認してください。",
     "needsAccessibility": "Parler があなたの代わりに入力するには、アクセシビリティへのアクセスが必要です。テキストはクリップボードにあるので、⌘V で貼り付けてください。",
     "noClipboard": "このシステムではクリップボードを使用できません。",
     "pasteFailed": "貼り付けに失敗しました（{detail}）。テキストはクリップボードにあります。",
@@ -244,7 +254,8 @@
     "singleKey": "ショートカットキーを聞き取るには、Parler にアクセシビリティへのアクセスが必要です。システム設定でオンにしてください。許可されるとすぐにキーが使えます。",
     "retry": "もう一度試す",
     "openSettings": "設定を開く",
-    "openAccessibility": "アクセシビリティ設定を開く"
+    "openAccessibility": "アクセシビリティ設定を開く",
+    "openMicrophone": "マイク設定を開く"
   },
   "overlay": {
     "empty": "音声なし",
@@ -263,6 +274,8 @@
     "fairUseDay": "本日の上限に到達",
     "fairUseMonth": "今月の上限に到達",
     "microphone": "マイクが使えません",
+    "microphoneDenied": "マイクが許可されていません",
+    "noSound": "マイクから音が届きません",
     "escapeAgain": "もう一度 Esc でキャンセル"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "この Parler は自動でアップデートできません。ウェブサイトから新しいバージョンをダウンロードしてください。",
     "signature": "このアップデートには Parler の署名がないため、インストールしませんでした。",
     "failed": "アップデートをインストールできませんでした：{detail}",
-    "disabled": "このシステムでは、アップデートは Parler の外で管理されています。"
+    "disabled": "このシステムでは、アップデートは Parler の外で管理されています。",
+    "whatsNew": "新機能"
   },
   "tray": {
     "open": "Parler を開く",
     "toggle": "音声入力を開始/停止",
     "copyLast": "最後の文字起こしをコピー",
     "history": "履歴…",
-    "quit": "Parler を終了"
+    "quit": "Parler を終了",
+    "update": "Parler {version} にアップデート",
+    "updating": "Parler {version} にアップデート中…"
   }
 }

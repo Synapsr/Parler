@@ -81,6 +81,10 @@
       "thisComputer": "Ten komputer",
       "authorize": "Autoryzuj",
       "linked": "Komputer połączony"
+    },
+    "trialEnding": {
+      "continues": "Twój darmowy okres próbny kończy się {when}, a potem automatycznie rozpocznie się twój plan. Nie musisz nic robić.",
+      "stops": "Twój darmowy okres próbny kończy się {when} i nie zostanie przedłużony. Aby dalej dyktować, włącz ponownie swój plan."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "Żadne dyktowanie nie pasuje do „{query}”.",
     "showMore": "Pokaż więcej",
     "clearAll": "Wyczyść wszystko",
-    "confirmClear": "Kliknij ponownie, aby usunąć wszystko"
+    "confirmClear": "Kliknij ponownie, aby usunąć wszystko",
+    "unsent": {
+      "row": "Nie wysłano · {ago} · {length}",
+      "note": "Nagranie zostaje na tym komputerze do czasu wysłania, najdłużej przez 7 dni."
+    }
   },
   "vocabulary": {
     "title": "Słownik",
@@ -237,6 +245,8 @@
     "fairUseDay": "Osiągnięto dzisiejszy limit uczciwego korzystania z usługi {provider}. Możesz znowu dyktować od {time}.",
     "fairUseMonth": "Osiągnięto limit uczciwego korzystania z usługi {provider} w tym miesiącu. Możesz znowu dyktować od {date}.",
     "microphone": "Nie udało się użyć mikrofonu: {detail}",
+    "microphoneDenied": "Parler nie ma dostępu do mikrofonu. Aby dyktować, zezwól na dostęp w ustawieniach prywatności.",
+    "noSound": "Parler nie odebrał żadnego dźwięku z mikrofonu: sprawdź, czy nie jest wyciszony i czy Parler ma do niego dostęp.",
     "needsAccessibility": "Parler potrzebuje uprawnienia Dostępność, żeby pisać za ciebie. Twój tekst jest w schowku: wklej go skrótem ⌘V.",
     "noClipboard": "Schowek jest niedostępny w tym systemie.",
     "pasteFailed": "Nie udało się wkleić tekstu ({detail}). Jest w schowku.",
@@ -244,7 +254,8 @@
     "singleKey": "Parler potrzebuje uprawnienia Dostępność, żeby nasłuchiwać klawisza skrótu. Włącz je w Ustawieniach systemowych: klawisz zadziała od razu po przyznaniu dostępu.",
     "retry": "Spróbuj ponownie",
     "openSettings": "Otwórz ustawienia",
-    "openAccessibility": "Otwórz ustawienia Dostępności"
+    "openAccessibility": "Otwórz ustawienia Dostępności",
+    "openMicrophone": "Otwórz ustawienia mikrofonu"
   },
   "overlay": {
     "empty": "Nic nie usłyszano",
@@ -263,6 +274,8 @@
     "fairUseDay": "Dzienny limit wyczerpany",
     "fairUseMonth": "Miesięczny limit wyczerpany",
     "microphone": "Mikrofon niedostępny",
+    "microphoneDenied": "Brak dostępu do mikrofonu",
+    "noSound": "Brak dźwięku z mikrofonu",
     "escapeAgain": "Esc ponownie, aby anulować"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "Ta instalacja Parler nie może zaktualizować się sama. Pobierz nową wersję ze strony internetowej.",
     "signature": "Aktualizacja nie jest podpisana przez Parler, więc nie została zainstalowana.",
     "failed": "Nie udało się zainstalować aktualizacji: {detail}",
-    "disabled": "W tym systemie aktualizacjami zarządza się poza aplikacją Parler."
+    "disabled": "W tym systemie aktualizacjami zarządza się poza aplikacją Parler.",
+    "whatsNew": "Co nowego"
   },
   "tray": {
     "open": "Otwórz Parler",
     "toggle": "Rozpocznij lub zakończ dyktowanie",
     "copyLast": "Kopiuj ostatnią transkrypcję",
     "history": "Historia…",
-    "quit": "Zakończ Parler"
+    "quit": "Zakończ Parler",
+    "update": "Zaktualizuj Parler do wersji {version}",
+    "updating": "Aktualizuję Parler do wersji {version}…"
   }
 }

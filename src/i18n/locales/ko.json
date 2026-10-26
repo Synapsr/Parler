@@ -81,6 +81,10 @@
       "thisComputer": "이 컴퓨터",
       "authorize": "승인",
       "linked": "컴퓨터 연결됨"
+    },
+    "trialEnding": {
+      "continues": "무료 체험이 {when} 끝나면 요금제가 자동으로 시작돼요. 따로 할 일은 없어요.",
+      "stops": "무료 체험이 {when} 끝나고 갱신되지 않아요. 계속 받아쓰려면 요금제를 다시 활성화하세요."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "“{query}”에 해당하는 받아쓰기가 없어요.",
     "showMore": "더 보기",
     "clearAll": "모두 지우기",
-    "confirmClear": "한 번 더 클릭하면 모두 삭제돼요"
+    "confirmClear": "한 번 더 클릭하면 모두 삭제돼요",
+    "unsent": {
+      "row": "보내지 못함 · {ago} · {length}",
+      "note": "오디오는 보낼 때까지 최대 7일 동안 이 컴퓨터에 보관돼요."
+    }
   },
   "vocabulary": {
     "title": "단어장",
@@ -237,6 +245,8 @@
     "fairUseDay": "오늘 {provider} 공정 사용 한도에 도달했어요. {time}부터 다시 받아쓸 수 있어요.",
     "fairUseMonth": "이번 달 {provider} 공정 사용 한도에 도달했어요. {date}부터 다시 받아쓸 수 있어요.",
     "microphone": "마이크를 사용할 수 없어요: {detail}",
+    "microphoneDenied": "Parler에 마이크 사용 권한이 없어요. 받아쓰려면 개인정보 보호 설정에서 허용하세요.",
+    "noSound": "Parler가 마이크에서 아무 소리도 받지 못했어요. 마이크가 음소거되어 있지 않은지, Parler에 사용 권한이 있는지 확인하세요.",
     "needsAccessibility": "Parler가 대신 입력하려면 손쉬운 사용 권한이 필요해요. 텍스트는 클립보드에 있으니 ⌘V로 붙여넣으세요.",
     "noClipboard": "이 시스템에서는 클립보드를 사용할 수 없어요.",
     "pasteFailed": "붙여넣지 못했어요({detail}). 텍스트는 클립보드에 있어요.",
@@ -244,7 +254,8 @@
     "singleKey": "단축키를 감지하려면 Parler에 손쉬운 사용 권한이 필요해요. 시스템 설정에서 켜세요. 허용하는 즉시 키가 작동해요.",
     "retry": "다시 시도",
     "openSettings": "설정 열기",
-    "openAccessibility": "손쉬운 사용 설정 열기"
+    "openAccessibility": "손쉬운 사용 설정 열기",
+    "openMicrophone": "마이크 설정 열기"
   },
   "overlay": {
     "empty": "소리 없음",
@@ -263,6 +274,8 @@
     "fairUseDay": "오늘 한도 도달",
     "fairUseMonth": "이번 달 한도 도달",
     "microphone": "마이크 사용 불가",
+    "microphoneDenied": "마이크 권한 없음",
+    "noSound": "마이크 소리 없음",
     "escapeAgain": "Esc 키를 한 번 더 눌러 취소"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "이 Parler는 스스로 업데이트할 수 없어요. 웹사이트에서 새 버전을 다운로드하세요.",
     "signature": "이 업데이트에는 Parler의 서명이 없어서 설치하지 않았어요.",
     "failed": "업데이트를 설치하지 못했어요: {detail}",
-    "disabled": "이 시스템에서는 업데이트를 Parler 밖에서 관리해요."
+    "disabled": "이 시스템에서는 업데이트를 Parler 밖에서 관리해요.",
+    "whatsNew": "새로운 기능"
   },
   "tray": {
     "open": "Parler 열기",
     "toggle": "받아쓰기 시작/중지",
     "copyLast": "마지막 받아쓰기 복사",
     "history": "기록…",
-    "quit": "Parler 종료"
+    "quit": "Parler 종료",
+    "update": "Parler {version} 버전으로 업데이트",
+    "updating": "Parler {version} 버전으로 업데이트 중…"
   }
 }

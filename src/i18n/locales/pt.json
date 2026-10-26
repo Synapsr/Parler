@@ -81,6 +81,10 @@
       "thisComputer": "Este computador",
       "authorize": "Autorizar",
       "linked": "Computador conectado"
+    },
+    "trialEnding": {
+      "continues": "Seu teste grátis termina {when} e depois começa seu plano. Você não precisa fazer nada.",
+      "stops": "Seu teste grátis termina {when} e não será renovado. Para continuar ditando, reative seu plano."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "Nenhum ditado corresponde a “{query}”.",
     "showMore": "Mostrar mais",
     "clearAll": "Limpar tudo",
-    "confirmClear": "Clique de novo para apagar tudo"
+    "confirmClear": "Clique de novo para apagar tudo",
+    "unsent": {
+      "row": "Não enviado · {ago} · {length}",
+      "note": "O áudio fica neste computador até ser enviado, por no máximo 7 dias."
+    }
   },
   "vocabulary": {
     "title": "Vocabulário",
@@ -237,6 +245,8 @@
     "fairUseDay": "Você atingiu o limite de uso justo do {provider} de hoje. Poderá ditar de novo a partir das {time}.",
     "fairUseMonth": "Você atingiu o limite de uso justo do {provider} deste mês. Poderá ditar de novo a partir de {date}.",
     "microphone": "Não foi possível usar o microfone: {detail}",
+    "microphoneDenied": "O Parler não tem permissão para usar o microfone. Permita o acesso nos ajustes de privacidade para ditar.",
+    "noSound": "O Parler não recebeu som do microfone: verifique se ele não está silenciado e se o Parler tem permissão para usá-lo.",
     "needsAccessibility": "O Parler precisa de acesso à Acessibilidade para digitar por você. Seu texto está na área de transferência: cole com ⌘V.",
     "noClipboard": "A área de transferência não está disponível neste sistema.",
     "pasteFailed": "Não foi possível colar ({detail}). Seu texto está na área de transferência.",
@@ -244,7 +254,8 @@
     "singleKey": "O Parler precisa de acesso à Acessibilidade para detectar sua tecla de atalho. Ative em Ajustes do Sistema: a tecla funciona assim que for permitida.",
     "retry": "Tentar de novo",
     "openSettings": "Abrir ajustes",
-    "openAccessibility": "Abrir ajustes de Acessibilidade"
+    "openAccessibility": "Abrir ajustes de Acessibilidade",
+    "openMicrophone": "Abrir ajustes do microfone"
   },
   "overlay": {
     "empty": "Não ouvi nada",
@@ -263,6 +274,8 @@
     "fairUseDay": "Limite diário atingido",
     "fairUseMonth": "Limite mensal atingido",
     "microphone": "Microfone indisponível",
+    "microphoneDenied": "Microfone não permitido",
+    "noSound": "Sem som do microfone",
     "escapeAgain": "Esc de novo para cancelar"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "Esta cópia do Parler não consegue se atualizar sozinha. Baixe a nova versão no site.",
     "signature": "A atualização não foi assinada pelo Parler, então não foi instalada.",
     "failed": "Não foi possível instalar a atualização: {detail}",
-    "disabled": "Neste sistema, as atualizações são feitas fora do Parler."
+    "disabled": "Neste sistema, as atualizações são feitas fora do Parler.",
+    "whatsNew": "Novidades"
   },
   "tray": {
     "open": "Abrir o Parler",
     "toggle": "Iniciar ou parar o ditado",
     "copyLast": "Copiar a última transcrição",
     "history": "Histórico…",
-    "quit": "Sair do Parler"
+    "quit": "Sair do Parler",
+    "update": "Atualizar para o Parler {version}",
+    "updating": "Atualizando para o Parler {version}…"
   }
 }

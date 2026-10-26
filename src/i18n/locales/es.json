@@ -81,6 +81,10 @@
       "thisComputer": "Este equipo",
       "authorize": "Autorizar",
       "linked": "Equipo vinculado"
+    },
+    "trialEnding": {
+      "continues": "Tu prueba gratuita termina {when} y después empieza tu plan. No tienes que hacer nada.",
+      "stops": "Tu prueba gratuita termina {when} y no se renovará. Para seguir dictando, vuelve a activar tu plan."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "Ningún dictado coincide con «{query}».",
     "showMore": "Mostrar más",
     "clearAll": "Borrar todo",
-    "confirmClear": "Haz clic otra vez para borrar todo"
+    "confirmClear": "Haz clic otra vez para borrar todo",
+    "unsent": {
+      "row": "No enviado · {ago} · {length}",
+      "note": "El audio se queda en este equipo hasta que se envíe, 7 días como máximo."
+    }
   },
   "vocabulary": {
     "title": "Vocabulario",
@@ -237,6 +245,8 @@
     "fairUseDay": "Has alcanzado el límite de uso razonable de {provider} por hoy. Podrás volver a dictar a partir de las {time}.",
     "fairUseMonth": "Has alcanzado el límite de uso razonable de {provider} de este mes. Podrás volver a dictar a partir del {date}.",
     "microphone": "No se pudo usar el micrófono: {detail}",
+    "microphoneDenied": "Parler no tiene permiso para usar el micrófono. Permítelo en los ajustes de privacidad para dictar.",
+    "noSound": "Parler no recibió sonido del micrófono: comprueba que no esté silenciado y que Parler tenga permiso para usarlo.",
     "needsAccessibility": "Parler necesita acceso de Accesibilidad para escribir por ti. Tu texto está en el portapapeles: pégalo con ⌘V.",
     "noClipboard": "El portapapeles no está disponible en este sistema.",
     "pasteFailed": "No se pudo pegar ({detail}). Tu texto está en el portapapeles.",
@@ -244,7 +254,8 @@
     "singleKey": "Parler necesita acceso de Accesibilidad para detectar tu tecla de atajo. Actívalo en Ajustes del Sistema: la tecla funcionará en cuanto lo permitas.",
     "retry": "Reintentar",
     "openSettings": "Abrir ajustes",
-    "openAccessibility": "Abrir ajustes de Accesibilidad"
+    "openAccessibility": "Abrir ajustes de Accesibilidad",
+    "openMicrophone": "Abrir ajustes del micrófono"
   },
   "overlay": {
     "empty": "No se oyó nada",
@@ -263,6 +274,8 @@
     "fairUseDay": "Límite diario alcanzado",
     "fairUseMonth": "Límite mensual alcanzado",
     "microphone": "Micrófono no disponible",
+    "microphoneDenied": "Micrófono no permitido",
+    "noSound": "Sin sonido del micrófono",
     "escapeAgain": "Esc otra vez para cancelar"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "Esta copia de Parler no puede actualizarse sola. Descarga la nueva versión desde la web.",
     "signature": "La actualización no está firmada por Parler, así que no se instaló.",
     "failed": "No se pudo instalar la actualización: {detail}",
-    "disabled": "En este sistema, las actualizaciones se gestionan fuera de Parler."
+    "disabled": "En este sistema, las actualizaciones se gestionan fuera de Parler.",
+    "whatsNew": "Novedades"
   },
   "tray": {
     "open": "Abrir Parler",
     "toggle": "Iniciar o detener el dictado",
     "copyLast": "Copiar la última transcripción",
     "history": "Historial…",
-    "quit": "Salir de Parler"
+    "quit": "Salir de Parler",
+    "update": "Actualizar a Parler {version}",
+    "updating": "Actualizando a Parler {version}…"
   }
 }
