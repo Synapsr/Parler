@@ -81,6 +81,10 @@
       "thisComputer": "This computer",
       "authorize": "Authorize",
       "linked": "Computer linked"
+    },
+    "trialEnding": {
+      "continues": "Your free trial ends {when}, then your plan takes over. Nothing to do.",
+      "stops": "Your free trial ends {when} and won't renew. To keep dictating, turn your plan back on."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "No dictation matches “{query}”.",
     "showMore": "Show more",
     "clearAll": "Clear all",
-    "confirmClear": "Click again to delete all"
+    "confirmClear": "Click again to delete all",
+    "unsent": {
+      "row": "Not sent · {ago} · {length}",
+      "note": "The audio stays on this computer until it's sent, for 7 days at most."
+    }
   },
   "vocabulary": {
     "title": "Vocabulary",
@@ -237,6 +245,8 @@
     "fairUseDay": "You've reached today's fair use limit for {provider}. You can dictate again from {time}.",
     "fairUseMonth": "You've reached this month's fair use limit for {provider}. You can dictate again from {date}.",
     "microphone": "The microphone couldn't be used: {detail}",
+    "microphoneDenied": "Parler isn't allowed to use the microphone. Allow it in the privacy settings to dictate.",
+    "noSound": "Parler got no sound from the microphone: check it isn't muted, and that Parler may use it.",
     "needsAccessibility": "Parler needs Accessibility access to type for you. Your text is on the clipboard: paste it with ⌘V.",
     "noClipboard": "The clipboard isn't available on this system.",
     "pasteFailed": "Pasting failed ({detail}). Your text is on the clipboard.",
@@ -244,7 +254,8 @@
     "singleKey": "Parler needs Accessibility access to listen to your shortcut key. Turn it on in System Settings: the key works as soon as it's allowed.",
     "retry": "Try again",
     "openSettings": "Open settings",
-    "openAccessibility": "Open Accessibility settings"
+    "openAccessibility": "Open Accessibility settings",
+    "openMicrophone": "Open microphone settings"
   },
   "overlay": {
     "empty": "Nothing heard",
@@ -263,6 +274,8 @@
     "fairUseDay": "Daily limit reached",
     "fairUseMonth": "Monthly limit reached",
     "microphone": "Microphone unavailable",
+    "microphoneDenied": "Microphone not allowed",
+    "noSound": "No sound from the microphone",
     "escapeAgain": "Esc again to cancel"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "This copy of Parler can't update itself. Download the new version from the website.",
     "signature": "The update isn't signed by Parler, so it wasn't installed.",
     "failed": "The update couldn't be installed: {detail}",
-    "disabled": "Updates are handled outside Parler on this system."
+    "disabled": "Updates are handled outside Parler on this system.",
+    "whatsNew": "What's new"
   },
   "tray": {
     "open": "Open Parler",
     "toggle": "Start or stop dictation",
     "copyLast": "Copy last transcript",
     "history": "History…",
-    "quit": "Quit Parler"
+    "quit": "Quit Parler",
+    "update": "Update to Parler {version}",
+    "updating": "Updating to Parler {version}…"
   }
 }

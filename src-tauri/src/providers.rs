@@ -122,8 +122,9 @@ pub(crate) fn http_client(timeout: Duration) -> reqwest::Result<reqwest::Client>
         .build()
 }
 
-/// Why a transcription failed, in terms the interface can explain.
-#[derive(Serialize, Debug, Clone, PartialEq)]
+/// Why a transcription failed, in terms the interface can explain. Also
+/// saved with a dictation that couldn't be sent (see `pending`).
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 #[serde(tag = "kind", rename_all = "camelCase")]
 pub enum TranscribeError {
     UnknownProvider,
@@ -172,6 +173,21 @@ pub enum TranscribeError {
     FairUseMonth {
         provider: String,
     },
+}
+
+impl TranscribeError {
+    /// A failure that may well be gone a moment later: the network dropped,
+    /// or the service had a passing problem (5xx). Not a timeout: two
+    /// minutes have gone by already, and the same upload would likely take
+    /// as long again. Not a refusal (another 4xx, a plan or fair use limit,
+    /// a missing or refused key): sending the same thing changes nothing.
+    pub fn is_transient(&self) -> bool {
+        match self {
+            Self::Offline { .. } => true,
+            Self::Rejected { status, .. } => (500..600).contains(status),
+            _ => false,
+        }
+    }
 }
 
 impl fmt::Display for TranscribeError {
@@ -723,6 +739,72 @@ pub(crate) mod tests {
         let json = serde_json::to_value(&error).unwrap();
         assert_eq!(json["kind"], "subscriptionRequired");
         assert_eq!(json["manageUrl"], format!("{}/account", cloud::base_url()));
+    }
+
+    #[test]
+    fn only_passing_failures_are_sent_again() {
+        let provider = || "Groq".to_string();
+        let rejected = |status| TranscribeError::Rejected {
+            provider: provider(),
+            status,
+            message: String::new(),
+        };
+        assert!(TranscribeError::Offline {
+            provider: provider()
+        }
+        .is_transient());
+        assert!(rejected(500).is_transient());
+        assert!(rejected(503).is_transient());
+        for error in [
+            TranscribeError::Timeout {
+                provider: provider(),
+            },
+            rejected(400),
+            rejected(413),
+            rejected(0),
+            TranscribeError::RateLimited {
+                provider: provider(),
+            },
+            TranscribeError::Unauthorized {
+                provider: provider(),
+            },
+            TranscribeError::MissingApiKey {
+                provider: provider(),
+            },
+            TranscribeError::SignedOut {
+                provider: provider(),
+            },
+            TranscribeError::SubscriptionRequired {
+                provider: provider(),
+                manage_url: cloud::manage_url(),
+            },
+            TranscribeError::FairUseDay {
+                provider: provider(),
+            },
+            TranscribeError::FairUseMonth {
+                provider: provider(),
+            },
+            TranscribeError::InvalidResponse {
+                provider: provider(),
+            },
+            TranscribeError::UnknownProvider,
+            TranscribeError::MissingBaseUrl,
+        ] {
+            assert!(!error.is_transient(), "{error:?}");
+        }
+    }
+
+    #[test]
+    fn errors_read_back_as_they_were_saved() {
+        let error = TranscribeError::SubscriptionRequired {
+            provider: "Parler Cloud".into(),
+            manage_url: cloud::manage_url(),
+        };
+        let json = serde_json::to_string(&error).unwrap();
+        assert_eq!(
+            serde_json::from_str::<TranscribeError>(&json).unwrap(),
+            error
+        );
     }
 
     #[test]

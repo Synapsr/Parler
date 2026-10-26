@@ -37,6 +37,13 @@ its problems, and `view=overlay&phase=error&error=subscription` the pill. To
 run the app against a local Parler Cloud service:
 `PARLER_CLOUD_URL=http://localhost:3100 pnpm tauri dev`.
 
+The microphone: `problem=nosound` (a recording of digital silence) or
+`problem=micdenied`, `mic=denied` (access taken away, as read when the window
+comes to the front), and on the pill `view=overlay&phase=recording&hint=noSound`
+or `view=overlay&phase=error&error=nosound`. Unsent dictations:
+`onboarded=1&pending=3` lists them in History (up to 4); sending one again
+succeeds unless `retry=fail`.
+
 ## Checks
 
 CI runs these on every pull request; run them before pushing:

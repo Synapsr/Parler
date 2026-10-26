@@ -81,6 +81,10 @@
       "thisComputer": "Cet ordinateur",
       "authorize": "Autoriser",
       "linked": "Ordinateur relié"
+    },
+    "trialEnding": {
+      "continues": "Votre essai gratuit se termine {when}, puis votre abonnement prend le relais. Vous n'avez rien à faire.",
+      "stops": "Votre essai gratuit se termine {when} et ne sera pas prolongé. Pour continuer à dicter, réactivez votre abonnement."
     }
   },
   "onboarding": {
@@ -211,7 +215,11 @@
     "noResults": "Aucune dictée ne correspond à « {query} ».",
     "showMore": "Afficher plus",
     "clearAll": "Tout effacer",
-    "confirmClear": "Cliquez encore pour tout supprimer"
+    "confirmClear": "Cliquez encore pour tout supprimer",
+    "unsent": {
+      "row": "Non envoyée · {ago} · {length}",
+      "note": "L'audio reste sur cet ordinateur jusqu'à son envoi, 7 jours au plus."
+    }
   },
   "vocabulary": {
     "title": "Vocabulaire",
@@ -237,6 +245,8 @@
     "fairUseDay": "Vous avez atteint la limite d'usage raisonnable de {provider} pour aujourd'hui. Vous pourrez de nouveau dicter à partir de {time}.",
     "fairUseMonth": "Vous avez atteint la limite d'usage raisonnable de {provider} pour ce mois-ci. Vous pourrez de nouveau dicter à partir du {date}.",
     "microphone": "Impossible d'utiliser le micro : {detail}",
+    "microphoneDenied": "Parler n'a pas accès au micro. Autorisez-le dans les réglages de confidentialité pour dicter.",
+    "noSound": "Parler n'a reçu aucun son du micro : vérifiez qu'il n'est pas coupé et que Parler a le droit de l'utiliser.",
     "needsAccessibility": "Parler a besoin de l'accès Accessibilité pour écrire à votre place. Votre texte est dans le presse-papiers : collez-le avec ⌘V.",
     "noClipboard": "Le presse-papiers n'est pas disponible sur ce système.",
     "pasteFailed": "Le collage a échoué ({detail}). Votre texte est dans le presse-papiers.",
@@ -244,7 +254,8 @@
     "singleKey": "Parler a besoin de l'accès Accessibilité pour écouter votre touche de raccourci. Activez-le dans les Réglages Système : la touche fonctionne dès qu'il est autorisé.",
     "retry": "Réessayer",
     "openSettings": "Ouvrir les réglages",
-    "openAccessibility": "Ouvrir les réglages d'Accessibilité"
+    "openAccessibility": "Ouvrir les réglages d'Accessibilité",
+    "openMicrophone": "Ouvrir les réglages du micro"
   },
   "overlay": {
     "empty": "Rien entendu",
@@ -263,6 +274,8 @@
     "fairUseDay": "Limite du jour atteinte",
     "fairUseMonth": "Limite du mois atteinte",
     "microphone": "Micro indisponible",
+    "microphoneDenied": "Micro non autorisé",
+    "noSound": "Aucun son du micro",
     "escapeAgain": "Échap encore pour annuler"
   },
   "settings": {
@@ -378,13 +391,16 @@
     "unsupported": "Cette copie de Parler ne peut pas se mettre à jour seule. Téléchargez la nouvelle version sur le site.",
     "signature": "La mise à jour n'est pas signée par Parler : elle n'a pas été installée.",
     "failed": "La mise à jour n'a pas pu être installée : {detail}",
-    "disabled": "Sur ce système, les mises à jour sont gérées en dehors de Parler."
+    "disabled": "Sur ce système, les mises à jour sont gérées en dehors de Parler.",
+    "whatsNew": "Quoi de neuf"
   },
   "tray": {
     "open": "Ouvrir Parler",
     "toggle": "Démarrer ou arrêter la dictée",
     "copyLast": "Copier la dernière transcription",
     "history": "Historique…",
-    "quit": "Quitter Parler"
+    "quit": "Quitter Parler",
+    "update": "Mettre à jour vers Parler {version}",
+    "updating": "Mise à jour vers Parler {version}…"
   }
 }

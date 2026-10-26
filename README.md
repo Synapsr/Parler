@@ -145,7 +145,7 @@ On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequ
 
 ## Privacy
 
-- Audio is recorded only while you dictate and sent only to the provider you picked. It is never written to disk.
+- Audio is recorded only while you dictate and sent only to the provider you picked. It is never written to disk, except a dictation that couldn't be sent (no connection, say): its audio is kept on this computer, readable only by your user account, until it's sent or you delete it, for 7 days at most.
 - Recordings without speech are never sent.
 - Your API key and settings live in a local file that only your user account can read.
 - Your transcripts (the last 5,000) stay on your computer so you can search and copy them again. Clear them anytime.
@@ -193,7 +193,7 @@ Same idea: talk instead of type, in any app. Parler's take: the code is open (MI
 <details>
 <summary><b>Is my voice stored or used to train models?</b></summary>
 
-Parler never saves your audio. On your computer it keeps only the text of your dictations, which you can clear at any time. What the provider does with the audio depends on its own policy, so give it a read before you choose.
+Parler doesn't keep your audio, except a dictation that couldn't be sent: that one waits on your computer until it's sent or you delete it, for 7 days at most. Otherwise it keeps only the text of your dictations, which you can clear at any time. What the provider does with the audio depends on its own policy, so give it a read before you choose.
 
 </details>
 

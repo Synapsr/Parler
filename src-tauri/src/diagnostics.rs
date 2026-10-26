@@ -1,9 +1,12 @@
 //! A report for support, sent from Settings → About: Parler's version, the
-//! system, a few settings and the end of the log, with what the person wrote.
+//! system, a few settings, the permissions and the end of the log, with what
+//! the person wrote.
 //! Parler Cloud forwards it by email and keeps nothing (`POST
 //! /api/diagnostics`, see docs/architecture.md). The log holds no dictation
 //! and no key; anything shaped like a key is masked here all the same.
 
+#[cfg(any(target_os = "macos", target_os = "windows"))]
+use crate::audio::{self, MicrophoneAccess};
 use crate::settings::{Settings, SettingsStore};
 use crate::{cloud, providers};
 use serde::{Deserialize, Serialize};
@@ -51,7 +54,11 @@ pub async fn send(app: &AppHandle, note: &str) -> Result<String, SendError> {
     let note: String = note.trim().chars().take(NOTE_MAX).collect();
     let report = Report {
         note: &note,
-        app: fields(app, &settings),
+        app: fields(
+            &app.package_info().version.to_string(),
+            &settings,
+            &permissions().await,
+        ),
         log: mask_secrets(&read_tail(&log_files(app), LOG_TAIL)),
     };
     // Signed in to Parler Cloud: support can answer the account's address.
@@ -94,9 +101,13 @@ pub fn current_log(app: &AppHandle) -> Option<PathBuf> {
 
 /// What support needs to know besides the log: never a key, a word of
 /// vocabulary or a microphone's name.
-fn fields(app: &AppHandle, settings: &Settings) -> BTreeMap<&'static str, String> {
+fn fields(
+    version: &str,
+    settings: &Settings,
+    permissions: &[(&'static str, &'static str)],
+) -> BTreeMap<&'static str, String> {
     let mut fields = BTreeMap::new();
-    fields.insert("version", app.package_info().version.to_string());
+    fields.insert("version", version.to_string());
     fields.insert("os", std::env::consts::OS.to_string());
     if let Some(version) = os_version() {
         fields.insert("osVersion", version);
@@ -120,7 +131,40 @@ fn fields(app: &AppHandle, settings: &Settings) -> BTreeMap<&'static str, String
         }
         .to_string(),
     );
+    for &(name, state) in permissions {
+        fields.insert(name, state.to_string());
+    }
     fields
+}
+
+/// What the system lets Parler do, the first thing support checks when
+/// nothing is heard or nothing is pasted. Only read: nothing here asks.
+async fn permissions() -> Vec<(&'static str, &'static str)> {
+    #[allow(unused_mut)]
+    let mut permissions = Vec::new();
+    // Linux can't tell before a recording fails.
+    #[cfg(any(target_os = "macos", target_os = "windows"))]
+    permissions.push((
+        "microphoneAccess",
+        match audio::microphone_access() {
+            MicrophoneAccess::Granted => "granted",
+            // Restricted by a policy (a managed Mac) reads as denied too.
+            MicrophoneAccess::Denied => "denied",
+            MicrophoneAccess::NotDetermined => "not determined",
+            MicrophoneAccess::Unknown => "unknown",
+        },
+    ));
+    // To paste, and to follow a key alone as the shortcut.
+    #[cfg(target_os = "macos")]
+    permissions.push((
+        "accessibility",
+        if tauri_plugin_macos_permissions::check_accessibility_permission().await {
+            "granted"
+        } else {
+            "not granted"
+        },
+    ));
+    permissions
 }
 
 fn os_version() -> Option<String> {
@@ -291,6 +335,38 @@ mod tests {
         let reference = tauri::async_runtime::block_on(post(&base, None, &report)).unwrap();
         println!("REFERENCE {reference}");
         assert!(reference.starts_with("PRL-") && reference.len() == 10);
+    }
+
+    #[test]
+    fn fields_name_settings_and_permissions_but_no_secret() {
+        let settings = Settings {
+            api_keys: [("groq".to_string(), "gsk_8f7d6e5c4b3a2910".to_string())].into(),
+            vocabulary: "Synapsr".to_string(),
+            microphone: Some("MacBook Air Microphone".to_string()),
+            ..Settings::default()
+        };
+        let fields = fields(
+            "0.1.5",
+            &settings,
+            &[("microphoneAccess", "denied"), ("accessibility", "granted")],
+        );
+        assert_eq!(fields["version"], "0.1.5");
+        assert_eq!(fields["microphone"], "chosen");
+        assert_eq!(fields["microphoneAccess"], "denied");
+        assert_eq!(fields["accessibility"], "granted");
+        let all = format!("{fields:?}");
+        assert!(!all.contains("gsk_") && !all.contains("Synapsr") && !all.contains("MacBook"));
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn macos_reads_both_permissions() {
+        let permissions = tauri::async_runtime::block_on(permissions());
+        let names: Vec<&str> = permissions.iter().map(|&(name, _)| name).collect();
+        assert_eq!(names, ["microphoneAccess", "accessibility"]);
+        let microphone = permissions[0].1;
+        assert!(["granted", "denied", "not determined", "unknown"].contains(&microphone));
+        assert!(["granted", "not granted"].contains(&permissions[1].1));
     }
 
     #[test]

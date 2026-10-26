@@ -110,8 +110,12 @@ impl Updates {
     }
 
     fn set(&self, app: &AppHandle, status: UpdateStatus) {
-        *lock(&self.status) = status.clone();
-        let _ = app.emit_to("main", "parler://update", status);
+        let previous = std::mem::replace(&mut *lock(&self.status), status.clone());
+        let _ = app.emit_to("main", "parler://update", status.clone());
+        // The tray menu offers the update too; progress ticks don't change it.
+        if std::mem::discriminant(&previous) != std::mem::discriminant(&status) {
+            crate::tray::refresh(app);
+        }
     }
 }
 

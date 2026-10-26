@@ -20,6 +20,9 @@ export function Overlay() {
   // A short message over the bars (Esc once more cancels), then gone.
   const [hint, setHint] = useState<string | null>(null);
   const hintTimer = useRef<number | undefined>(undefined);
+  // A message kept until the backend takes it away (no sound from the
+  // microphone); a passing hint covers it for a moment.
+  const [kept, setKept] = useState<string | null>(null);
   const previous = useRef<OverlayPhase>("hidden");
 
   useEffect(() => {
@@ -44,12 +47,18 @@ export function Overlay() {
       if (next.phase !== before) {
         window.clearTimeout(hintTimer.current);
         setHint(null);
+        setKept(null);
       }
       setEvent(next);
     });
     const hinted = events.overlayHint((next) => {
       if (next.sounds) sounds.hint();
-      setHint(`overlay.${next.hint}`);
+      const text = next.hint && `overlay.${next.hint}`;
+      if (next.durationMs === null) {
+        setKept(text);
+        return;
+      }
+      setHint(text);
       window.clearTimeout(hintTimer.current);
       hintTimer.current = window.setTimeout(() => setHint(null), next.durationMs);
     });
@@ -68,7 +77,8 @@ export function Overlay() {
   const phase = shown;
   const hidden = event.phase === "hidden";
 
-  let message: string | null = hint ? t(hint) : null;
+  const shownHint = hint ?? kept;
+  let message: string | null = shownHint ? t(shownHint) : null;
   if (phase === "empty") message = t("overlay.empty");
   if (phase === "error") {
     message = event.problem
@@ -77,10 +87,12 @@ export function Overlay() {
   }
 
   return (
-    <div className={`pill ${phase} ${hint ? "hinted" : ""} ${hidden ? "out" : ""}`}>
+    <div className={`pill ${phase} ${shownHint ? "hinted" : ""} ${hidden ? "out" : ""}`}>
       {phase === "transcribing" ? <span className="spinner" /> : <span className="dot" />}
       {message ? (
-        <span className="message">{message}</span>
+        <span key={message} className="message">
+          {message}
+        </span>
       ) : (
         <span className="bars">
           {levels.map((level, i) => (

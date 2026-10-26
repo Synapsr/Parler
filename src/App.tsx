@@ -63,6 +63,9 @@ function Shell() {
       copyLast: t("tray.copyLast"),
       history: t("tray.history"),
       quit: t("tray.quit"),
+      // {version} is left in: the backend fills it in.
+      update: t("tray.update"),
+      updating: t("tray.updating"),
     });
   }, [locale, t]);
 

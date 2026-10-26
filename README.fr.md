@@ -145,7 +145,7 @@ Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/pr
 
 ## Confidentialité
 
-- L'audio n'est enregistré que pendant la dictée et n'est envoyé qu'au service choisi. Il n'est jamais écrit sur le disque.
+- L'audio n'est enregistré que pendant la dictée et n'est envoyé qu'au service choisi. Il n'est jamais écrit sur le disque, sauf pour une dictée qui n'a pas pu être envoyée (faute de connexion, par exemple) : son audio reste sur cet ordinateur, lisible par votre seul compte utilisateur, jusqu'à son envoi ou sa suppression, 7 jours au plus.
 - Les enregistrements sans parole ne sont jamais envoyés.
 - Votre clé d'API et vos réglages restent dans un fichier local lisible par votre seul compte utilisateur.
 - Vos transcriptions (les 5 000 dernières) restent sur votre ordinateur pour pouvoir les retrouver et les recopier. Effacez-les quand vous voulez.
@@ -193,7 +193,7 @@ Même idée : parler plutôt que taper, dans n'importe quelle app. L'approche de
 <details>
 <summary><b>Ma voix est-elle conservée ou utilisée pour entraîner des modèles ?</b></summary>
 
-Parler n'enregistre jamais votre audio. Sur votre ordinateur, il ne garde que le texte de vos dictées, que vous pouvez effacer à tout moment. Ce que le service fait de l'audio dépend de sa propre politique : lisez-la avant de choisir.
+Parler ne conserve pas votre audio, sauf celui d'une dictée qui n'a pas pu être envoyée : il attend sur votre ordinateur jusqu'à son envoi ou sa suppression, 7 jours au plus. Pour le reste, Parler ne garde que le texte de vos dictées, que vous pouvez effacer à tout moment. Ce que le service fait de l'audio dépend de sa propre politique : lisez-la avant de choisir.
 
 </details>
 

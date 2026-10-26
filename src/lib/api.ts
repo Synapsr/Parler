@@ -117,15 +117,32 @@ export type PasteError =
 export type Problem =
   | { kind: "transcription"; error: TranscribeError }
   | { kind: "microphone"; detail: string }
+  /** The system's privacy settings keep Parler from the microphone. */
+  | { kind: "microphoneDenied" }
+  /** A whole recording of digital silence: muted, or not allowed to hear. */
+  | { kind: "noSound" }
   | { kind: "paste"; error: PasteError }
   | { kind: "shortcut"; shortcut: string; detail: string };
+
+/** Whether the system lets Parler use the microphone (see src-tauri/src/audio.rs). */
+export type MicrophoneAccess = "granted" | "denied" | "notDetermined" | "unknown";
 
 export type DictationState = "idle" | "recording" | "transcribing";
 
 export interface Status {
   state: DictationState;
   problem: Problem | null;
+  /** The dictation the problem is about waits to be sent again. */
   canRetry: boolean;
+}
+
+/** A dictation that couldn't be sent, kept on this computer until it is. */
+export interface Unsent {
+  /** When it was recorded, in Unix milliseconds. */
+  id: number;
+  durationMs: number;
+  /** Why the last attempt failed. */
+  error: TranscribeError;
 }
 
 export interface HistoryEntry {
@@ -153,6 +170,10 @@ export interface TrayLabels {
   copyLast: string;
   history: string;
   quit: string;
+  /** "Update to Parler {version}": the backend fills in the version. */
+  update: string;
+  /** "Updating to Parler {version}…". */
+  updating: string;
 }
 
 export interface AppInfo {
@@ -177,10 +198,14 @@ export interface OverlayEvent {
 /** Why the log couldn't be sent to support. */
 export type SendLogError = "offline" | "tooMany" | "failed";
 
+export type OverlayHint = "escapeAgain" | "noSound";
+
 /** A short message on the pill while the dictation goes on. */
 export interface OverlayHintEvent {
-  hint: "escapeAgain";
-  durationMs: number;
+  /** `null` takes a kept hint away. */
+  hint: OverlayHint | null;
+  /** `null` keeps the hint until it is taken away or the phase changes. */
+  durationMs: number | null;
   sounds: boolean;
 }
 
@@ -206,7 +231,12 @@ export const api = {
   copyText: (text: string) => invoke("copy_text", { text }),
   getStatus: () => invoke<Status>("get_status"),
   toggleDictation: () => invoke("toggle_dictation"),
-  retryDictation: () => invoke("retry_dictation"),
+  /** Sends an unsent dictation again: `id`, or the one that just failed. */
+  retryDictation: (id?: number) => invoke("retry_dictation", { id: id ?? null }),
+  getPending: () => invoke<Unsent[]>("get_pending"),
+  deletePending: (id: number) => invoke("delete_pending", { id }),
+  microphoneAccess: () => invoke<MicrophoneAccess>("microphone_access"),
+  openMicrophoneSettings: () => invoke("open_microphone_settings"),
   setTrayLabels: (labels: TrayLabels) => invoke("set_tray_labels", { labels }),
   suspendShortcut: () => invoke("suspend_shortcut"),
   resumeShortcut: () => invoke("resume_shortcut"),
@@ -233,6 +263,8 @@ export const events = {
     listen<Status>("parler://status", (e) => handler(e.payload)),
   history: (handler: (entries: HistoryEntry[]) => void): Promise<UnlistenFn> =>
     listen<HistoryEntry[]>("parler://history", (e) => handler(e.payload)),
+  pending: (handler: (unsent: Unsent[]) => void): Promise<UnlistenFn> =>
+    listen<Unsent[]>("parler://pending", (e) => handler(e.payload)),
   /** The tray asks the window to show a page. */
   navigate: (handler: (page: string) => void): Promise<UnlistenFn> =>
     listen<string>("parler://navigate", (e) => handler(e.payload)),

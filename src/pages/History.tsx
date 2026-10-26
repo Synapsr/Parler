@@ -1,6 +1,7 @@
 import { Search, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { EmptyHistory, HistoryDays } from "../components/HistoryList";
+import { UnsentList } from "../components/UnsentList";
 import { useT } from "../i18n/context";
 import { api } from "../lib/api";
 import { useParler } from "../state";
@@ -35,6 +36,11 @@ export function HistoryPage() {
         title={t("history.title")}
         subtitle={history.length === 1 ? t("history.countOne") : t("history.count", { n: count })}
       />
+
+      {/* Unsent dictations first: they wait for the person. */}
+      <div className="mb-5 empty:hidden">
+        <UnsentList />
+      </div>
 
       {history.length === 0 ? (
         <EmptyHistory>

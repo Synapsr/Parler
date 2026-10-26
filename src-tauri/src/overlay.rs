@@ -40,13 +40,17 @@ pub enum Phase {
 pub enum Hint {
     /// Esc was pressed once: once more cancels.
     EscapeAgain,
+    /// Nothing at all has come from the microphone yet.
+    NoSound,
 }
 
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]
 struct HintEvent {
-    hint: Hint,
-    duration_ms: u64,
+    /// `None` takes a kept hint away.
+    hint: Option<Hint>,
+    /// `None` keeps the hint until it is taken away or the phase changes.
+    duration_ms: Option<u64>,
     sounds: bool,
 }
 
@@ -155,15 +159,44 @@ fn show_with(app: &AppHandle, phase: Phase, sounds: bool, problem: Option<Proble
 /// Puts `hint` on the pill for `duration`, then the pill goes back to what
 /// it was showing.
 pub fn hint(app: &AppHandle, hint: Hint, duration: Duration, sounds: bool) {
+    emit_hint(
+        app,
+        HintEvent {
+            hint: Some(hint),
+            duration_ms: Some(duration.as_millis() as u64),
+            sounds,
+        },
+    );
+}
+
+/// Keeps `hint` on the pill until `clear_hint` or the next phase. A passing
+/// hint may cover it for a moment.
+pub fn keep_hint(app: &AppHandle, hint: Hint, sounds: bool) {
+    emit_hint(
+        app,
+        HintEvent {
+            hint: Some(hint),
+            duration_ms: None,
+            sounds,
+        },
+    );
+}
+
+/// Takes the kept hint away.
+pub fn clear_hint(app: &AppHandle) {
+    emit_hint(
+        app,
+        HintEvent {
+            hint: None,
+            duration_ms: None,
+            sounds: false,
+        },
+    );
+}
+
+fn emit_hint(app: &AppHandle, event: HintEvent) {
     if let Some(window) = app.get_webview_window(LABEL) {
-        let _ = window.emit(
-            "parler://overlay-hint",
-            HintEvent {
-                hint,
-                duration_ms: duration.as_millis() as u64,
-                sounds,
-            },
-        );
+        let _ = window.emit("parler://overlay-hint", event);
     }
 }
 

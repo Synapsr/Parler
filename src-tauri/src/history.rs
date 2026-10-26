@@ -2,7 +2,6 @@
 //! window, say), and lifetime totals for the home screen.
 
 use serde::{Deserialize, Serialize};
-use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -39,11 +38,10 @@ pub struct History {
     stats: Mutex<Stats>,
 }
 
+/// The file's contents, or empty. A file that can't be read is moved aside
+/// rather than replaced by the next save, so no dictation is lost to it.
 fn read_json<T: serde::de::DeserializeOwned + Default>(path: &Path) -> T {
-    fs::read_to_string(path)
-        .ok()
-        .and_then(|json| serde_json::from_str(&json).ok())
-        .unwrap_or_default()
+    crate::settings::read_or_set_aside(path).unwrap_or_default()
 }
 
 fn write_json<T: Serialize>(path: &Path, value: &T) {
@@ -157,9 +155,33 @@ fn is_cjk(c: char) -> bool {
     matches!(c as u32, 0x3040..=0x30FF | 0x3400..=0x4DBF | 0x4E00..=0x9FFF | 0xF900..=0xFAFF)
 }
 
+/// A character of a script written without spaces between sentences: Han,
+/// kana and Thai.
+pub(crate) fn is_unspaced(c: char) -> bool {
+    is_cjk(c) || matches!(c as u32, 0x0E00..=0x0E7F)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs;
+
+    #[test]
+    fn an_unreadable_history_is_kept_aside_not_overwritten() {
+        let dir =
+            std::env::temp_dir().join(format!("parler-history-broken-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("history.json");
+        fs::write(&path, "[{\"id\": 1, \"text\": \"cut off").unwrap();
+        let history = History::load(path.clone());
+        assert!(history.entries().is_empty());
+        history.add("after".into(), 1000, "Groq".into());
+        assert!(fs::read_to_string(dir.join("history.json.broken"))
+            .unwrap()
+            .contains("cut off"));
+        let _ = fs::remove_dir_all(dir);
+    }
 
     #[test]
     fn keeps_the_newest_entries_first_and_bounded() {

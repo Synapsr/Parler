@@ -1,5 +1,7 @@
-import { ArrowRight, Download, Gauge, RotateCw, Timer, Type } from "lucide-react";
+import { openUrl } from "@tauri-apps/plugin-opener";
+import { ArrowRight, ArrowUpRight, Download, Gauge, RotateCw, Timer, Type } from "lucide-react";
 import { PlanButton } from "../components/Cloud";
+import { TrialBanner } from "../components/TrialBanner";
 import { usePercent, useUpdate, useUpdateError } from "../components/useUpdate";
 import { requestAccessibilityPermission } from "tauri-plugin-macos-permissions-api";
 import { joinSentences } from "../i18n";
@@ -7,9 +9,9 @@ import { useT } from "../i18n/context";
 import { EmptyHistory, HistoryDays } from "../components/HistoryList";
 import { KeysSentence } from "../components/KeysSentence";
 import { useKeycaps } from "../components/useKeycaps";
-import { api } from "../lib/api";
+import { api, type Problem } from "../lib/api";
 import { formatDuration, minutesSaved, wordsPerMinute } from "../lib/insights";
-import { describeProblem } from "../lib/problems";
+import { describeProblem, isMicrophoneProblem } from "../lib/problems";
 import { useParler } from "../state";
 import { Banner, Button, FlowPill, Keycaps, PageHeader, Stat } from "../ui";
 
@@ -32,8 +34,9 @@ export function Home({
     <div className="flex flex-col gap-5">
       <PageHeader title={greeting} subtitle={t("home.subtitle")} />
       <Hero />
-      <Problem openSettings={openSettings} />
+      <Problems openSettings={openSettings} />
       <UpdateBanner />
+      <TrialBanner />
       <Stats />
       <Recent openHistory={openHistory} />
     </div>
@@ -85,27 +88,59 @@ function Hero() {
   );
 }
 
-function Problem({ openSettings }: { openSettings: () => void }) {
+/**
+ * The last dictation's problem, and microphone access the system took away
+ * since then, said once in place of a problem the microphone was behind.
+ */
+function Problems({ openSettings }: { openSettings: () => void }) {
+  const { status, microphone } = useParler();
+  if (status.state !== "idle") return null;
+  const denied = microphone === "denied";
+  let last = status.problem;
+  if (last && isMicrophoneProblem(last)) {
+    const allowedAgain = last.kind === "microphoneDenied" && microphone === "granted";
+    if (denied || allowedAgain) last = null;
+  }
+  return (
+    <>
+      {last && <ProblemBanner problem={last} canRetry={status.canRetry} openSettings={openSettings} />}
+      {denied && (
+        <ProblemBanner problem={{ kind: "microphoneDenied" }} canRetry={false} openSettings={openSettings} />
+      )}
+    </>
+  );
+}
+
+function ProblemBanner({
+  problem: shown,
+  canRetry,
+  openSettings,
+}: {
+  problem: Problem;
+  canRetry: boolean;
+  openSettings: () => void;
+}) {
   const { t, locale } = useT();
-  const { status, cloud } = useParler();
-  if (!status.problem || status.state !== "idle") return null;
-  const problem = describeProblem(status.problem, t("providers.customName"), locale);
+  const { info, cloud } = useParler();
+  const problem = describeProblem(shown, t("providers.customName"), locale);
   // The account knows the plan page best; the error knows it too.
   const manageUrl = problem.manageUrl && (cloud.account?.manageUrl ?? problem.manageUrl);
+  // Linux has no microphone privacy settings to open.
+  const microphoneSettings = problem.needsMicrophone && info.platform !== "linux";
 
   return (
     <Banner
       tone="error"
       actions={
         <>
-          {status.canRetry && (
+          {canRetry && (
             <Button size="sm" variant="primary" onClick={() => api.retryDictation()}>
               <RotateCw className="size-3.5" />
               {t("problems.retry")}
             </Button>
           )}
           {manageUrl && (
-            <PlanButton quiet={status.canRetry} account={{ status: cloud.account?.status ?? "none", manageUrl }} />
+            <PlanButton quiet={canRetry} account={{ status: cloud.account?.status ?? "none", manageUrl }} />
           )}
           {problem.needsSignIn && (
             <Button size="sm" onClick={openSettings}>
@@ -122,6 +157,11 @@ function Problem({ openSettings }: { openSettings: () => void }) {
               {t("problems.openAccessibility")}
             </Button>
           )}
+          {microphoneSettings && (
+            <Button size="sm" onClick={() => api.openMicrophoneSettings()}>
+              {t("problems.openMicrophone")}
+            </Button>
+          )}
         </>
       }
     >
@@ -131,6 +171,8 @@ function Problem({ openSettings }: { openSettings: () => void }) {
 }
 
 /** A newer Parler, quietly offered; the download and restart follow here. */
+const RELEASES = "https://github.com/Synapsr/Parler/releases";
+
 function UpdateBanner() {
   const { t } = useT();
   const { status, install } = useUpdate();
@@ -143,10 +185,16 @@ function UpdateBanner() {
         <Banner
           tone="info"
           actions={
-            <Button size="sm" variant="primary" onClick={install}>
-              <Download className="size-3.5" />
-              {t("updates.update")}
-            </Button>
+            <>
+              <Button size="sm" variant="primary" onClick={install}>
+                <Download className="size-3.5" />
+                {t("updates.update")}
+              </Button>
+              <Button size="sm" variant="ghost" onClick={() => openUrl(`${RELEASES}/tag/v${status.version}`)}>
+                {t("updates.whatsNew")}
+                <ArrowUpRight className="size-3.5" />
+              </Button>
+            </>
           }
         >
           {t("updates.available", { version: status.version })}

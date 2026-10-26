@@ -153,6 +153,7 @@ const usage = (monthHours: number, dayHours = 0.4) => ({
   dayLimitSeconds: 14_400,
   monthLimitSeconds: 144_000,
 });
+const trialDays = Number(params.get("trialDays") ?? 2.4);
 const MANAGE_URL = "https://cloud.parler.synapsr.io/account";
 const account = (mode: string | null) => {
   const base = {
@@ -178,7 +179,15 @@ const account = (mode: string | null) => {
     case "canceled":
       return { ...base, status: "canceled", renewsAt: null, usage: usage(0, 0) };
     default:
-      return { ...base, status: "trialing", trialEndsAt: at(2.4), renewsAt: at(2.4), usage: usage(3.2) };
+      // `trialDays=0.4` brings the end near (Home then says so); `canceling=1` stops it there.
+      return {
+        ...base,
+        status: "trialing",
+        trialEndsAt: at(trialDays),
+        renewsAt: at(trialDays),
+        cancelAtPeriodEnd: params.get("canceling") === "1",
+        usage: usage(3.2),
+      };
   }
 };
 const CLOUD_ERRORS: Record<string, object> = {
@@ -187,18 +196,53 @@ const CLOUD_ERRORS: Record<string, object> = {
   fairmonth: { kind: "fairUseMonth", provider: "Parler Cloud" },
   signedout: { kind: "signedOut", provider: "Parler Cloud" },
 };
+// The microphone's own problems: `nosound` (a recording of digital silence),
+// `micdenied` (not allowed in the privacy settings).
+const MICROPHONE_PROBLEMS: Record<string, object> = {
+  nosound: { kind: "noSound" },
+  micdenied: { kind: "microphoneDenied" },
+};
 // `problem=1` (offline), a Parler Cloud one (`subscription`, `fairday`,
-// `fairmonth`, `signedout`), or `key`: a key alone waiting for Accessibility.
+// `fairmonth`, `signedout`), a microphone one (`nosound`, `micdenied`), or
+// `key`: a key alone waiting for Accessibility.
 const problemParam = params.get("problem");
 const problem =
   problemParam === "key"
     ? { kind: "shortcut", shortcut: settings.shortcut, detail: "Accessibility access is needed" }
-    : problemParam
-      ? {
-          kind: "transcription",
-          error: CLOUD_ERRORS[problemParam] ?? { kind: "offline", provider: "Groq" },
-        }
-      : null;
+    : problemParam && MICROPHONE_PROBLEMS[problemParam]
+      ? MICROPHONE_PROBLEMS[problemParam]
+      : problemParam
+        ? {
+            kind: "transcription",
+            error: CLOUD_ERRORS[problemParam] ?? { kind: "offline", provider: "Groq" },
+          }
+        : null;
+// `mic=denied` (or `notDetermined`, `unknown`): what the privacy settings say
+// when the window comes to the front; allowed by default.
+const microphoneAccess = params.get("mic") ?? "granted";
+// `pending=3` keeps that many dictations that couldn't be sent (at most 4).
+// Sending one again succeeds after a moment, unless `retry=fail`.
+const UNSENT_ERRORS = [
+  { kind: "offline", provider: "Groq" },
+  { kind: "rejected", provider: "Groq", status: 503, message: "Service Unavailable" },
+  { kind: "timeout", provider: "Groq" },
+  { kind: "offline", provider: "Groq" },
+];
+let unsent = UNSENT_ERRORS.slice(0, Number(params.get("pending") ?? 0)).map((error, i) => ({
+  id: now - [3 * 60_000, 2 * HOUR + 600_000, 27 * HOUR, 4 * 24 * HOUR][i],
+  durationMs: [42_000, 7_400, 185_000, 12_000][i],
+  error,
+}));
+const retryMode = params.get("retry");
+let status = {
+  state: params.get("state") ?? "idle",
+  problem,
+  canRetry: Boolean(problem) && !(problemParam && MICROPHONE_PROBLEMS[problemParam]),
+};
+const statusChanged = (next: Partial<typeof status>) => {
+  status = { ...status, ...next };
+  emit("parler://status", status);
+};
 // Updates: `update=available|downloading|waiting|restarting|error|offline|uptodate|disabled`.
 // `error` is a failed install (on Home and in Settings), `offline` a failed check.
 const UPDATE_STATES: Record<string, object> = {
@@ -285,11 +329,32 @@ mockIPC(
           { id: "custom", label: "Custom", baseUrl: "", defaultModel: "whisper-1", models: [], requiresApiKey: false, apiKeyUrl: null },
         ];
       case "get_status":
-        return {
-          state: params.get("state") ?? "idle",
-          problem,
-          canRetry: Boolean(problem),
-        };
+        return status;
+      case "get_pending":
+        return unsent;
+      case "delete_pending":
+        unsent = unsent.filter((u) => u.id !== a.id);
+        setTimeout(() => emit("parler://pending", unsent), 0);
+        return null;
+      case "retry_dictation": {
+        // `null` is the one the banner is about: the newest.
+        const id = (a.id as number | null) ?? unsent[0]?.id;
+        statusChanged({ state: "transcribing", canRetry: false });
+        setTimeout(() => {
+          if (retryMode === "fail") {
+            statusChanged({ state: "idle", canRetry: true });
+            return;
+          }
+          unsent = unsent.filter((u) => u.id !== id);
+          emit("parler://pending", unsent);
+          statusChanged({ state: "idle", problem: null, canRetry: false });
+        }, 1400);
+        return null;
+      }
+      case "microphone_access":
+        return microphoneAccess;
+      case "open_microphone_settings":
+        return null;
       case "get_history":
         return onboarded ? HISTORY : [];
       case "get_stats":
@@ -362,16 +427,27 @@ if (view === "overlay") {
   createRoot(document.getElementById("root")!).render(<Overlay />);
   const phase = params.get("phase") ?? "recording";
   setTimeout(async () => {
-    // `error=subscription|fairday|fairmonth|signedout` shows a Parler Cloud problem.
-    const error = CLOUD_ERRORS[params.get("error") ?? ""] ?? { kind: "unauthorized", provider: "Groq" };
-    await emit("parler://overlay", { phase, sounds: false, problem: phase === "error" ? { kind: "transcription", error } : null });
-    // `hint=escapeAgain` shows what a first Esc says.
+    // `error=subscription|fairday|fairmonth|signedout` shows a Parler Cloud
+    // problem, `error=nosound|micdenied` a microphone one.
+    const errorParam = params.get("error") ?? "";
+    const error = CLOUD_ERRORS[errorParam] ?? { kind: "unauthorized", provider: "Groq" };
+    const shown = MICROPHONE_PROBLEMS[errorParam] ?? { kind: "transcription", error };
+    await emit("parler://overlay", { phase, sounds: false, problem: phase === "error" ? shown : null });
+    // `hint=escapeAgain` shows what a first Esc says; `hint=noSound`, what a
+    // silent microphone does, kept until signal comes back.
     const hint = params.get("hint");
-    if (hint) setTimeout(() => emit("parler://overlay-hint", { hint, durationMs: 60_000, sounds: false }), 400);
+    const kept = hint === "noSound";
+    if (hint) {
+      setTimeout(
+        () => emit("parler://overlay-hint", { hint, durationMs: kept ? null : 60_000, sounds: false }),
+        400,
+      );
+    }
     let t = 0;
     setInterval(() => {
       t += 1;
-      emit("parler://level", Math.abs(Math.sin(t / 3)) * 0.8 * Math.random() + 0.1);
+      // A silent microphone draws flat bars.
+      emit("parler://level", kept ? 0 : Math.abs(Math.sin(t / 3)) * 0.8 * Math.random() + 0.1);
     }, 60);
   }, 300);
 } else {

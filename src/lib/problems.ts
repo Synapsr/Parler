@@ -12,6 +12,8 @@ export interface ProblemText {
   /** Fixing it means visiting the settings. */
   needsSettings: boolean;
   needsAccessibility: boolean;
+  /** Fixing it may mean the system's microphone privacy settings. */
+  needsMicrophone: boolean;
   /** Fixing it means signing in to Parler Cloud again. */
   needsSignIn: boolean;
   /** Fixing it means choosing a plan on this page. */
@@ -36,6 +38,7 @@ export function describeProblem(
     params,
     needsSettings: false,
     needsAccessibility: false,
+    needsMicrophone: false,
     needsSignIn: false,
     ...flags,
   });
@@ -72,6 +75,9 @@ export function describeProblem(
     }
     case "microphone":
       return text("microphone", { detail: problem.detail });
+    case "microphoneDenied":
+    case "noSound":
+      return text(problem.kind, {}, { needsMicrophone: true });
     case "paste":
       switch (problem.error.kind) {
         case "needsAccessibility":
@@ -112,4 +118,11 @@ const SHORT: Record<string, true> = {
   fairUseDay: true,
   fairUseMonth: true,
   microphone: true,
+  microphoneDenied: true,
+  noSound: true,
 };
+
+/** Problems the microphone itself is behind. */
+export function isMicrophoneProblem(problem: Problem): boolean {
+  return ["microphone", "microphoneDenied", "noSound"].includes(problem.kind);
+}

@@ -24,7 +24,7 @@ export function Sidebar({
   onNavigate: (page: Page) => void;
 }) {
   const { t } = useT();
-  const { info, settings, status, provider, cloud } = useParler();
+  const { info, settings, status, provider, cloud, microphone } = useParler();
   const toKeys = useKeycaps();
   const mac = info.platform === "macos";
 
@@ -36,7 +36,7 @@ export function Sidebar({
       ? ["listening", t("status.listening")]
       : status.state === "transcribing"
         ? ["busy", t("status.writing")]
-        : status.problem || missingKey || planMissing
+        : status.problem || missingKey || planMissing || microphone === "denied"
           ? ["attention", t("status.attention")]
           : ["ready", t("status.ready")];
 

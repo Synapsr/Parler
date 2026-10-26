@@ -16,11 +16,13 @@ import {
   type AppInfo,
   type CloudAccount,
   type HistoryEntry,
+  type MicrophoneAccess,
   type Provider,
   type Settings,
   type Stats,
   type Status,
   type TranscribeError,
+  type Unsent,
 } from "./lib/api";
 
 export interface Snapshot {
@@ -30,6 +32,8 @@ export interface Snapshot {
   status: Status;
   history: HistoryEntry[];
   stats: Stats;
+  /** Dictations that couldn't be sent, newest first. */
+  pending: Unsent[];
 }
 
 /** The Parler Cloud account of this computer. */
@@ -50,20 +54,23 @@ interface ParlerValue extends Snapshot {
   /** Saves a change; resolves to an error message when it was refused. */
   update: (patch: Partial<Settings>) => Promise<string | null>;
   cloud: CloudValue;
+  /** Whether the system lets Parler use the microphone. */
+  microphone: MicrophoneAccess;
 }
 
 const ParlerContext = createContext<ParlerValue | null>(null);
 
 export async function loadSnapshot(): Promise<Snapshot> {
-  const [info, settings, providers, status, history, stats] = await Promise.all([
+  const [info, settings, providers, status, history, stats, pending] = await Promise.all([
     api.appInfo(),
     api.getSettings(),
     api.getProviders(),
     api.getStatus(),
     api.getHistory(),
     api.getStats(),
+    api.getPending(),
   ]);
-  return { info, settings, providers, status, history, stats };
+  return { info, settings, providers, status, history, stats, pending };
 }
 
 export function ParlerProvider({
@@ -77,6 +84,7 @@ export function ParlerProvider({
   const [status, setStatus] = useState(initial.status);
   const [history, setHistory] = useState(initial.history);
   const [stats, setStats] = useState(initial.stats);
+  const [pending, setPending] = useState(initial.pending);
   // Changes made in quick succession build on each other, not on a render
   // that hasn't happened yet.
   const latest = useRef(initial.settings);
@@ -92,6 +100,7 @@ export function ParlerProvider({
       events.status(setStatus),
       events.history(setHistory),
       events.stats(setStats),
+      events.pending(setPending),
     ];
     return () => {
       subscriptions.forEach((s) => s.then((unlisten) => unlisten()));
@@ -117,6 +126,7 @@ export function ParlerProvider({
   }, []);
 
   const cloud = useCloudAccount(settings);
+  const microphone = useMicrophoneAccess(initial.info.platform);
 
   const value = useMemo<ParlerValue>(
     () => ({
@@ -126,11 +136,13 @@ export function ParlerProvider({
       status,
       history,
       stats,
+      pending,
       provider: initial.providers.find((p) => p.id === settings.provider),
       update,
       cloud,
+      microphone,
     }),
-    [initial, settings, status, history, stats, update, cloud],
+    [initial, settings, status, history, stats, pending, update, cloud, microphone],
   );
 
   return (
@@ -196,6 +208,33 @@ function useCloudAccount(settings: Settings): CloudValue {
     () => ({ signedIn, account, loading, error, refresh, received }),
     [signedIn, account, loading, error, refresh, received],
   );
+}
+
+/**
+ * Whether the system lets Parler use the microphone, checked again whenever
+ * the window comes back to the front: access taken away in the system
+ * settings shows on Home before a dictation runs into it. Linux doesn't say.
+ */
+function useMicrophoneAccess(platform: string): MicrophoneAccess {
+  const [access, setAccess] = useState<MicrophoneAccess>("unknown");
+
+  useEffect(() => {
+    if (platform !== "macos" && platform !== "windows") return;
+    const check = () =>
+      api
+        .microphoneAccess()
+        .then(setAccess)
+        .catch(() => {});
+    check();
+    const unlisten = getCurrentWindow().onFocusChanged(({ payload: focused }) => {
+      if (focused) check();
+    });
+    return () => {
+      unlisten.then((stop) => stop()).catch(() => {});
+    };
+  }, [platform]);
+
+  return access;
 }
 
 export function useParler(): ParlerValue {

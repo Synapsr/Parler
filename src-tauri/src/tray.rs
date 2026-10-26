@@ -3,6 +3,7 @@
 use crate::dictation::{Dictation, Event};
 use crate::history::History;
 use crate::paste;
+use crate::updates::{self, UpdateStatus, Updates};
 use std::sync::Mutex;
 use tauri::image::Image;
 use tauri::menu::{Menu, MenuItem, PredefinedMenuItem};
@@ -23,6 +24,10 @@ pub struct Labels {
     copy_last: String,
     history: String,
     quit: String,
+    /// "Update to Parler {version}".
+    update: String,
+    /// "Updating to Parler {version}…".
+    updating: String,
 }
 
 impl Default for Labels {
@@ -33,6 +38,8 @@ impl Default for Labels {
             copy_last: "Copy last transcript".into(),
             history: "History…".into(),
             quit: "Quit Parler".into(),
+            update: "Update to Parler {version}".into(),
+            updating: "Updating to Parler {version}…".into(),
         }
     }
 }
@@ -49,7 +56,7 @@ fn menu(app: &AppHandle) -> tauri::Result<Menu<tauri::Wry>> {
     let has_history = app
         .try_state::<History>()
         .is_some_and(|history| !history.entries().is_empty());
-    Menu::with_items(
+    let menu = Menu::with_items(
         app,
         &[
             &MenuItem::with_id(app, "open", &labels.open, true, None::<&str>)?,
@@ -66,7 +73,45 @@ fn menu(app: &AppHandle) -> tauri::Result<Menu<tauri::Wry>> {
             &PredefinedMenuItem::separator(app)?,
             &MenuItem::with_id(app, "quit", &labels.quit, true, None::<&str>)?,
         ],
-    )
+    )?;
+    // People who live in the menu bar never see the window's banner: the
+    // update waits for them at the top of the menu.
+    if let Some((label, enabled)) = update_item(&labels, app) {
+        menu.prepend(&PredefinedMenuItem::separator(app)?)?;
+        menu.prepend(&MenuItem::with_id(
+            app,
+            "update",
+            label,
+            enabled,
+            None::<&str>,
+        )?)?;
+    }
+    Ok(menu)
+}
+
+/// The update entry, while there is one to offer or one installing.
+fn update_item(labels: &Labels, app: &AppHandle) -> Option<(String, bool)> {
+    let status = app.try_state::<Updates>()?.status();
+    let (label, version, enabled) = match status {
+        UpdateStatus::Available { version }
+        | UpdateStatus::Failed {
+            version: Some(version),
+            ..
+        } => (&labels.update, version, true),
+        UpdateStatus::Downloading { version, .. } | UpdateStatus::Restarting { version, .. } => {
+            (&labels.updating, version, false)
+        }
+        _ => return None,
+    };
+    Some((label.replace("{version}", &version), enabled))
+}
+
+fn install_update(app: &AppHandle) {
+    let app = app.clone();
+    tauri::async_runtime::spawn(async move {
+        // A failure is reported by the status itself, and the entry stays.
+        let _ = updates::install(&app).await;
+    });
 }
 
 fn copy_last(app: &AppHandle) {
@@ -103,6 +148,7 @@ pub fn create(app: &AppHandle) -> tauri::Result<TrayIcon> {
             "toggle" => app.state::<Dictation>().send(Event::Toggle),
             "copy_last" => copy_last(app),
             "history" => show_history(app),
+            "update" => install_update(app),
             "quit" => app.exit(0),
             _ => {}
         })

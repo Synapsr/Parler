@@ -1,11 +1,12 @@
 //! What the windows can ask of the backend.
 
-use crate::audio::{self, Microphone};
+use crate::audio::{self, Microphone, MicrophoneAccess};
 use crate::cloud::{self, Account, DeviceStart, Poll, SignIn};
 use crate::diagnostics::{self, SendError};
 use crate::dictation::{Dictation, Event, Problem, Status, StatusState};
 use crate::history::{self, Entry, History, Stats};
 use crate::paste::{self, PasteError};
+use crate::pending::Unsent;
 use crate::providers::{self, Provider, Request, TranscribeError};
 use crate::settings::{Settings, SettingsStore};
 use crate::updates::{self, UpdateError, UpdateStatus, Updates};
@@ -268,9 +269,22 @@ pub fn toggle_dictation(dictation: State<Dictation>) {
     dictation.send(Event::Toggle);
 }
 
+/// Sends an unsent dictation again: `id`, or the one that just failed.
 #[tauri::command]
-pub fn retry_dictation(dictation: State<Dictation>) {
-    dictation.send(Event::Retry);
+pub fn retry_dictation(dictation: State<Dictation>, id: Option<u64>) {
+    dictation.send(Event::Retry(id));
+}
+
+/// The dictations that couldn't be sent, newest first.
+#[tauri::command]
+pub fn get_pending(dictation: State<Dictation>) -> Vec<Unsent> {
+    dictation.unsent()
+}
+
+/// Deletes an unsent dictation, audio and all.
+#[tauri::command]
+pub fn delete_pending(dictation: State<Dictation>, id: u64) {
+    dictation.send(Event::Discard(id));
 }
 
 /// The tray menu's words, in the interface language.
@@ -366,6 +380,29 @@ pub async fn github_stars() -> Option<u64> {
     }
     let repository: serde_json::Value = response.json().await.ok()?;
     repository.get("stargazers_count")?.as_u64()
+}
+
+/// Whether the system lets Parler use the microphone, checked again when
+/// the window comes back to the front.
+#[tauri::command]
+pub fn microphone_access() -> MicrophoneAccess {
+    audio::microphone_access()
+}
+
+/// The system's microphone privacy settings, where Parler is allowed to
+/// listen. Linux has no such page.
+#[tauri::command]
+pub fn open_microphone_settings(app: AppHandle) {
+    let url = if cfg!(target_os = "macos") {
+        "x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone"
+    } else if cfg!(target_os = "windows") {
+        "ms-settings:privacy-microphone"
+    } else {
+        return;
+    };
+    if let Err(e) = app.opener().open_url(url, None::<&str>) {
+        log::warn!("Could not open the microphone settings: {e}");
+    }
 }
 
 /// System Settings → Keyboard, where the 🌐 key's own action is chosen.

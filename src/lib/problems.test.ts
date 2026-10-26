@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { LOCALES, translate } from "../i18n";
-import { describeProblem } from "./problems";
+import { describeProblem, isMicrophoneProblem } from "./problems";
 import type { Problem } from "./api";
 
 const problems: Problem[] = [
@@ -24,6 +24,8 @@ const problems: Problem[] = [
   { kind: "transcription", error: { kind: "fairUseDay", provider: "Parler Cloud" } },
   { kind: "transcription", error: { kind: "fairUseMonth", provider: "Parler Cloud" } },
   { kind: "microphone", detail: "gone" },
+  { kind: "microphoneDenied" },
+  { kind: "noSound" },
   { kind: "paste", error: { kind: "needsAccessibility" } },
   { kind: "paste", error: { kind: "noClipboard" } },
   { kind: "paste", error: { kind: "failed", detail: "x" } },
@@ -64,6 +66,18 @@ describe("describeProblem", () => {
     expect(plan.needsSettings).toBe(false);
     expect(describeProblem(problems[11]).params.time).toBeTruthy();
     expect(describeProblem(problems[12]).params.date).toBeTruthy();
+  });
+
+  it("sends a silent or forbidden microphone to its privacy settings", () => {
+    for (const problem of [{ kind: "noSound" }, { kind: "microphoneDenied" }] as Problem[]) {
+      const text = describeProblem(problem);
+      expect(text.key).toBe(`problems.${problem.kind}`);
+      expect(text.short).toBe(`overlay.${problem.kind}`);
+      expect(text.needsMicrophone).toBe(true);
+      expect(isMicrophoneProblem(problem)).toBe(true);
+    }
+    expect(describeProblem({ kind: "microphone", detail: "gone" }).needsMicrophone).toBe(false);
+    expect(isMicrophoneProblem(problems[5])).toBe(false);
   });
 
   it("sends keys used alone to the Accessibility settings", () => {
