@@ -140,7 +140,9 @@ fn fields(
 /// What the system lets Parler do, the first thing support checks when
 /// nothing is heard or nothing is pasted. Only read: nothing here asks.
 async fn permissions() -> Vec<(&'static str, &'static str)> {
-    #[allow(unused_mut)]
+    // What gets pushed depends on the platform: none on Linux, one on
+    // Windows, two on macOS.
+    #[allow(unused_mut, clippy::vec_init_then_push)]
     let mut permissions = Vec::new();
     // Linux can't tell before a recording fails.
     #[cfg(any(target_os = "macos", target_os = "windows"))]
