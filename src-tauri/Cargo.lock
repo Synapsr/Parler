@@ -3282,7 +3282,7 @@ dependencies = [
 
 [[package]]
 name = "parler"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "arboard",
  "core-foundation 0.10.1",
