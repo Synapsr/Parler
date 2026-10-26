@@ -48,9 +48,15 @@ tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2.
 # and tao).
 core-foundation = "0.10"
 core-graphics = "0.25"
+# The pasteboard saved and put back in full around a paste, every type of
+# every item (already in the tree through arboard and tao).
+objc2 = "0.6.5"
+objc2-app-kit = { version = "0.3.2", default-features = false, features = ["std", "NSPasteboard", "NSPasteboardItem"] }
+objc2-foundation = { version = "0.3.2", default-features = false, features = ["std", "NSArray", "NSData", "NSString"] }
 
 [target.'cfg(windows)'.dependencies]
-windows = { version = "0.61", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging"] }
+# DataExchange tells an empty clipboard from one Parler can't read.
+windows = { version = "0.61", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging", "Win32_System_DataExchange"] }
 
 [profile.release]
 codegen-units = 1
