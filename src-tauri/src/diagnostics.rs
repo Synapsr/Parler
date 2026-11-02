@@ -120,6 +120,7 @@ fn fields(
         format!("{:?}", settings.shortcut_mode).to_lowercase(),
     );
     fields.insert("output", format!("{:?}", settings.output).to_lowercase());
+    fields.insert("muteAudio", settings.mute_audio.to_string());
     fields.insert("language", settings.language.clone());
     fields.insert("uiLanguage", settings.ui_language.clone());
     fields.insert(

@@ -72,6 +72,8 @@ pub struct Settings {
     pub microphone: Option<String>,
     pub output: Output,
     pub sounds: bool,
+    /// Mutes the computer's sound while recording (see `mute.rs`).
+    pub mute_audio: bool,
     /// "auto", "en" or "fr".
     pub ui_language: String,
     pub theme: Theme,
@@ -105,6 +107,7 @@ impl Default for Settings {
             microphone: None,
             output: Output::default(),
             sounds: true,
+            mute_audio: false,
             ui_language: "auto".to_string(),
             theme: Theme::default(),
         }
@@ -133,6 +136,7 @@ impl fmt::Debug for Settings {
             .field("microphone", &self.microphone)
             .field("output", &self.output)
             .field("sounds", &self.sounds)
+            .field("mute_audio", &self.mute_audio)
             .field("ui_language", &self.ui_language)
             .field("theme", &self.theme)
             .finish_non_exhaustive()

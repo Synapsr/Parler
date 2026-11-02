@@ -345,6 +345,13 @@ function General() {
           label={t("settings.general.sounds")}
         />
       </Field>
+      <Field inline label={t("settings.general.muteAudio")} hint={t("settings.general.muteAudioHint")}>
+        <Toggle
+          checked={settings.muteAudio}
+          onChange={(muteAudio) => update({ muteAudio })}
+          label={t("settings.general.muteAudio")}
+        />
+      </Field>
       <Field inline label={t("settings.general.autostart")} hint={t("settings.general.autostartHint")}>
         <Toggle checked={autostart} onChange={toggleAutostart} label={t("settings.general.autostart")} />
       </Field>

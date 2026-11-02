@@ -29,6 +29,7 @@ transcribes and pastes, and a React interface in two windows.
 | `diagnostics.rs` | Settings → About → "Send the log": version, system, a few settings, the microphone permission (macOS, Windows) and Accessibility (macOS), and the end of the log (keys masked) to `POST /api/diagnostics` on Parler Cloud, which emails support and keeps nothing. |
 | `paste.rs` | Clipboard and simulated paste: the transcript passes through the clipboard unseen by clipboard histories, and what was there comes back (see below); macOS resolves Cmd+V for the active keyboard layout. |
 | `overlay.rs` | The pill window: a non-activating panel on macOS, a no-activate topmost window on Windows, so it never takes focus. |
+| `mute.rs` | "Mute while dictating": the default output device is muted once the start cue has played, and unmuted when recording stops, before the stop cue (Core Audio, the Windows endpoint volume, `pactl` on Linux). A device already muted is left alone; a file in the data directory lets the next launch unmute what a crash left muted. |
 | `shortcut.rs` | Registers the dictation shortcut, and Escape only while dictating (twice cancels; once only says so on the pill). |
 | `modifier_key.rs` | macOS: one key alone as the shortcut (fn, right ⌘, ⌥ or ⌃), followed by an event tap (it needs Accessibility). |
 | `settings.rs`, `history.rs` | JSON files in the app's config and data directories, readable by the user only, written whole (a temporary file, then a rename). A settings file that can't be read is kept as `settings.json.broken` rather than overwritten. |

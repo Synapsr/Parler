@@ -24,6 +24,8 @@ export interface Settings {
   microphone: string | null;
   output: Output;
   sounds: boolean;
+  /** Mutes the computer's sound while recording. */
+  muteAudio: boolean;
   uiLanguage: UiLanguage;
   theme: Theme;
 }

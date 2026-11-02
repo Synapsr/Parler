@@ -6,6 +6,7 @@ mod dictation;
 mod history;
 #[cfg(target_os = "macos")]
 mod modifier_key;
+mod mute;
 mod overlay;
 mod paste;
 mod pending;
@@ -158,6 +159,7 @@ pub fn run() {
                 let _ = handle.set_activation_policy(tauri::ActivationPolicy::Accessory);
                 app.set_activation_policy(tauri::ActivationPolicy::Accessory);
             }
+            mute::init(data_dir.clone());
             app.manage(History::load(data_dir.join("history.json")));
             app.manage(ClipboardState::new());
             app.manage(StatusState(Mutex::new(Status {
@@ -234,6 +236,10 @@ pub fn run() {
         .build(tauri::generate_context!())
         .expect("Parler failed to start")
         .run(|app, event| {
+            // Quitting mid-dictation gives the sound back.
+            if let tauri::RunEvent::Exit = event {
+                mute::restore();
+            }
             // macOS: clicking the Dock icon, or opening Parler again from
             // the Finder or Spotlight, brings the window back.
             #[cfg(target_os = "macos")]
@@ -241,6 +247,6 @@ pub fn run() {
                 show_main_window(app);
             }
             #[cfg(not(target_os = "macos"))]
-            let _ = (app, event);
+            let _ = app;
         });
 }

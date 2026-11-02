@@ -349,6 +349,8 @@
       "description": "Sounds, startup and language.",
       "sounds": "Sounds",
       "soundsHint": "A soft cue when listening starts and stops.",
+      "muteAudio": "Mute while dictating",
+      "muteAudioHint": "Music and videos go quiet while you speak, then come back.",
       "autostart": "Open at login",
       "autostartHint": "Parler waits quietly in the menu bar.",
       "theme": "Appearance",

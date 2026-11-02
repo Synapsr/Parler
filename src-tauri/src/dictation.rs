@@ -4,6 +4,7 @@
 
 use crate::audio::{self, CaptureEvent, CaptureSink, MicrophoneError};
 use crate::history::{self, History};
+use crate::mute;
 use crate::overlay::{self, Hint, Phase as OverlayPhase};
 use crate::paste::{self, PasteError};
 use crate::pending::{Pending, Unsent};
@@ -29,6 +30,9 @@ const ESCAPE_AGAIN: Duration = Duration::from_millis(1500);
 /// A dictation that failed for a passing reason (the network, a server
 /// error) is sent once more after this, while the pill keeps writing.
 const RETRY_AFTER: Duration = Duration::from_millis(1500);
+/// With sounds on, the sound is muted this long after the start cue, so the
+/// cue itself is heard.
+const MUTE_AFTER_CUE: Duration = Duration::from_millis(400);
 /// Where dictations that couldn't be sent wait, in the app's data directory.
 const PENDING_DIR: &str = "pending";
 
@@ -47,6 +51,10 @@ pub enum Event {
     /// Delete an unsent dictation.
     Discard(u64),
     Capture(CaptureEvent),
+    /// Time to mute the computer's sound for this recording.
+    Mute {
+        recorder: u64,
+    },
     Finished {
         session: u64,
         outcome: Outcome,
@@ -233,6 +241,7 @@ impl Controller {
     /// its way is dropped, and the pill says something went wrong.
     fn recover(&mut self) {
         self.recorder = None;
+        mute::restore();
         self.session += 1;
         self.phase = Phase::Idle;
         self.resending = None;
@@ -252,7 +261,16 @@ impl Controller {
             Event::Discard(id) => self.discard(id),
             Event::Capture(CaptureEvent::Ready { id }) => {
                 if self.is_current(id) {
-                    overlay::show(&self.app, OverlayPhase::Recording, self.sounds());
+                    let settings = self.settings();
+                    overlay::show(&self.app, OverlayPhase::Recording, settings.sounds);
+                    if settings.mute_audio {
+                        self.mute_soon(id, settings.sounds);
+                    }
+                }
+            }
+            Event::Mute { recorder } => {
+                if self.is_current(recorder) {
+                    mute::mute();
                 }
             }
             // Recording goes on: only the person can tell a muted
@@ -296,6 +314,20 @@ impl Controller {
 
     fn sounds(&self) -> bool {
         self.settings().sounds
+    }
+
+    /// Mutes the computer's sound for this recording: right away, or once
+    /// the start cue has played.
+    fn mute_soon(&self, recorder: u64, after_cue: bool) {
+        if !after_cue {
+            mute::mute();
+            return;
+        }
+        let tx = self.tx.clone();
+        thread::spawn(move || {
+            thread::sleep(MUTE_AFTER_CUE);
+            let _ = tx.send(Event::Mute { recorder });
+        });
     }
 
     fn is_current(&self, recorder_id: u64) -> bool {
@@ -405,6 +437,8 @@ impl Controller {
         let Some((_, recorder)) = self.recorder.take() else {
             return;
         };
+        // Before the stop cue, which then is heard.
+        mute::restore();
         let samples = match recorder.stop() {
             Ok(stopped) => stopped.sink.into_samples(),
             Err(e) => {
@@ -587,7 +621,10 @@ impl Controller {
         match self.phase {
             Phase::Idle => return,
             // Dropping the recorder discards the audio and closes the mic.
-            Phase::Recording { .. } => drop(self.recorder.take()),
+            Phase::Recording { .. } => {
+                drop(self.recorder.take());
+                mute::restore();
+            }
             Phase::Transcribing => self.session += 1,
         }
         log::info!("Dictation cancelled");

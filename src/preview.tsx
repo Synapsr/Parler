@@ -41,6 +41,7 @@ let settings: Record<string, unknown> & { apiKeys: Record<string, string>; provi
   microphone: null,
   output: "paste",
   sounds: true,
+  muteAudio: false,
   uiLanguage: params.get("lang") ?? "fr",
   theme: params.get("theme") ?? "system",
 };

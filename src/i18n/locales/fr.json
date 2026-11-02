@@ -349,6 +349,8 @@
       "description": "Sons, démarrage et langue.",
       "sounds": "Sons",
       "soundsHint": "Un signal discret quand l'écoute commence et s'arrête.",
+      "muteAudio": "Couper le son pendant la dictée",
+      "muteAudioHint": "La musique et les vidéos se taisent pendant que vous parlez, puis reviennent.",
       "autostart": "Ouvrir au démarrage",
       "autostartHint": "Parler attend discrètement dans la barre des menus.",
       "theme": "Apparence",
