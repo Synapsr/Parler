@@ -349,6 +349,8 @@
       "description": "Sesler, açılış ve dil.",
       "sounds": "Sesler",
       "soundsHint": "Dinleme başlayıp bittiğinde hafif bir ses.",
+      "muteAudio": "Dikte sırasında sesi kapat",
+      "muteAudioHint": "Siz konuşurken müzik ve videolar susar, sonra geri gelir.",
       "autostart": "Oturum açınca başlat",
       "autostartHint": "Parler, menü çubuğunda sessizce bekler.",
       "theme": "Görünüm",

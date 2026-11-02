@@ -349,6 +349,8 @@
       "description": "Sonidos, inicio e idioma.",
       "sounds": "Sonidos",
       "soundsHint": "Un aviso suave cuando la escucha empieza y termina.",
+      "muteAudio": "Silenciar al dictar",
+      "muteAudioHint": "La música y los vídeos se callan mientras hablas y luego vuelven.",
       "autostart": "Abrir al iniciar sesión",
       "autostartHint": "Parler espera en silencio en la barra de menús.",
       "theme": "Apariencia",

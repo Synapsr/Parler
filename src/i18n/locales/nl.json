@@ -349,6 +349,8 @@
       "description": "Geluiden, opstarten en taal.",
       "sounds": "Geluiden",
       "soundsHint": "Een zacht signaal als het luisteren begint en stopt.",
+      "muteAudio": "Dempen tijdens dicteren",
+      "muteAudioHint": "Muziek en video's zwijgen terwijl je praat en komen daarna terug.",
       "autostart": "Open bij inloggen",
       "autostartHint": "Parler wacht rustig in de menubalk.",
       "theme": "Weergave",

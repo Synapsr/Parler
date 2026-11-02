@@ -349,6 +349,8 @@
       "description": "사운드, 시작, 언어.",
       "sounds": "사운드",
       "soundsHint": "듣기를 시작하고 멈출 때 부드러운 소리로 알려 줘요.",
+      "muteAudio": "받아쓰는 동안 음소거",
+      "muteAudioHint": "말하는 동안 음악과 영상 소리를 끄고, 끝나면 다시 켜요.",
       "autostart": "로그인 시 열기",
       "autostartHint": "Parler가 메뉴 막대에서 조용히 기다려요.",
       "theme": "화면 모드",

@@ -349,6 +349,8 @@
       "description": "声音、启动和语言。",
       "sounds": "提示音",
       "soundsHint": "开始和停止聆听时，发出轻柔的提示音。",
+      "muteAudio": "听写时静音",
+      "muteAudioHint": "说话时音乐和视频会静音，结束后恢复。",
       "autostart": "登录时打开",
       "autostartHint": "Parler 会安静地待在菜单栏中。",
       "theme": "外观",

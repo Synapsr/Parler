@@ -349,6 +349,8 @@
       "description": "Dźwięki, uruchamianie i język.",
       "sounds": "Dźwięki",
       "soundsHint": "Delikatny sygnał, gdy słuchanie się zaczyna i kończy.",
+      "muteAudio": "Wycisz podczas dyktowania",
+      "muteAudioHint": "Muzyka i filmy milkną, gdy mówisz, a potem wracają.",
       "autostart": "Uruchamiaj po zalogowaniu",
       "autostartHint": "Parler czeka cicho na pasku menu.",
       "theme": "Wygląd",

@@ -349,6 +349,8 @@
       "description": "Töne, Start und Sprache.",
       "sounds": "Töne",
       "soundsHint": "Ein leiser Ton, wenn das Zuhören beginnt und endet.",
+      "muteAudio": "Ton beim Diktieren aus",
+      "muteAudioHint": "Musik und Videos verstummen, während du sprichst, und kommen danach zurück.",
       "autostart": "Beim Anmelden öffnen",
       "autostartHint": "Parler wartet still in der Menüleiste.",
       "theme": "Darstellung",

@@ -349,6 +349,8 @@
       "description": "Sons, inicialização e idioma.",
       "sounds": "Sons",
       "soundsHint": "Um aviso suave quando a escuta começa e termina.",
+      "muteAudio": "Silenciar ao ditar",
+      "muteAudioHint": "Músicas e vídeos ficam em silêncio enquanto você fala e depois voltam.",
       "autostart": "Abrir ao iniciar sessão",
       "autostartHint": "O Parler espera discretamente na barra de menus.",
       "theme": "Aparência",

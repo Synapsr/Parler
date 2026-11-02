@@ -349,6 +349,8 @@
       "description": "サウンド、起動、言語。",
       "sounds": "サウンド",
       "soundsHint": "聞き取りの開始と終了を、やさしい音でお知らせします。",
+      "muteAudio": "音声入力中は消音",
+      "muteAudioHint": "話している間は音楽や動画の音を消し、終わると元に戻します。",
       "autostart": "ログイン時に開く",
       "autostartHint": "Parler はメニューバーで静かに待機します。",
       "theme": "外観",

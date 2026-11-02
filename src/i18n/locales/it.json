@@ -349,6 +349,8 @@
       "description": "Suoni, avvio e lingua.",
       "sounds": "Suoni",
       "soundsHint": "Un segnale discreto quando l'ascolto inizia e finisce.",
+      "muteAudio": "Silenzia durante la dettatura",
+      "muteAudioHint": "Musica e video tacciono mentre parli, poi tornano.",
       "autostart": "Apri al login",
       "autostartHint": "Parler aspetta in silenzio nella barra dei menu.",
       "theme": "Aspetto",
