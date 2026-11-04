@@ -28,16 +28,19 @@
     "ready": "就绪",
     "listening": "正在聆听…",
     "writing": "正在输入…",
+    "downloading": "正在下载…",
     "attention": "需要处理"
   },
   "providers": {
     "recommended": "推荐",
     "customName": "你的服务器",
+    "localName": "在这台电脑上",
     "cloud": "无需 API 密钥：登录即可听写",
     "groq": "速度很快 · 免费注册",
     "openai": "非常准确 · GPT-4o Transcribe",
     "fireworks": "快速实惠的 Whisper v3",
-    "custom": "你的 OpenAI 兼容服务器"
+    "custom": "你的 OpenAI 兼容服务器",
+    "local": "私密、免费 · 可离线使用"
   },
   "cloud": {
     "price": "免费试用 3 天，之后每月 €8 或每年 €49（不含税）。",
@@ -87,6 +90,42 @@
       "stops": "你的免费试用{when}结束，不会自动续订。要继续听写，请重新开启你的方案。"
     }
   },
+  "local": {
+    "title": "在这台电脑上转写",
+    "subtitle": "你的声音永远不会离开你的电脑。它可以离线使用，而且免费。",
+    "tradeoff": "转写会使用你电脑的算力：电脑繁忙时可能会变慢，准确度也比 Parler Cloud 略低。",
+    "languagesAll": "所有语言",
+    "languagesEuropean": "{n} 种欧洲语言",
+    "languagesCount": "{n} 种语言",
+    "download": "下载",
+    "downloadSize": "下载（{size}）",
+    "carryOn": "你可以继续使用：下载会在后台进行。",
+    "progress": "{done} / {total}",
+    "verifying": "正在校验文件…",
+    "ready": "已就绪",
+    "runsOnGpu": "在图形芯片上运行",
+    "runsOnCard": "在显卡上运行",
+    "runsOnCpu": "在处理器上运行",
+    "confirmDelete": "再次点击以删除",
+    "pickHint": "Parakeet Ultra 在欧洲语言中最准确。Whisper Large v3 Turbo 支持所有语言，并会使用你的词汇表。",
+    "alsoHere": "这台电脑上也有 {model}（{size}）。",
+    "languageMismatch": "{model} 不支持这种语言；{other} 支持所有语言。",
+    "use": "使用 {model}",
+    "vocabularyIgnored": "{model} 不会使用词汇表。如需使用，请在设置中选择 {other}。",
+    "homeDownloading": "正在下载 {model}…",
+    "homeMissing": "要在这台电脑上听写，Parler 需要 {model}（{size}）。",
+    "tryDownloading": "{model} 仍在下载中。准备好后即可试用。",
+    "scene": {
+      "offline": "可离线使用",
+      "private": "任何内容都不会离开这台电脑"
+    },
+    "error": {
+      "offline": "下载已中断：没有网络连接。再次尝试时会从中断处继续。",
+      "disk": "磁盘剩余空间不足，无法存放该模型。",
+      "checksum": "下载的文件已损坏。请重新下载。",
+      "other": "下载失败：{detail}"
+    }
+  },
   "onboarding": {
     "welcome": {
       "title": "你的每一句话，随处成文。",
@@ -108,6 +147,7 @@
       "trialTerms": "需绑定银行卡，可随时取消。",
       "startTrial": "开始免费试用",
       "ownKey": "使用我自己的 API 密钥或服务器",
+      "local": "在这台电脑上转写",
       "useCloud": "改用 Parler Cloud"
     },
     "key": {
@@ -157,6 +197,7 @@
     "star": {
       "title": "Parler 是免费的",
       "subtitle": "它是开源的，使用不花一分钱。你只需按服务商自己的价格，直接向其付费。",
+      "subtitleLocal": "它是开源的，不花一分钱，而且在这台电脑上转写也是免费的。",
       "ask": "我们只有一个请求：在 GitHub 上给个 Star。它能帮助更多人发现 Parler，也能让项目成长。这对我们意义重大。",
       "star": "在 GitHub 上为 Parler 点 Star",
       "later": "以后再说",
@@ -223,7 +264,7 @@
   },
   "vocabulary": {
     "title": "词汇表",
-    "subtitle": "Parler 应该写对的人名、品牌和术语。它们会作为提示发送给服务。",
+    "hint": "Parler 应该写对的人名、品牌和术语，会在你听写时作为提示传递。",
     "placeholder": "添加词语或名字…",
     "add": "添加",
     "remove": "移除 {word}",
@@ -244,6 +285,8 @@
     "subscriptionRequired": "你的 {provider} 方案未生效。请选择一个方案以继续听写。",
     "fairUseDay": "你已达到 {provider} 今天的合理使用上限。{time} 起可以再次听写。",
     "fairUseMonth": "你已达到 {provider} 本月的合理使用上限。{date}起可以再次听写。",
+    "modelMissing": "在这台电脑上转写所需的模型尚未下载。请下载后再听写。",
+    "localFailed": "在这台电脑上转写失败：{detail}",
     "microphone": "无法使用麦克风：{detail}",
     "microphoneDenied": "Parler 没有使用麦克风的权限。要听写，请在隐私设置中允许访问。",
     "noSound": "Parler 没有收到麦克风的声音。请检查麦克风是否被静音，以及 Parler 是否有权使用它。",
@@ -273,6 +316,8 @@
     "subscriptionRequired": "方案未生效",
     "fairUseDay": "已达今日上限",
     "fairUseMonth": "已达本月上限",
+    "modelMissing": "模型未下载",
+    "localFailed": "转写失败",
     "microphone": "麦克风不可用",
     "microphoneDenied": "未获得麦克风权限",
     "noSound": "麦克风没有声音",
@@ -284,7 +329,7 @@
     "saveFailed": "无法保存：{error}",
     "transcription": {
       "title": "转写",
-      "description": "把你的声音转成文字的服务。",
+      "what": "把你的声音转成文字的方式。",
       "provider": "服务",
       "apiKey": "API 密钥",
       "apiKeyPlaceholder": "粘贴你的密钥",
@@ -364,7 +409,7 @@
       "title": "关于",
       "version": "版本 {version}",
       "source": "源代码",
-      "credits": "基于 MIT 许可证的免费开源软件。麦克风采集和部分桌面集成功能来自 Handy。",
+      "thanks": "基于 MIT 许可证的免费开源软件。麦克风采集和部分桌面集成功能来自 Handy。在这台电脑上，转写基于 transcribe.cpp，并使用 NVIDIA 与 Moondream 的 Parakeet Ultra（CC BY 4.0）以及 OpenAI 的 Whisper。",
       "log": {
         "open": "遇到问题？发送日志",
         "placeholder": "发生了什么？（可选）",

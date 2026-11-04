@@ -28,16 +28,19 @@
     "ready": "준비됨",
     "listening": "듣는 중…",
     "writing": "입력 중…",
+    "downloading": "다운로드 중…",
     "attention": "확인 필요"
   },
   "providers": {
     "recommended": "추천",
     "customName": "내 서버",
+    "localName": "이 컴퓨터에서",
     "cloud": "API 키 없이 로그인하고 받아쓰기",
     "groq": "아주 빠름 · 무료 가입",
     "openai": "아주 정확함 · GPT-4o Transcribe",
     "fireworks": "빠르고 저렴한 Whisper v3",
-    "custom": "OpenAI 호환 내 서버"
+    "custom": "OpenAI 호환 내 서버",
+    "local": "비공개, 무료 · 오프라인에서도 작동"
   },
   "cloud": {
     "price": "3일 무료, 이후 월 €8 또는 연 €49(부가세 별도)예요.",
@@ -87,6 +90,42 @@
       "stops": "무료 체험이 {when} 끝나고 갱신되지 않아요. 계속 받아쓰려면 요금제를 다시 활성화하세요."
     }
   },
+  "local": {
+    "title": "이 컴퓨터에서 음성 인식하기",
+    "subtitle": "목소리가 컴퓨터 밖으로 나가지 않아요. 오프라인에서도 작동하고, 무료예요.",
+    "tradeoff": "음성 인식에 컴퓨터의 성능을 사용해요. 컴퓨터가 바쁠 때는 느려질 수 있고, Parler Cloud보다 정확도가 조금 낮아요.",
+    "languagesAll": "모든 언어",
+    "languagesEuropean": "유럽 언어 {n}개",
+    "languagesCount": "언어 {n}개",
+    "download": "다운로드",
+    "downloadSize": "다운로드 ({size})",
+    "carryOn": "계속 사용해도 돼요. 다운로드는 백그라운드에서 계속돼요.",
+    "progress": "{done} / {total}",
+    "verifying": "파일 확인 중…",
+    "ready": "준비됨",
+    "runsOnGpu": "그래픽 칩에서 실행",
+    "runsOnCard": "그래픽 카드에서 실행",
+    "runsOnCpu": "프로세서에서 실행",
+    "confirmDelete": "한 번 더 클릭하면 삭제돼요",
+    "pickHint": "Parakeet Ultra는 유럽 언어에서 가장 정확해요. Whisper Large v3 Turbo는 모든 언어를 알고, 단어장도 사용해요.",
+    "alsoHere": "{model} 모델도 이 컴퓨터에 있어요({size}).",
+    "languageMismatch": "{model} 모델은 이 언어를 몰라요. {other} 모델은 모든 언어를 알아요.",
+    "use": "{model} 모델 사용하기",
+    "vocabularyIgnored": "{model} 모델은 단어장을 사용하지 않아요. 단어장을 쓰려면 설정에서 {other} 모델을 선택하세요.",
+    "homeDownloading": "{model} 모델 다운로드 중…",
+    "homeMissing": "이 컴퓨터에서 받아쓰려면 Parler에 {model} 모델이 필요해요({size}).",
+    "tryDownloading": "{model} 모델은 아직 다운로드 중이에요. 준비되는 대로 사용해 볼 수 있어요.",
+    "scene": {
+      "offline": "오프라인 작동",
+      "private": "아무것도 이 컴퓨터 밖으로 나가지 않아요"
+    },
+    "error": {
+      "offline": "연결이 없어 다운로드가 멈췄어요. 다시 시도하면 멈춘 곳부터 이어서 받아요.",
+      "disk": "디스크에 모델을 저장할 여유 공간이 부족해요.",
+      "checksum": "다운로드한 파일이 손상됐어요. 다시 다운로드하세요.",
+      "other": "다운로드하지 못했어요: {detail}"
+    }
+  },
   "onboarding": {
     "welcome": {
       "title": "목소리를, 어디서든 글로.",
@@ -108,6 +147,7 @@
       "trialTerms": "카드 등록이 필요해요. 언제든 해지할 수 있어요.",
       "startTrial": "무료 체험 시작하기",
       "ownKey": "내 API 키나 서버 사용하기",
+      "local": "이 컴퓨터에서 음성 인식하기",
       "useCloud": "대신 Parler Cloud 사용하기"
     },
     "key": {
@@ -157,6 +197,7 @@
     "star": {
       "title": "Parler는 무료예요",
       "subtitle": "오픈 소스라서 사용료가 없어요. 비용은 사용하는 서비스에 그 서비스의 요금대로 직접 내기만 하면 돼요.",
+      "subtitleLocal": "오픈 소스라서 사용료가 없고, 이 컴퓨터에서 하는 음성 인식도 무료예요.",
       "ask": "부탁은 딱 하나예요. GitHub에서 스타를 눌러 주세요. 더 많은 사람이 Parler를 알게 되고, 프로젝트가 성장하는 데 도움이 돼요. 저희에게 정말 큰 힘이 돼요.",
       "star": "GitHub에서 Parler에 스타 주기",
       "later": "나중에",
@@ -223,7 +264,7 @@
   },
   "vocabulary": {
     "title": "단어장",
-    "subtitle": "Parler가 정확하게 써야 하는 이름, 브랜드, 전문 용어예요. 서비스에 힌트로 전달돼요.",
+    "hint": "Parler가 정확하게 써야 하는 이름, 브랜드, 전문 용어예요. 받아쓸 때 힌트로 전달돼요.",
     "placeholder": "단어나 이름 추가…",
     "add": "추가",
     "remove": "{word} 삭제",
@@ -244,6 +285,8 @@
     "subscriptionRequired": "{provider} 요금제가 활성 상태가 아니에요. 계속 받아쓰려면 요금제를 고르세요.",
     "fairUseDay": "오늘 {provider} 공정 사용 한도에 도달했어요. {time}부터 다시 받아쓸 수 있어요.",
     "fairUseMonth": "이번 달 {provider} 공정 사용 한도에 도달했어요. {date}부터 다시 받아쓸 수 있어요.",
+    "modelMissing": "이 컴퓨터에서 음성을 인식하는 모델이 아직 다운로드되지 않았어요. 받아쓰려면 다운로드하세요.",
+    "localFailed": "이 컴퓨터에서 음성 인식에 실패했어요: {detail}",
     "microphone": "마이크를 사용할 수 없어요: {detail}",
     "microphoneDenied": "Parler에 마이크 사용 권한이 없어요. 받아쓰려면 개인정보 보호 설정에서 허용하세요.",
     "noSound": "Parler가 마이크에서 아무 소리도 받지 못했어요. 마이크가 음소거되어 있지 않은지, Parler에 사용 권한이 있는지 확인하세요.",
@@ -273,6 +316,8 @@
     "subscriptionRequired": "요금제 비활성",
     "fairUseDay": "오늘 한도 도달",
     "fairUseMonth": "이번 달 한도 도달",
+    "modelMissing": "모델 다운로드 안 됨",
+    "localFailed": "음성 인식 실패",
     "microphone": "마이크 사용 불가",
     "microphoneDenied": "마이크 권한 없음",
     "noSound": "마이크 소리 없음",
@@ -284,7 +329,7 @@
     "saveFailed": "저장하지 못했어요: {error}",
     "transcription": {
       "title": "음성 인식",
-      "description": "목소리를 글로 바꿔 주는 서비스예요.",
+      "what": "목소리를 글로 바꿔 주는 방식이에요.",
       "provider": "서비스",
       "apiKey": "API 키",
       "apiKeyPlaceholder": "키 붙여넣기",
@@ -364,7 +409,7 @@
       "title": "정보",
       "version": "버전 {version}",
       "source": "소스 코드",
-      "credits": "MIT 라이선스로 공개된 무료 오픈 소스 소프트웨어예요. 마이크 입력과 데스크톱 연동의 일부는 Handy에서 가져왔어요.",
+      "thanks": "MIT 라이선스로 공개된 무료 오픈 소스 소프트웨어예요. 마이크 입력과 데스크톱 연동의 일부는 Handy에서 가져왔어요. 이 컴퓨터에서의 음성 인식은 transcribe.cpp를 기반으로 하며, NVIDIA와 Moondream의 Parakeet Ultra(CC BY 4.0)와 OpenAI의 Whisper를 사용해요.",
       "log": {
         "open": "문제가 있나요? 로그 보내기",
         "placeholder": "무슨 일이 있었나요? (선택 사항)",
