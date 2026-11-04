@@ -241,19 +241,31 @@ jobs:
           set -euo pipefail
           out="src-tauri/target/${{ matrix.target }}/release/bundle"
           if [ "$RUNNER_OS" = "Linux" ]; then
+            # Each package must carry the engine; on a miss, say which file
+            # and show what the package holds instead.
+            need() { # listing, pattern, what
+              echo "$1" | grep -Eq "$2" || {
+                echo "::error::$3 lacks $2"
+                echo "$1" | grep -Ei 'transcribe|ggml|vulkan' || echo "(no engine library at all)"
+                exit 1
+              }
+            }
             for pkg in "$out"/deb/*.deb; do
-              dpkg-deb -c "$pkg" | grep -E '/usr/lib/Parler/libtranscribe\.so' >/dev/null
-              dpkg-deb -c "$pkg" | grep -E '/usr/lib/Parler/libggml-cpu-.*\.so' >/dev/null
-              dpkg-deb -c "$pkg" | grep -E '/usr/lib/Parler/libggml-vulkan\.so' >/dev/null
+              listing=$(dpkg-deb -c "$pkg")
+              need "$listing" '/usr/lib/Parler/libtranscribe\.so' "$pkg"
+              need "$listing" '/usr/lib/Parler/libggml-cpu' "$pkg"
+              need "$listing" '/usr/lib/Parler/libggml-vulkan\.so' "$pkg"
             done
             for pkg in "$out"/rpm/*.rpm; do
-              rpm -qlp "$pkg" | grep -E '/usr/lib/Parler/libtranscribe\.so' >/dev/null
+              need "$(rpm -qlp "$pkg")" '/usr/lib/Parler/libtranscribe\.so' "$pkg"
             done
             image=$(find "$out/appimage" -name '*.AppImage' | head -1)
             chmod +x "$image"
             (cd "$RUNNER_TEMP" && "$OLDPWD/$image" --appimage-extract >/dev/null)
-            ls "$RUNNER_TEMP"/squashfs-root/usr/lib/libtranscribe.so* "$RUNNER_TEMP"/squashfs-root/usr/lib/libggml-vulkan.so
-            if ls "$RUNNER_TEMP"/squashfs-root/usr/lib/libvulkan.so* 2>/dev/null; then
+            listing=$(cd "$RUNNER_TEMP/squashfs-root" && find . -name '*.so*')
+            need "$listing" 'libtranscribe\.so' "$image"
+            need "$listing" 'libggml-vulkan\.so' "$image"
+            if echo "$listing" | grep -q 'libvulkan\.so'; then
               echo "::error::The AppImage bundles the Vulkan loader."; exit 1
             fi
           else
