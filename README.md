@@ -28,16 +28,16 @@ Hold a shortcut, speak, let go: your words are typed in any app.
 
 ## What is Parler?
 
-Parler is a free, open-source dictation app for your desktop: **voice typing that works in every app**, whether it's your email, chat, documents, browser or code editor. Hold a shortcut, speak naturally, let go. Parler sends your speech to a Whisper-compatible speech-to-text API and types the text where your cursor is.
+Parler is a free, open-source dictation app for your desktop: **voice typing that works in every app**, whether it's your email, chat, documents, browser or code editor. Hold a shortcut, speak naturally, let go. Parler transcribes your speech, on your computer or with a speech-to-text service, and types the text where your cursor is.
 
-You choose who transcribes: **Parler Cloud**, with nothing to set up, or your own API key at **Groq** (free sign-up), **OpenAI**, **Fireworks** or **your own server**, which stays on your computer. No model to download, no telemetry.
+You choose who transcribes: **Parler Cloud**, with nothing to set up; **this computer**, private and offline, with one model to download; or your own API key at **Groq** (free sign-up), **OpenAI**, **Fireworks** or **your own server**, which stays on your computer. No telemetry.
 
 Looking for an open-source alternative to Wispr Flow, SuperWhisper or your system's built-in dictation, one that works the same on macOS, Windows and Linux? That's what Parler is for.
 
 ## How it works
 
 1. **Hold** <kbd>fn</kbd> on macOS, or <kbd>Ctrl</kbd> + <kbd>Space</kbd> on Windows and Linux, and speak. A small pill at the bottom of the screen shows your voice level.
-2. **Let go.** Parler trims the silence and sends only your speech to the service you picked.
+2. **Let go.** Parler trims the silence and transcribes only your speech, on your computer or at the service you picked.
 3. **Done.** The text is typed where your cursor is, and your clipboard is put back the way it was.
 
 A quick tap instead of a hold keeps listening until your next press. You can click and switch windows while you speak: the text goes where your cursor is when you let go. Press <kbd>Esc</kbd> twice to cancel. You can change the shortcut in Settings.
@@ -56,9 +56,10 @@ A quick tap instead of a hold keeps listening until your next press. You can cli
 | **Works in any app** | Types into the focused window, then restores your clipboard. Prefer to paste yourself? Switch to copy-only. |
 | **One shortcut, three modes** | Smart (hold to talk, tap to keep listening), hold, or toggle. On macOS, a single key such as fn or right ⌘; anywhere, your own key combination. |
 | **Never sends silence** | Whisper models invent text on silent audio ("Thank you."), so recordings without speech never leave your machine. |
+| **Runs on your computer too** | Transcribe offline, for free, with a model downloaded once. Nothing leaves your machine. |
 | **Vocabulary hints** | Names, brands and jargon come out spelled right. |
 | **Searchable history** | Find any dictation and copy it again, for when it landed in the wrong window. Retry when the network failed. |
-| **Guided setup** | Pick a service, paste your key, test it, try your first dictation. About two minutes. |
+| **Guided setup** | Sign in to Parler Cloud, download the model or paste your key, then try your first dictation. About two minutes. |
 | **Menu bar and tray** | Start a dictation, copy the last transcript or open the history. Can start at login. |
 | **30+ spoken languages** | Auto-detect, or pick yours for faster, more accurate results. |
 | **Light or dark** | Or follow your system. The interface speaks 12 languages. |
@@ -67,7 +68,7 @@ A quick tap instead of a hold keeps listening until your next press. You can cli
 
 ## Speech-to-text providers and pricing
 
-Parler is free. It works with any service that speaks the OpenAI audio API (`POST /audio/transcriptions`), and you pay that service directly, at its own rates. Parler takes no cut.
+Parler is free. It transcribes on your computer, or with any service that speaks the OpenAI audio API (`POST /audio/transcriptions`), which you pay directly, at its own rates. Parler takes no cut.
 
 | Provider | Default model | Also suggested | API key |
 | --- | --- | --- | --- |
@@ -77,6 +78,17 @@ Parler is free. It works with any service that speaks the OpenAI audio API (`POS
 | **Your own server** | `whisper-1` | any model it serves | Optional. Works with [speaches](https://github.com/speaches-ai/speaches), [LocalAI](https://localai.io) and other OpenAI-compatible servers. |
 
 You can type any other model a provider serves in Settings, and switch providers at any time: each one keeps its own key.
+
+### On this computer
+
+Choose **On this computer** and Parler transcribes locally, with [transcribe.cpp](https://github.com/handy-computer/transcribe.cpp): nothing is sent anywhere, it works offline, and it costs nothing. The first time, Parler downloads one model:
+
+| Model | Size | Languages | Vocabulary hints |
+| --- | --- | --- | --- |
+| **Parakeet Ultra** (recommended for European languages) | 740 MB | 25 European languages | No |
+| **Whisper Large v3 Turbo** (recommended for the others, or under *Advanced options*) | 620 MB | All languages | Yes |
+
+It uses your computer's power, so it can be slower while the computer is busy, and it's a little less accurate than Parler Cloud. Models come from [Hugging Face](https://huggingface.co/handy-computer), pinned to an exact version and checked against their SHA-256 fingerprint before use.
 
 > [!TIP]
 > **Rather not create an API key? Choose Parler Cloud.** Pick it when you set up Parler, sign in once from your browser, and dictate. Unlimited transcription for one person's normal use ([fair use](https://parler.synapsr.io/fair-use)), for €8 a month or €49 a year, excluding VAT, after a 3-day free trial. Your account: [cloud.parler.synapsr.io](https://cloud.parler.synapsr.io). Questions: [parler@synapsr.io](mailto:parler@synapsr.io).
@@ -145,18 +157,18 @@ On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequ
 
 ## Privacy
 
-- Audio is recorded only while you dictate and sent only to the provider you picked. It is never written to disk, except a dictation that couldn't be sent (no connection, say): its audio is kept on this computer, readable only by your user account, until it's sent or you delete it, for 7 days at most.
+- Audio is recorded only while you dictate and sent only to the provider you picked; on this computer, it isn't sent at all. It is never written to disk, except a dictation that couldn't be sent (no connection, say): its audio is kept on this computer, readable only by your user account, until it's sent or you delete it, for 7 days at most.
 - Recordings without speech are never sent.
 - Your API key and settings live in a local file that only your user account can read.
 - Your transcripts (the last 5,000) stay on your computer so you can search and copy them again. Clear them anytime.
-- No analytics, no telemetry. Your audio goes only to the service you picked: your provider directly, or Parler Cloud if you chose it. Parler Cloud keeps the audio in memory for the length of the request, transcribes it with Groq, and stores neither the audio nor the text.
+- No analytics, no telemetry. Your audio goes only to the service you picked: your provider directly, or Parler Cloud if you chose it. On this computer, it goes nowhere: Parler only connects to Hugging Face once, to download the model. Parler Cloud keeps the audio in memory for the length of the request, transcribes it with Groq, and stores neither the audio nor the text.
 - Parler checks GitHub for new versions and downloads them from there (packagers can turn that off with `PARLER_DISABLE_UPDATER=1`).
 - **Settings → About → Send the log** sends support Parler's version, your system and its technical log, only when you ask. Parler Cloud forwards it by email and keeps nothing.
 - What a provider does with your audio is set by its own policy. With your own server, nothing leaves your network.
 
 ## Languages
 
-**Spoken:** Parler detects the language you speak, or you can pick one of 31: English, French, Spanish, German, Italian, Portuguese, Dutch, Breton, Catalan, Basque, Polish, Czech, Romanian, Hungarian, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Ukrainian, Russian, Arabic, Hebrew, Hindi, Indonesian, Vietnamese, Thai, Chinese, Japanese and Korean. Accuracy depends on the provider and model.
+**Spoken:** Parler detects the language you speak, or you can pick one of 31: English, French, Spanish, German, Italian, Portuguese, Dutch, Breton, Catalan, Basque, Polish, Czech, Romanian, Hungarian, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Ukrainian, Russian, Arabic, Hebrew, Hindi, Indonesian, Vietnamese, Thai, Chinese, Japanese and Korean. Accuracy depends on the provider and model. On this computer, Parakeet Ultra knows 25 European languages; for the others, Parler recommends Whisper Large v3 Turbo.
 
 **Interface:** English, French, Spanish, German, Italian, Portuguese, Dutch, Polish, Turkish, Japanese, Chinese and Korean. [Add yours](docs/contributing.md#conventions).
 
@@ -165,35 +177,35 @@ On Linux, also install the [Tauri prerequisites](https://tauri.app/start/prerequ
 <details>
 <summary><b>Is Parler free?</b></summary>
 
-Yes. The app is free and open source under the MIT licence. You connect it to your own account at a speech-to-text service and pay that service directly, at its own rates; Groq offers free sign-up to get you started. Parler Cloud is the optional paid plan for people who'd rather not manage an API key: €8 a month or €49 a year, excluding VAT, after a 3-day free trial.
+Yes. The app is free and open source under the MIT licence. You connect it to your own account at a speech-to-text service and pay that service directly, at its own rates; Groq offers free sign-up to get you started. Transcribing on this computer costs nothing at all. Parler Cloud is the optional paid plan for people who'd rather not manage an API key: €8 a month or €49 a year, excluding VAT, after a 3-day free trial.
 
 </details>
 
 <details>
 <summary><b>Which provider should I choose?</b></summary>
 
-Parler Cloud if you want nothing to set up. With your own key, Groq is the default: it runs Whisper large-v3 turbo, answers fast and has free sign-up. Pick OpenAI or Fireworks if you already have an account there, or your own server for full control. You can switch at any time in Settings.
+Parler Cloud if you want nothing to set up. On this computer if you want privacy and offline use, and don't mind a little less accuracy. With your own key, Groq is the default: it runs Whisper large-v3 turbo, answers fast and has free sign-up. Pick OpenAI or Fireworks if you already have an account there, or your own server for full control. You can switch at any time in Settings.
 
 </details>
 
 <details>
 <summary><b>Does it work offline?</b></summary>
 
-Not on its own: transcription happens at the service you chose, so you need an internet connection. If you run an OpenAI-compatible server on your own network (speaches, LocalAI…), Parler works without the internet.
+Yes, if you choose **On this computer**: after a one-time model download, transcription happens on your computer, without the internet. The other services need a connection, unless you run an OpenAI-compatible server on your own network (speaches, LocalAI…).
 
 </details>
 
 <details>
 <summary><b>How is it different from Wispr Flow, SuperWhisper or macOS Dictation?</b></summary>
 
-Same idea: talk instead of type, in any app. Parler's take: the code is open (MIT), the app is free, it runs on macOS, Windows and Linux, and you choose who transcribes your voice, from Groq, OpenAI or Fireworks to a server you run yourself. Parler types what you said; it doesn't rewrite it.
+Same idea: talk instead of type, in any app. Parler's take: the code is open (MIT), the app is free, it runs on macOS, Windows and Linux, and you choose who transcribes your voice: your own computer, offline, or Groq, OpenAI, Fireworks or a server you run yourself. Parler types what you said; it doesn't rewrite it.
 
 </details>
 
 <details>
 <summary><b>Is my voice stored or used to train models?</b></summary>
 
-Parler doesn't keep your audio, except a dictation that couldn't be sent: that one waits on your computer until it's sent or you delete it, for 7 days at most. Otherwise it keeps only the text of your dictations, which you can clear at any time. What the provider does with the audio depends on its own policy, so give it a read before you choose.
+Parler doesn't keep your audio, except a dictation that couldn't be sent: that one waits on your computer until it's sent or you delete it, for 7 days at most. Otherwise it keeps only the text of your dictations, which you can clear at any time. What the provider does with the audio depends on its own policy, so give it a read before you choose. On this computer, there is no provider: the audio stays with you.
 
 </details>
 

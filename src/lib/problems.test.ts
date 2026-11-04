@@ -23,6 +23,8 @@ const problems: Problem[] = [
   },
   { kind: "transcription", error: { kind: "fairUseDay", provider: "Parler Cloud" } },
   { kind: "transcription", error: { kind: "fairUseMonth", provider: "Parler Cloud" } },
+  { kind: "transcription", error: { kind: "modelMissing", provider: "Parler (local)" } },
+  { kind: "transcription", error: { kind: "localFailed", provider: "Parler (local)", detail: "out of memory" } },
   { kind: "microphone", detail: "gone" },
   { kind: "microphoneDenied" },
   { kind: "noSound" },
@@ -66,6 +68,16 @@ describe("describeProblem", () => {
     expect(plan.needsSettings).toBe(false);
     expect(describeProblem(problems[11]).params.time).toBeTruthy();
     expect(describeProblem(problems[12]).params.date).toBeTruthy();
+  });
+
+  it("asks for the model when transcribing on this computer", () => {
+    const missing = describeProblem(problems[13]);
+    expect(missing.needsModel).toBe(true);
+    expect(missing.needsSettings).toBe(true);
+    expect(missing.short).toBe("overlay.modelMissing");
+    const failed = describeProblem(problems[14]);
+    expect(failed.params.detail).toBe("out of memory");
+    expect(failed.needsModel).toBe(false);
   });
 
   it("sends a silent or forbidden microphone to its privacy settings", () => {

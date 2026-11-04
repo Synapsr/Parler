@@ -8,6 +8,7 @@ transcribes and pastes, and a React interface in two windows.
  tray menu ───────┼──► dictation loop ──► microphone (handy-recorder, 16 kHz mono)
  parler --toggle ─┘     (one thread)  ──► speech check, WAV encoding
                               │        ──► provider API (multipart POST /audio/transcriptions)
+                              │            or the model on this computer (transcribe.cpp)
                               │        ──► not sent? kept on disk to send again (pending)
                               │        ──► paste: clipboard + Cmd/Ctrl+V, clipboard restored
                               ▼
@@ -23,7 +24,8 @@ transcribes and pastes, and a React interface in two windows.
 | `dictation.rs` | The dictation loop. One thread owns the microphone and the state; the shortcut, tray, microphone and finished transcriptions all send it events, so press/release/cancel never race. It sends a passing failure once more, keeps what still fails in `pending`, and adds a space after a pasted sentence. A panic in one event is logged and the loop goes back to idle, freeing the microphone, instead of leaving dictation dead until a restart. |
 | `audio.rs` | Microphone capture, the voice level for the pill, noticing a microphone that sends nothing, the speech check that keeps silence from being sent, WAV encoding. |
 | `pending.rs` | Dictations that couldn't be sent: their speech and a few facts on disk, readable by the user only, until sent, deleted or 7 days old (see below). |
-| `providers.rs` | The provider list and the request to a Whisper-compatible API, with errors the interface can explain. |
+| `providers.rs` | The provider list and the request to a Whisper-compatible API (or, for `local`, to the model here), with errors the interface can explain. |
+| `local.rs` | Transcription on this computer: the two speech models, their resumable, verified downloads, and the engine that keeps one loaded, on the GPU when it can (see below). |
 | `cloud.rs` | Parler Cloud: linking a computer with a device code, the account, signing out. |
 | `updates.rs` | Checks for updates, downloads and installs them, then restarts Parler. |
 | `diagnostics.rs` | Settings → About → "Send the log": version, system, a few settings, the microphone permission (macOS, Windows) and Accessibility (macOS), and the end of the log (keys masked) to `POST /api/diagnostics` on Parler Cloud, which emails support and keeps nothing. |
@@ -89,6 +91,57 @@ nothing depends on deep links or the OS:
 - `PARLER_CLOUD_URL` (read once at startup) points the app at another
   service, for instance `PARLER_CLOUD_URL=http://localhost:3100 pnpm tauri dev`.
 
+### Transcription on this computer
+
+The provider `local` ("On this computer") runs a speech model with
+[transcribe.cpp](https://github.com/handy-computer/transcribe.cpp) (ggml):
+nothing leaves the computer, no account or key.
+
+```
+ Settings: download ──► <app data>/models/<file>.part  (HTTP Range: resumes)
+                        ──► SHA-256 checked (blocking thread) ──► renamed <file>
+ local is the provider, or a dictation starts ──► model loaded in the background
+ dictation ──► kept in pending first ──► engine (one run at a time) ──► text
+                                      └► removed from pending once transcribed
+```
+
+- **Two models**, from `handy-computer` on Hugging Face at a pinned
+  revision: Parakeet Ultra (25 European languages, 740 MB) and Whisper Large
+  v3 Turbo (every language, takes the vocabulary, 620 MB). The recommended
+  one is Parakeet when it knows the dictation language, or the interface's
+  when that is detected, or the system's when the interface follows it;
+  Whisper otherwise. `models.local` holds a choice made in Settings.
+- **State comes from the folder**: a model under its own name at its size is
+  ready (it was only renamed once verified); a `.part` is a download to
+  resume. Progress reaches the window as `parler://local-models`, at most
+  every 120 ms. A cancelled download keeps its part; a wrong checksum throws
+  it away; a server that ignores the Range header starts over.
+- **One model loaded**, kept between dictations, let go after 15 minutes
+  unused, when another provider is picked, or before its file is deleted
+  (Windows can't delete a mapped file). Both models decode long dictations
+  themselves.
+- **Where it runs.** Apple Silicon: Metal, built in. Intel Macs: the CPU,
+  built in (Metal on Intel and AMD GPUs gains little and can hang). Windows
+  and Linux: Vulkan when a driver offers a GPU (integrated ones included),
+  else the CPU, from modules loaded at launch (`transcribe-libs/`, staged by
+  `build.rs`): one CPU module per instruction set, the fastest this
+  processor runs picked at launch, and Parler starts without Vulkan
+  installed. `local_backend` and the support report say which is in use.
+  On Windows, Vulkan's implicit layers (overlays, capture tools) are kept
+  out of Parler, as some crash the apps they hook
+  (`PARLER_KEEP_VULKAN_LAYERS=1` keeps them).
+- **When the GPU fails.** A model that fails to load, or a run that fails,
+  on the GPU goes to the CPU for the rest of the session. ggml can also end
+  the process on a driver fault: a marker file
+  (`<app data>/local-gpu-running`) is written around every GPU load and run,
+  and a launch that finds it writes `local-gpu-off` and keeps to the CPU
+  until the next version of Parler.
+- **No dictation lost to a crash.** Before the engine runs, the speech is
+  saved among the unsent dictations, and removed once transcribed or
+  cancelled: after a crash it is there in History, to try again.
+- Errors: `modelMissing` (needs setup: the window opens) and `localFailed`;
+  neither is tried again by itself.
+
 ### Updates
 
 Parler updates itself with Tauri's updater plugin, driven from Rust:
@@ -149,8 +202,7 @@ to find out.
 
 ### Dictations that couldn't be sent
 
-Parler transcribes in the cloud only, so a flaky network must never cost a
-dictation.
+A flaky network, or a crash on this computer, must never cost a dictation.
 
 - **One more try.** A passing failure (no connection, a 5xx) is sent again
   once, 1.5 s later, while the pill keeps writing. Not a timeout (two minutes
@@ -162,7 +214,8 @@ dictation.
   survives a restart and leaves as soon as it is transcribed or deleted,
   after 7 days at most; past 20 dictations or 50 MB the oldest go first (the
   newest always stays). If the disk refuses it, it lasts in memory until
-  Parler quits. The audio only ever goes to the service.
+  Parler quits. The audio only ever goes to the service (or stays here, for
+  `local`).
 - **Sending it again.** History lists unsent dictations first, each with *Try
   again* and *Delete*; Home's problem banner retries the one that just
   failed. Text sent again from the window is copied (pasting would type into

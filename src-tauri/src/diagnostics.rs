@@ -52,13 +52,16 @@ struct Sent {
 pub async fn send(app: &AppHandle, note: &str) -> Result<String, SendError> {
     let settings = app.state::<SettingsStore>().get();
     let note: String = note.trim().chars().take(NOTE_MAX).collect();
+    let mut fields = fields(
+        &app.package_info().version.to_string(),
+        &settings,
+        &permissions().await,
+    );
+    // The model on this computer and where it runs (Metal, Vulkan, CPU).
+    fields.extend(crate::local::report_fields(&settings));
     let report = Report {
         note: &note,
-        app: fields(
-            &app.package_info().version.to_string(),
-            &settings,
-            &permissions().await,
-        ),
+        app: fields,
         log: mask_secrets(&read_tail(&log_files(app), LOG_TAIL)),
     };
     // Signed in to Parler Cloud: support can answer the account's address.

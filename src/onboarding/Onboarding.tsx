@@ -4,10 +4,14 @@ import {
   ArrowUpRight,
   Check,
   Clock,
+  Download,
   Heart,
+  KeyRound,
+  Laptop,
   LoaderCircle,
   Mic,
   PersonStanding,
+  RotateCw,
   Star,
 } from "lucide-react";
 import { openUrl } from "@tauri-apps/plugin-opener";
@@ -20,22 +24,26 @@ import {
 } from "tauri-plugin-macos-permissions-api";
 import { AccountStatus, PlanButton, SignInWaiting, signInTrouble } from "../components/Cloud";
 import { KeysSentence } from "../components/KeysSentence";
+import { LocalBanner, LocalModelCard, LocalModelSelect } from "../components/LocalModel";
+import { useLocalModels, useSize } from "../components/useLocalModels";
 import { ShortcutField, useGlobeConflict } from "../components/ShortcutField";
 import { ProviderMark } from "../components/ProviderMark";
 import { useKeycaps } from "../components/useKeycaps";
 import { useCloudSignIn } from "../components/useCloudSignIn";
 import { useProviderForm } from "../components/useProviderForm";
 import { useT } from "../i18n/context";
-import { api, CLOUD } from "../lib/api";
+import { api, CLOUD, LOCAL } from "../lib/api";
 import { FN, isSingleKey } from "../lib/shortcut";
 import { needsPlan } from "../lib/cloud";
-import { lookOf } from "../lib/look";
+import { lookOf, providerName } from "../lib/look";
 import { describeProblem } from "../lib/problems";
 import { useParler } from "../state";
 import {
   Banner,
   Button,
   ChoiceCard,
+  Disclosure,
+  Field,
   IconButton,
   IconTile,
   Input,
@@ -49,6 +57,7 @@ import {
   FlowScene,
   IdeasScene,
   KeyScene,
+  LocalScene,
   PermissionsScene,
   GitHubMark,
   ShortcutScene,
@@ -76,7 +85,8 @@ export function Onboarding() {
     "key",
     ...(info.platform === "macos" ? (["permissions"] as Step[]) : []),
     "shortcut",
-    // With their own key, Parler costs nothing: one moment to ask for a star.
+    // With their own key or on this computer, Parler costs nothing: one
+    // moment to ask for a star.
     ...(settings.provider !== CLOUD ? (["star"] as Step[]) : []),
     "try",
   ];
@@ -94,8 +104,11 @@ export function Onboarding() {
     case "provider":
       return <ProviderStep nav={nav} />;
     case "key":
-      // Parler Cloud needs no key: the person signs in instead.
-      return settings.provider === CLOUD ? <SignInStep nav={nav} /> : <KeyStep nav={nav} />;
+      // Parler Cloud needs no key: the person signs in instead. On this
+      // computer, the model downloads.
+      if (settings.provider === CLOUD) return <SignInStep nav={nav} />;
+      if (settings.provider === LOCAL) return <LocalStep nav={nav} />;
+      return <KeyStep nav={nav} />;
     case "permissions":
       return <PermissionsStep nav={nav} />;
     case "shortcut":
@@ -211,35 +224,54 @@ function WelcomeStep({ nav }: { nav: Nav }) {
 function ProviderStep({ nav }: { nav: Nav }) {
   const { t } = useT();
   const { settings, providers, provider, update } = useParler();
-  // Parler Cloud is the suggested path; the services that take your own key
-  // wait behind a link, as they were.
-  const [own, setOwn] = useState(settings.provider !== CLOUD);
-  const name = (id: string, label: string) => (id === "custom" ? t("providers.customName") : label);
-  const others = providers.filter((p) => p.id !== CLOUD);
+  // Parler Cloud is the suggested path; this computer and the services that
+  // take your own key wait behind two quiet links.
+  const [own, setOwn] = useState(settings.provider !== CLOUD && settings.provider !== LOCAL);
+  const others = providers.filter((p) => p.id !== CLOUD && p.id !== LOCAL);
   const cloud = providers.find((p) => p.id === CLOUD);
+  const local = providers.find((p) => p.id === LOCAL);
 
   const chooseOwn = () => {
     setOwn(true);
-    if (settings.provider === CLOUD && others[0]) update({ provider: others[0].id });
+    if (!others.some((p) => p.id === settings.provider) && others[0]) update({ provider: others[0].id });
   };
   const chooseCloud = () => {
     setOwn(false);
     update({ provider: CLOUD });
   };
+  // Straight to the download: that step says what it means.
+  const chooseLocal = () => {
+    update({ provider: LOCAL });
+    nav.next();
+  };
+  const startTrial = () => {
+    if (settings.provider !== CLOUD) update({ provider: CLOUD });
+    nav.next();
+  };
   const link = "inline-flex items-center gap-1.5 text-[13px] font-medium text-text-2 hover:text-text";
+  const offering = !own && cloud;
+  const shown = offering ? cloud : provider;
+
+  const localLink = local && (
+    <button type="button" onClick={chooseLocal} className={link}>
+      <Laptop className="size-3.5 text-text-3" />
+      {t("onboarding.provider.local")}
+      <ArrowRight className="size-3.5" />
+    </button>
+  );
 
   return (
     <StepLayout
       nav={nav}
-      scene={<FlowScene providerId={settings.provider} providerLabel={name(settings.provider, provider?.label ?? "")} />}
+      scene={<FlowScene providerId={shown?.id ?? settings.provider} providerLabel={providerName(shown, t)} />}
       footer={
-        <Button variant="primary" size="lg" onClick={nav.next}>
-          {own || !cloud ? t("common.continue") : t("onboarding.provider.startTrial")}
+        <Button variant="primary" size="lg" onClick={offering ? startTrial : nav.next}>
+          {offering ? t("onboarding.provider.startTrial") : t("common.continue")}
           <ArrowRight className="size-4" />
         </Button>
       }
     >
-      {own || !cloud ? (
+      {!offering ? (
         <div key="own">
           <Title title={t("onboarding.provider.title")} subtitle={t("onboarding.provider.subtitle")} />
           <div className="flex flex-col gap-1.5" role="radiogroup">
@@ -250,7 +282,7 @@ function ProviderStep({ nav }: { nav: Nav }) {
                   key={p.id}
                   icon={look.icon}
                   tint={look.tint}
-                  title={name(p.id, p.label)}
+                  title={providerName(p, t)}
                   description={t(`providers.${p.id}`)}
                   badge={p.id === "groq" ? t("providers.recommended") : undefined}
                   selected={p.id === settings.provider}
@@ -260,21 +292,29 @@ function ProviderStep({ nav }: { nav: Nav }) {
               );
             })}
           </div>
-          {cloud && (
-            <button type="button" onClick={chooseCloud} className={`rise mt-4 ${link}`} style={{ animationDelay: "260ms" }}>
-              <ArrowLeft className="size-3.5" />
-              {t("onboarding.provider.useCloud")}
-            </button>
-          )}
+          <div className="rise mt-4 flex flex-wrap gap-x-5 gap-y-2.5" style={{ animationDelay: "260ms" }}>
+            {cloud && (
+              <button type="button" onClick={chooseCloud} className={link}>
+                <ArrowLeft className="size-3.5" />
+                {t("onboarding.provider.useCloud")}
+              </button>
+            )}
+            {localLink}
+          </div>
         </div>
       ) : (
         <div key="cloud">
           <Title title={t("onboarding.provider.cloudTitle")} subtitle={t("onboarding.provider.cloudSubtitle")} />
           <CloudOffer label={cloud.label} />
-          <button type="button" onClick={chooseOwn} className={`rise mt-5 ${link}`} style={{ animationDelay: "160ms" }}>
-            {t("onboarding.provider.ownKey")}
-            <ArrowRight className="size-3.5" />
-          </button>
+          {/* The two other ways, side by side in weight. */}
+          <div className="rise mt-5 flex flex-col items-start gap-2.5" style={{ animationDelay: "160ms" }}>
+            {localLink}
+            <button type="button" onClick={chooseOwn} className={link}>
+              <KeyRound className="size-3.5 text-text-3" />
+              {t("onboarding.provider.ownKey")}
+              <ArrowRight className="size-3.5" />
+            </button>
+          </div>
         </div>
       )}
     </StepLayout>
@@ -323,7 +363,7 @@ function KeyStep({ nav }: { nav: Nav }) {
   const provider = form.provider;
   if (!provider) return null;
   const custom = provider.id === "custom";
-  const label = custom ? t("providers.customName") : provider.label;
+  const label = providerName(provider, t);
 
   const proceed = async () => {
     if (form.check.state === "ok") nav.next();
@@ -410,6 +450,62 @@ function KeyStep({ nav }: { nav: Nav }) {
         )}
         {form.check.state === "failed" && <Banner tone="error">{form.check.message}</Banner>}
       </div>
+    </StepLayout>
+  );
+}
+
+/**
+ * On this computer: what it means, honestly, and the one model to download.
+ * The person may go on while it arrives.
+ */
+function LocalStep({ nav }: { nav: Nav }) {
+  const { t } = useT();
+  const local = useLocalModels();
+  const size = useSize();
+  const model = local.chosen;
+  const state = model?.state.state;
+
+  let footer;
+  if (model && (state === "missing" || state === "failed")) {
+    footer = (
+      <Button variant="primary" size="lg" onClick={() => local.download(model.id)}>
+        {state === "failed" ? <RotateCw className="size-4" /> : <Download className="size-4" />}
+        {state === "failed" ? t("problems.retry") : t("local.downloadSize", { size: size(model.sizeBytes) })}
+      </Button>
+    );
+  } else {
+    footer = (
+      <Button variant="primary" size="lg" onClick={nav.next}>
+        {t("common.continue")}
+        <ArrowRight className="size-4" />
+      </Button>
+    );
+  }
+
+  return (
+    <StepLayout nav={nav} scene={<LocalScene model={model} />} footer={footer}>
+      <Title title={t("local.title")} subtitle={t("local.subtitle")} />
+      <p
+        className="rise -mt-3 mb-6 max-w-[44ch] text-[13px] leading-relaxed text-text-3"
+        style={{ animationDelay: "40ms" }}
+      >
+        {t("local.tradeoff")}
+      </p>
+      {model && (
+        <div className="rise flex flex-col gap-2.5" style={{ animationDelay: "80ms" }}>
+          <LocalModelCard local={local} model={model} actions={false} />
+          {(state === "downloading" || state === "verifying") && (
+            <p className="rise px-1 text-[12.5px] leading-snug text-text-3">{t("local.carryOn")}</p>
+          )}
+          <div className="px-1">
+            <Disclosure label={t("settings.transcription.advanced")}>
+              <Field label={t("settings.transcription.model")} hint={t("local.pickHint")}>
+                <LocalModelSelect local={local} />
+              </Field>
+            </Disclosure>
+          </div>
+        </div>
+      )}
     </StepLayout>
   );
 }
@@ -664,6 +760,7 @@ function ShortcutStep({ nav }: { nav: Nav }) {
 /** Your own key: Parler costs nothing, and asks for one thing, a star. */
 function StarStep({ nav }: { nav: Nav }) {
   const { t } = useT();
+  const { settings } = useParler();
   const [starred, setStarred] = useState(false);
   const [stars, setStars] = useState<number | null>(null);
 
@@ -691,7 +788,10 @@ function StarStep({ nav }: { nav: Nav }) {
         </Button>
       }
     >
-      <Title title={t("onboarding.star.title")} subtitle={t("onboarding.star.subtitle")} />
+      <Title
+        title={t("onboarding.star.title")}
+        subtitle={t(settings.provider === LOCAL ? "onboarding.star.subtitleLocal" : "onboarding.star.subtitle")}
+      />
       <p className="rise max-w-[40ch] text-[14.5px] leading-relaxed text-text" style={{ animationDelay: "60ms" }}>
         {t("onboarding.star.ask")}
       </p>
@@ -734,10 +834,13 @@ function TryStep({ nav }: { nav: Nav }) {
   const { t, locale } = useT();
   const { settings, status, update, cloud } = useParler();
   const toKeys = useKeycaps();
+  const local = useLocalModels();
   const [text, setText] = useState("");
   const done = text.trim().length > 0;
+  // On this computer, a model still on its way says so, and nothing else does.
+  const waiting = settings.provider === LOCAL && local.chosen !== undefined && local.chosen.state.state !== "ready";
   const problem =
-    status.problem && status.state === "idle"
+    status.problem && status.state === "idle" && !waiting
       ? describeProblem(status.problem, t("providers.customName"), locale)
       : null;
   const finish = () => update({ onboarded: true });
@@ -790,6 +893,7 @@ function TryStep({ nav }: { nav: Nav }) {
             {t("onboarding.try.done")}
           </p>
         )}
+        {waiting && !done && <LocalBanner local={local} trying />}
         {problem && !done && (
           <Banner
             tone="error"

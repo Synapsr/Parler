@@ -28,16 +28,19 @@
     "ready": "Prêt",
     "listening": "J'écoute…",
     "writing": "J'écris…",
+    "downloading": "Téléchargement…",
     "attention": "Action requise"
   },
   "providers": {
     "recommended": "Recommandé",
     "customName": "Votre serveur",
+    "localName": "Sur cet ordinateur",
     "cloud": "Sans clé : connectez-vous et dictez",
     "groq": "Très rapide · inscription gratuite",
     "openai": "Très précis · GPT-4o Transcribe",
     "fireworks": "Whisper v3 rapide et économique",
-    "custom": "Votre serveur compatible OpenAI"
+    "custom": "Votre serveur compatible OpenAI",
+    "local": "Privé et gratuit · fonctionne hors ligne"
   },
   "cloud": {
     "price": "Gratuit pendant 3 jours, puis 8 € HT par mois ou 49 € HT par an.",
@@ -87,6 +90,42 @@
       "stops": "Votre essai gratuit se termine {when} et ne sera pas prolongé. Pour continuer à dicter, réactivez votre abonnement."
     }
   },
+  "local": {
+    "title": "Transcrire sur cet ordinateur",
+    "subtitle": "Votre voix ne quitte jamais votre ordinateur. Ça fonctionne hors ligne, et c'est gratuit.",
+    "tradeoff": "La transcription utilise la puissance de votre ordinateur : elle peut être plus lente quand il est occupé, et elle est un peu moins précise que Parler Cloud.",
+    "languagesAll": "Toutes les langues",
+    "languagesEuropean": "{n} langues européennes",
+    "languagesCount": "{n} langues",
+    "download": "Télécharger",
+    "downloadSize": "Télécharger ({size})",
+    "carryOn": "Vous pouvez continuer : le téléchargement se poursuit en arrière-plan.",
+    "progress": "{done} sur {total}",
+    "verifying": "Vérification du fichier…",
+    "ready": "Prêt",
+    "runsOnGpu": "Fonctionne sur la puce graphique",
+    "runsOnCard": "Fonctionne sur la carte graphique",
+    "runsOnCpu": "Fonctionne sur le processeur",
+    "confirmDelete": "Cliquez à nouveau pour supprimer",
+    "pickHint": "Parakeet Ultra est le plus précis dans les langues européennes. Whisper Large v3 Turbo connaît toutes les langues et utilise votre vocabulaire.",
+    "alsoHere": "{model} est aussi sur cet ordinateur ({size}).",
+    "languageMismatch": "{model} ne connaît pas cette langue ; {other} les connaît toutes.",
+    "use": "Utiliser {model}",
+    "vocabularyIgnored": "{model} n'utilise pas le vocabulaire. Pour qu'il serve, choisissez {other} dans les réglages.",
+    "homeDownloading": "Téléchargement de {model}…",
+    "homeMissing": "Pour dicter sur cet ordinateur, Parler a besoin de {model} ({size}).",
+    "tryDownloading": "{model} est encore en cours de téléchargement. Vous pourrez essayer dès qu'il sera prêt.",
+    "scene": {
+      "offline": "Hors ligne",
+      "private": "Rien ne quitte cet ordinateur"
+    },
+    "error": {
+      "offline": "Le téléchargement s'est arrêté : pas de connexion. Il reprendra là où il en était quand vous réessaierez.",
+      "disk": "Il n'y a pas assez d'espace libre sur le disque pour le modèle.",
+      "checksum": "Le fichier téléchargé était abîmé. Téléchargez-le de nouveau.",
+      "other": "Le téléchargement a échoué : {detail}"
+    }
+  },
   "onboarding": {
     "welcome": {
       "title": "Votre voix, écrite partout.",
@@ -108,6 +147,7 @@
       "trialTerms": "Carte bancaire requise, résiliable à tout moment.",
       "startTrial": "Commencer l'essai gratuit",
       "ownKey": "Utiliser ma propre clé d'API ou mon serveur",
+      "local": "Transcrire sur cet ordinateur",
       "useCloud": "Utiliser plutôt Parler Cloud"
     },
     "key": {
@@ -157,6 +197,7 @@
     "star": {
       "title": "Parler est gratuit",
       "subtitle": "Il est libre et open source, et son utilisation ne coûte rien. Vous ne payez que votre fournisseur, directement, à ses tarifs.",
+      "subtitleLocal": "Il est libre et open source, et son utilisation ne coûte rien : transcrire sur cet ordinateur est gratuit aussi.",
       "ask": "Nous ne vous demandons qu'une chose : une étoile sur GitHub. Elle aide d'autres personnes à découvrir Parler et fait grandir le projet. Elle compte beaucoup pour nous.",
       "star": "Mettre une étoile sur GitHub",
       "later": "Plus tard",
@@ -223,7 +264,7 @@
   },
   "vocabulary": {
     "title": "Vocabulaire",
-    "subtitle": "Les noms, marques et termes que Parler doit bien orthographier. Ils sont transmis au service comme indice.",
+    "hint": "Les noms, marques et termes que Parler doit bien orthographier, transmis comme indice quand vous dictez.",
     "placeholder": "Ajouter un mot ou un nom…",
     "add": "Ajouter",
     "remove": "Retirer {word}",
@@ -244,6 +285,8 @@
     "subscriptionRequired": "Votre abonnement {provider} n'est pas actif. Choisissez une formule pour continuer à dicter.",
     "fairUseDay": "Vous avez atteint la limite d'usage raisonnable de {provider} pour aujourd'hui. Vous pourrez de nouveau dicter à partir de {time}.",
     "fairUseMonth": "Vous avez atteint la limite d'usage raisonnable de {provider} pour ce mois-ci. Vous pourrez de nouveau dicter à partir du {date}.",
+    "modelMissing": "Le modèle qui transcrit sur cet ordinateur n'est pas encore téléchargé. Téléchargez-le pour dicter.",
+    "localFailed": "La transcription sur cet ordinateur a échoué : {detail}",
     "microphone": "Impossible d'utiliser le micro : {detail}",
     "microphoneDenied": "Parler n'a pas accès au micro. Autorisez-le dans les réglages de confidentialité pour dicter.",
     "noSound": "Parler n'a reçu aucun son du micro : vérifiez qu'il n'est pas coupé et que Parler a le droit de l'utiliser.",
@@ -273,6 +316,8 @@
     "subscriptionRequired": "Abonnement inactif",
     "fairUseDay": "Limite du jour atteinte",
     "fairUseMonth": "Limite du mois atteinte",
+    "modelMissing": "Modèle non téléchargé",
+    "localFailed": "Transcription échouée",
     "microphone": "Micro indisponible",
     "microphoneDenied": "Micro non autorisé",
     "noSound": "Aucun son du micro",
@@ -284,7 +329,7 @@
     "saveFailed": "Enregistrement impossible : {error}",
     "transcription": {
       "title": "Transcription",
-      "description": "Le service qui transforme votre voix en texte.",
+      "what": "Ce qui transforme votre voix en texte.",
       "provider": "Service",
       "apiKey": "Clé d'API",
       "apiKeyPlaceholder": "Collez votre clé",
@@ -364,7 +409,7 @@
       "title": "À propos",
       "version": "Version {version}",
       "source": "Code source",
-      "credits": "Libre et open source sous licence MIT. La capture du micro et une partie de l'intégration au bureau viennent de Handy.",
+      "thanks": "Libre et open source sous licence MIT. La capture du micro et une partie de l'intégration au bureau viennent de Handy. Sur cet ordinateur, la transcription s'appuie sur transcribe.cpp, avec Parakeet Ultra de NVIDIA et Moondream (CC BY 4.0) et Whisper d'OpenAI.",
       "log": {
         "open": "Un souci ? Envoyer le journal",
         "placeholder": "Que s'est-il passé ? (facultatif)",

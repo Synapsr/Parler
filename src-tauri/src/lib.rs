@@ -4,6 +4,7 @@ mod commands;
 mod diagnostics;
 mod dictation;
 mod history;
+mod local;
 #[cfg(target_os = "macos")]
 mod modifier_key;
 mod mute;
@@ -107,6 +108,8 @@ pub fn run() {
         .plugin(
             tauri_plugin_log::Builder::new()
                 .level(log::LevelFilter::Info)
+                // ggml describes every tensor it loads; only its problems.
+                .level_for("transcribe_cpp", log::LevelFilter::Warn)
                 // Weeks of use rather than hours, for a report to support.
                 .max_file_size(512 * 1024)
                 .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepSome(2))
@@ -160,6 +163,7 @@ pub fn run() {
                 app.set_activation_policy(tauri::ActivationPolicy::Accessory);
             }
             mute::init(data_dir.clone());
+            local::init(&handle, data_dir.clone());
             app.manage(History::load(data_dir.join("history.json")));
             app.manage(ClipboardState::new());
             app.manage(StatusState(Mutex::new(Status {
@@ -169,6 +173,8 @@ pub fn run() {
             })));
             app.manage(Dictation::spawn(&handle));
             updates::start(&handle);
+            // Ready before the first dictation, when it runs here.
+            local::settings_changed(&app.state::<SettingsStore>().get());
 
             overlay::create(&handle);
             tray::create(&handle)?;
@@ -208,6 +214,11 @@ pub fn run() {
             commands::cloud_sign_in_poll,
             commands::cloud_account,
             commands::cloud_sign_out,
+            commands::local_models,
+            commands::download_local_model,
+            commands::cancel_local_model_download,
+            commands::delete_local_model,
+            commands::local_backend,
             commands::list_microphones,
             commands::get_history,
             commands::get_stats,

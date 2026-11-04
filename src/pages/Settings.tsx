@@ -15,6 +15,8 @@ import { disable, enable, isEnabled } from "@tauri-apps/plugin-autostart";
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { useEffect, useState, type ReactNode } from "react";
 import { CloudAccountPanel } from "../components/Cloud";
+import { LocalModelCard, LocalModelSelect } from "../components/LocalModel";
+import { useLocalModels, useSize, type LocalModels } from "../components/useLocalModels";
 import { SendLog } from "../components/SendLog";
 import { ShortcutField } from "../components/ShortcutField";
 import { usePercent, useUpdate, useUpdateError } from "../components/useUpdate";
@@ -23,14 +25,19 @@ import { useT } from "../i18n/context";
 import {
   api,
   CLOUD,
+  LOCAL,
   type Microphone,
   type Output,
   type ShortcutMode,
   type Theme,
+  type TranscribeError,
   type UiLanguage,
 } from "../lib/api";
 import { LOCALES } from "../i18n";
 import { LANGUAGES } from "../lib/languages";
+import { providerName } from "../lib/look";
+import { describeProblem } from "../lib/problems";
+import type { Check as TestCheck } from "../components/useProviderForm";
 import { useParler } from "../state";
 import {
   Banner,
@@ -94,26 +101,34 @@ function Transcription() {
   const { t } = useT();
   const { settings, providers, update } = useParler();
   const form = useProviderForm();
+  const local = useLocalModels();
   const [revealed, setRevealed] = useState(false);
   const provider = form.provider;
   if (!provider) return null;
   const custom = provider.id === "custom";
   // Parler Cloud has an account instead of a key, and picks its own model.
   const cloud = provider.id === CLOUD;
+  // On this computer: a model to download, no key at all.
+  const onLocal = provider.id === LOCAL;
+  // Parler's own two ways first, then the services that take a key.
+  const ordered = [
+    ...providers.filter((p) => p.id === CLOUD || p.id === LOCAL),
+    ...providers.filter((p) => p.id !== CLOUD && p.id !== LOCAL),
+  ];
 
   return (
     <Section
       icon={AudioLines}
       tint="violet"
       title={t("settings.transcription.title")}
-      description={t("settings.transcription.description")}
+      description={t("settings.transcription.what")}
       delay={0}
     >
       <Field label={t("settings.transcription.provider")}>
         <Select value={settings.provider} onChange={(e) => update({ provider: e.target.value })}>
-          {providers.map((p) => (
+          {ordered.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.id === "custom" ? t("providers.customName") : p.label}
+              {providerName(p, t)}
             </option>
           ))}
         </Select>
@@ -131,7 +146,9 @@ function Transcription() {
         </Field>
       )}
 
-      {cloud ? (
+      {onLocal ? (
+        <LocalModelField local={local} />
+      ) : cloud ? (
         <Field label={t("cloud.account")}>
           <CloudAccountPanel />
         </Field>
@@ -197,9 +214,18 @@ function Transcription() {
             </option>
           ))}
         </Select>
+        {onLocal && <LanguageMismatch local={local} />}
       </Field>
 
-      {!cloud && (
+      {onLocal && local.chosen && (
+        <div className="py-3.5 last:pb-0">
+          <Disclosure label={t("settings.transcription.advanced")}>
+            <LocalAdvanced local={local} />
+          </Disclosure>
+        </div>
+      )}
+
+      {!cloud && !onLocal && (
         <div className="py-3.5 last:pb-0">
           <Disclosure label={t("settings.transcription.advanced")}>
             <Field label={t("settings.transcription.model")} hint={t("settings.transcription.modelHint")}>
@@ -221,6 +247,122 @@ function Transcription() {
         </div>
       )}
     </Section>
+  );
+}
+
+/** The model on this computer: its state, the honest trade-off, and a test once it's here. */
+function LocalModelField({ local }: { local: LocalModels }) {
+  const { t, locale } = useT();
+  const { settings } = useParler();
+  const [check, setCheck] = useState<TestCheck>({ state: "idle" });
+  const [confirming, setConfirming] = useState(false);
+  const model = local.chosen;
+  const ready = model?.state.state === "ready";
+
+  // A new model, or one gone, needs testing again.
+  useEffect(() => {
+    setCheck({ state: "idle" });
+    setConfirming(false);
+  }, [model?.id, ready]);
+
+  if (!model) return null;
+
+  /** Loads the model and runs half a second of silence through it. */
+  const test = async () => {
+    setCheck({ state: "checking" });
+    try {
+      await api.testProvider(settings);
+      setCheck({ state: "ok" });
+    } catch (error) {
+      const text = describeProblem(
+        { kind: "transcription", error: error as TranscribeError },
+        t("providers.customName"),
+        locale,
+      );
+      setCheck({ state: "failed", message: t(text.key, text.params) });
+    }
+  };
+
+  const remove = () => {
+    if (!confirming) {
+      setConfirming(true);
+      return;
+    }
+    setConfirming(false);
+    local.remove(model.id);
+  };
+
+  return (
+    <Field label={t("settings.transcription.model")} hint={t("local.tradeoff")}>
+      <LocalModelCard local={local} model={model} inset showBackend />
+      {ready && (
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={test} busy={check.state === "checking"}>
+            {check.state === "checking" ? t("common.testing") : t("common.test")}
+          </Button>
+          <div className="flex-1" />
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={remove}
+            onBlur={() => setConfirming(false)}
+            className={confirming ? "text-accent-text hover:text-accent-text" : ""}
+          >
+            {confirming ? t("local.confirmDelete") : t("common.delete")}
+          </Button>
+        </div>
+      )}
+      {check.state === "ok" && <Banner tone="success">{t("common.works")}</Banner>}
+      {check.state === "failed" && <Banner tone="error">{check.message}</Banner>}
+    </Field>
+  );
+}
+
+/** The other model, and any model kept on disk that isn't in use. */
+function LocalAdvanced({ local }: { local: LocalModels }) {
+  const { t } = useT();
+  const size = useSize();
+  const idle = local.models.filter((m) => m.id !== local.chosen?.id && m.state.state === "ready");
+  return (
+    <Field label={t("settings.transcription.model")} hint={t("local.pickHint")}>
+      <LocalModelSelect local={local} />
+      {idle.map((m) => (
+        <p key={m.id} className="flex flex-wrap items-center gap-x-2 text-[12.5px] text-text-3">
+          {t("local.alsoHere", { model: m.name, size: size(m.sizeBytes) })}
+          <button
+            type="button"
+            onClick={() => local.remove(m.id)}
+            className="font-medium text-text-2 hover:text-text"
+          >
+            {t("common.delete")}
+          </button>
+        </p>
+      ))}
+    </Field>
+  );
+}
+
+/** The chosen model doesn't know the spoken language: say which one does. */
+function LanguageMismatch({ local }: { local: LocalModels }) {
+  const { t } = useT();
+  const { settings } = useParler();
+  const model = local.chosen;
+  if (!model?.languages || settings.language === "auto" || model.languages.includes(settings.language)) {
+    return null;
+  }
+  const other = local.models.find((m) => !m.languages || m.languages.includes(settings.language));
+  if (!other) return null;
+  return (
+    <p className="rise rounded-xl bg-warning-soft px-3.5 py-2 text-[12.5px] leading-snug text-text">
+      {t("local.languageMismatch", { model: model.name, other: other.name })}{" "}
+      <button
+        type="button"
+        onClick={() => local.choose(other.id)}
+        className="font-medium whitespace-nowrap text-accent-text hover:underline"
+      >
+        {t("local.use", { model: other.name })}
+      </button>
+    </p>
   );
 }
 
@@ -390,7 +532,7 @@ function About() {
     <Section icon={Info} tint="stone" title={t("settings.about.title")} description={t("settings.about.version", { version: info.version })} delay={200}>
       <div className="flex flex-col items-start gap-3">
         <Updates />
-        <p className="text-[13px] leading-relaxed text-text-2">{t("settings.about.credits")}</p>
+        <p className="text-[13px] leading-relaxed text-text-2">{t("settings.about.thanks")}</p>
         <Button size="sm" onClick={() => openUrl(REPOSITORY)}>
           {t("settings.about.source")}
           <ArrowUpRight className="size-3.5" />

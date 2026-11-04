@@ -1,10 +1,11 @@
-//! Speech-to-text providers. Every one speaks the OpenAI audio API: a
-//! multipart `POST {base_url}/audio/transcriptions` answered with
+//! Speech-to-text providers. Every one but `local` speaks the OpenAI audio
+//! API: a multipart `POST {base_url}/audio/transcriptions` answered with
 //! `{"text": "..."}`. That covers Parler Cloud, Groq, OpenAI, Fireworks and
-//! self-hosted Whisper servers (speaches, LocalAI, ...).
+//! self-hosted Whisper servers (speaches, LocalAI, ...). `local` runs a
+//! model on this computer instead (see `local`).
 
-use crate::cloud;
 use crate::settings::Settings;
+use crate::{cloud, local};
 use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::time::Duration;
@@ -85,6 +86,18 @@ pub const PROVIDERS: &[Provider] = &[
         base_url: DEFAULT_CUSTOM_BASE_URL,
         default_model: "whisper-1",
         models: &[],
+        requires_api_key: false,
+        api_key_url: None,
+    },
+    // A model downloaded to this computer; `models` are its two, and the
+    // default is only a fallback: `local::chosen` picks one for the
+    // language.
+    Provider {
+        id: local::ID,
+        label: local::LABEL,
+        base_url: "",
+        default_model: local::PARAKEET,
+        models: &[local::PARAKEET, local::WHISPER],
         requires_api_key: false,
         api_key_url: None,
     },
@@ -173,6 +186,15 @@ pub enum TranscribeError {
     FairUseMonth {
         provider: String,
     },
+    /// On this computer: the chosen model isn't downloaded (or was deleted).
+    ModelMissing {
+        provider: String,
+    },
+    /// On this computer: the engine failed to load the model or to run it.
+    LocalFailed {
+        provider: String,
+        detail: String,
+    },
 }
 
 impl TranscribeError {
@@ -216,6 +238,10 @@ impl fmt::Display for TranscribeError {
             Self::FairUseMonth { provider } => {
                 write!(f, "{provider}: monthly fair use limit reached")
             }
+            Self::ModelMissing { provider } => {
+                write!(f, "{provider}: the speech model is not downloaded")
+            }
+            Self::LocalFailed { provider, detail } => write!(f, "{provider} failed: {detail}"),
         }
     }
 }
@@ -231,12 +257,50 @@ pub struct Request {
     model: String,
     language: Option<String>,
     prompt: Option<String>,
+    /// `local` only: the downloaded model to run.
+    local: Option<LocalRequest>,
+}
+
+#[derive(Debug)]
+struct LocalRequest {
+    model: &'static local::Model,
+    path: std::path::PathBuf,
+    vocabulary: Vec<String>,
 }
 
 impl Request {
     pub fn from_settings(settings: &Settings) -> Result<Self, TranscribeError> {
         let provider = find(&settings.provider).ok_or(TranscribeError::UnknownProvider)?;
         let label = provider.label.to_string();
+        let language = match settings.language.trim() {
+            "" | "auto" => None,
+            language => Some(language.to_string()),
+        };
+
+        if provider.id == local::ID {
+            let model = local::chosen(settings);
+            let path = local::ready_path(model).ok_or(TranscribeError::ModelMissing {
+                provider: label.clone(),
+            })?;
+            return Ok(Self {
+                provider_id: provider.id,
+                label,
+                endpoint: String::new(),
+                api_key: String::new(),
+                model: model.id.to_string(),
+                language,
+                prompt: None,
+                local: Some(LocalRequest {
+                    model,
+                    path,
+                    vocabulary: if model.supports_vocabulary {
+                        vocabulary_terms(&settings.vocabulary)
+                    } else {
+                        Vec::new()
+                    },
+                }),
+            });
+        }
 
         let api_key = settings
             .api_keys
@@ -269,11 +333,6 @@ impl Request {
             return Err(TranscribeError::MissingBaseUrl);
         }
 
-        let language = match settings.language.trim() {
-            "" | "auto" => None,
-            language => Some(language.to_string()),
-        };
-
         Ok(Self {
             provider_id: provider.id,
             label,
@@ -282,31 +341,91 @@ impl Request {
             model,
             language,
             prompt: vocabulary_prompt(&settings.vocabulary),
+            local: None,
         })
     }
 
     pub fn provider_label(&self) -> &str {
         &self.label
     }
+
+    /// Runs on this computer: nothing is sent, and a native crash could
+    /// end Parler mid-way (see `dictation`).
+    pub fn is_local(&self) -> bool {
+        self.local.is_some()
+    }
 }
 
-/// Whisper takes a free-text prompt rather than a word list; naming the
-/// vocabulary there biases it toward those spellings.
-fn vocabulary_prompt(vocabulary: &str) -> Option<String> {
-    let mut prompt = String::new();
+/// The vocabulary's terms, as many as fit in Whisper's prompt.
+pub(crate) fn vocabulary_terms(vocabulary: &str) -> Vec<String> {
+    let mut terms = Vec::new();
+    let mut length = 0;
     let words = vocabulary
         .split([',', '\n'])
         .map(str::trim)
         .filter(|w| !w.is_empty());
     for word in words {
-        let separator = if prompt.is_empty() { "" } else { ", " };
-        if prompt.len() + separator.len() + word.len() > MAX_PROMPT_CHARS {
+        let separator = if terms.is_empty() { 0 } else { 2 };
+        if length + separator + word.len() > MAX_PROMPT_CHARS {
             break;
         }
-        prompt.push_str(separator);
-        prompt.push_str(word);
+        length += separator + word.len();
+        terms.push(word.to_string());
     }
-    (!prompt.is_empty()).then_some(prompt)
+    terms
+}
+
+/// Whisper takes a free-text prompt rather than a word list; naming the
+/// vocabulary there biases it toward those spellings.
+fn vocabulary_prompt(vocabulary: &str) -> Option<String> {
+    let terms = vocabulary_terms(vocabulary);
+    (!terms.is_empty()).then(|| terms.join(", "))
+}
+
+/// The samples of a WAV file as `audio::encode_wav` writes it (16 kHz mono,
+/// 16-bit), for the model on this computer.
+pub(crate) fn decode_wav(wav: &[u8]) -> Option<Vec<f32>> {
+    let reader = hound::WavReader::new(std::io::Cursor::new(wav)).ok()?;
+    let spec = reader.spec();
+    if spec.channels != 1 || spec.sample_rate != crate::audio::SAMPLE_RATE {
+        return None;
+    }
+    match spec.sample_format {
+        hound::SampleFormat::Int => reader
+            .into_samples::<i16>()
+            .map(|s| s.map(|s| s as f32 / 32_768.0))
+            .collect::<Result<_, _>>()
+            .ok(),
+        hound::SampleFormat::Float => reader.into_samples::<f32>().collect::<Result<_, _>>().ok(),
+    }
+}
+
+/// Transcribes on this computer.
+async fn transcribe_here(
+    request: &Request,
+    local: &LocalRequest,
+    wav: &[u8],
+) -> Result<String, TranscribeError> {
+    let samples = decode_wav(wav).ok_or_else(|| TranscribeError::LocalFailed {
+        provider: request.label.clone(),
+        detail: "the recording could not be read".to_string(),
+    })?;
+    log::info!(
+        "Transcribing {:.1}s here with {} (language={:?}, vocabulary={})",
+        samples.len() as f64 / crate::audio::SAMPLE_RATE as f64,
+        local.model.id,
+        request.language,
+        !local.vocabulary.is_empty()
+    );
+    let job = local::Job {
+        model: local.model,
+        path: local.path.clone(),
+        language: request.language.clone(),
+        vocabulary: local.vocabulary.clone(),
+    };
+    local::transcribe(job, samples)
+        .await
+        .map(|text| text.trim().to_string())
 }
 
 #[derive(Deserialize)]
@@ -314,8 +433,12 @@ struct TranscriptionResponse {
     text: String,
 }
 
-/// Sends a WAV file and returns the transcript.
+/// Sends a WAV file (or, for `local`, runs it here) and returns the
+/// transcript.
 pub async fn transcribe(request: &Request, wav: Vec<u8>) -> Result<String, TranscribeError> {
+    if let Some(local) = &request.local {
+        return transcribe_here(request, local, &wav).await;
+    }
     let provider = request.label.clone();
     log::info!(
         "Transcribing {} KiB with {} ({}, language={:?}, vocabulary={})",
@@ -629,6 +752,7 @@ pub(crate) mod tests {
             model: "whisper-large-v3-turbo".to_string(),
             language: None,
             prompt: None,
+            local: None,
         }
     }
 
@@ -789,9 +913,73 @@ pub(crate) mod tests {
             },
             TranscribeError::UnknownProvider,
             TranscribeError::MissingBaseUrl,
+            TranscribeError::ModelMissing {
+                provider: provider(),
+            },
+            TranscribeError::LocalFailed {
+                provider: provider(),
+                detail: String::new(),
+            },
         ] {
             assert!(!error.is_transient(), "{error:?}");
         }
+    }
+
+    #[test]
+    fn local_needs_its_model_downloaded() {
+        let mut s = settings(local::ID);
+        s.language = "ja".into();
+        assert_eq!(
+            Request::from_settings(&s).unwrap_err(),
+            TranscribeError::ModelMissing {
+                provider: local::LABEL.to_string()
+            }
+        );
+        let listed = all();
+        let entry = listed.last().unwrap();
+        assert_eq!(entry.id, local::ID);
+        assert!(!entry.requires_api_key);
+    }
+
+    #[test]
+    fn local_failures_are_never_sent_again() {
+        let provider = || local::LABEL.to_string();
+        for error in [
+            TranscribeError::ModelMissing {
+                provider: provider(),
+            },
+            TranscribeError::LocalFailed {
+                provider: provider(),
+                detail: "out of memory".into(),
+            },
+        ] {
+            assert!(!error.is_transient(), "{error:?}");
+            let json = serde_json::to_string(&error).unwrap();
+            assert_eq!(
+                serde_json::from_str::<TranscribeError>(&json).unwrap(),
+                error
+            );
+        }
+        assert_eq!(
+            TranscribeError::LocalFailed {
+                provider: provider(),
+                detail: "out of memory".into()
+            }
+            .to_string(),
+            "Parler (local) failed: out of memory"
+        );
+    }
+
+    #[test]
+    fn recordings_decode_back_to_samples() {
+        let samples: Vec<f32> = (0..1600).map(|i| ((i as f32) * 0.01).sin() * 0.5).collect();
+        let decoded = decode_wav(&crate::audio::encode_wav(&samples)).unwrap();
+        assert_eq!(decoded.len(), samples.len());
+        assert!(decoded
+            .iter()
+            .zip(&samples)
+            .all(|(a, b)| (a - b).abs() < 1e-3));
+        assert!(decode_wav(b"not a wav").is_none());
     }
 
     #[test]

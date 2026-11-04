@@ -39,6 +39,31 @@ reqwest = { version = "0.12", features = ["json", "multipart"] }
 arboard = "3"
 enigo = "0.6"
 tauri-plugin-updater = "2"
+# Hashes a downloaded speech model before it is used (see local.rs).
+sha2 = "0.10"
+# The system's language, which picks the recommended speech model when the
+# interface follows it (already in the tree through tauri).
+sys-locale = "0.3"
+
+# Transcription on this computer (local.rs). The native library is built
+# from source with CMake. Apple Silicon runs it on the GPU through Metal,
+# linked in with its shaders. Intel Macs run it on the CPU, built in for a
+# portable floor (SSE4.2, AVX, F16C): Metal on Intel and AMD GPUs gains little
+# and its shader compile can hang on some of them.
+[target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]
+transcribe-cpp = { version = "0.4.1", default-features = false, features = ["metal"] }
+
+[target.'cfg(all(target_os = "macos", target_arch = "x86_64"))'.dependencies]
+transcribe-cpp = { version = "0.4.1", default-features = false }
+
+# Windows and Linux: the GPU through Vulkan when a driver offers one
+# (integrated GPUs included), else the CPU. Both come as modules loaded at
+# launch, so Parler starts without any Vulkan installed; the CPU code comes
+# as one module per instruction set, from plain x86-64 to AVX-512, and the
+# fastest this processor runs is picked. build.rs stages the modules and the
+# bundles ship them next to Parler.
+[target.'cfg(any(windows, target_os = "linux"))'.dependencies]
+transcribe-cpp = { version = "0.4.1", default-features = false, features = ["dynamic-backends", "vulkan"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 # Turns the overlay into a non-activating panel, so showing it never takes
