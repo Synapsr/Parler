@@ -28,16 +28,19 @@
     "ready": "準備完了",
     "listening": "聞き取り中…",
     "writing": "入力中…",
+    "downloading": "ダウンロード中…",
     "attention": "要確認"
   },
   "providers": {
     "recommended": "おすすめ",
     "customName": "自分のサーバー",
+    "localName": "このコンピュータで",
     "cloud": "キー不要、サインインして音声入力",
     "groq": "とても速い · 無料で登録",
     "openai": "高精度 · GPT-4o Transcribe",
     "fireworks": "高速で手頃な Whisper v3",
-    "custom": "OpenAI 互換の自分のサーバー"
+    "custom": "OpenAI 互換の自分のサーバー",
+    "local": "プライベートで無料 · オフラインで動作"
   },
   "cloud": {
     "price": "3日間無料。その後は月額 €8 または年額 €49（税抜）です。",
@@ -87,6 +90,42 @@
       "stops": "無料体験は{when}で終了し、自動更新されません。音声入力を続けるには、プランを再開してください。"
     }
   },
+  "local": {
+    "title": "このコンピュータで文字起こし",
+    "subtitle": "声がコンピュータの外に出ることはありません。オフラインで使え、無料です。",
+    "tradeoff": "文字起こしにはコンピュータの処理能力を使います。コンピュータが忙しいときは遅くなることがあり、精度は Parler Cloud よりやや劣ります。",
+    "languagesAll": "すべての言語",
+    "languagesEuropean": "ヨーロッパの {n} 言語",
+    "languagesCount": "{n} 言語",
+    "download": "ダウンロード",
+    "downloadSize": "ダウンロード（{size}）",
+    "carryOn": "このまま操作を続けられます。ダウンロードはバックグラウンドで続きます。",
+    "progress": "{done} / {total}",
+    "verifying": "ファイルを確認しています…",
+    "ready": "準備完了",
+    "runsOnGpu": "グラフィックチップで動作",
+    "runsOnCard": "グラフィックカードで動作",
+    "runsOnCpu": "プロセッサで動作",
+    "confirmDelete": "もう一度クリックすると削除します",
+    "pickHint": "Parakeet Ultra はヨーロッパの言語で最も高精度です。Whisper Large v3 Turbo はすべての言語に対応し、辞書も使います。",
+    "alsoHere": "{model} もこのコンピュータにあります（{size}）。",
+    "languageMismatch": "{model} はこの言語に対応していません。{other} はすべての言語に対応しています。",
+    "use": "{model} を使う",
+    "vocabularyIgnored": "{model} は辞書を使いません。辞書を使うには、設定で {other} を選んでください。",
+    "homeDownloading": "{model} をダウンロードしています…",
+    "homeMissing": "このコンピュータで音声入力するには、{model}（{size}）が必要です。",
+    "tryDownloading": "{model} はまだダウンロード中です。準備ができしだい試せます。",
+    "scene": {
+      "offline": "オフラインで動作",
+      "private": "このコンピュータの外には何も出ません"
+    },
+    "error": {
+      "offline": "接続がないため、ダウンロードが止まりました。もう一度試すと、中断したところから再開します。",
+      "disk": "ディスクの空き容量が足りないため、モデルを保存できません。",
+      "checksum": "ダウンロードしたファイルが壊れていました。もう一度ダウンロードしてください。",
+      "other": "ダウンロードに失敗しました：{detail}"
+    }
+  },
   "onboarding": {
     "welcome": {
       "title": "あなたの声を、どこでも文字に",
@@ -108,6 +147,7 @@
       "trialTerms": "カード登録が必要です。いつでも解約できます。",
       "startTrial": "無料体験を始める",
       "ownKey": "自分の API キーやサーバーを使う",
+      "local": "このコンピュータで文字起こしする",
       "useCloud": "代わりに Parler Cloud を使う"
     },
     "key": {
@@ -157,6 +197,7 @@
     "star": {
       "title": "Parler は無料です",
       "subtitle": "オープンソースで、使うのに費用はかかりません。お支払いは、ご利用のサービスにその料金で直接行うだけです。",
+      "subtitleLocal": "オープンソースで費用はかかりません。このコンピュータでの文字起こしも無料です。",
       "ask": "お願いはひとつだけです。GitHub でスターをつけてください。ほかの人が Parler を見つけやすくなり、プロジェクトの成長にもつながります。私たちにとって、とても大きな励みになります。",
       "star": "GitHub で Parler にスターをつける",
       "later": "あとで",
@@ -223,7 +264,7 @@
   },
   "vocabulary": {
     "title": "辞書",
-    "subtitle": "Parler に正しく書いてほしい名前、ブランド名、専門用語です。ヒントとしてサービスに送られます。",
+    "hint": "Parler に正しく書いてほしい名前、ブランド名、専門用語です。音声入力のときにヒントとして渡されます。",
     "placeholder": "単語や名前を追加…",
     "add": "追加",
     "remove": "{word} を削除",
@@ -244,6 +285,8 @@
     "subscriptionRequired": "{provider} のプランが有効ではありません。音声入力を続けるには、プランを選んでください。",
     "fairUseDay": "本日の {provider} のフェアユース上限に達しました。{time} からまた音声入力できます。",
     "fairUseMonth": "今月の {provider} のフェアユース上限に達しました。{date} からまた音声入力できます。",
+    "modelMissing": "このコンピュータで文字起こしするモデルが、まだダウンロードされていません。音声入力するにはダウンロードしてください。",
+    "localFailed": "このコンピュータでの文字起こしに失敗しました：{detail}",
     "microphone": "マイクを使用できませんでした：{detail}",
     "microphoneDenied": "Parler にマイクへのアクセスが許可されていません。音声入力するには、プライバシー設定で許可してください。",
     "noSound": "マイクから音が届きませんでした。ミュートになっていないか、Parler にマイクへのアクセスが許可されているかを確認してください。",
@@ -273,6 +316,8 @@
     "subscriptionRequired": "プランが無効",
     "fairUseDay": "本日の上限に到達",
     "fairUseMonth": "今月の上限に到達",
+    "modelMissing": "モデル未ダウンロード",
+    "localFailed": "文字起こしに失敗",
     "microphone": "マイクが使えません",
     "microphoneDenied": "マイクが許可されていません",
     "noSound": "マイクから音が届きません",
@@ -284,7 +329,7 @@
     "saveFailed": "保存できませんでした：{error}",
     "transcription": {
       "title": "文字起こし",
-      "description": "声を文字にするサービスです。",
+      "what": "声を文字に変える仕組みです。",
       "provider": "サービス",
       "apiKey": "API キー",
       "apiKeyPlaceholder": "キーを貼り付け",
@@ -364,7 +409,7 @@
       "title": "情報",
       "version": "バージョン {version}",
       "source": "ソースコード",
-      "credits": "MIT ライセンスで公開されている、無料のオープンソースソフトウェアです。マイク入力とデスクトップ連携の一部は Handy に由来します。",
+      "thanks": "MIT ライセンスで公開されている、無料のオープンソースソフトウェアです。マイク入力とデスクトップ連携の一部は Handy に由来します。このコンピュータでの文字起こしには transcribe.cpp を使い、NVIDIA と Moondream の Parakeet Ultra（CC BY 4.0）と OpenAI の Whisper を利用しています。",
       "log": {
         "open": "問題がありますか？ログを送信",
         "placeholder": "何が起きましたか？（任意）",

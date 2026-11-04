@@ -28,16 +28,19 @@
     "ready": "Hazır",
     "listening": "Dinliyorum…",
     "writing": "Yazıyorum…",
+    "downloading": "İndiriliyor…",
     "attention": "İlgilenmeniz gerek"
   },
   "providers": {
     "recommended": "Önerilen",
     "customName": "Sunucunuz",
+    "localName": "Bu bilgisayarda",
     "cloud": "Anahtar gerekmez: oturum açın, dikte edin",
     "groq": "Çok hızlı · ücretsiz kayıt",
     "openai": "Çok isabetli · GPT-4o Transcribe",
     "fireworks": "Hızlı ve uygun fiyatlı Whisper v3",
-    "custom": "OpenAI uyumlu kendi sunucunuz"
+    "custom": "OpenAI uyumlu kendi sunucunuz",
+    "local": "Gizli ve ücretsiz · çevrimdışı çalışır"
   },
   "cloud": {
     "price": "3 gün ücretsiz, ardından KDV hariç aylık €8 veya yıllık €49.",
@@ -87,6 +90,42 @@
       "stops": "Ücretsiz denemeniz {when} bitiyor ve yenilenmeyecek. Dikte etmeye devam etmek için planınızı yeniden etkinleştirin."
     }
   },
+  "local": {
+    "title": "Bu bilgisayarda yazıya dökme",
+    "subtitle": "Sesiniz bilgisayarınızdan hiç çıkmaz. Çevrimdışı çalışır ve ücretsizdir.",
+    "tradeoff": "Yazıya dökme, bilgisayarınızın gücünü kullanır: bilgisayar meşgulken daha yavaş olabilir ve Parler Cloud'dan biraz daha az isabetlidir.",
+    "languagesAll": "Tüm diller",
+    "languagesEuropean": "{n} Avrupa dili",
+    "languagesCount": "{n} dil",
+    "download": "İndir",
+    "downloadSize": "İndir ({size})",
+    "carryOn": "Devam edebilirsiniz: indirme arka planda sürüyor.",
+    "progress": "{done} / {total}",
+    "verifying": "Dosya kontrol ediliyor…",
+    "ready": "Hazır",
+    "runsOnGpu": "Grafik yongasında çalışır",
+    "runsOnCard": "Ekran kartında çalışır",
+    "runsOnCpu": "İşlemcide çalışır",
+    "confirmDelete": "Silmek için yeniden tıklayın",
+    "pickHint": "Parakeet Ultra, Avrupa dillerinde en isabetli modeldir. Whisper Large v3 Turbo tüm dilleri bilir ve sözlüğünüzü kullanır.",
+    "alsoHere": "{model} modeli de bu bilgisayarda var ({size}).",
+    "languageMismatch": "{model} modeli bu dili bilmiyor; {other} modeli tüm dilleri biliyor.",
+    "use": "{model} modelini kullan",
+    "vocabularyIgnored": "{model} modeli sözlüğü kullanmaz. Sözlüğü kullanmak için ayarlardan {other} modelini seçin.",
+    "homeDownloading": "{model} modeli indiriliyor…",
+    "homeMissing": "Parler'in bu bilgisayarda dikte edebilmesi için {model} modeli gerekiyor ({size}).",
+    "tryDownloading": "{model} modeli hâlâ indiriliyor. Hazır olur olmaz deneyebilirsiniz.",
+    "scene": {
+      "offline": "Çevrimdışı çalışır",
+      "private": "Hiçbir şey bu bilgisayardan çıkmaz"
+    },
+    "error": {
+      "offline": "İndirme durdu: bağlantı yok. Yeniden denediğinizde kaldığı yerden devam eder.",
+      "disk": "Diskte model için yeterli boş alan yok.",
+      "checksum": "İndirilen dosya bozuktu. Yeniden indirin.",
+      "other": "İndirme başarısız oldu: {detail}"
+    }
+  },
   "onboarding": {
     "welcome": {
       "title": "Sesiniz, her yerde yazıya dönüşür.",
@@ -108,6 +147,7 @@
       "trialTerms": "Kart gerekli, istediğiniz zaman iptal edin.",
       "startTrial": "Ücretsiz denemeyi başlat",
       "ownKey": "Kendi API anahtarımı veya sunucumu kullan",
+      "local": "Bu bilgisayarda yazıya dök",
       "useCloud": "Bunun yerine Parler Cloud kullan"
     },
     "key": {
@@ -157,6 +197,7 @@
     "star": {
       "title": "Parler ücretsiz",
       "subtitle": "Açık kaynaklıdır ve kullanmak hiçbir şeye mal olmaz. Yalnızca seçtiğiniz hizmete, onun fiyatları üzerinden doğrudan ödeme yaparsınız.",
+      "subtitleLocal": "Açık kaynaklıdır ve hiçbir şeye mal olmaz; bu bilgisayarda yazıya dökmek de ücretsizdir.",
       "ask": "Sizden tek bir şey istiyoruz: GitHub'da bir yıldız. Böylece başkaları da Parler'den haberdar olur ve proje büyür. Bizim için çok değerli.",
       "star": "GitHub'da yıldız ver",
       "later": "Belki sonra",
@@ -223,7 +264,7 @@
   },
   "vocabulary": {
     "title": "Sözlük",
-    "subtitle": "Doğru yazılmasını istediğiniz adlar, markalar ve terimler. Hizmete ipucu olarak gönderilirler.",
+    "hint": "Doğru yazılmasını istediğiniz adlar, markalar ve terimler. Dikte ederken ipucu olarak iletilirler.",
     "placeholder": "Bir kelime veya ad ekleyin…",
     "add": "Ekle",
     "remove": "Kaldır: {word}",
@@ -244,6 +285,8 @@
     "subscriptionRequired": "{provider} aboneliğiniz etkin değil. Dikte etmeye devam etmek için bir plan seçin.",
     "fairUseDay": "{provider} için bugünkü adil kullanım sınırına ulaştınız. {time} itibarıyla yeniden dikte edebilirsiniz.",
     "fairUseMonth": "{provider} için bu ayın adil kullanım sınırına ulaştınız. {date} itibarıyla yeniden dikte edebilirsiniz.",
+    "modelMissing": "Bu bilgisayarda yazıya döken model henüz indirilmedi. Dikte etmek için modeli indirin.",
+    "localFailed": "Bu bilgisayarda yazıya dökme başarısız oldu: {detail}",
     "microphone": "Mikrofon kullanılamadı: {detail}",
     "microphoneDenied": "Parler'in mikrofonu kullanma izni yok. Dikte etmek için gizlilik ayarlarından izin verin.",
     "noSound": "Parler mikrofondan hiç ses alamadı: mikrofonun sessize alınmadığını ve Parler'in onu kullanma izni olduğunu kontrol edin.",
@@ -273,6 +316,8 @@
     "subscriptionRequired": "Plan etkin değil",
     "fairUseDay": "Günlük sınıra ulaşıldı",
     "fairUseMonth": "Aylık sınıra ulaşıldı",
+    "modelMissing": "Model indirilmedi",
+    "localFailed": "Yazıya dökülemedi",
     "microphone": "Mikrofon kullanılamıyor",
     "microphoneDenied": "Mikrofon izni yok",
     "noSound": "Mikrofondan ses gelmiyor",
@@ -284,7 +329,7 @@
     "saveFailed": "Kaydedilemedi: {error}",
     "transcription": {
       "title": "Yazıya dökme",
-      "description": "Sesinizi metne dönüştüren hizmet.",
+      "what": "Sesinizi metne dönüştüren araç.",
       "provider": "Hizmet",
       "apiKey": "API anahtarı",
       "apiKeyPlaceholder": "Anahtarınızı yapıştırın",
@@ -364,7 +409,7 @@
       "title": "Hakkında",
       "version": "Sürüm {version}",
       "source": "Kaynak kodu",
-      "credits": "MIT lisansıyla ücretsiz ve açık kaynak. Mikrofon kaydı ve masaüstü entegrasyonunun bir kısmı Handy projesinden gelir.",
+      "thanks": "MIT lisansıyla ücretsiz ve açık kaynak. Mikrofon kaydı ve masaüstü entegrasyonunun bir kısmı Handy projesinden gelir. Bu bilgisayarda yazıya dökme transcribe.cpp üzerinde çalışır; NVIDIA ve Moondream'in Parakeet Ultra (CC BY 4.0) modelini ve OpenAI'ın Whisper modelini kullanır.",
       "log": {
         "open": "Bir sorun mu var? Günlüğü gönder",
         "placeholder": "Ne oldu? (isteğe bağlı)",
