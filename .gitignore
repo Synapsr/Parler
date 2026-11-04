@@ -39,3 +39,6 @@ src-tauri/gen
 
 # Local agent scratch
 .claude/
+
+# The speech engine's libraries, gathered by src-tauri/build.rs for the bundles
+src-tauri/transcribe-libs

@@ -1,8 +1,10 @@
 import { BookA, History, House, Settings2, type LucideIcon } from "lucide-react";
 import { useT } from "../i18n/context";
-import { CLOUD, modelFor } from "../lib/api";
+import { CLOUD, LOCAL, modelFor } from "../lib/api";
 import { needsPlan } from "../lib/cloud";
+import { providerName } from "../lib/look";
 import { ProviderMark } from "./ProviderMark";
+import { useLocalModels } from "./useLocalModels";
 import { useKeycaps } from "./useKeycaps";
 import { useParler } from "../state";
 import { Keycaps, LogoMark, StatusDot, Wordmark, type DotTone } from "../ui";
@@ -31,14 +33,22 @@ export function Sidebar({
   const missingKey = (provider?.requiresApiKey ?? false) && !settings.apiKeys[settings.provider]?.trim();
   const onCloud = settings.provider === CLOUD;
   const planMissing = onCloud && cloud.account !== null && needsPlan(cloud.account);
+  // On this computer, the model has to be here first.
+  const onLocal = settings.provider === LOCAL;
+  const model = useLocalModels().chosen;
+  const modelState = onLocal ? model?.state.state : undefined;
+  const fetching = modelState === "downloading" || modelState === "verifying";
+  const modelMissing = modelState !== undefined && modelState !== "ready" && !fetching;
   const [tone, label]: [DotTone, string] =
     status.state === "recording"
       ? ["listening", t("status.listening")]
       : status.state === "transcribing"
         ? ["busy", t("status.writing")]
-        : status.problem || missingKey || planMissing || microphone === "denied"
-          ? ["attention", t("status.attention")]
-          : ["ready", t("status.ready")];
+        : fetching
+          ? ["busy", t("status.downloading")]
+          : status.problem || missingKey || planMissing || modelMissing || microphone === "denied"
+            ? ["attention", t("status.attention")]
+            : ["ready", t("status.ready")];
 
   return (
     <aside className="relative z-10 flex w-[236px] shrink-0 flex-col border-r border-border bg-sidebar/80">
@@ -85,10 +95,16 @@ export function Sidebar({
         <span className="flex items-center gap-2.5">
           <ProviderMark providerId={settings.provider} size="sm" />
           <span className="min-w-0">
-            <span className="block text-[12.5px] font-medium text-text">{provider?.label}</span>
+            <span className="block text-[12.5px] font-medium text-text">{providerName(provider, t)}</span>
             <span className="block truncate font-mono text-[10.5px] text-text-3">
               {/* Parler Cloud picks its model: the account says more. */}
-              {onCloud ? (cloud.account?.email ?? "") : provider ? modelFor(settings, provider) : ""}
+              {onCloud
+                ? (cloud.account?.email ?? "")
+                : onLocal
+                  ? (model?.name ?? "")
+                  : provider
+                    ? modelFor(settings, provider)
+                    : ""}
             </span>
           </span>
         </span>

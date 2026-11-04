@@ -16,6 +16,8 @@ export interface ProblemText {
   needsMicrophone: boolean;
   /** Fixing it means signing in to Parler Cloud again. */
   needsSignIn: boolean;
+  /** Fixing it means downloading the model that transcribes on this computer. */
+  needsModel: boolean;
   /** Fixing it means choosing a plan on this page. */
   manageUrl?: string;
 }
@@ -40,6 +42,7 @@ export function describeProblem(
     needsAccessibility: false,
     needsMicrophone: false,
     needsSignIn: false,
+    needsModel: false,
     ...flags,
   });
 
@@ -63,6 +66,11 @@ export function describeProblem(
           return text("fairUseDay", { provider, time: formatTime(nextUtcDay(), locale) });
         case "fairUseMonth":
           return text("fairUseMonth", { provider, date: formatDay(nextUtcMonth(), locale) });
+        // On this computer: the model to download, or the engine that failed.
+        case "modelMissing":
+          return text("modelMissing", {}, { needsSettings: true, needsModel: true });
+        case "localFailed":
+          return text("localFailed", { detail: error.detail });
         case "rejected":
           return text("rejected", {
             provider,
@@ -117,6 +125,8 @@ const SHORT: Record<string, true> = {
   subscriptionRequired: true,
   fairUseDay: true,
   fairUseMonth: true,
+  modelMissing: true,
+  localFailed: true,
   microphone: true,
   microphoneDenied: true,
   noSound: true,

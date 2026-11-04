@@ -18,17 +18,24 @@ const platform = params.get("platform") ?? "macos";
 // `signin=wait|approve|deny|expire` decides how a sign-in ends (default: approve).
 const cloudMode = params.get("cloud");
 const signInMode = params.get("signin") ?? "approve";
+// On this computer: `local=missing|downloading|ready|failed` picks it as the
+// service (once onboarded) with its model in that state; `localModel=whisper`
+// uses Whisper instead of the recommended one; `localError=offline|disk|checksum|other`
+// says why `failed`; `download=fail` makes a download stop at a third;
+// `backend=CPU` (or `Vulkan · AMD Radeon 780M`; `Metal · Apple M4` by default) is what a
+// loaded model runs on; `loaded=0` leaves it unloaded, so Settings says where it will run.
+const localMode = params.get("local");
 
 let settings: Record<string, unknown> & { apiKeys: Record<string, string>; provider: string } = {
   onboarded,
   // A first launch suggests Parler Cloud; an existing setup keeps Groq here.
-  provider: cloudMode || !onboarded ? "cloud" : "groq",
+  provider: cloudMode || !onboarded ? "cloud" : localMode ? "local" : "groq",
   apiKeys: {
     ...(onboarded || params.get("key") ? { groq: "gsk_demo" } : {}),
     ...(cloudMode && cloudMode !== "signed-out" ? { cloud: "pc_demo" } : {}),
   },
   providerBeforeCloud: cloudMode ? "groq" : null,
-  models: {},
+  models: params.get("localModel") === "whisper" ? { local: "whisper-large-v3-turbo" } : {},
   customBaseUrl: "http://localhost:8000/v1",
   language: params.get("lang") ?? "fr",
   vocabulary: "",
@@ -197,6 +204,89 @@ const CLOUD_ERRORS: Record<string, object> = {
   fairmonth: { kind: "fairUseMonth", provider: "Parler Cloud" },
   signedout: { kind: "signedOut", provider: "Parler Cloud" },
 };
+// Transcribing on this computer: `problem=modelMissing` or `problem=localFailed`.
+const LOCAL_ERRORS: Record<string, object> = {
+  modelMissing: { kind: "modelMissing", provider: "Parler (local)" },
+  localFailed: { kind: "localFailed", provider: "Parler (local)", detail: "the model couldn't be loaded" },
+};
+Object.assign(CLOUD_ERRORS, LOCAL_ERRORS);
+// The models that transcribe on this computer, and their downloads.
+const PARAKEET_LANGUAGES = "en de fr es it pt ru uk hr sl lv lt et fi sv da nl pl cs sk hu ro bg el mt".split(" ");
+type LocalState =
+  | { state: "missing" }
+  | { state: "downloading"; downloaded: number; total: number }
+  | { state: "verifying" }
+  | { state: "ready" }
+  | { state: "failed"; error: { kind: string; detail?: string } };
+const LOCAL_MODELS = [
+  { id: "parakeet-ultra", name: "Parakeet Ultra", sizeBytes: 740_363_168, languages: PARAKEET_LANGUAGES, supportsVocabulary: false },
+  { id: "whisper-large-v3-turbo", name: "Whisper Large v3 Turbo", sizeBytes: 619_628_128, languages: null, supportsVocabulary: true },
+];
+const initialLocal = (): LocalState => {
+  switch (localMode) {
+    case "downloading":
+      return { state: "downloading", downloaded: 312_000_000, total: 740_363_168 };
+    case "ready":
+      return { state: "ready" };
+    case "failed": {
+      const kind = params.get("localError") ?? "offline";
+      return { state: "failed", error: { kind, detail: kind === "other" ? "HTTP 503" : undefined } };
+    }
+    default:
+      return { state: "missing" };
+  }
+};
+const localStates: Record<string, LocalState> = { "parakeet-ultra": { state: "missing" }, "whisper-large-v3-turbo": { state: "missing" } };
+// The state asked for goes to the model in use.
+localStates[params.get("localModel") === "whisper" ? "whisper-large-v3-turbo" : "parakeet-ultra"] = initialLocal();
+const partial: Record<string, number> = {};
+const downloads: Record<string, ReturnType<typeof setInterval>> = {};
+const localModels = () => {
+  const spoken = settings.language === "auto" ? (settings.uiLanguage as string) : (settings.language as string);
+  const parakeet = PARAKEET_LANGUAGES.includes(spoken);
+  return LOCAL_MODELS.map((m) => ({
+    ...m,
+    recommended: (m.id === "parakeet-ultra") === parakeet,
+    state: localStates[m.id],
+    backend:
+      localStates[m.id].state === "ready" && params.get("loaded") !== "0"
+        ? (params.get("backend") ?? "Metal · Apple M4")
+        : null,
+  }));
+};
+const localChanged = () => setTimeout(() => emit("parler://local-models", localModels()), 0);
+const chosenLocal = () => {
+  const models = localModels();
+  return models.find((m) => m.id === (settings.models as Record<string, string>).local) ?? models.find((m) => m.recommended)!;
+};
+const startDownload = (id: string) => {
+  const model = LOCAL_MODELS.find((m) => m.id === id)!;
+  const current = localStates[id];
+  if (current.state === "downloading" && downloads[id]) return;
+  let downloaded = current.state === "downloading" ? current.downloaded : (partial[id] ?? 0);
+  clearInterval(downloads[id]);
+  downloads[id] = setInterval(() => {
+    downloaded = Math.min(model.sizeBytes, downloaded + model.sizeBytes / 40);
+    partial[id] = downloaded;
+    if (params.get("download") === "fail" && downloaded > model.sizeBytes / 3) {
+      clearInterval(downloads[id]);
+      delete downloads[id];
+      localStates[id] = { state: "failed", error: { kind: "offline" } };
+    } else if (downloaded >= model.sizeBytes) {
+      clearInterval(downloads[id]);
+      delete downloads[id];
+      localStates[id] = { state: "verifying" };
+      setTimeout(() => {
+        localStates[id] = { state: "ready" };
+        delete partial[id];
+        localChanged();
+      }, 900);
+    } else {
+      localStates[id] = { state: "downloading", downloaded, total: model.sizeBytes };
+    }
+    localChanged();
+  }, 200);
+};
 // The microphone's own problems: `nosound` (a recording of digital silence),
 // `micdenied` (not allowed in the privacy settings).
 const MICROPHONE_PROBLEMS: Record<string, object> = {
@@ -328,7 +418,28 @@ mockIPC(
           { id: "openai", label: "OpenAI", baseUrl: "", defaultModel: "gpt-4o-mini-transcribe", models: ["gpt-4o-mini-transcribe", "gpt-4o-transcribe", "whisper-1"], requiresApiKey: true, apiKeyUrl: "https://platform.openai.com/api-keys" },
           { id: "fireworks", label: "Fireworks", baseUrl: "", defaultModel: "whisper-v3-turbo", models: ["whisper-v3-turbo", "whisper-v3"], requiresApiKey: true, apiKeyUrl: "https://app.fireworks.ai" },
           { id: "custom", label: "Custom", baseUrl: "", defaultModel: "whisper-1", models: [], requiresApiKey: false, apiKeyUrl: null },
+          { id: "local", label: "Parler (local)", baseUrl: "", defaultModel: "parakeet-ultra", models: ["parakeet-ultra", "whisper-large-v3-turbo"], requiresApiKey: false, apiKeyUrl: null },
         ];
+      case "local_models":
+        return localModels();
+      case "local_backend": {
+        const [name, device] = (params.get("backend") ?? "Metal · Apple M4").split(" · ");
+        return { kind: name.toLowerCase(), device: device ?? "" };
+      }
+      case "download_local_model":
+        startDownload(a.id as string);
+        return null;
+      case "cancel_local_model_download":
+        clearInterval(downloads[a.id as string]);
+        delete downloads[a.id as string];
+        localStates[a.id as string] = { state: "missing" };
+        localChanged();
+        return null;
+      case "delete_local_model":
+        localStates[a.id as string] = { state: "missing" };
+        delete partial[a.id as string];
+        localChanged();
+        return null;
       case "get_status":
         return status;
       case "get_pending":
@@ -407,6 +518,18 @@ mockIPC(
         // Never changed in System Settings: macOS still acts on 🌐.
         return { action: null };
       case "test_provider":
+        // On this computer, the test loads the model: a moment longer.
+        if ((a.settings as typeof settings).provider === "local") {
+          return new Promise((resolve, reject) =>
+            setTimeout(
+              () =>
+                chosenLocal().state.state === "ready"
+                  ? resolve(null)
+                  : reject({ kind: "modelMissing", provider: "Parler (local)" }),
+              1200,
+            ),
+          );
+        }
         return new Promise((resolve) => setTimeout(() => resolve(null), 700));
       case "plugin:macos-permissions|check_microphone_permission":
         return true;
@@ -455,7 +578,8 @@ if (view === "overlay") {
   await import("./styles.css");
   // The size of the real window.
   const root = document.getElementById("root")!;
-  root.style.width = "900px";
+  // `w=780` tries the narrowest window.
+  root.style.width = `${params.get("w") ?? 900}px`;
   root.style.height = `${params.get("h") ?? 700}px`;
   // `clicks=Continuer,Vérifier` presses those buttons in turn.
   const clicks = (params.get("clicks") ?? "").split(",").filter(Boolean);

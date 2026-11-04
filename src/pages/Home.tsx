@@ -1,6 +1,8 @@
 import { openUrl } from "@tauri-apps/plugin-opener";
 import { ArrowRight, ArrowUpRight, Download, Gauge, RotateCw, Timer, Type } from "lucide-react";
 import { PlanButton } from "../components/Cloud";
+import { LocalBanner } from "../components/LocalModel";
+import { useLocalModels, useSize, type LocalModels } from "../components/useLocalModels";
 import { TrialBanner } from "../components/TrialBanner";
 import { usePercent, useUpdate, useUpdateError } from "../components/useUpdate";
 import { requestAccessibilityPermission } from "tauri-plugin-macos-permissions-api";
@@ -26,6 +28,7 @@ export function Home({
   openHistory: () => void;
 }) {
   const { t } = useT();
+  const local = useLocalModels();
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? t("home.morning") : hour < 18 ? t("home.afternoon") : t("home.evening");
@@ -34,7 +37,8 @@ export function Home({
     <div className="flex flex-col gap-5">
       <PageHeader title={greeting} subtitle={t("home.subtitle")} />
       <Hero />
-      <Problems openSettings={openSettings} />
+      <Problems openSettings={openSettings} local={local} />
+      <LocalBanner local={local} />
       <UpdateBanner />
       <TrialBanner />
       <Stats />
@@ -92,7 +96,7 @@ function Hero() {
  * The last dictation's problem, and microphone access the system took away
  * since then, said once in place of a problem the microphone was behind.
  */
-function Problems({ openSettings }: { openSettings: () => void }) {
+function Problems({ openSettings, local }: { openSettings: () => void; local: LocalModels }) {
   const { status, microphone } = useParler();
   if (status.state !== "idle") return null;
   const denied = microphone === "denied";
@@ -101,11 +105,21 @@ function Problems({ openSettings }: { openSettings: () => void }) {
     const allowedAgain = last.kind === "microphoneDenied" && microphone === "granted";
     if (denied || allowedAgain) last = null;
   }
+  // A model on its way, here, or failing to arrive says so on its own banner.
+  const missing = last?.kind === "transcription" && last.error.kind === "modelMissing";
+  if (missing && local.chosen && local.chosen.state.state !== "missing") last = null;
   return (
     <>
-      {last && <ProblemBanner problem={last} canRetry={status.canRetry} openSettings={openSettings} />}
+      {last && (
+        <ProblemBanner problem={last} canRetry={status.canRetry} openSettings={openSettings} local={local} />
+      )}
       {denied && (
-        <ProblemBanner problem={{ kind: "microphoneDenied" }} canRetry={false} openSettings={openSettings} />
+        <ProblemBanner
+          problem={{ kind: "microphoneDenied" }}
+          canRetry={false}
+          openSettings={openSettings}
+          local={local}
+        />
       )}
     </>
   );
@@ -115,10 +129,12 @@ function ProblemBanner({
   problem: shown,
   canRetry,
   openSettings,
+  local,
 }: {
   problem: Problem;
   canRetry: boolean;
   openSettings: () => void;
+  local: LocalModels;
 }) {
   const { t, locale } = useT();
   const { info, cloud } = useParler();
@@ -127,13 +143,21 @@ function ProblemBanner({
   const manageUrl = problem.manageUrl && (cloud.account?.manageUrl ?? problem.manageUrl);
   // Linux has no microphone privacy settings to open.
   const microphoneSettings = problem.needsMicrophone && info.platform !== "linux";
+  const size = useSize();
+  const model = problem.needsModel ? local.chosen : undefined;
 
   return (
     <Banner
       tone="error"
       actions={
         <>
-          {canRetry && (
+          {model && (
+            <Button size="sm" variant="primary" onClick={() => local.download(model.id)}>
+              <Download className="size-3.5" />
+              {t("local.downloadSize", { size: size(model.sizeBytes) })}
+            </Button>
+          )}
+          {canRetry && !model && (
             <Button size="sm" variant="primary" onClick={() => api.retryDictation()}>
               <RotateCw className="size-3.5" />
               {t("problems.retry")}

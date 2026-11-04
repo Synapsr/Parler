@@ -28,16 +28,19 @@
     "ready": "Ready",
     "listening": "Listening…",
     "writing": "Writing…",
+    "downloading": "Downloading…",
     "attention": "Needs attention"
   },
   "providers": {
     "recommended": "Recommended",
     "customName": "Your server",
+    "localName": "On this computer",
     "cloud": "No API key: sign in and dictate",
     "groq": "Very fast · free sign-up",
     "openai": "Very accurate · GPT-4o Transcribe",
     "fireworks": "Fast and affordable Whisper v3",
-    "custom": "Your OpenAI-compatible server"
+    "custom": "Your OpenAI-compatible server",
+    "local": "Private and free · works offline"
   },
   "cloud": {
     "price": "Free for 3 days, then €8 a month or €49 a year, excluding VAT.",
@@ -87,6 +90,42 @@
       "stops": "Your free trial ends {when} and won't renew. To keep dictating, turn your plan back on."
     }
   },
+  "local": {
+    "title": "Transcribe on this computer",
+    "subtitle": "Your voice never leaves your computer. It works offline, and it's free.",
+    "tradeoff": "Transcription uses your computer's power: it can be slower while the computer is busy, and it's a little less accurate than Parler Cloud.",
+    "languagesAll": "All languages",
+    "languagesEuropean": "{n} European languages",
+    "languagesCount": "{n} languages",
+    "download": "Download",
+    "downloadSize": "Download ({size})",
+    "carryOn": "You can carry on: the download continues in the background.",
+    "progress": "{done} of {total}",
+    "verifying": "Checking the file…",
+    "ready": "Ready",
+    "runsOnGpu": "Runs on the graphics chip",
+    "runsOnCard": "Runs on the graphics card",
+    "runsOnCpu": "Runs on the processor",
+    "confirmDelete": "Click again to delete",
+    "pickHint": "Parakeet Ultra is the most accurate in European languages. Whisper Large v3 Turbo knows all languages and uses your vocabulary.",
+    "alsoHere": "{model} is also on this computer ({size}).",
+    "languageMismatch": "{model} doesn't know this language; {other} knows them all.",
+    "use": "Use {model}",
+    "vocabularyIgnored": "{model} doesn't use the vocabulary. To use it, choose {other} in the settings.",
+    "homeDownloading": "Downloading {model}…",
+    "homeMissing": "To dictate on this computer, Parler needs {model} ({size}).",
+    "tryDownloading": "{model} is still downloading. You can try it as soon as it's ready.",
+    "scene": {
+      "offline": "Works offline",
+      "private": "Nothing leaves this computer"
+    },
+    "error": {
+      "offline": "The download stopped: no connection. It picks up where it left off when you try again.",
+      "disk": "There isn't enough free space on the disk for the model.",
+      "checksum": "The downloaded file was damaged. Download it again.",
+      "other": "The download failed: {detail}"
+    }
+  },
   "onboarding": {
     "welcome": {
       "title": "Your voice, typed anywhere.",
@@ -108,6 +147,7 @@
       "trialTerms": "Card required, cancel anytime.",
       "startTrial": "Start my free trial",
       "ownKey": "Use my own API key or server",
+      "local": "Transcribe on this computer",
       "useCloud": "Use Parler Cloud instead"
     },
     "key": {
@@ -157,6 +197,7 @@
     "star": {
       "title": "Parler is free",
       "subtitle": "It's open source and costs nothing to use. You only pay your provider, directly, at its own rates.",
+      "subtitleLocal": "It's open source and costs nothing, and transcribing on this computer is free too.",
       "ask": "We ask for just one thing: a star on GitHub. It helps other people find Parler and helps the project grow. It means a lot to us.",
       "star": "Star Parler on GitHub",
       "later": "Maybe later",
@@ -223,7 +264,7 @@
   },
   "vocabulary": {
     "title": "Vocabulary",
-    "subtitle": "Names, brands and jargon Parler should spell right. They're sent to the service as a hint.",
+    "hint": "Names, brands and jargon Parler should spell right, passed on as a hint when you dictate.",
     "placeholder": "Add a word or a name…",
     "add": "Add",
     "remove": "Remove {word}",
@@ -244,6 +285,8 @@
     "subscriptionRequired": "Your {provider} plan isn't active. Choose a plan to keep dictating.",
     "fairUseDay": "You've reached today's fair use limit for {provider}. You can dictate again from {time}.",
     "fairUseMonth": "You've reached this month's fair use limit for {provider}. You can dictate again from {date}.",
+    "modelMissing": "The model that transcribes on this computer isn't downloaded yet. Download it to dictate.",
+    "localFailed": "Transcription on this computer failed: {detail}",
     "microphone": "The microphone couldn't be used: {detail}",
     "microphoneDenied": "Parler isn't allowed to use the microphone. Allow it in the privacy settings to dictate.",
     "noSound": "Parler got no sound from the microphone: check it isn't muted, and that Parler may use it.",
@@ -273,6 +316,8 @@
     "subscriptionRequired": "Plan inactive",
     "fairUseDay": "Daily limit reached",
     "fairUseMonth": "Monthly limit reached",
+    "modelMissing": "Model not downloaded",
+    "localFailed": "Transcription failed",
     "microphone": "Microphone unavailable",
     "microphoneDenied": "Microphone not allowed",
     "noSound": "No sound from the microphone",
@@ -284,7 +329,7 @@
     "saveFailed": "Couldn't save: {error}",
     "transcription": {
       "title": "Transcription",
-      "description": "The service that turns your voice into text.",
+      "what": "What turns your voice into text.",
       "provider": "Service",
       "apiKey": "API key",
       "apiKeyPlaceholder": "Paste your key",
@@ -364,7 +409,7 @@
       "title": "About",
       "version": "Version {version}",
       "source": "Source code",
-      "credits": "Free and open source under the MIT licence. Microphone capture and parts of the desktop integration come from Handy.",
+      "thanks": "Free and open source under the MIT licence. Microphone capture and parts of the desktop integration come from Handy. On this computer, transcription runs on transcribe.cpp, with Parakeet Ultra by NVIDIA and Moondream (CC BY 4.0) and Whisper by OpenAI.",
       "log": {
         "open": "Something wrong? Send the log",
         "placeholder": "What happened? (optional)",

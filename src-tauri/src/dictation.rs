@@ -4,12 +4,12 @@
 
 use crate::audio::{self, CaptureEvent, CaptureSink, MicrophoneError};
 use crate::history::{self, History};
-use crate::mute;
 use crate::overlay::{self, Hint, Phase as OverlayPhase};
 use crate::paste::{self, PasteError};
 use crate::pending::{Pending, Unsent};
 use crate::providers::{self, Request, TranscribeError};
 use crate::settings::{Output, Settings, SettingsStore, ShortcutMode};
+use crate::{local, mute};
 use crate::{shortcut, tray};
 use handy_recorder::Recorder;
 use serde::Serialize;
@@ -58,6 +58,9 @@ pub enum Event {
     Finished {
         session: u64,
         outcome: Outcome,
+        /// Kept among the unsent dictations while it was transcribed on
+        /// this computer (see `keep_while_local`).
+        kept: Option<u64>,
     },
     PasteFailed(PasteError),
 }
@@ -297,7 +300,11 @@ impl Controller {
                     }
                 }
             }
-            Event::Finished { session, outcome } => self.finished(session, outcome),
+            Event::Finished {
+                session,
+                outcome,
+                kept,
+            } => self.finished(session, outcome, kept),
             Event::PasteFailed(error) => {
                 let needs_permission = error == PasteError::NeedsAccessibility;
                 self.report(Problem::Paste { error });
@@ -400,9 +407,14 @@ impl Controller {
     fn start(&mut self, latched: bool) {
         let settings = self.settings();
         // Recording is pointless until a provider is set up: say so instead.
-        if let Err(error) = Request::from_settings(&settings) {
-            self.fail(Problem::Transcription { error }, true);
-            return;
+        match Request::from_settings(&settings) {
+            Err(error) => {
+                self.fail(Problem::Transcription { error }, true);
+                return;
+            }
+            // Loaded while the person speaks, if it was let go.
+            Ok(request) if request.is_local() => local::warm(&settings),
+            Ok(_) => {}
         }
 
         overlay::show(&self.app, OverlayPhase::Connecting, settings.sounds);
@@ -456,12 +468,20 @@ impl Controller {
         let settings = self.begin_sending();
         let session = self.session;
         let tx = self.tx.clone();
+        let pending = self.pending.clone();
         tauri::async_runtime::spawn(async move {
-            let outcome = match prepare(&samples) {
-                Ok(speech) => send(&settings, speech, Some(RETRY_AFTER)).await,
-                Err(outcome) => outcome,
+            let (outcome, kept) = match prepare(&samples) {
+                Ok(speech) => {
+                    let kept = keep_while_local(&settings, &pending, &speech);
+                    (send(&settings, speech, Some(RETRY_AFTER)).await, kept)
+                }
+                Err(outcome) => (outcome, None),
             };
-            let _ = tx.send(Event::Finished { session, outcome });
+            let _ = tx.send(Event::Finished {
+                session,
+                outcome,
+                kept,
+            });
         });
     }
 
@@ -478,25 +498,31 @@ impl Controller {
 
     /// Sends speech already prepared, in the current session: an unsent
     /// dictation, or the second try of a passing failure.
-    fn resend(&self, speech: Speech, retry_after: Option<Duration>) {
+    fn resend(&self, speech: Speech, retry_after: Option<Duration>, kept: Option<u64>) {
         let settings = self.settings();
         let session = self.session;
         let tx = self.tx.clone();
         tauri::async_runtime::spawn(async move {
             let outcome = send(&settings, speech, retry_after).await;
-            let _ = tx.send(Event::Finished { session, outcome });
+            let _ = tx.send(Event::Finished {
+                session,
+                outcome,
+                kept,
+            });
         });
     }
 
-    fn finished(&mut self, session: u64, outcome: Outcome) {
+    fn finished(&mut self, session: u64, outcome: Outcome, kept: Option<u64>) {
         if session != self.session || !matches!(self.phase, Phase::Transcribing) {
-            return; // cancelled
+            // Cancelled: what was kept meanwhile goes with it.
+            self.forget_kept(kept);
+            return;
         }
         match outcome {
             // The pill keeps writing through the second try.
             Outcome::TryAgain { error, speech } => {
                 log::info!("Transcription failed ({error}); trying once more");
-                self.resend(speech, None);
+                self.resend(speech, None, kept);
             }
             Outcome::Text {
                 text,
@@ -505,6 +531,7 @@ impl Controller {
             } => {
                 self.end();
                 overlay::hide(&self.app);
+                self.forget_kept(kept);
                 self.forget_resent();
                 self.app
                     .state::<History>()
@@ -515,6 +542,7 @@ impl Controller {
             }
             Outcome::Silence => {
                 self.end();
+                self.forget_kept(kept);
                 self.forget_resent();
                 overlay::flash(&self.app, OverlayPhase::Empty, self.sounds(), None);
                 self.publish(State::Idle, None);
@@ -535,8 +563,9 @@ impl Controller {
                         | TranscribeError::Unauthorized { .. }
                         | TranscribeError::SignedOut { .. }
                         | TranscribeError::SubscriptionRequired { .. }
+                        | TranscribeError::ModelMissing { .. }
                 );
-                self.keep_unsent(speech, &error);
+                self.keep_unsent(speech, &error, kept);
                 self.fail(Problem::Transcription { error }, needs_setup);
             }
         }
@@ -550,8 +579,8 @@ impl Controller {
 
     /// Keeps a dictation that couldn't be sent, on disk, so it can be sent
     /// later, even after a restart.
-    fn keep_unsent(&mut self, speech: Speech, error: &TranscribeError) {
-        self.last_failed = match self.resending {
+    fn keep_unsent(&mut self, speech: Speech, error: &TranscribeError, kept: Option<u64>) {
+        self.last_failed = match self.resending.or(kept) {
             Some(id) => self.pending.failed_again(id, error).then_some(id),
             None => Some(
                 self.pending
@@ -574,6 +603,14 @@ impl Controller {
         let mut status = shared.0.lock().unwrap_or_else(|e| e.into_inner());
         if matches!(status.problem, Some(Problem::Transcription { .. })) {
             status.problem = None;
+        }
+    }
+
+    /// Transcribed on this computer, or cancelled: the copy kept while the
+    /// engine ran leaves the store.
+    fn forget_kept(&mut self, kept: Option<u64>) {
+        if kept.is_some_and(|id| self.pending.remove(id)) {
+            self.pending_changed();
         }
     }
 
@@ -656,7 +693,7 @@ impl Controller {
             wav,
             duration_ms: unsent.duration_ms,
         };
-        self.resend(speech, Some(RETRY_AFTER));
+        self.resend(speech, Some(RETRY_AFTER), None);
     }
 
     fn discard(&mut self, id: u64) {
@@ -733,6 +770,17 @@ fn prepare(samples: &[f32]) -> Result<Speech, Outcome> {
         duration_ms: speech.len() as u64 * 1000 / audio::SAMPLE_RATE as u64,
         wav: audio::encode_wav(speech),
     })
+}
+
+/// On this computer, a native crash (a GPU driver, the model) would end
+/// Parler and the dictation with it. So the speech is kept first, among the
+/// dictations that couldn't be sent, which survive a restart; it leaves the
+/// store once transcribed or cancelled. Its id.
+fn keep_while_local(settings: &Settings, pending: &Pending, speech: &Speech) -> Option<u64> {
+    if settings.provider != local::ID {
+        return None;
+    }
+    Some(pending.save(speech.wav.clone(), speech.duration_ms, local::interrupted()))
 }
 
 /// Sends speech to the service. With `retry_after`, a passing failure comes
@@ -899,6 +947,29 @@ mod tests {
             Outcome::Failed { error: TranscribeError::Unauthorized { .. }, speech }
                 if speech.duration_ms == 500
         ));
+    }
+
+    #[test]
+    fn a_local_dictation_is_kept_until_transcribed() {
+        let dir = std::env::temp_dir().join(format!("parler-kept-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        let pending = Pending::load(dir.clone());
+        assert_eq!(
+            keep_while_local(&custom(String::new()), &pending, &speech()),
+            None
+        );
+
+        let here = Settings {
+            provider: local::ID.to_string(),
+            ..Settings::default()
+        };
+        let id = keep_while_local(&here, &pending, &speech()).unwrap();
+        // What a restart after a crash would find.
+        let after_a_crash = Pending::load(dir.clone()).list();
+        assert_eq!(after_a_crash[0].id, id);
+        assert_eq!(after_a_crash[0].error, local::interrupted());
+        assert!(pending.get(id).is_some_and(|(_, wav)| wav == speech().wav));
+        let _ = std::fs::remove_dir_all(dir);
     }
 
     #[test]

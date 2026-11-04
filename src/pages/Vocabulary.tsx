@@ -1,6 +1,8 @@
 import { Plus } from "lucide-react";
 import { useState, type FormEvent } from "react";
+import { useLocalModels } from "../components/useLocalModels";
 import { useT } from "../i18n/context";
+import { LOCAL } from "../lib/api";
 import { parseWords } from "../lib/vocabulary";
 import { useParler } from "../state";
 import { Button, Card, Chip, Input, PageHeader } from "../ui";
@@ -12,6 +14,11 @@ export function Vocabulary() {
   const { settings, update } = useParler();
   const [draft, setDraft] = useState("");
   const words = parseWords(settings.vocabulary);
+  // Parakeet transcribes without hints: say so rather than let words pile up unused.
+  const local = useLocalModels();
+  const model = settings.provider === LOCAL ? local.chosen : undefined;
+  const other = local.models.find((m) => m.supportsVocabulary);
+  const ignored = model && !model.supportsVocabulary && other;
 
   const save = (next: string[]) => update({ vocabulary: next.join(", ") });
 
@@ -25,7 +32,12 @@ export function Vocabulary() {
 
   return (
     <>
-      <PageHeader title={t("vocabulary.title")} subtitle={t("vocabulary.subtitle")} />
+      <PageHeader title={t("vocabulary.title")} subtitle={t("vocabulary.hint")} />
+      {ignored && (
+        <p className="rise mb-4 rounded-xl bg-warning-soft px-3.5 py-2.5 text-[12.5px] leading-snug text-text">
+          {t("local.vocabularyIgnored", { model: model.name, other: other.name })}
+        </p>
+      )}
       <Card className="rise flex flex-col gap-5">
         <form onSubmit={add} className="flex gap-2">
           <Input

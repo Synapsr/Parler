@@ -1,10 +1,29 @@
 // The right-hand scenes of the first-run flow: each shows, rather than tells.
-import { Check, KeyRound, Lightbulb, LoaderCircle, Lock, Mic, PersonStanding, Star, Type, X } from "lucide-react";
+import {
+  Check,
+  CloudOff,
+  Cpu,
+  Download,
+  KeyRound,
+  Laptop,
+  Lightbulb,
+  LoaderCircle,
+  Lock,
+  Mic,
+  PersonStanding,
+  Star,
+  Type,
+  WifiOff,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Locale } from "../i18n";
 import { useT } from "../i18n/context";
 import { ProviderMark } from "../components/ProviderMark";
 import type { Check as KeyCheck } from "../components/useProviderForm";
+import { downloadShare } from "../components/useLocalModels";
+import { usePercent } from "../components/useUpdate";
+import type { LocalModel } from "../lib/api";
 import { FlowPill, IconTile, Keycaps, LogoMark } from "../ui";
 
 /** Steps through `durations` (ms) in a loop; returns the current index. */
@@ -88,6 +107,97 @@ export function FlowScene({ providerId, providerLabel }: { providerId: string; p
           <span className="h-1.5 w-12 rounded-full bg-text/12" />
           <span className="h-1.5 w-8 rounded-full bg-text/12" />
         </span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Voice → model → text, all inside the computer's outline: nothing goes out.
+ * The model in the middle arrives as it downloads, then sets to work.
+ */
+export function LocalScene({ model }: { model?: LocalModel }) {
+  const { t } = useT();
+  const percent = usePercent();
+  const state = model?.state;
+  const share = state ? downloadShare(state) : 0;
+  const ready = state?.state === "ready";
+  const node = "relative flex w-[250px] items-center gap-3 overflow-hidden rounded-2xl bg-surface px-4 py-3.5 shadow-raised";
+  const connector = (
+    <svg width="2" height="34" className="overflow-visible" aria-hidden="true">
+      <line x1="1" y1="0" x2="1" y2="34" stroke="var(--text-3)" strokeWidth="2" strokeDasharray="4 8" strokeLinecap="round" className="flow" />
+    </svg>
+  );
+
+  let status;
+  switch (state?.state) {
+    case "downloading":
+      status = <span className="ml-auto font-mono text-[12px] text-text-3 tabular-nums">{percent(share)}</span>;
+      break;
+    case "verifying":
+      status = <LoaderCircle className="ml-auto size-4 animate-spin text-text-3" />;
+      break;
+    case "ready":
+      status = (
+        <span className="rise ml-auto flex size-6 items-center justify-center rounded-full bg-success-soft text-success">
+          <Check className="size-3.5" strokeWidth={2.5} />
+        </span>
+      );
+      break;
+    default:
+      status = <Download className="ml-auto size-4 text-text-3" />;
+  }
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="relative rounded-[30px] px-9 pt-14 pb-9 shadow-[inset_0_0_0_1.5px_var(--border-strong)]">
+        <span className="absolute top-5 left-6 flex items-center gap-1.5 text-[12px] font-medium text-text-2">
+          <Laptop className="size-4" />
+          {t("cloud.scene.thisComputer")}
+        </span>
+        <span className="absolute top-4 right-5 inline-flex h-6 items-center gap-1 rounded-full bg-surface px-2.5 text-[11px] font-medium text-text-3 shadow-card">
+          <WifiOff className="size-3" />
+          {t("local.scene.offline")}
+        </span>
+        <div className="flex flex-col items-center">
+          <div className={node}>
+            <IconTile icon={Mic} tint="red" />
+            <span className="text-[14px] font-medium text-text">{t("onboarding.provider.voice")}</span>
+            <span className="ml-auto flex h-5 items-center gap-[2px]">
+              {[6, 12, 18, 10, 14].map((h, i) => (
+                <span key={i} className="dance w-[3px] rounded-full bg-accent" style={{ height: h, animationDelay: `${i * 120}ms` }} />
+              ))}
+            </span>
+          </div>
+          {connector}
+          <div className={node}>
+            <IconTile icon={Cpu} tint="stone" />
+            <span className="min-w-0 truncate text-[14px] font-semibold text-text">{model?.name}</span>
+            {status}
+            {/* The download fills the node's lower edge. */}
+            {!ready && (
+              <span className="absolute inset-x-0 bottom-0 h-[3px] bg-text/8">
+                <span
+                  className="block h-full bg-text transition-[width] duration-300"
+                  style={{ width: `${Math.round(share * 100)}%` }}
+                />
+              </span>
+            )}
+          </div>
+          {connector}
+          <div className={node}>
+            <IconTile icon={Type} tint="violet" />
+            <span className="text-[14px] font-medium text-text">{t("onboarding.provider.text")}</span>
+            <span className="ml-auto flex flex-col gap-1">
+              <span className="h-1.5 w-12 rounded-full bg-text/12" />
+              <span className="h-1.5 w-8 rounded-full bg-text/12" />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="mt-5 flex items-center gap-2 text-[13px] text-text-2">
+        <CloudOff className="size-4 text-text-3" />
+        {t("local.scene.private")}
       </div>
     </div>
   );

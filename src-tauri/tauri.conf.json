@@ -35,8 +35,8 @@
     "active": true,
     "targets": "all",
     "category": "Productivity",
-    "shortDescription": "Dictate anywhere with a Whisper-compatible cloud API",
-    "longDescription": "Parler turns your voice into text in any app. Hold a shortcut, speak, let go: your words are transcribed by Groq, OpenAI, Fireworks or any Whisper-compatible API and typed where your cursor is.",
+    "shortDescription": "Dictate anywhere, on this computer or with a speech-to-text service",
+    "longDescription": "Parler turns your voice into text in any app. Hold a shortcut, speak, let go: your words are transcribed on this computer, offline, or by Parler Cloud, Groq, OpenAI, Fireworks or any Whisper-compatible API, and typed where your cursor is.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

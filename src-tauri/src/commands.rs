@@ -5,6 +5,7 @@ use crate::cloud::{self, Account, DeviceStart, Poll, SignIn};
 use crate::diagnostics::{self, SendError};
 use crate::dictation::{Dictation, Event, Problem, Status, StatusState};
 use crate::history::{self, Entry, History, Stats};
+use crate::local::{self, Backend, LocalModel};
 use crate::paste::{self, PasteError};
 use crate::pending::Unsent;
 use crate::providers::{self, Provider, Request, TranscribeError};
@@ -47,6 +48,7 @@ pub fn save_settings(app: AppHandle, mut settings: Settings) -> Result<Settings,
         shortcut::clear_problem(&app);
     }
     store.set(settings.clone()).map_err(|e| e.to_string())?;
+    local::settings_changed(&settings);
     Ok(settings)
 }
 
@@ -79,6 +81,7 @@ fn save_and_notify(app: &AppHandle, settings: Settings) -> Result<Settings, Tran
             message: e.to_string(),
         })?;
     let _ = app.emit_to("main", "parler://settings", settings.clone());
+    local::settings_changed(&settings);
     Ok(settings)
 }
 
@@ -102,10 +105,14 @@ pub fn get_providers() -> Vec<Provider> {
 
 /// Sends half a second of silence with `settings`, which need not be saved
 /// yet, so a wrong key, model or URL shows up during setup. Parler Cloud
-/// checks the account instead, which costs no dictation time.
+/// checks the account instead, which costs no dictation time; on this
+/// computer, the model is loaded (and stays so for the first dictation).
 #[tauri::command]
 pub async fn test_provider(settings: Settings) -> Result<(), TranscribeError> {
     let request = Request::from_settings(&settings)?;
+    if request.is_local() {
+        return local::test(&settings).await;
+    }
     if settings.provider == cloud::ID {
         let token = settings
             .api_keys
@@ -221,6 +228,36 @@ fn cloud_token(app: &AppHandle) -> String {
         .get(cloud::ID)
         .map(|token| token.trim().to_string())
         .unwrap_or_default()
+}
+
+/// The speech models for this computer and where each stands; changes come
+/// as `parler://local-models`.
+#[tauri::command]
+pub fn local_models(store: State<SettingsStore>) -> Vec<LocalModel> {
+    local::models(&store.get())
+}
+
+/// Starts (or resumes) downloading a model, in the background.
+#[tauri::command]
+pub fn download_local_model(id: String) -> Result<(), String> {
+    local::download(&id)
+}
+
+/// Stops a download; what came is kept to resume from.
+#[tauri::command]
+pub fn cancel_local_model_download(id: String) {
+    local::cancel(&id);
+}
+
+#[tauri::command]
+pub async fn delete_local_model(id: String) -> Result<(), String> {
+    local::delete(&id).await
+}
+
+/// Where the model runs (or will): the GPU or the processor, by name.
+#[tauri::command]
+pub async fn local_backend() -> Option<Backend> {
+    local::backend().await
 }
 
 #[tauri::command]

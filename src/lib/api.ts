@@ -53,10 +53,56 @@ export type TranscribeError =
   | { kind: "signedOut"; provider: string }
   | { kind: "subscriptionRequired"; provider: string; manageUrl: string }
   | { kind: "fairUseDay"; provider: string }
-  | { kind: "fairUseMonth"; provider: string };
+  | { kind: "fairUseMonth"; provider: string }
+  /** Transcribing on this computer: the chosen model isn't downloaded. */
+  | { kind: "modelMissing"; provider: string }
+  /** Transcribing on this computer: the engine itself failed. */
+  | { kind: "localFailed"; provider: string; detail: string };
 
 /** The provider id of Parler Cloud, the plan that replaces an API key. */
 export const CLOUD = "cloud";
+
+/** The provider id of transcription on this computer. */
+export const LOCAL = "local";
+
+export type LocalModelId = "parakeet-ultra" | "whisper-large-v3-turbo";
+
+/** Why a model's download stopped. */
+export interface LocalModelError {
+  kind: "offline" | "disk" | "checksum" | "other";
+  detail?: string;
+}
+
+/** Where a model stands on this computer, read from its files. */
+export type LocalModelState =
+  | { state: "missing" }
+  | { state: "downloading"; downloaded: number; total: number }
+  | { state: "verifying" }
+  | { state: "ready" }
+  | { state: "failed"; error: LocalModelError };
+
+/** Where the engine runs, or will run once a model loads. */
+export interface LocalBackend {
+  kind: "metal" | "vulkan" | "cpu";
+  /** "Apple M4", "AMD Radeon 780M"… */
+  device: string;
+}
+
+/** A model that transcribes on this computer, downloaded on demand. */
+export interface LocalModel {
+  id: LocalModelId;
+  /** "Parakeet Ultra". */
+  name: string;
+  sizeBytes: number;
+  /** ISO 639-1 codes; `null` for every language. */
+  languages: string[] | null;
+  /** The best one for the current language settings. */
+  recommended: boolean;
+  supportsVocabulary: boolean;
+  state: LocalModelState;
+  /** What the loaded model runs on ("Metal · Apple M4", "Vulkan · AMD Radeon 780M", "CPU"); `null` when not loaded. */
+  backend?: string | null;
+}
 
 export type CloudStatus = "none" | "trialing" | "active" | "past_due" | "canceled" | "unknown";
 
@@ -253,6 +299,14 @@ export const api = {
   revealLog: () => invoke<null>("reveal_log"),
   /** Parler's stars on GitHub; `null` offline. */
   githubStars: () => invoke<number | null>("github_stars"),
+  localModels: () => invoke<LocalModel[]>("local_models"),
+  /** Starts or resumes a download in the background; progress arrives as events. */
+  downloadLocalModel: (id: LocalModelId) => invoke<null>("download_local_model", { id }),
+  /** Stops a download; what came is kept for later. */
+  cancelLocalModelDownload: (id: LocalModelId) => invoke<null>("cancel_local_model_download", { id }),
+  deleteLocalModel: (id: LocalModelId) => invoke<null>("delete_local_model", { id }),
+  /** Where models run on this computer, even before one loads; `null` if the engine couldn't start. */
+  localBackend: () => invoke<LocalBackend | null>("local_backend"),
 };
 
 export const events = {
@@ -278,6 +332,9 @@ export const events = {
     listen<number>("parler://level", (e) => handler(e.payload)),
   overlayHint: (handler: (event: OverlayHintEvent) => void): Promise<UnlistenFn> =>
     listen<OverlayHintEvent>("parler://overlay-hint", (e) => handler(e.payload)),
+  /** Every local model, whenever one changes (download progress included). */
+  localModels: (handler: (models: LocalModel[]) => void): Promise<UnlistenFn> =>
+    listen<LocalModel[]>("parler://local-models", (e) => handler(e.payload)),
 };
 
 /** The model a provider will use with these settings. */

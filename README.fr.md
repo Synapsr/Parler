@@ -28,16 +28,16 @@ Maintenez un raccourci, parlez, relâchez : vos mots s'écrivent dans n'importe 
 
 ## Parler, c'est quoi ?
 
-Parler est une app de dictée libre et gratuite pour votre ordinateur : **la saisie vocale qui marche dans toutes vos apps**, vos mails, votre messagerie, vos documents, votre navigateur ou votre éditeur de code. Maintenez un raccourci, parlez naturellement, relâchez. Parler envoie votre voix à une API de transcription compatible Whisper et écrit le texte là où se trouve votre curseur.
+Parler est une app de dictée libre et gratuite pour votre ordinateur : **la saisie vocale qui marche dans toutes vos apps**, vos mails, votre messagerie, vos documents, votre navigateur ou votre éditeur de code. Maintenez un raccourci, parlez naturellement, relâchez. Parler transcrit votre voix, sur votre ordinateur ou avec un service de transcription, et écrit le texte là où se trouve votre curseur.
 
-Vous choisissez qui transcrit : **Parler Cloud**, sans rien à configurer, ou votre propre clé d'API chez **Groq** (inscription gratuite), **OpenAI**, **Fireworks** ou **votre propre serveur**, qui reste sur votre ordinateur. Aucun modèle à télécharger, aucune télémétrie.
+Vous choisissez qui transcrit : **Parler Cloud**, sans rien à configurer ; **cet ordinateur**, en privé et hors ligne, avec un modèle à télécharger ; ou votre propre clé d'API chez **Groq** (inscription gratuite), **OpenAI**, **Fireworks** ou **votre propre serveur**, qui reste sur votre ordinateur. Aucune télémétrie.
 
 Vous cherchez une alternative open source à Wispr Flow, SuperWhisper ou à la dictée intégrée de votre système, qui marche pareil sous macOS, Windows et Linux ? C'est exactement ce que fait Parler.
 
 ## Comment ça marche
 
 1. **Maintenez** <kbd>fn</kbd> sur macOS, ou <kbd>Ctrl</kbd> + <kbd>Espace</kbd> sous Windows et Linux, et parlez. Une petite pastille en bas de l'écran montre le niveau de votre voix.
-2. **Relâchez.** Parler retire les silences et n'envoie que votre voix au service choisi.
+2. **Relâchez.** Parler retire les silences et ne transcrit que votre voix, sur votre ordinateur ou chez le service choisi.
 3. **C'est écrit.** Le texte apparaît là où se trouve votre curseur, et votre presse-papiers est remis comme il était.
 
 Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. Vous pouvez cliquer et changer de fenêtre pendant que vous parlez : le texte s'écrit là où se trouve votre curseur quand vous relâchez. Appuyez deux fois sur <kbd>Échap</kbd> pour annuler. Le raccourci se change dans les réglages.
@@ -56,9 +56,10 @@ Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. 
 | **Marche dans toutes les apps** | Écrit dans la fenêtre active, puis rétablit votre presse-papiers. Vous préférez coller vous-même ? Passez en copie seule. |
 | **Un raccourci, trois modes** | Intelligent (maintenir pour parler, appui bref pour continuer d'écouter), Maintenir ou Basculer. Sur macOS, une seule touche comme fn ou ⌘ droite ; partout, la combinaison de votre choix. |
 | **N'envoie jamais de silence** | Sur un audio vide, Whisper invente du texte (« Sous-titres réalisés par la communauté d'Amara.org »…), donc les enregistrements sans parole ne quittent pas votre machine. |
+| **Fonctionne aussi sur votre ordinateur** | Transcrivez hors ligne et gratuitement, avec un modèle téléchargé une fois. Rien ne quitte votre machine. |
 | **Vocabulaire** | Noms, marques et jargon bien orthographiés. |
 | **Historique avec recherche** | Retrouvez une dictée et recopiez-la si elle a atterri dans la mauvaise fenêtre. Réessayez quand le réseau a lâché. |
-| **Prise en main guidée** | Choisir un service, coller sa clé, la tester, faire sa première dictée. Environ deux minutes. |
+| **Prise en main guidée** | Se connecter à Parler Cloud, télécharger le modèle ou coller sa clé, puis faire sa première dictée. Environ deux minutes. |
 | **Barre des menus et zone de notification** | Lancer une dictée, copier la dernière transcription, ouvrir l'historique. Peut se lancer à l'ouverture de session. |
 | **Plus de 30 langues parlées** | Détection automatique, ou choisissez la vôtre pour une transcription plus rapide et plus juste. |
 | **Clair ou sombre** | Ou selon votre système. Interface en 12 langues. |
@@ -67,7 +68,7 @@ Un appui bref au lieu d'un appui long garde l'écoute ouverte jusqu'au suivant. 
 
 ## Services de transcription et tarifs
 
-Parler est gratuit. Il fonctionne avec tout service compatible avec l'API audio d'OpenAI (`POST /audio/transcriptions`), et vous payez ce service directement, à ses tarifs. Parler ne prend aucune commission.
+Parler est gratuit. Il transcrit sur votre ordinateur, ou avec tout service compatible avec l'API audio d'OpenAI (`POST /audio/transcriptions`), que vous payez directement, à ses tarifs. Parler ne prend aucune commission.
 
 | Service | Modèle par défaut | Autres suggestions | Clé d'API |
 | --- | --- | --- | --- |
@@ -77,6 +78,17 @@ Parler est gratuit. Il fonctionne avec tout service compatible avec l'API audio 
 | **Votre serveur** | `whisper-1` | tout modèle qu'il sert | Facultative. Compatible [speaches](https://github.com/speaches-ai/speaches), [LocalAI](https://localai.io) et autres serveurs compatibles OpenAI. |
 
 Tout autre modèle proposé par un service peut être saisi dans les réglages, et vous pouvez changer de service à tout moment : chacun garde sa propre clé.
+
+### Sur cet ordinateur
+
+Choisissez **Sur cet ordinateur** et Parler transcrit en local, avec [transcribe.cpp](https://github.com/handy-computer/transcribe.cpp) : rien n'est envoyé nulle part, ça fonctionne hors ligne, et c'est gratuit. La première fois, Parler télécharge un modèle :
+
+| Modèle | Taille | Langues | Vocabulaire |
+| --- | --- | --- | --- |
+| **Parakeet Ultra** (recommandé pour les langues européennes) | 740 Mo | 25 langues européennes | Non |
+| **Whisper Large v3 Turbo** (recommandé pour les autres, ou dans *Options avancées*) | 620 Mo | Toutes les langues | Oui |
+
+La transcription utilise la puissance de votre ordinateur : elle peut être plus lente quand il est occupé, et elle est un peu moins précise que Parler Cloud. Les modèles viennent de [Hugging Face](https://huggingface.co/handy-computer), à une version précise, et leur empreinte SHA-256 est vérifiée avant usage.
 
 > [!TIP]
 > **Pas envie de créer une clé d'API ? Choisissez Parler Cloud.** Sélectionnez-le à la configuration de Parler, connectez-vous une fois depuis votre navigateur, et dictez. Transcription illimitée pour l'usage normal d'une personne ([usage raisonnable](https://parler.synapsr.io/fair-use)), pour 8 € HT par mois ou 49 € HT par an, après 3 jours d'essai gratuit. Votre compte : [cloud.parler.synapsr.io](https://cloud.parler.synapsr.io). Une question : [parler@synapsr.io](mailto:parler@synapsr.io).
@@ -145,18 +157,18 @@ Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/pr
 
 ## Confidentialité
 
-- L'audio n'est enregistré que pendant la dictée et n'est envoyé qu'au service choisi. Il n'est jamais écrit sur le disque, sauf pour une dictée qui n'a pas pu être envoyée (faute de connexion, par exemple) : son audio reste sur cet ordinateur, lisible par votre seul compte utilisateur, jusqu'à son envoi ou sa suppression, 7 jours au plus.
+- L'audio n'est enregistré que pendant la dictée et n'est envoyé qu'au service choisi ; sur cet ordinateur, il n'est envoyé nulle part. Il n'est jamais écrit sur le disque, sauf pour une dictée qui n'a pas pu être envoyée (faute de connexion, par exemple) : son audio reste sur cet ordinateur, lisible par votre seul compte utilisateur, jusqu'à son envoi ou sa suppression, 7 jours au plus.
 - Les enregistrements sans parole ne sont jamais envoyés.
 - Votre clé d'API et vos réglages restent dans un fichier local lisible par votre seul compte utilisateur.
 - Vos transcriptions (les 5 000 dernières) restent sur votre ordinateur pour pouvoir les retrouver et les recopier. Effacez-les quand vous voulez.
-- Ni statistiques, ni télémétrie. Votre audio ne va qu'au service choisi : votre fournisseur directement, ou Parler Cloud si vous l'avez choisi. Parler Cloud garde l'audio en mémoire le temps de la requête, le fait transcrire par Groq, et ne conserve ni l'audio ni le texte.
+- Ni statistiques, ni télémétrie. Votre audio ne va qu'au service choisi : votre fournisseur directement, ou Parler Cloud si vous l'avez choisi. Sur cet ordinateur, il ne va nulle part : Parler ne se connecte à Hugging Face qu'une fois, pour télécharger le modèle. Parler Cloud garde l'audio en mémoire le temps de la requête, le fait transcrire par Groq, et ne conserve ni l'audio ni le texte.
 - Parler cherche les nouvelles versions sur GitHub et les télécharge depuis GitHub (les empaqueteurs peuvent le désactiver avec `PARLER_DISABLE_UPDATER=1`).
 - **Réglages → À propos → Envoyer le journal** envoie au support la version de Parler, votre système et son journal technique, seulement quand vous le demandez. Parler Cloud le transmet par e-mail et ne garde rien.
 - Ce que le service fait de votre audio dépend de sa propre politique. Avec votre propre serveur, rien ne sort de votre réseau.
 
 ## Langues
 
-**Parlées :** Parler détecte la langue dans laquelle vous parlez, ou vous en choisissez une parmi 31 : anglais, français, espagnol, allemand, italien, portugais, néerlandais, breton, catalan, basque, polonais, tchèque, roumain, hongrois, suédois, danois, norvégien, finnois, grec, turc, ukrainien, russe, arabe, hébreu, hindi, indonésien, vietnamien, thaï, chinois, japonais et coréen. La qualité dépend du service et du modèle.
+**Parlées :** Parler détecte la langue dans laquelle vous parlez, ou vous en choisissez une parmi 31 : anglais, français, espagnol, allemand, italien, portugais, néerlandais, breton, catalan, basque, polonais, tchèque, roumain, hongrois, suédois, danois, norvégien, finnois, grec, turc, ukrainien, russe, arabe, hébreu, hindi, indonésien, vietnamien, thaï, chinois, japonais et coréen. La qualité dépend du service et du modèle. Sur cet ordinateur, Parakeet Ultra connaît 25 langues européennes ; pour les autres, Parler recommande Whisper Large v3 Turbo.
 
 **Interface :** anglais, français, espagnol, allemand, italien, portugais, néerlandais, polonais, turc, japonais, chinois et coréen. [Ajoutez la vôtre](docs/contributing.md#conventions).
 
@@ -165,35 +177,35 @@ Sous Linux, installez aussi les [prérequis de Tauri](https://tauri.app/start/pr
 <details>
 <summary><b>Parler est-il gratuit ?</b></summary>
 
-Oui. L'app est libre et gratuite, sous licence MIT. Vous la reliez à votre propre compte chez un service de transcription et vous payez ce service directement, à ses tarifs ; Groq propose une inscription gratuite pour démarrer. Parler Cloud est l'offre payante facultative pour ceux qui préfèrent ne pas gérer de clé d'API : 8 € HT par mois ou 49 € HT par an, après 3 jours d'essai gratuit.
+Oui. L'app est libre et gratuite, sous licence MIT. Vous la reliez à votre propre compte chez un service de transcription et vous payez ce service directement, à ses tarifs ; Groq propose une inscription gratuite pour démarrer. Transcrire sur cet ordinateur ne coûte rien du tout. Parler Cloud est l'offre payante facultative pour ceux qui préfèrent ne pas gérer de clé d'API : 8 € HT par mois ou 49 € HT par an, après 3 jours d'essai gratuit.
 
 </details>
 
 <details>
 <summary><b>Quel service choisir ?</b></summary>
 
-Parler Cloud si vous ne voulez rien configurer. Avec votre propre clé, Groq est le choix par défaut : il fait tourner Whisper large-v3 turbo, répond vite et propose une inscription gratuite. Prenez OpenAI ou Fireworks si vous y avez déjà un compte, ou votre propre serveur pour tout maîtriser. Vous pouvez en changer à tout moment dans les réglages.
+Parler Cloud si vous ne voulez rien configurer. Sur cet ordinateur si vous tenez à la confidentialité et au hors-ligne, quitte à un peu moins de précision. Avec votre propre clé, Groq est le choix par défaut : il fait tourner Whisper large-v3 turbo, répond vite et propose une inscription gratuite. Prenez OpenAI ou Fireworks si vous y avez déjà un compte, ou votre propre serveur pour tout maîtriser. Vous pouvez en changer à tout moment dans les réglages.
 
 </details>
 
 <details>
 <summary><b>Est-ce que ça marche hors ligne ?</b></summary>
 
-Pas tout seul : la transcription se fait chez le service choisi, il faut donc une connexion internet. Si vous faites tourner un serveur compatible OpenAI sur votre réseau (speaches, LocalAI…), Parler fonctionne sans internet.
+Oui, si vous choisissez **Sur cet ordinateur** : après un seul téléchargement du modèle, la transcription se fait sur votre ordinateur, sans internet. Les autres services demandent une connexion, sauf si vous faites tourner un serveur compatible OpenAI sur votre réseau (speaches, LocalAI…).
 
 </details>
 
 <details>
 <summary><b>Quelle différence avec Wispr Flow, SuperWhisper ou la dictée de macOS ?</b></summary>
 
-Même idée : parler plutôt que taper, dans n'importe quelle app. L'approche de Parler : le code est ouvert (MIT), l'app est gratuite, elle tourne sous macOS, Windows et Linux, et vous choisissez qui transcrit votre voix, de Groq, OpenAI ou Fireworks à un serveur que vous hébergez. Parler écrit ce que vous avez dit ; il ne le réécrit pas.
+Même idée : parler plutôt que taper, dans n'importe quelle app. L'approche de Parler : le code est ouvert (MIT), l'app est gratuite, elle tourne sous macOS, Windows et Linux, et vous choisissez qui transcrit votre voix : votre propre ordinateur, hors ligne, ou Groq, OpenAI, Fireworks ou un serveur que vous hébergez. Parler écrit ce que vous avez dit ; il ne le réécrit pas.
 
 </details>
 
 <details>
 <summary><b>Ma voix est-elle conservée ou utilisée pour entraîner des modèles ?</b></summary>
 
-Parler ne conserve pas votre audio, sauf celui d'une dictée qui n'a pas pu être envoyée : il attend sur votre ordinateur jusqu'à son envoi ou sa suppression, 7 jours au plus. Pour le reste, Parler ne garde que le texte de vos dictées, que vous pouvez effacer à tout moment. Ce que le service fait de l'audio dépend de sa propre politique : lisez-la avant de choisir.
+Parler ne conserve pas votre audio, sauf celui d'une dictée qui n'a pas pu être envoyée : il attend sur votre ordinateur jusqu'à son envoi ou sa suppression, 7 jours au plus. Pour le reste, Parler ne garde que le texte de vos dictées, que vous pouvez effacer à tout moment. Ce que le service fait de l'audio dépend de sa propre politique : lisez-la avant de choisir. Sur cet ordinateur, il n'y a pas de service : l'audio reste chez vous.
 
 </details>
 
