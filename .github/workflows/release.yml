@@ -250,14 +250,26 @@ jobs:
                 exit 1
               }
             }
+            # The app must find every library it links where the package
+            # puts it: no "not found" from ldd once unpacked.
+            loads() { # unpacked root, what
+              bin=$(find "$1/usr/bin" -type f | head -1)
+              missing=$(ldd "$bin" | grep 'not found' || true)
+              if [ -n "$missing" ]; then
+                echo "::error::$2: $bin can't find $missing"; exit 1
+              fi
+            }
             for pkg in "$out"/deb/*.deb; do
               listing=$(dpkg-deb -c "$pkg")
-              need "$listing" '/usr/lib/Parler/libtranscribe\.so' "$pkg"
-              need "$listing" '/usr/lib/Parler/libggml-cpu' "$pkg"
-              need "$listing" '/usr/lib/Parler/libggml-vulkan\.so' "$pkg"
+              need "$listing" 'usr/lib/Parler/libtranscribe\.so' "$pkg"
+              need "$listing" 'usr/lib/Parler/libggml-cpu' "$pkg"
+              need "$listing" 'usr/lib/Parler/libggml-vulkan\.so' "$pkg"
+              root="$RUNNER_TEMP/deb-root"
+              rm -rf "$root" && dpkg-deb -x "$pkg" "$root"
+              loads "$root" "$pkg"
             done
             for pkg in "$out"/rpm/*.rpm; do
-              need "$(rpm -qlp "$pkg")" '/usr/lib/Parler/libtranscribe\.so' "$pkg"
+              need "$(rpm -qlp "$pkg")" 'usr/lib/Parler/libtranscribe\.so' "$pkg"
             done
             image=$(find "$out/appimage" -name '*.AppImage' | head -1)
             chmod +x "$image"
@@ -268,6 +280,7 @@ jobs:
             if echo "$listing" | grep -q 'libvulkan\.so'; then
               echo "::error::The AppImage bundles the Vulkan loader."; exit 1
             fi
+            loads "$RUNNER_TEMP/squashfs-root" "$image"
           else
             # 7-Zip lists what the NSIS installer unpacks (the MSI keeps its
             # files in a cabinet it doesn't name); both bundle the same list.
